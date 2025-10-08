@@ -25,8 +25,10 @@ app.use(cookieParser());
 
 //prep frontend:
 app.use(cors({ //allow frontend to access backend
-  origin: `http://localhost:5173`, //React frontend
-  credentials: true
+   origin: [
+    'http://localhost:5173',          // for local testing
+    'https://insys-f.onrender.com'    // deployed frontend
+  ],
 }));
 
 //authentication
