@@ -14,6 +14,7 @@ import { createRoot } from 'react-dom/client'
 import { AuthProvider } from './context/AuthContext.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
+import './css/login.css';
 import './css/styles.css';
 import './css/exam-create-t.css';
 import './css/home-t.css';
@@ -22,7 +23,6 @@ import './css/score-exam-s.css';
 import './css/exam-instr-s.css';
 import './css/exam-ques-types-s.css';
 import './css/register-s.css';
-import './css/login.css';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
