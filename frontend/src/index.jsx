@@ -15,7 +15,6 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
 import './css/styles.css';
-import './css/register-ts.css';
 import './css/exam-create-t.css';
 import './css/home-t.css';
 import './css/home-s.css';
