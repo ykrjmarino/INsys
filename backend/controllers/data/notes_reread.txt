@@ -55,21 +55,32 @@ backend:
 PORT=3000
 
 # Database (Postgres)
-DB_USER=postgres
-DB_PASSWORD=marchdb
-DB_HOST=localhost
+DATABASE_URL=postgresql://insys_system_db_user:JozdVaSIkOJ3hMxJixowb14nCcrYCYwt@dpg-d3iv5cbe5dus739e56g0-a/insys_system_db
+
+# DB_USER=postgres
+# DB_PASSWORD=marchdb
+# DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=postgres
 
 # JWT Secrets
 JWT_ACCESS_SECRET=diko_alam_ilalagay_na_access_secret
 JWT_REFRESH_SECRET=diko_alam_ilalagay_na_refresh_secret
-JWT_ACCESS_EXPIRES_IN=15m   # example: 15 minutes
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+
+JWT_SECRET=katapusanKoNaBah?0330
 
 # Nodemailer (NDM)
 NDM_USER=gunshogun333@gmail.com
 NDM_PASSWORD=tndrpuojgthtbttb
 
+
 frontend:
+
+
 # Frontend (Vite)
 VITE_API_BASE_URL=http://localhost:3000/api
+
+REACT_APP_API_URL=https://insys-backend.onrender.com
+
