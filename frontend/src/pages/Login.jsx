@@ -54,7 +54,7 @@ function Login() {
       })
       .catch(err => {
         console.log(err.response?.data);
-        toast.info("testing onli: check console for error");
+        toast.info(err.response?.data.error ||"for testing: check console for error");
       })
 
       // 🚀 redirect after login
