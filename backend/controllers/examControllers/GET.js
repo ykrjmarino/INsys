@@ -107,7 +107,8 @@ export const getExamCode = async(req, res) => {
 
 export const getSectionTakersByExamId = async (req, res) => {
   const { examId } = req.params;
-  const { courseCode } = req.query;
+  const { courseCode } = req.query; //for fallback onli??
+
 
   try {
     let result = await db.query(

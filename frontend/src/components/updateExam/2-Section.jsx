@@ -82,16 +82,20 @@ function SelectedSection({ setSelectedSectionName }) {
     const headers = { Authorization: `Bearer ${accessToken}` };
     const config = { headers, withCredentials: true };
 
+    // Always fetch sectionData
     axios.get("/sections/year-section", config)
       .then((res) => setSectionData(res.data))
       .catch((err) => console.error("Failed to fetch:", err));
 
-    axios.get(`/exams/${examId}/sections`, {
-      ...config,
-      params: { courseCode: selectedCourse }
-    })
-      .then(res => setDbSections(res.data))
-      .catch(console.error);
+    // Fetch dbSections only when course is ready (not undefined)
+    if (accessToken && examId && selectedCourse) {
+      axios.get(`/exams/${examId}/sections`, {
+        ...config,
+        params: { courseCode: selectedCourse }
+      })
+        .then((res) => setDbSections(res.data))
+        .catch(console.error);
+    }
   }, [accessToken, examId, selectedCourse]);
   
   //Once both GET are loaded, set selected values
@@ -126,9 +130,8 @@ function SelectedSection({ setSelectedSectionName }) {
                   console.log("Option values:", courseOptions.map(o => o.value));
 
                   console.log("From DB:", dbSections[0]?.course_code);
-                  console.log("selectedSections:", selectedSections);
                   
-
+ 
                   console.log("Selected course:", selectedCourse);
                   console.log("Raw DB sections:", dbSections);
 
@@ -227,7 +230,7 @@ function SelectedSection({ setSelectedSectionName }) {
 
       <Button
         className="save-section-button"
-        label={isEditing ? "Save" : "Edit"}
+        label={isEditing ? "Save Sec" : "Edit Sec"}
         disabled={!selectedCourse || !selectedYear || selectedSections.length === 0}
         onClick={handleSaveSections}
       />   
@@ -238,7 +241,10 @@ function SelectedSection({ setSelectedSectionName }) {
         {dbSections.map((s) => (
           <p 
             key={s.section_id}
-            onClick={() => setSelectedSectionName(s.section_name)} style={{ cursor: "pointer" }}
+            onClick={() => setSelectedSectionName({
+              id: s.section_id,
+              name: `${s.course_code} ${s.year_number}-${s.section_name}`
+            })} style={{ cursor: "pointer" }}
           >
             {`${s.course_code} ${s.year_number}-${s.section_name}`}
           </p>

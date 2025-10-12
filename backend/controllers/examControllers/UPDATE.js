@@ -11,23 +11,17 @@ export const updateSectionTakers = async (req, res) => {
   try {
     await db.query("BEGIN");
 
-    // Remove old assignments
-    await db.query(
-      "DELETE FROM section_takers WHERE exam_id = $1",
-      [examId]
-    );
+    // 1. Delete old assignments for this exam
+    await db.query("DELETE FROM section_takers WHERE exam_id = $1", [examId]);
 
-    // Insert new ones
-    const values = sections
-      .map((_, i) => `($1, $${i * 2 + 2}, $${i * 2 + 3})`)
-      .join(", ");
-
-    const flatParams = sections.flatMap(s => [s.id, s.name]);
-
-    await db.query(
-      `INSERT INTO section_takers (exam_id, section_id, section_name) VALUES ${values}`,
-      [examId, ...flatParams]
-    );
+    // 2. Insert new selections
+    for (const s of sections) {
+      await db.query(
+        `INSERT INTO section_takers (exam_id, section_name, is_finalized)
+         VALUES ($1, $2, false)`,
+        [examId, s.name]
+      );
+    }
 
     await db.query("COMMIT");
 

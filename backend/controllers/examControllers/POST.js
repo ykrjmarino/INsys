@@ -39,21 +39,30 @@ export const duplicateExam = async (req, res) => { //duplicate title and questio
       `INSERT INTO examinations (user_id, title, status, exam_code)
        VALUES ($1, $2, $3, $4)
        RETURNING exam_id`,
-      [userId, examResult.rows[0].title, 'draft', randomExamCode]
+      [userId, `${examResult.rows[0].title} copy`, 'draft', randomExamCode]
     );
 
     const newExamId = newExamResult.rows[0].exam_id;
 
-/*
-    //Duplicate sections
-    await db.query(
-      `INSERT INTO section_takers (exam_id, section_name, start_datetime, end_datetime, timer_minutes, is_finalized)
-       SELECT $1, section_name, start_datetime, end_datetime, timer_minutes, is_finalized
-       FROM section_takers
-       WHERE exam_id = $2`,
-      [newExamId, examId]
-    );
-*/
+
+    // //Duplicate sections
+    // await db.query(
+    //   `INSERT INTO section_takers (exam_id, section_name, is_finalized)
+    //    SELECT $1, section_name, is_finalized
+    //    FROM section_takers
+    //    WHERE exam_id = $2`,
+    //   [newExamId, examId]
+    // );
+
+    // //Duplicate date and time
+    // await db.query(
+    //   `INSERT INTO section_takers (exam_id, section_name, start_datetime, end_datetime, timer_minutes, is_finalized)
+    //    SELECT $1, section_name, start_datetime, end_datetime, timer_minutes, is_finalized
+    //    FROM section_takers
+    //    WHERE exam_id = $2`,
+    //   [newExamId, examId]
+    // );
+
 
     //Duplicate questions
     await db.query(
