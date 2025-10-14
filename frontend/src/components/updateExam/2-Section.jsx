@@ -56,19 +56,45 @@ export const SectionCard = ({ sd, yearLevel, addedSelections, setAddedSelections
 }
 
 //=====================================================//
-function SelectedSection({ setSelectedSectionName }) {
+function SelectedSection() {
+  const [selectedSectionName, setSelectedSectionName] = useState([])
   const [sectionData, setSectionData] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState("BSIT");
   const [selectedYear, setSelectedYear] = useState("1");
   const [selectedSections, setSelectedSections] = useState([{id: 1}]); //IDs from form
-  const [dbSections, setDbSections] = useState([]); //fetched from DB
+  const [dbSections, setDbSections] = useState([]); //fetched from 
 
   const { accessToken } = useAuth();
   const { examId } = useParams();
 
   const [isEditing, setIsEditing] = useState(false);
 
-    useEffect(() => {
+//Fetch options
+  useEffect(() => {
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    const config = { headers, withCredentials: true };
+
+    try {
+      // Always fetch sectionData
+      axios.get("/sections/year-section", config)
+        .then((res) => setSectionData(res.data))
+        .catch((err) => console.error("Failed to fetch:", err));
+      // Fetch dbSections only when course is ready (not undefined)
+      if (accessToken && examId && selectedCourse) {
+        axios.get(`/exams/${examId}/sections`, { //getSectionTakersByExamId
+          ...config,
+          params: { courseCode: selectedCourse } //fallback
+        })
+          .then((res) => setDbSections(res.data))
+          .catch(console.error);
+      }
+    } catch (error) {
+      console.log(`try-catch fail in SelectedSection`)
+    }
+  }, [accessToken, examId, selectedCourse]);
+  
+
+  useEffect(() => {
     if (dbSections.length > 0) {
       setSelectedSectionName(
         `${dbSections[0].course_code} ${dbSections[0].year_number}-${dbSections[0].section_name}`
@@ -76,28 +102,7 @@ function SelectedSection({ setSelectedSectionName }) {
     }
   }, [dbSections, setSelectedSectionName]);
 
-  
-//Fetch options
-  useEffect(() => {
-    const headers = { Authorization: `Bearer ${accessToken}` };
-    const config = { headers, withCredentials: true };
 
-    // Always fetch sectionData
-    axios.get("/sections/year-section", config)
-      .then((res) => setSectionData(res.data))
-      .catch((err) => console.error("Failed to fetch:", err));
-
-    // Fetch dbSections only when course is ready (not undefined)
-    if (accessToken && examId && selectedCourse) {
-      axios.get(`/exams/${examId}/sections`, {
-        ...config,
-        params: { courseCode: selectedCourse }
-      })
-        .then((res) => setDbSections(res.data))
-        .catch(console.error);
-    }
-  }, [accessToken, examId, selectedCourse]);
-  
   //Once both GET are loaded, set selected values
   // useEffect(() => {
   //   console.log("dbSections:", dbSections);
@@ -128,11 +133,9 @@ function SelectedSection({ setSelectedSectionName }) {
     .map(c => ({ label: c, value: c }));
 
                   console.log("Option values:", courseOptions.map(o => o.value));
+                  console.log("Selected course:", selectedCourse);
 
                   console.log("From DB:", dbSections[0]?.course_code);
-                  
- 
-                  console.log("Selected course:", selectedCourse);
                   console.log("Raw DB sections:", dbSections);
 
 
@@ -244,7 +247,7 @@ function SelectedSection({ setSelectedSectionName }) {
             onClick={() => setSelectedSectionName({
               id: s.section_id,
               name: `${s.course_code} ${s.year_number}-${s.section_name}`
-            })} style={{ cursor: "pointer" }}
+            })}
           >
             {`${s.course_code} ${s.year_number}-${s.section_name}`}
           </p>

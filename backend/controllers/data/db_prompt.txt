@@ -43,7 +43,8 @@ CREATE TABLE examinations (
 );
   -- 2.1 SECTION TAKER TABLE
       CREATE TABLE section_takers (
-        section_id SERIAL PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
+        section_id INT REFERENCES sections(section_id) ON DELETE CASCADE,
         exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
         section_name TEXT NOT NULL,
         is_finalized BOOLEAN DEFAULT FALSE

@@ -19,7 +19,6 @@ function UpdateExam() {
   const navigate = useNavigate();
 
   const [questionForms, setQuestionForms] = useState([]);
-  const [selectedSectionName, setSelectedSectionName] = useState([]);
 
   const [startDateTime, setStartDateTime] = useState(null);
   const [endDateTime, setEndDateTime] = useState(null);
@@ -193,7 +192,7 @@ function UpdateExam() {
             />
             <Button className="header-save-button" label="Save" onClick={handleSaveExamInfo} />
             <p className="exam-code" placeholder="Exam Code">{examInfo.exam_code}</p>
-            <button class="randomize-button" onClick={handleRandomizeCode}><i class="fa-solid fa-arrow-rotate-left"></i></button>
+            <button className="randomize-button" onClick={handleRandomizeCode}><i className="fa-solid fa-arrow-rotate-left"></i></button>
           </div>
           <p>Status: {examInfo.status}</p>
           <Button className="publish-button" label="Publish" onClick={handlePublish} />
@@ -233,13 +232,12 @@ function UpdateExam() {
             <label className="tool-label">Tools</label>
             {/*<!-- 1 -->*/}
             <div className="select-container">
-              <SelectedSection setSelectedSectionName={setSelectedSectionName}/>
+              <SelectedSection />
             </div>
 
             {/*<!-- 2 -->*/}
             <div className="set-time-container">
-              <ScheduledTakers 
-                selectedSectionName={selectedSectionName}
+              <ScheduledTakers
                 setStartDateTime={setStartDateTime}
                 setEndDateTime={setEndDateTime}
               />

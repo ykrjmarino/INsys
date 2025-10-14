@@ -109,21 +109,23 @@ export const getSectionTakersByExamId = async (req, res) => {
   const { examId } = req.params;
   const { courseCode } = req.query; //for fallback onli??
 
+  console.log("examId:", examId, "courseCode:", courseCode);
+
 
   try {
-    let result = await db.query(
-      `SELECT st.section_id, s.section_name, c.course_code, y.year_number
+    let result = await db.query(`
+      SELECT st.section_id, s.section_name, c.course_code, y.year_number
       FROM section_takers st
       JOIN sections s ON st.section_id = s.section_id
       JOIN courses c ON s.course_id = c.course_id
       JOIN year_levels y ON s.year_level_id = y.year_level_id
       WHERE st.exam_id = $1
       ORDER BY c.course_code, y.year_number, s.section_name
-    `, [examId]
-    );
+    `, [examId]);
 
     //fallback for new exam: no sections linked yet
     if (result.rows.length === 0 && courseCode) {
+      console.warn("No linked sections found. Using fallback for", courseCode);
       const fallbackResult = await db.query(
         `SELECT 
            s.section_id,
@@ -142,7 +144,7 @@ export const getSectionTakersByExamId = async (req, res) => {
       result = fallbackResult; // now safe
     }
 
-    res.status(200).json(result.rows);
+    res.status(200).json(result.rows); //section_id, section_name, course_code, year_number
   } catch (error) {
     console.error('Error getting section takers', error);
     res.status(500).json({ error: 'Failed to fetch section takers' });

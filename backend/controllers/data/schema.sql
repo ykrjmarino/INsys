@@ -1,6 +1,11 @@
--- ========================
+-- ============================================
+-- 0. CLEANUP (optional if re-running)
+-- ============================================
+DROP TABLE IF EXISTS student_warnings, exam_monitoring_logs, student_scores, essay_answers, student_answers, questions, section_takers, exam_sessions, examinations, sections, year_levels, courses, users CASCADE;
+
+-- ============================================
 -- 1. USERS TABLE
--- ========================
+-- ============================================
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
@@ -15,9 +20,62 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ========================
--- 2. EXAMINATIONS TABLE
--- ========================
+-- ============================================
+-- 2. COURSES, YEAR LEVELS, AND SECTIONS
+-- ============================================
+
+-- 2.1 COURSES TABLE
+CREATE TABLE courses (
+  course_id SERIAL PRIMARY KEY,
+  course_code VARCHAR(6) UNIQUE NOT NULL,
+  course_name TEXT NOT NULL
+);
+
+INSERT INTO courses (course_code, course_name)
+VALUES
+  ('BSIT', 'Bachelor of Science in Information Technology'),
+  ('BSCS', 'Bachelor of Science in Computer Science'),
+  ('BSIS', 'Bachelor of Science in Information Systems');
+
+-- 2.2 YEAR LEVELS TABLE
+CREATE TABLE year_levels (
+  year_level_id SERIAL PRIMARY KEY,
+  year_number INT CHECK (year_number BETWEEN 1 AND 4) UNIQUE NOT NULL
+);
+
+INSERT INTO year_levels (year_number)
+VALUES (1), (2), (3), (4);
+
+-- 2.3 SECTIONS TABLE
+CREATE TABLE sections (
+  section_id SERIAL PRIMARY KEY,
+  course_id INT REFERENCES courses(course_id) ON DELETE CASCADE,
+  year_level_id INT REFERENCES year_levels(year_level_id) ON DELETE CASCADE,
+  section_name VARCHAR(10) NOT NULL,
+  UNIQUE (course_id, year_level_id, section_name)
+);
+
+-- Section Inserts
+INSERT INTO sections (course_id, year_level_id, section_name)
+VALUES
+-- BSIT Year 1–4
+(1,1,'A'),(1,1,'B'),(1,1,'C'),(1,1,'D'),(1,1,'E'),(1,1,'F'),(1,1,'G'),(1,1,'H'),(1,1,'I'),(1,1,'J'),(1,1,'K'),(1,1,'L'),(1,1,'M'),
+(1,2,'A'),(1,2,'B'),(1,2,'C'),(1,2,'D'),(1,2,'E'),(1,2,'F'),(1,2,'G'),(1,2,'H'),(1,2,'I'),(1,2,'J'),(1,2,'K'),(1,2,'L'),
+(1,3,'A'),(1,3,'B'),(1,3,'C'),(1,3,'D'),(1,3,'E'),(1,3,'F'),(1,3,'G'),(1,3,'H'),(1,3,'I'),(1,3,'J'),(1,3,'K'),(1,3,'L'),
+(1,4,'A'),(1,4,'B'),(1,4,'C'),(1,4,'D'),(1,4,'E'),(1,4,'F'),(1,4,'G'),(1,4,'H'),(1,4,'I'),(1,4,'J'),(1,4,'K'),
+-- BSCS Year 1–4
+(2,1,'A'),(2,1,'B'),(2,2,'A'),(2,2,'B'),(2,3,'A'),(2,3,'B'),(2,4,'A'),(2,4,'B'),
+-- BSIS Year 1–4
+(3,1,'A'),(3,1,'B'),(3,1,'C'),(3,1,'D'),(3,1,'E'),
+(3,2,'A'),(3,2,'B'),(3,2,'C'),(3,2,'D'),
+(3,3,'A'),(3,3,'B'),(3,3,'C'),(3,3,'D'),
+(3,4,'A'),(3,4,'B'),(3,4,'C');
+
+-- ============================================
+-- 3. EXAMINATIONS AND SESSION TABLES
+-- ============================================
+
+-- 3.1 EXAMINATIONS TABLE
 CREATE TABLE examinations (
   exam_id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(user_id),
@@ -33,9 +91,16 @@ CREATE TABLE examinations (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ========================
--- 3. EXAM_SESSIONS TABLE
--- ========================
+-- 3.2 SECTION TAKERS TABLE (fixed sequence)
+CREATE TABLE section_takers (
+  id SERIAL PRIMARY KEY,
+  section_id INT REFERENCES sections(section_id) ON DELETE CASCADE,
+  exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
+  section_name TEXT NOT NULL,
+  is_finalized BOOLEAN DEFAULT FALSE
+);
+
+-- 3.3 EXAM_SESSIONS TABLE
 CREATE TABLE exam_sessions (
   session_id SERIAL PRIMARY KEY,
   exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
@@ -48,19 +113,11 @@ CREATE TABLE exam_sessions (
   time_remaining INT
 );
 
--- ========================
--- 4. SECTION TAKERS TABLE
--- ========================
-CREATE TABLE section_takers (
-  section_id SERIAL PRIMARY KEY,
-  exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
-  section_name TEXT NOT NULL,
-  is_finalized BOOLEAN DEFAULT FALSE
-);
+-- ============================================
+-- 4. QUESTIONS AND STUDENT ANSWERS
+-- ============================================
 
--- ========================
--- 5. QUESTIONS TABLE
--- ========================
+-- 4.1 QUESTIONS TABLE
 CREATE TABLE questions (
   question_id SERIAL PRIMARY KEY,
   exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
@@ -76,9 +133,7 @@ CREATE TABLE questions (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ========================
--- 6. STUDENT ANSWERS TABLE
--- ========================
+-- 4.2 STUDENT_ANSWERS TABLE
 CREATE TABLE student_answers (
   answer_id SERIAL PRIMARY KEY,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
@@ -89,9 +144,7 @@ CREATE TABLE student_answers (
   is_correct BOOLEAN
 );
 
--- ========================
--- 7. ESSAY ANSWERS TABLE
--- ========================
+-- 4.3 ESSAY_ANSWERS TABLE
 CREATE TABLE essay_answers (
   answer_id SERIAL PRIMARY KEY,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
@@ -101,9 +154,7 @@ CREATE TABLE essay_answers (
   essay_score INT DEFAULT 0
 );
 
--- ========================
--- 8. STUDENT SCORES TABLE
--- ========================
+-- 4.4 STUDENT_SCORES TABLE
 CREATE TABLE student_scores (
   score_id SERIAL PRIMARY KEY,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
@@ -118,9 +169,11 @@ CREATE TABLE student_scores (
   UNIQUE (exam_id, student_school_id)
 );
 
--- ========================
--- 9. EXAM MONITORING LOGS
--- ========================
+-- ============================================
+-- 5. MONITORING & WARNINGS
+-- ============================================
+
+-- 5.1 EXAM_MONITORING_LOGS
 CREATE TABLE exam_monitoring_logs (
   log_id SERIAL PRIMARY KEY,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
@@ -129,9 +182,7 @@ CREATE TABLE exam_monitoring_logs (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ========================
--- 10. STUDENT WARNINGS
--- ========================
+-- 5.2 STUDENT_WARNINGS
 CREATE TABLE student_warnings (
   warning_id SERIAL PRIMARY KEY,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
@@ -139,51 +190,3 @@ CREATE TABLE student_warnings (
   warning_type VARCHAR(50) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- ========================
--- 11. COURSES TABLE
--- ========================
-CREATE TABLE courses (
-  course_id SERIAL PRIMARY KEY,
-  course_code VARCHAR(6) UNIQUE NOT NULL,
-  course_name TEXT NOT NULL
-);
-
-INSERT INTO courses (course_code, course_name)
-VALUES
-  ('BSIT', 'Bachelor of Science in Information Technology'),
-  ('BSCS', 'Bachelor of Science in Computer Science'),
-  ('BSIS', 'Bachelor of Science in Information Systems');
-
--- ========================
--- 12. YEAR LEVELS
--- ========================
-CREATE TABLE year_levels (
-  year_level_id SERIAL PRIMARY KEY,
-  year_number INT CHECK (year_number BETWEEN 1 AND 4) UNIQUE NOT NULL
-);
-
-INSERT INTO year_levels (year_number) VALUES (1),(2),(3),(4);
-
--- ========================
--- 13. SECTIONS
--- ========================
-CREATE TABLE sections (
-  section_id SERIAL PRIMARY KEY,
-  course_id INT REFERENCES courses(course_id) ON DELETE CASCADE,
-  year_level_id INT REFERENCES year_levels(year_level_id) ON DELETE CASCADE,
-  section_name VARCHAR(10) NOT NULL,
-  UNIQUE (course_id, year_level_id, section_name)
-);
-
--- Example: Insert sections (BSIT Year 1–4, BSCS Year 1–4, BSIS Year 1–4)
-INSERT INTO sections (course_id, year_level_id, section_name) VALUES
-(1,1,'A'),(1,1,'B'),(1,1,'C'),(1,1,'D'),(1,1,'E'),(1,1,'F'),(1,1,'G'),(1,1,'H'),(1,1,'I'),(1,1,'J'),(1,1,'K'),(1,1,'L'),(1,1,'M'),
-(1,2,'A'),(1,2,'B'),(1,2,'C'),(1,2,'D'),(1,2,'E'),(1,2,'F'),(1,2,'G'),(1,2,'H'),(1,2,'I'),(1,2,'J'),(1,2,'K'),(1,2,'L'),
-(1,3,'A'),(1,3,'B'),(1,3,'C'),(1,3,'D'),(1,3,'E'),(1,3,'F'),(1,3,'G'),(1,3,'H'),(1,3,'I'),(1,3,'J'),(1,3,'K'),(1,3,'L'),
-(1,4,'A'),(1,4,'B'),(1,4,'C'),(1,4,'D'),(1,4,'E'),(1,4,'F'),(1,4,'G'),(1,4,'H'),(1,4,'I'),(1,4,'J'),(1,4,'K'),
-(2,1,'A'),(2,1,'B'),(2,2,'A'),(2,2,'B'),(2,3,'A'),(2,3,'B'),(2,4,'A'),(2,4,'B'),
-(3,1,'A'),(3,1,'B'),(3,1,'C'),(3,1,'D'),(3,1,'E'),
-(3,2,'A'),(3,2,'B'),(3,2,'C'),(3,2,'D'),
-(3,3,'A'),(3,3,'B'),(3,3,'C'),(3,3,'D'),
-(3,4,'A'),(3,4,'B'),(3,4,'C');

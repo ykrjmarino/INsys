@@ -15,7 +15,7 @@ export default function CheckboxDropdown({
     if (exists) {
       onChange(selected.filter(s => s.id !== option.value));
     } else {
-      onChange([...selected, { id: option.value, name: option.label }]);
+      onChange([...selected, { id: option.value, name: option.label, courseCode: course.code, yearNumber: year.number}]);
     }
   };
 

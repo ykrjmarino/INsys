@@ -17,9 +17,9 @@ export const updateSectionTakers = async (req, res) => {
     // 2. Insert new selections
     for (const s of sections) {
       await db.query(
-        `INSERT INTO section_takers (exam_id, section_name, is_finalized)
-         VALUES ($1, $2, false)`,
-        [examId, s.name]
+        `INSERT INTO section_takers (exam_id, section_name, section_id, is_finalized)
+         VALUES ($1, $2, $3, false)`,
+        [examId, s.name, s.id]
       );
     }
 
