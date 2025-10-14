@@ -70,15 +70,15 @@ export const refreshAccessToken = async(req, res) => {
     await db.query(`
       UPDATE examinations
       SET status = 'completed'
-      WHERE status != 'completed'
-      AND end_datetime <= NOW();`)
-      
+      WHERE (status = 'ongoing' OR status = 'published')
+      AND end_datetime <= NOW()`)
+
     await db.query(`
       UPDATE examinations
       SET status = 'ongoing'
-      WHERE status != 'completed'
+      WHERE status = 'published'
       AND start_datetime <= NOW()
-      AND end_datetime > NOW();`)
+      AND end_datetime > NOW()`)
 
     const decoded = verifyToken(token, process.env.JWT_REFRESH_SECRET);
 

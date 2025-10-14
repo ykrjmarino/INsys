@@ -67,7 +67,7 @@ export const getExamById = async(req, res) => {
   }
 }
 
-export const getExamsByStatus = async(req, res) => { //draft, on-going, completed
+export const getExamsByStatus = async(req, res) => { //draft, published, on-going, completed
   const userId = req.user.userId;
   const { filter } = req.query;
   try {
