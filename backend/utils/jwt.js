@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import {db} from '../db.js';
 
 export const generateAccessToken = (userPayload) => {
   return jwt.sign( 
@@ -60,11 +61,25 @@ export const verifyRole = (requiredRole) => {
   };
 };
 
-export const refreshAccessToken = (req, res) => {
+export const refreshAccessToken = async(req, res) => {
   const token = req.cookies.refreshToken;
   if (!token) return res.status(401).json({ error: "Refresh token missing--cant get access token" });
 
   try {
+    //auto update expired-exams; will update the exam status
+    await db.query(`
+      UPDATE examinations
+      SET status = 'completed'
+      WHERE status != 'completed'
+      AND end_datetime <= NOW();`)
+      
+    await db.query(`
+      UPDATE examinations
+      SET status = 'ongoing'
+      WHERE status != 'completed'
+      AND start_datetime <= NOW()
+      AND end_datetime > NOW();`)
+
     const decoded = verifyToken(token, process.env.JWT_REFRESH_SECRET);
 
     const newAccessToken = generateAccessToken(decoded);
