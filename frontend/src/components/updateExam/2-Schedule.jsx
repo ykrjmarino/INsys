@@ -9,22 +9,63 @@ import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 
 const TimePickerComponent = ({ value, onChange }) => {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '120px' }}>
+return (
+    <>
+      <style>
+        {`
+          /* make AM/PM sit beside the time */
+          .react-time-picker__inputGroup {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .react-time-picker__inputGroup__amPm {
+            margin-left: 4px;
+            align-self: center;
+          }
+
+          /* basic styling */
+          .react-time-picker__wrapper {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 4px 6px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .react-time-picker__inputGroup__input {
+            font-size: 14px;
+            width: 40px;
+            text-align: center;
+          }
+
+          .react-time-picker {
+            font-family: Inter, sans-serif;
+          }
+        `}
+      </style>
+
       <TimePicker
         value={value}
         onChange={onChange}
         disableClock={true}
         clearIcon={null}
-        class="time_picker"
+        clockIcon={null}
+        format="hh:mm a"
       />
-    </div>
+    </>
   );
 };
 
 
 function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateExam yuing dalawang to, so i can get it out here
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  });
   const [startTime, setStartTime] = useState("06:45");
   const [durationHours, setDurationHours] = useState(1);
   const [durationMinutes, setDurationMinutes] = useState(0);
@@ -44,6 +85,8 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
   const headers = { Authorization: `Bearer ${accessToken}` }
   const config = { headers, withCredentials: true };
 
+
+
 /* =========== FETCH AND RENDER THE DATE ========== */
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -56,6 +99,12 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
         setStartDate(localDate.toISOString().split("T")[0]);
         setStartTime(localDate.toISOString().split("T")[1].slice(0, 5));
 
+        if (!res.data || !res.data.start_datetime) {
+          const now = new Date();
+          setStartDate(now.toISOString().split("T")[0]);
+          setStartTime(now.toTimeString().slice(0, 5));
+        }
+        
         if (res.data.exam_duration !== undefined) {
           const totalMinutes = Number(res.data.exam_duration);
           setDurationHours(Math.floor(totalMinutes / 60));
