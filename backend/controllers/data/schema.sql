@@ -87,6 +87,8 @@ CREATE TABLE examinations (
   end_datetime TIMESTAMPTZ,
   timer_question INT,
   exam_duration INT,
+  exam_type TEXT DEFAULT 'exam',
+  passing_score INT DEFAULT 0,
   total_points INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

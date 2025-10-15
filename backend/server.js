@@ -113,6 +113,8 @@ import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/qu
 // ========== TEST IF BACKEND WORKING ==========
   app.get('/', (req, res) => res.send('Backend is running UwU!'));
 
+// ========== TEACHER ROUTES ==========
+  app.patch('/api/student-score/essay/:examId/:questionId', teacherOnly, manualEssayScoring);
 
 // ========== YEAR AND SECTION ROUTES ==========
   app.get('/api/sections/year-section', teacherOnly, yearSection);
@@ -209,8 +211,15 @@ import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/qu
       //wants to force re-check
 
 
-// ========== TEACHER ROUTES ==========
-  app.patch('/api/student-score/essay/:examId/:questionId', teacherOnly, manualEssayScoring);
+// ========== ANALYTICS ROUTES ==========
+
+  //meron pa una dito: all exams done so we can view exam analytics per exam
+
+
+  app.get('/api/exams/analytics/:examId', )
+
+
+
    
 app.listen(port, () => {
   console.log(`Backend running at http://localhost:${port}`);

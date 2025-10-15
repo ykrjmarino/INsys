@@ -101,7 +101,10 @@ function HomeTeacher() {
               </div>
               </>
             )}
-          <button className="sidebar-btn"><i className="fas fa-chart-bar"></i> Exam Analytics</button>
+          <button
+            className="sidebar-btn"
+            onClick={( )=> navigate(asdsdasd)}
+          ><i className="fas fa-chart-bar"></i> Exam Analytics </button>
           
         </div>
 

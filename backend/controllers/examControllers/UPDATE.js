@@ -72,7 +72,7 @@ export const updateExamTimer = async(req, res) => {
 export const updateExamDetails = async(req, res) => {
   const { examId } = req.params;
   const userId = req.user.userId;
-  const { title, schedule, exam_duration, status } = req.body;
+  const { title, schedule, exam_duration, status, passing_score, exam_type } = req.body;
 
   try {
     const fields = [];
@@ -95,10 +95,19 @@ export const updateExamDetails = async(req, res) => {
       fields.push(`exam_duration = $${count++}`); //count = 4, then count = 5
       values.push(exam_duration);
     }
+    if (passing_score !== undefined) {
+      fields.push(`passing_score = $${count++}`);
+      values.push(passing_score);
+    }
+
+    if (exam_type !== undefined) {
+      fields.push(`exam_type = $${count++}`);
+      values.push(exam_type);
+    }
     
 
     if (fields.length === 0) {
-      return res.status(400).json({ message: "No data to update" });
+      return res.status(404).json({ message: "Exam not found or unauthorized" });
     }
 
     const examIdCount = count++;

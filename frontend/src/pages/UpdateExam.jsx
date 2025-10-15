@@ -25,11 +25,15 @@ function UpdateExam() {
 
   const [examInfo, setExamInfo] = useState(null); //title, code, stats, sched, sect
   const [examQues, setExamQues] = useState(null); //questions
+  const [selectedType, setSelectedType] = useState('');
+  const [passingScore, setPassingScore] = useState('');
+
 
   useEffect(() => {
     if (!accessToken || !examId) return;
     fetchData();
   }, [examId, accessToken]);
+  
 
   const fetchData = async () => {
     try {
@@ -44,6 +48,8 @@ function UpdateExam() {
 
       setExamInfo(examInfo.data);
       setExamQues(examQuestions.data);
+      setSelectedType(examInfo.data.exam_type);
+      setPassingScore(examInfo.data.passing_score);
     } catch (err) {
       console.error("Error fetching exam data:", err);
     }
@@ -65,8 +71,15 @@ function UpdateExam() {
     };
 
     try {
-      await axios.patch(`/exams/${examId}/details`, examInfo, config);
+      const updatedExamInfo = {
+        ...examInfo,
+        passing_score: passingScore,
+        exam_type: selectedType,
+      };
+      await axios.patch(`/exams/${examId}/details`, updatedExamInfo, config);
       console.log("Exam info updated");
+      console.log("PATCH payload:", updatedExamInfo);
+      fetchData();
     } catch (err) {
       console.error("Failed to update exam info:", err);
     }
@@ -85,6 +98,7 @@ function UpdateExam() {
     } catch (err) {
       console.error("Failed to update exam code:", err);
     }
+    fetchData();
   }
 
   const handlePublish = async () => {
@@ -193,7 +207,46 @@ function UpdateExam() {
             <Button className="header-save-button" label="Save" onClick={handleSaveExamInfo} />
             <p className="exam-code" placeholder="Exam Code">{examInfo.exam_code}</p>
             <button className="randomize-button" onClick={handleRandomizeCode}><i className="fa-solid fa-arrow-rotate-left"></i></button>
+            <SelectField
+              className="question-type-dropdown"
+              name="questionType"
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              options={[
+                { label: "Exam", value: "exam" },
+                { label: "Quiz", value: "quiz" },
+                { label: "Activity", value: "activity" }
+              ]}
+            />
           </div>
+
+          <p>Total points: {examInfo.total_points}</p>
+          <p>Passing score: 
+            <input 
+              type='number'
+              value={passingScore}
+              onChange={(e) => { //this is for limiting the typing sa score
+                const value = e.target.value;
+
+                // allow empty input
+                if (value === '') {
+                  setPassingScore('');
+                  return;
+                }
+
+                const num = Number(value);
+
+                // enforce limits manually
+                if (num < 0) setPassingScore(0);
+                else if (num > examInfo.total_points) setPassingScore(examInfo.total_points);
+                else setPassingScore(num);
+              }}
+              min="0"
+              max={examInfo.total_points}
+            />
+          </p>
+
+        
           <p>Status: {examInfo.status}</p>
           <Button className="publish-button" label="Publish" onClick={handlePublish} />
         </div>
