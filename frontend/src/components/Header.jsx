@@ -158,7 +158,7 @@ export const SideBar = () => {
             )}
           <button
             className="sidebar-btn"
-            onClick={()=> navigate('/exam-analytics')}
+            onClick={()=> navigate('/exams-analytics')}
           ><i className="fas fa-chart-bar"></i> Exam Analytics </button>
           
         </div>
