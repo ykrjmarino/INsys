@@ -94,11 +94,10 @@ function UpdateExam() {
     try {
       await axios.patch(`/exams/${examId}/code`, config);
       console.log("Exam code updated");
-      fetchData(); //call to refresh the code automatically
+      handleSaveExamInfo(); //call to refresh the code automatically
     } catch (err) {
       console.error("Failed to update exam code:", err);
     }
-    fetchData();
   }
 
   const handlePublish = async () => {
@@ -257,7 +256,7 @@ function UpdateExam() {
           {/*<!-- Div 2.1 -->*/} {/*<!-- questions -->*/}
           <div className="question-container">
             <div className="question-box">
-              {/* <label class="question-label">Question</label> */}
+              {/* <label className="question-label">Question</label> */}
               {examQues.map((q) => (
                 <EditableQuestionForm
                   key={q.question_id}
@@ -299,10 +298,10 @@ function UpdateExam() {
             <div className="display-date-container">
               <label className="select-label">Selected Time</label>
               <div className="date-time-group">
-                <label class="date-time-label">Start Date/Time: {startDateTime || "—"}
+                <label className="date-time-label">Start Date/Time: {startDateTime || "—"}
                 <br/>
                 </label>
-                <label class="date-time-label">End Date/Time: {endDateTime || "—"}</label>
+                <label className="date-time-label">End Date/Time: {endDateTime || "—"}</label>
               </div>
             </div>
           </div> {/* tool content */}

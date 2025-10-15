@@ -61,7 +61,6 @@ function MultipleChoice({ questionId, questionText, options, correctAnswer, poin
       <label className="choices-label">Choices:</label>
       <div className="option-inputs"> {/* only options here */}
         {choices.map((choice, index) => (
-          <>
           <InputField
             key={index}
             className="option-input"
@@ -75,7 +74,6 @@ function MultipleChoice({ questionId, questionText, options, correctAnswer, poin
             placeholder={`Option ${index + 1}`}
             disabled={!isEditing}
           />
-          </>
         ))}
       </div>
       <label className="correct-answer-label">Correct Answer:</label>

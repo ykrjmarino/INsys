@@ -60,7 +60,7 @@ export const EditableQuestionForm = ({ data, onSave, onDelete, defaultEditing = 
 
   return (
     <>
-      <label class="question-type-label">Question Type:</label>
+      <label className="question-type-label">Question Type:</label>
       <SelectField
         className="question-type-dropdown"
         name="questionType"
@@ -68,7 +68,7 @@ export const EditableQuestionForm = ({ data, onSave, onDelete, defaultEditing = 
         onChange={handleTypeChange}
         options={questionTypes}
       />
-      <div class="button-group">
+      <div className="button-group">
         <button className="delete-button" onClick={() => onDelete(data.question_id)}>Delete</button>
       </div>
       
@@ -109,7 +109,7 @@ export const EditableQuestionForm = ({ data, onSave, onDelete, defaultEditing = 
 export const QuestionAdd = ({ onClick }) => {
   return (
     <button className="add-question-button" onClick={onClick}>
-      <i class="fa-solid fa-plus"></i> Add Question
+      <i className="fa-solid fa-plus"></i> Add Question
     </button>
   );
 }
@@ -167,7 +167,7 @@ function AddQuestionForm({ exam, onSave, formId, defaultEditing = false  }) { //
 
   return (
     <>
-      <label class="question-type-label">Question Type:</label>
+      <label className="question-type-label">Question Type:</label>
       <SelectField
         className="question-type-dropdown"
         name="questionType"

@@ -240,7 +240,7 @@ function SelectedSection() {
         
       {/* <!-- SECOND CONTAINER --> */}
       <div className="second-container">
-        <label class="select-label">Selected Section</label>
+        <label className="select-label">Selected Section</label>
         {dbSections.map((s) => (
           <p 
             key={s.section_id}
