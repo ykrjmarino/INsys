@@ -5,7 +5,9 @@ export const HomeCard = ({ data, title, subjCode, schedule, status, sections, on
 
   return (
     <div className="grid-item"
-    onClick={() => onClickNav(data.exam_id)}> {/* goes to the specific exam when div is clicked */}
+      onClick={(e) => e.stopPropagation()}
+      style={{ opacity: 0.8, cursor: "default" }}
+    > {/* goes to the specific exam when div is clicked */}
 
       <div className="teacher-home-grid-item-buttons" >
         <button 
