@@ -14,9 +14,11 @@ import HomeStudent from './pages/HomeStudent.jsx';
 import UpdateExam from './pages/UpdateExam.jsx';
 import Welcome from './pages/Welcome.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
+import ExamAnalytics from './pages/ExamAnalytics.jsx'
 //Layout
 import LogoutButton from './components/Logout.jsx';
 import ExamQuestions from './components/home-student/ExamQuestions.jsx';
+import AnalyticsHome from './pages/AnalyticsHome.jsx';
 
 
 
@@ -134,6 +136,8 @@ useEffect(() => {
         <Route path='/welcome-register' element={<Welcome />} /> 
         <Route path='/register/student' element={<RegisterStudent />} />
         <Route path='/register/teacher' element={<RegisterTeacher />} />
+        <Route path='/exams-analytics' element={<AnalyticsHome />} />
+        <Route path='/exam-analytics' element={<ExamAnalytics />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/login" replace />} />

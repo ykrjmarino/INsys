@@ -108,6 +108,7 @@ app.use('/api/teacher', teacherAuthRoutes);
 //year and section
   import { addSection, courseData, yearLevelData, deleteSection, yearSection } from "./controllers/yearSection.js";
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
+import { getExamAnalytics } from "./controllers/analyticsControlers/GET.js";
 
 
 // ========== TEST IF BACKEND WORKING ==========
@@ -216,7 +217,7 @@ import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/qu
   //meron pa una dito: all exams done so we can view exam analytics per exam
 
 
-  app.get('/api/exams/analytics/:examId', )
+  app.get('/api/exams/analytics/:examId', getExamAnalytics);
 
 
 

@@ -1,5 +1,15 @@
 import React from "react";
+import axios from "../utils/axiosConfig.js";
+import { useNavigate } from "react-router-dom";
 import { LogoutSpan } from "./Logout";
+
+//context
+import { useAuth } from '../context/AuthContext.jsx';
+//hooks
+import { useExams } from '../hooks/useExams.js';
+import { useState } from "react";
+
+  
 
 export const AboutComponent = () => {
   return (
@@ -8,16 +18,6 @@ export const AboutComponent = () => {
     </>
   )
 }
-
-
-
-
-
-
-
-
-
-
 
 
 function HeaderTeacher() {
@@ -102,6 +102,79 @@ export const HeaderStudent = () => {
         {/* <!-- header end --> */}
         </>
     )
+}
+
+export const SideBar = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  //========= create exam modal =========//
+  const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState("");
+
+  const handleCreate = async () => {
+    try {
+      const res = await axios.post('/exams/create-exam', {
+        title,
+        schedule: null,
+        status: "draft"
+      });
+      navigate(`/update-exam/${res.data.exam_id}`)
+    } catch (err) {
+      console.error("Error creating exam", err);
+    }
+  };
+
+  return (
+    <>
+      {/* <!-- sidebar -->
+      <!-- start-->   */}
+      <div className="sidebar">
+        <div className="sidebar-image">
+          <img src="/images/insys3.webp" alt="Sidebar Image"/>
+        </div>
+
+        <div className="sidebar-buttons">
+          <h1 className="sidebar-title">Tools</h1>
+          <button className="sidebar-btn" onClick={() => setShowModal(true)}><i className="fas fa-plus"></i>Create Exam</button>
+            {showModal && (
+              <>
+              <div className="overlay" onClick={() => setShowModal(false)}></div>
+              <div className="modal">
+                <form onSubmit={(e) => {e.preventDefault(); handleCreate();}}>
+                  <h3>Create Exam</h3>
+                  <input
+                    type="text"
+                    placeholder="Enter exam title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                  <div className="modal-actions">
+                    <button type="submit">Confirm</button>
+                  </div>
+                </form>
+              </div>
+              </>
+            )}
+          <button
+            className="sidebar-btn"
+            onClick={()=> navigate('/exam-analytics')}
+          ><i className="fas fa-chart-bar"></i> Exam Analytics </button>
+          
+        </div>
+
+        <div className="profile-container">
+          <i className="fa-solid fa-user"></i>
+          <div className="profile-info">
+              <div className="profile-name">{user.nameFNfirst}</div>
+              <div className="profile-title">Instructor</div>
+          </div>
+        </div>
+        
+      </div>
+      {/* <!-- end sidebar --> */}
+    </>
+  )
 }
 
 export default HeaderTeacher;
