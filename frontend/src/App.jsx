@@ -124,6 +124,8 @@ useEffect(() => {
         <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
           <Route path='/teacher-dashboard' element={<HomeTeacher />} />
           <Route path='/update-exam/:examId' element={<UpdateExam />} />
+          <Route path='/exams-analytics' element={<AnalyticsHome />} />
+          <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
@@ -136,8 +138,6 @@ useEffect(() => {
         <Route path='/welcome-register' element={<Welcome />} /> 
         <Route path='/register/student' element={<RegisterStudent />} />
         <Route path='/register/teacher' element={<RegisterTeacher />} />
-        <Route path='/exams-analytics' element={<AnalyticsHome />} />
-        <Route path='/exam-analytics' element={<ExamAnalytics />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/login" replace />} />

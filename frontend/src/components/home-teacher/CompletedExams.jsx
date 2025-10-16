@@ -5,7 +5,7 @@ export const HomeCard = ({ data, title, subjCode, schedule, status, sections, on
 
   return (
     <div className="grid-item"
-      onClick={(e) => e.stopPropagation()}
+      onClick={onClickNav}
       style={{ opacity: 0.8, cursor: "default" }}
     > {/* goes to the specific exam when div is clicked */}
 
@@ -61,7 +61,7 @@ function CompletedExams({ exams, onClickDel, onClickDupe, className }) {
           data={e}
           onClickDel={onClickDel} //send to: const handleDeleteExam = (examId)=>{}
           onClickDupe={onClickDupe}
-          onClickNav={() => navigate(`/update-exam/${e.exam_id}`)}
+          onClickNav={(e) => e.stopPropagation()}
         />
       ))}
     </>

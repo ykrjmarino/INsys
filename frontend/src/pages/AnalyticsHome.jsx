@@ -20,6 +20,7 @@ function AnalyticsExams ({ exams, onClickDel, onClickDupe, className }) {
   return (
     <>
     <div className="main-home-content">
+      <label className="main-container-title">Exams Analytics</label>
       <div className="grid-container">
         {exams.map((e) => (
           <HomeCard //these from the database so use snake_case
@@ -33,7 +34,7 @@ function AnalyticsExams ({ exams, onClickDel, onClickDupe, className }) {
             data={e}
             onClickDel={onClickDel} //send to: const handleDeleteExam = (examId)=>{}
             onClickDupe={onClickDupe}
-            onClickNav={() => navigate(`/update-exam/${e.exam_id}`)}
+            onClickNav={() => navigate(`/exam-analytics/${e.exam_id}`)}
           />
         ))}
       </div>
