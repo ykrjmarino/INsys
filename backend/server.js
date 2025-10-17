@@ -108,7 +108,7 @@ app.use('/api/teacher', teacherAuthRoutes);
 //year and section
   import { addSection, courseData, yearLevelData, deleteSection, yearSection } from "./controllers/yearSection.js";
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
-import { getExamAnalytics } from "./controllers/analyticsControlers/GET.js";
+import { getExamAnalytics, getStudentAnalytics } from "./controllers/analyticsControlers/GET.js";
 
 
 // ========== TEST IF BACKEND WORKING ==========
@@ -218,6 +218,8 @@ import { getExamAnalytics } from "./controllers/analyticsControlers/GET.js";
 
 
   app.get('/api/exams/analytics/:examId', getExamAnalytics);
+    //exam student scores and details
+  app.get('/api/exams/student/analytics/:examId', getStudentAnalytics);
 
 
 

@@ -1,16 +1,48 @@
 import axios from "../utils/axiosConfig.js";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
+import SelectField from "../components/SelectFields.jsx";
 
 function ExamAnalytics () {
+  const { accessToken } = useAuth();
   const navigate = useNavigate();
+  const { examId, studentId } = useParams(); 
 
+  const [allInfo, setAllInfo] = useState('null');
+  const [allSections, setAllSections] = useState([]);
+  const [selectedSection , setSelectedSection] = useState('');
+
+
+  useEffect(()=>{
+    fetchExamInfo(); 
+  }, [examId]);
 
   const fetchExamInfo = async() => {
-    // /exams/analytics/:examId
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
 
+    try {
+      const allExamInfo = await axios.get(`/exams/analytics/${examId}`, config); // getExamAnalytics 
+      const allSections = await axios.get(`/exams/${examId}/sections`, config); // getSectionTakersByExamId
+
+      setAllInfo(allExamInfo.data);
+      setAllSections(allSections.data);
+    } catch (err) {
+      console.log('fetchExamInfo failed, in ExamAnalytics')
+      console.error(err.message);
+    }
   }
+
+  const sectionOptions = allSections.map((s) => (
+    { label: s.section_name, value: s.section_id }
+  ));
+    
+  
   return (
     <>
     {/* START */}
@@ -18,8 +50,15 @@ function ExamAnalytics () {
         {/* S1*/}
         <div style={{ backgroundColor: '#00c2b2ff', margin: '6px' }}>
           <button>arrow back-button</button>
-          <p>title</p>
-          <select></select>
+          <p>{allInfo.title}</p>
+          <SelectField
+            label="Select Section"
+            name="section"
+            value={selectedSection}
+            onChange={(e) => setSelectedSection(e.target.value)}
+            options={sectionOptions}
+          />
+
         </div> {/* E1*/}
         
 
@@ -46,8 +85,9 @@ function ExamAnalytics () {
 
 
           {/* S3.2*/}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr', gap: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr', gap: '40px' }}>
             <div> Name </div>
+            <div> School ID </div>
             <div> Objective Score </div>
             <div> Essay Score </div>
             <div> Score </div>

@@ -14,7 +14,7 @@ import HomeTeacher from "./HomeTeacher.jsx";
 import HeaderTeacher, { SideBar } from "../components/Header.jsx";
 
 
-function AnalyticsExams ({ exams, onClickDel, onClickDupe, className }) {
+function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className }) {
   const navigate = useNavigate();
 
   return (
@@ -45,25 +45,19 @@ function AnalyticsExams ({ exams, onClickDel, onClickDupe, className }) {
 }
 
 
-function AnalyticsHome () {
+function HomeAnalytics() {
   const { accessToken } = useAuth();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { exams, deleteExam, duplicateExam, fetchAllExams } = useExams();
   
-  const config = {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    withCredentials: true
-  };
-
-
   return (
     <>
     <div className="whole">
       <HeaderTeacher />
       <div className="side-bar-and-main-container">
         <SideBar />
-        <AnalyticsExams 
+        <AnalyticsHomeExams 
           exams={exams.filter(e => e.status === 'completed')} 
           onClickDel={deleteExam} 
           onClickDupe={duplicateExam} 
@@ -74,4 +68,4 @@ function AnalyticsHome () {
   )
 }
 
-export default AnalyticsHome;
+export default HomeAnalytics;

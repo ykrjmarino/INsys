@@ -9,7 +9,7 @@ import SelectField from "../../components/SelectFields";
 const questionTypes = [
   { label: "Identification", value: "identification" },
   { label: "Multiple Choice", value: "multiplechoice" },
-  // { label: "True or False", value: "truefalse" },
+  { label: "True or False", value: "truefalse" },
   { label: "Essay", value: "essay" }
 ];
 
