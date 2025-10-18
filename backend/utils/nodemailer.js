@@ -10,6 +10,7 @@ export const sendUserEmail = async({email, token, context }) => {
     service:"gmail",
     secure:false,
     port: 587,
+    tls: { rejectUnauthorized: false },
     auth: {
       user: process.env.NDM_USER,
       pass: process.env.NDM_PASSWORD
