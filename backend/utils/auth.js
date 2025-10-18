@@ -68,8 +68,8 @@ authRoutes.post('/login', async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false, //for local testing, devewlopment oki
-      sameSite: "Lax",
+      secure: true, //for local testing false, devewlopment oki
+      sameSite: "None",
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000 //7 days
     });
@@ -91,9 +91,9 @@ authRoutes.post('/login', async (req, res) => {
 authRoutes.post('/logout', async (req, res) => {
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: false,
+      secure: true,
       path: "/",
-      sameSite: "Lax"
+      sameSite: "None"
     });
 
     res.status(200).json({ message: "Logged out" });
