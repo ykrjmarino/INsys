@@ -1,4 +1,4 @@
-import axios from 'axios'; //did not use axiosConfig here so use the full url
+import axios from "../utils/axiosConfig.js"; //did not use axiosConfig here so use the full url
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -27,7 +27,7 @@ function RegisterStudent() {
 
   const handleSendOtp = async () => {
     try { //did not use axiosConfig here so it's the full url
-      const res = await axios.post("http://localhost:3000/api/student/register/email-otp", { username: username });
+      const res = await axios.post("/student/register/email-otp", { username: username });
       
       toast.info(res.data.message);
 
@@ -42,7 +42,7 @@ function RegisterStudent() {
 
   const handleVerifyOtp = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/student/register/verify-otp", { username, code });
+      const res = await axios.post("/student/register/verify-otp", { username, code });
       toast.info(res.data.message);
       setIsVerified(true);
     } catch (err) {
@@ -57,7 +57,7 @@ function RegisterStudent() {
 
     if (formRegister.password !== formRegister.retypePassword) return toast.info("Passwords do not match");
 
-    axios.post("http://localhost:3000/api/student/register/user-info", formRegister)
+    axios.post("/student/register/user-info", formRegister)
       .then(res => {
         console.log(res.data.message);
         toast.info(res.data.message);

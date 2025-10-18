@@ -1,4 +1,4 @@
-import axios from 'axios'; //did not use axiosConfig here so use the full url
+import axios from "../utils/axiosConfig.js"; //did not use axiosConfig here so use the full url
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
@@ -28,7 +28,7 @@ function RegisterTeacher() {
 
   const handleSendOtp = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/teacher/register/email-otp", { username: username });
+      const res = await axios.post("/teacher/register/email-otp", { username: username });
       toast.info(res.data.message);
 
       if (res.data.isItSent) { //from backend res.json.. if message is sent
@@ -42,7 +42,7 @@ function RegisterTeacher() {
 
   const handleVerifyOtp = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/teacher/register/verify-otp", { username, code });
+      const res = await axios.post("/teacher/register/verify-otp", { username, code });
       toast.info(res.data.message);
       setIsVerified(true);
     } catch (err) {
@@ -56,7 +56,7 @@ function RegisterTeacher() {
     if (!isVerified) return toast.info("Verify your email first");
     if (formRegister.password !== formRegister.retypePassword) return toast.info("Passwords do not match");
   
-    axios.post("http://localhost:3000/api/teacher/register/user-info", formRegister)
+    axios.post("/teacher/register/user-info", formRegister)
       .then(res => {
         console.log(res.data.message);
         toast.info(res.data.message);
