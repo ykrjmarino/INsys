@@ -43,7 +43,7 @@ function AuthLoader({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.post("/refresh", {}, { withCredentials: true })
+    axios.post("/refresh")
       .then(res => {
         setUser(res.data.user);
         setAccessToken(res.data.accessToken);
@@ -92,7 +92,7 @@ useEffect(() => {
   const publicPaths = ["/login", "/register/student", "/register/teacher", "/welcome-register", "/forgot-password"];
   if (publicPaths.includes(window.location.pathname)) return;
 
-  axios.post("/refresh", {}, { withCredentials: true })
+  axios.post("/refresh")
     .then(res => {
       const newToken = res.data.accessToken;
       const { userId, schoolId, nameFNfirst, nameLNfirst, role } = res.data.user || {};
