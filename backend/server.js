@@ -25,7 +25,9 @@ app.use(cookieParser());
 
 //prep frontend:
 app.use(cors({ //allow frontend to access backend
-  origin: `http://localhost:5173`, //React frontend
+  origin: [
+    'https://insys-front.onrender.com', 
+    `http://localhost:5173`], //React frontend
   credentials: true
 }));
 
@@ -219,7 +221,7 @@ import { getExamAnalytics, getStudentAnalytics } from "./controllers/analyticsCo
 
   app.get('/api/exams/analytics/:examId', getExamAnalytics);
     //exam student scores and details
-  app.get('/api/exams/student/analytics/:examId', getStudentAnalytics);
+  app.get('/api/exams/student/:studentId/analytics/:examId', getStudentAnalytics);
 
 
 
