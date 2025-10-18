@@ -1,6 +1,6 @@
 import axiosLib  from 'axios';
 
-console.log("Base URL:", import.meta.env.VITE_API_BASE_URL);
+console.log("Base URL:", import.meta.env.VITE_API_BASE_FRONT_URL);
 
 const axios = axiosLib .create({
   baseURL: import.meta.env.VITE_API_BASE_FRONT_URL, //https://insys-front.onrender.com (.env)
