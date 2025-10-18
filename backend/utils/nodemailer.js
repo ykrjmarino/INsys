@@ -89,7 +89,7 @@ export const sendUserEmail = async ({ email, token, context }) => {
     </div>`;
 
     const { data, error } = await resend.emails.send({
-      from: "INsys <noreply@insys.app>", // You can customize this in Resend dashboard
+      from: "INsys <onboarding@resend.dev>", // You can customize this in Resend dashboard
       to: email,
       subject,
       html: htmlContent,
