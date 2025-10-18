@@ -52,8 +52,16 @@ export const sendUserEmail = async({email, token, context }) => {
     </div>`,
   };
   
-  const emailResponse = await transporter.sendMail(mailOptions);
+
+  try {
+      const emailResponse = await transporter.sendMail(mailOptions);
   console.log("Message sent:", emailResponse.messageId);
+  } catch (error) {
+    console.log(error);
+
+    throw new Error(error)
+  }
+
 }
 
 
