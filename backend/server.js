@@ -1,5 +1,10 @@
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // ======================
-// 1️⃣ ENV + CORE IMPORTS
+// ENV + CORE IMPORTS
 // ======================
 import dotenv from "dotenv";
 dotenv.config(); // must come first before using process.env
@@ -13,7 +18,7 @@ import cookieParser from "cookie-parser";
 import { db } from "./db.js";
 
 // ======================
-// 2️⃣ ROUTES & MIDDLEWARE IMPORTS
+// ROUTES & MIDDLEWARE IMPORTS
 // ======================
 
 // AUTH ROUTES
@@ -202,6 +207,12 @@ app.put("/api/student-scores/score", autoScoringTemplate);
 app.get("/api/exams/analytics/:examId", getExamAnalytics);
 app.get("/api/exams/student/:studentId/analytics/:examId", getStudentAnalytics);
 
+
+
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 // ======================
 // 🔟 START SERVER
 // ======================
