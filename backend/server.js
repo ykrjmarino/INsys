@@ -99,12 +99,26 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  cors({
-    origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
+//     credentials: true,
+//   })
+// );
+
+app.use(cors({
+  origin: function (origin, callback) {
+    const allowed = [process.env.FRONTEND_URL, "http://localhost:5173"];
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
+
+
 
 app.use(
   session({
@@ -218,5 +232,5 @@ app.get("*", (req, res) => {
 // ======================
 app.listen(port, () => {
   db.connect();
-  console.log(`✅ Backend running at http://localhost:${port}`);
+  console.log(`✅ Backend running at http://localhost:${port} idk tinatamad ako magchange ng text`);
 });
