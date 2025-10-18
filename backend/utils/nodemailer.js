@@ -8,7 +8,8 @@ export const sendUserEmail = async({email, token, context }) => {
   console.log({ email});
   const transporter = nodemailer.createTransport({
     service:"gmail",
-    secure: process.env.LOCAL !== true,
+    secure:false,
+    port: 587,
     auth: {
       user: process.env.NDM_USER,
       pass: process.env.NDM_PASSWORD
