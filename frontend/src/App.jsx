@@ -15,7 +15,7 @@ import UpdateExam from './pages/UpdateExam.jsx';
 import Welcome from './pages/Welcome.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import ExamAnalytics from './pages/1-ExamAnalytics.jsx';
-import HomeAnalytics from './pages/1-hOMEAnalytics.jsx';
+import HomeAnalytics from './pages/1-HomeAnalytics.jsx';
 //Layout
 import LogoutButton from './components/Logout.jsx';
 import ExamQuestions from './components/home-student/ExamQuestions.jsx';
