@@ -7,6 +7,7 @@ dotenv.config({ path: '../.env', quiet: true });
 export const sendUserEmail = async({email, token, context }) => {
   const transporter = nodemailer.createTransport({
     service:"gmail",
+    secure: true,
     auth: {
       user: process.env.NDM_USER,
       pass: process.env.NDM_PASSWORD
