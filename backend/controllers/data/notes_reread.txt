@@ -89,7 +89,13 @@ JWT_ACCESS_EXPIRES_IN=15m   # example: 15 minutes
 NDM_USER=gunshogun333@gmail.com
 NDM_PASSWORD=tndrpuojgthtbttb
 
+from render
 REDIS_URL=redis://default:smZGoC1cxEHZ2yiZKXfZYVhbwfchBk71@redis-17264.c89.us-east-1-3.ec2.redns.redis-cloud.com:17264
+from railway
+REDIS_PUBLIC_URL=redis://default:dQwPWTuhLbJFuEMDoeYjOeMxHfISMonh@yamabiko.proxy.rlwy.net:18185
+REDIS_URL=redis://default:dQwPWTuhLbJFuEMDoeYjOeMxHfISMonh@redis.railway.internal:6379
+from redis-cloud
+redis-cli -u redis://default:0dYFNg4q8RldJx3wrrrAXooB1blkCvLk@redis-12975.c261.us-east-1-4.ec2.redns.redis-cloud.com:12975
 
 # DATABASE_URL=postgresql://insys_db_user:rhVS3mVxDcAdmFiqproE0hwwlBd7mx6v@dpg-d3j4bc8dl3ps73dkde5g-a/insys_db
 DATABASE_URL=postgresql://insys_db_user:rhVS3mVxDcAdmFiqproE0hwwlBd7mx6v@dpg-d3j4bc8dl3ps73dkde5g-a.oregon-postgres.render.com/insys_db
