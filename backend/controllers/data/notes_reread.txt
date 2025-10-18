@@ -106,3 +106,53 @@ front
 VITE_API_BASE_URL=https://insys-89dk.onrender.com/api
 VITE_API_URL=https://insys-89dk.onrender.com
 VITE_WS_URL=wss://insys-backend.onrender.com/ws
+
+
+
+
+latest oct 18, 2025
+# check before toggle
+VITE_LOCAL=true
+
+# Frontend (Render)
+VITE_API_BASE_FRONT_URL=https://insys-1-8q1s.onrender.com
+VITE_API_BASE_URL=http://localhost:3000/api
+
+# Frontend (Railway)
+REACT_APP_API_URL=https://insys-production.up.railway.app
+
+
+
+# Server
+PORT=3000
+
+# Database (Postgres)
+DB_USER=postgres
+DB_PASSWORD=marchdb
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=postgres
+
+# JWT Secrets
+JWT_ACCESS_SECRET=diko_alam_ilalagay_na_access_secret
+JWT_REFRESH_SECRET=diko_alam_ilalagay_na_refresh_secret
+JWT_ACCESS_EXPIRES_IN=15m   # example: 15 minutes
+
+# Nodemailer (NDM)
+NDM_USER=gunshogun333@gmail.com
+NDM_PASSWORD=fswvmlozdpjmkard
+# tndrpuojgthtbttb
+
+# Resend
+RESEND_API_KEY=re_Xpn89seL_ETw1crJokNmwKWsoyiwoxo5m
+
+# SendGrid
+SENDGRID_API_KEY=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
+
+# Redis
+REDIS_URL=redis://default:0dYFNg4q8RldJx3wrrrAXooB1blkCvLk@redis-12975.c261.us-east-1-4.ec2.redns.redis-cloud.com:12975
+
+
+FRONTEND_URL=https://insys-2.onrender.com
+
+LOCAL=true

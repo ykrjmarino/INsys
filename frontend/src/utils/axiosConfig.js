@@ -1,10 +1,13 @@
 // frotend Render
 import axiosLib  from 'axios';
 
+const isLocal = import.meta.env.VITE_LOCAL === "true"; // set this in .env
 console.log("Base URL:", import.meta.env.VITE_API_BASE_FRONT_URL);
 
 const axios = axiosLib .create({
-  baseURL: import.meta.env.VITE_API_BASE_FRONT_URL, //https://insys-front.onrender.com (.env)
+  baseURL: isLocal 
+  ? import.meta.env.VITE_API_BASE_URL         // local      ==    http://localhost:3000/api
+  : import.meta.env.VITE_API_BASE_FRONT_URL,  // deployed   ==    https://insys-1-8q1s.onrender.com (.env)
   withCredentials: true, 
 });
 console.log("Axios instance baseURL:", axios.defaults.baseURL);

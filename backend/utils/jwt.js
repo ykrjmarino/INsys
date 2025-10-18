@@ -96,8 +96,8 @@ export const refreshAccessToken = async(req, res) => {
 export const clearToken =  (req, res) => { //for idk yet, i have this logout logic in auth.js
   res.clearCookie("refreshToken", {
     httpOnly: true,
-    secure: true,
-    sameSite: "None"
+    secure: process.env.LOCAL !== "true",
+    sameSite: process.env.LOCAL === "true" ? "Lax" : "None"
   });
 
   res.status(200).json({ message: "Logged out" });
