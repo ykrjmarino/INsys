@@ -5,7 +5,7 @@ dotenv.config();
 
 // Create a test account or replace with real credentials.
 export const sendUserEmail = async({email, token, context }) => {
-  console.log(process.env);
+  console.log({ email});
   const transporter = nodemailer.createTransport({
     service:"gmail",
     secure: process.env.LOCAL !== true,
