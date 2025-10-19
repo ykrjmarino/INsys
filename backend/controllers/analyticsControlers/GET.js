@@ -4,19 +4,59 @@ export const getExamAnalytics = async(req, res) =>{
   const { examId } = req.params;
 
   try {
-    //we'll use: title, start_datetime, end_datetime, total_points, passing_score, exam_type
-    const result = await db.query(` 
-      SELECT * FROM examinations
+    /*
+    {
+      exam: { exam_id, title, status, exam_type, ... },
+      students: [ { first_name, last_name, total_score, ... } ]
+    }
+    */
+    // 1️⃣ Fetch exam info (even if no students)
+    const examInfo = await db.query(`
+      SELECT 
+        exam_id,
+        title,
+        status,
+        exam_type,
+        total_points,
+        passing_score,
+        start_datetime,
+        end_datetime
+      FROM examinations
       WHERE exam_id = $1
-        AND status = 'completed'`
-    , [examId]);
+    `, [examId]);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({error: 'No Exam detail fetched'})
+    if (examInfo.rows.length === 0) {
+      return res.status(404).json({ error: 'Exam not found' });
     }
 
-    console.log(result.rows[0]);
-    res.status(200).json(result.rows[0])
+    // 2️⃣ Fetch all student analytics (if any)
+    const studentInfo = await db.query(`
+      SELECT 
+        u.first_name,
+        u.last_name,
+        u.school_id,
+        u.email,
+        st.section_id, 
+        st.section_name,
+        ss.total_score,
+        ss.objective_score,
+        ss.essay_score,
+        ss.section_name,
+        ss.is_submitted,
+        ss.submitted_at
+      FROM student_scores ss
+      JOIN users u ON ss.student_school_id = u.school_id
+      JOIN section_takers st ON ss.exam_id = st.exam_id AND ss.section_name = st.section_name
+      WHERE ss.exam_id = $1
+    `, [examId]);
+
+    // 3️⃣ Combine results
+    const response = {
+      exam: examInfo.rows[0],
+      students: studentInfo.rows,
+    };
+
+    res.status(200).json(response);
   } catch (error) {
     console.error('Error getting exam details:', error);
     res.status(500).json({ error: error.details || 'Failed to get exam detail' });

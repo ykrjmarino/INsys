@@ -1,5 +1,5 @@
 function SelectField({ label, name, value, onChange, options, disabled, className }) {
-  const safeValue = value ?? 'draft';
+  const safeValue = value ?? '';
   //default to "draft" if nothing is set
   
   return (
@@ -9,7 +9,7 @@ function SelectField({ label, name, value, onChange, options, disabled, classNam
         className={className}
         required
         name={name} 
-        value={safeValue} 
+        value={value} 
         disabled={disabled}
         onChange={onChange}>
         <option value="" disabled hidden>-- Select --</option>
