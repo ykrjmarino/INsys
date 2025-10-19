@@ -26,6 +26,17 @@ function StudentDetails ({studentsInfo}) {
   )
 }
 
+function ExamGraph() {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      dito mga graphs.. tapusin mo na to ngayon, we dont have much time
+    </>
+  )
+}
+
+
 function ExamAnalytics () {
   const { accessToken } = useAuth();
   const navigate = useNavigate();
@@ -102,6 +113,11 @@ function ExamAnalytics () {
           <p style={{ backgroundColor: '#e2a1d4ff', margin: '5px' }}>
             {infoExam.title}
           </p>
+
+          <div style={{ backgroundColor: '#00c21aff', padding: '6px' }}>
+            <ExamGraph />
+          </div>
+
           <div style={{ backgroundColor: '#e403b3ff', padding: '5px' }}>
             <label>Select Section</label>
             <SelectField

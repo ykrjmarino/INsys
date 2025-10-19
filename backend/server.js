@@ -159,7 +159,7 @@ app.get("/api/exams/:userId", teacherOnly, getAllExams);
 app.get("/api/exams/search", teacherOnly, getExamsByTitle);
 app.get("/api/exams/status", teacherOnly, getExamsByStatus);
 app.get("/api/exams/exam/:examId", teacherOnly, getExamById);
-app.get("/api/exams/:examId/essays/:studentSchoolId", teacherOnly, getEssayPerStudent);
+app.get("/api/exams/:examId/essays/:studentId", teacherOnly, getEssayPerStudent);
 app.get("/api/exams/:examId/code", teacherOnly, getExamCode);
 app.get("/api/exams/:examId/sections", teacherOnly, getSectionTakersByExamId);
 app.get("/api/exams/:examId/scores/:sectionTaker", teacherOnly, getAllScoresByExam);
