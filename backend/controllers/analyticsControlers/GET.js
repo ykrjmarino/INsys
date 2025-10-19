@@ -6,8 +6,9 @@ export const getExamAnalytics = async(req, res) =>{
   try {
     /*
     {
-      exam: { exam_id, title, status, exam_type, ... },
-      students: [ { first_name, last_name, total_score, ... } ]
+      "exam": { exam_id, title, status, exam_type, total_points, passing_score, start_datetime, end_datetime },
+      "students": [ { first_name, last_name, total_score, objective_score, essay_score, section_id, section_name, student_section_name, is_submitted, submitted_at } ],
+      "total_takers"
     }
     */
     // 1️⃣ Fetch exam info (even if no students)
@@ -54,10 +55,18 @@ export const getExamAnalytics = async(req, res) =>{
       WHERE ss.exam_id = $1
     `, [examId]);
 
-    // 3️⃣ Combine results
+    // 3️⃣ Count total assigned
+    const totalTakersResult = await db.query(`
+      SELECT COUNT(*) AS total_takers
+      FROM student_scores
+      WHERE exam_id = $1`, [examId]
+    );
+
+    // 4️⃣ Combine results
     const response = {
       exam: examInfo.rows[0],
       students: studentInfo.rows,
+      total_takers: Number(totalTakersResult.rows[0].total_takers),
     };
 
     res.status(200).json(response);

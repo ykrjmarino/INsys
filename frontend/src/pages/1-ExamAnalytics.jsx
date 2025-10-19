@@ -54,9 +54,8 @@ function ExamAnalytics () {
     try {
       const res = await axios.get(`/exams/analytics/${examId}`, config); // getExamAnalytics 
 
-      setInfoExam(res.data.exam);
+      setInfoExam({...res.data.exam, total_takers: res.data.total_takers});
       setInfoStudent(res.data.students);
-      
     } catch (err) {
       console.log('fetchExamInfo failed, in ExamAnalytics');
       console.error(err.message);
@@ -90,21 +89,6 @@ function ExamAnalytics () {
     { label:`${s.course_code}–${s.year_number}${s.section_name}`, value: s.section_id }
   ));
   
-
-  // const fetchScores = async() => {
-  //   const config = {
-  //     headers: { Authorization: `Bearer ${accessToken}` },
-  //     withCredentials: true
-  //   };
-
-  //   try {
-  //     const allExamInfo = await axios.get(`/exams/analytics/${examId}`, config); // getExamAnalytics 
-      
-  //   } catch (error) {
-  //     console.log('fetchScores failed, in ExamAnalytics')
-  //     console.error(err.message);
-  //   }
-  // }
     
   
   return (
@@ -114,7 +98,7 @@ function ExamAnalytics () {
         {/* S1*/}
         <div style={{ backgroundColor: '#005bc2ff', margin: '6px' }}>
           
-          <button>arrow back-button</button>
+          <button onClick={() => navigate(-1)}>arrow back-button</button>
           <p style={{ backgroundColor: '#e2a1d4ff', margin: '5px' }}>
             {infoExam.title}
           </p>
@@ -135,6 +119,7 @@ function ExamAnalytics () {
         {/* S2*/}
         <div style={{ backgroundColor: '#ecebaeff', margin: '6px' }}>
           <p> Student Performance Analytics </p>
+          <p> Takers: {infoExam?.total_takers} </p>
         </div> {/* E2*/}
 
 
@@ -146,9 +131,6 @@ function ExamAnalytics () {
           <div style={{ backgroundColor: '#ff0000ff', padding: '6px' }}>
             <div style={{ backgroundColor: '#e8bff5ff', margin: '6px' }}>
               <p> SECTION: {optionSections.find(o => o.value === selectedSection)?.label || 'None'} </p>
-            </div>
-            <div style={{ backgroundColor: '#ecc5aeff', margin: '6px' }}>
-              <p> # of students </p>
             </div>
           </div>{/* E3.1*/}
 
