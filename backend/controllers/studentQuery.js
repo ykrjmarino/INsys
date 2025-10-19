@@ -34,7 +34,7 @@ export const verifyExamAccess = async(req, res) => {
         ON e.exam_id = s.exam_id 
       WHERE e.exam_code = $1 
         AND s.section_name = $2
-        AND e.status = 'published'`,
+        AND (e.status = 'published' OR e.status = 'ongoing')`,
       [inputCode, inputSection]
     );
                                       console.log("inputCode:", inputCode);

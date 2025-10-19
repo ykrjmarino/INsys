@@ -187,8 +187,8 @@ app.delete("/api/exams/:examId/questions/:questionId", teacherOnly, deleteQuesti
 // ======================
 // 8️⃣ STUDENT ROUTES
 // ======================
-app.post("/api/student/exams/:examId/start", studentOnly, startExam);
 app.post("/api/student/verify", studentOnly, verifyExamAccess);
+app.post("/api/student/exams/:examId/start", studentOnly, startExam);
 app.get("/api/student/session", studentOnly, getStudentCurrentSession);
 app.get("/api/student/exams/:examId/info", studentOnly, getInfoPerExam);
 app.get("/api/students/exam-history", studentOnly, getStudentExamHistory);
