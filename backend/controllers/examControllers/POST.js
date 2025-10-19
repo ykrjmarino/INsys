@@ -8,6 +8,21 @@ export const createExam = async(req, res) => {
   try {
     const result = await db.query('INSERT INTO examinations (title, schedule, status, exam_code, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *', [title, schedule, status, randomExamCode, userId]
     );
+
+    const examId = result.rows[0].exam_id;
+    await db.query(
+      `INSERT INTO section_takers (exam_id, section_id, section_name)
+      SELECT 
+        $1, 
+        s.section_id, 
+        c.course_code || ' ' || y.year_number || '-' || s.section_name
+      FROM sections s
+      JOIN courses c ON s.course_id = c.course_id
+      JOIN year_levels y ON s.year_level_id = y.year_level_id
+      WHERE s.course_id = 1 AND s.year_level_id = 1 AND s.section_name = 'A'`,
+      [examId]
+    );
+
     res.status(201).json(result.rows[0])
   } catch (error) {
     console.error('Error cant CREATE exams', error)

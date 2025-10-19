@@ -19,6 +19,7 @@ import HomeAnalytics from './pages/1-HomeAnalytics.jsx';
 //Layout
 import LogoutButton from './components/Logout.jsx';
 import ExamQuestions from './components/home-student/ExamQuestions.jsx';
+import StudentEssays from './pages/1.1-StudentEssays.jsx';
 
 
 
@@ -127,6 +128,8 @@ useEffect(() => {
           <Route path='/update-exam/:examId' element={<UpdateExam />} />
           <Route path='/exams-analytics' element={<HomeAnalytics />} />
           <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />
+          <Route path='/exam-analytics/:examId/student-essay/:studentId' element={<StudentEssays />} />
+          
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["student"]} />}>

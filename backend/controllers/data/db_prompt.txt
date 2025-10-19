@@ -168,9 +168,9 @@ CREATE TABLE questions (
   -- 5.3 SECTIONS TABLE
       CREATE TABLE sections (
         section_id SERIAL PRIMARY KEY,
-        course_id INT REFERENCES courses(course_id) ON DELETE CASCADE,
-        year_level_id INT REFERENCES year_levels(year_level_id) ON DELETE CASCADE,
-        section_name VARCHAR(10) NOT NULL,
+        course_id INT REFERENCES courses(course_id) ON DELETE CASCADE DEFAULT 1,
+        year_level_id INT REFERENCES year_levels(year_level_id) ON DELETE CASCADE DEFAULT 1,
+        section_name VARCHAR(10) NOT NULL DEFAULT 'A',
         UNIQUE (course_id, year_level_id, section_name)
       );
             -- BSIT Year 1 (A–M)

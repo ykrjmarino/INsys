@@ -41,12 +41,16 @@ export const getExamAnalytics = async(req, res) =>{
         ss.total_score,
         ss.objective_score,
         ss.essay_score,
-        ss.section_name,
+        ss.section_name AS student_section_name,
         ss.is_submitted,
-        ss.submitted_at
+        ss.submitted_at,
+        e.total_points,
+        e.passing_score,
+        e.exam_id
       FROM student_scores ss
       JOIN users u ON ss.student_school_id = u.school_id
       JOIN section_takers st ON ss.exam_id = st.exam_id AND ss.section_name = st.section_name
+      JOIN examinations e ON ss.exam_id = e.exam_id
       WHERE ss.exam_id = $1
     `, [examId]);
 

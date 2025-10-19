@@ -5,19 +5,21 @@ import { useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import SelectField from "../components/SelectFields.jsx";
+import Button from "../components/Buttons.jsx"
 
 function StudentDetails ({studentsInfo}) {
+  const navigate = useNavigate();
 
   return (
     <tbody>
-      {studentsInfo.map((a) => (
-        <tr key={a.school_id}>
-          <td>{a.first_name}</td> 
-          <td>{a.last_name}</td>
-          <td>{a.school_id}</td>
-          <td>{a.objective_score}</td>
-          <td>{a.essay_score}</td>
-          <td>{a.total_score} / {a.total_points}</td>
+      {studentsInfo.map((s) => (
+        <tr key={s.school_id} style={{ borderBottom: '1px solid #ddd' }}>
+          <td style={{ padding: '8px' }}>{s.last_name}</td>
+          <td style={{ padding: '8px' }}>{s.first_name}</td>
+          <td style={{ padding: '8px' }}>{s.school_id}</td>
+          <td style={{ padding: '8px' }}>{s.objective_score}</td>
+          <td style={{ padding: '8px' }}>{s.essay_score} <Button label="View" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>
+          <td style={{ padding: '8px' }}>{s.total_score} / {s.total_points}</td>
         </tr>
       ))}
     </tbody>
@@ -121,7 +123,7 @@ function ExamAnalytics () {
             <SelectField
               name="section"
               value={selectedSection}
-              onChange={(e) => setSelectedSection(e.target.value)} //this is section_id (optionSections value)
+              onChange={(e) => setSelectedSection(Number(e.target.value))} //this is section_id (optionSections value)
               options={optionSections}
             />
           </div>
@@ -143,7 +145,7 @@ function ExamAnalytics () {
           {/* S3.1*/}
           <div style={{ backgroundColor: '#ff0000ff', padding: '6px' }}>
             <div style={{ backgroundColor: '#e8bff5ff', margin: '6px' }}>
-              <p> SECTION: {} </p>
+              <p> SECTION: {optionSections.find(o => o.value === selectedSection)?.label || 'None'} </p>
             </div>
             <div style={{ backgroundColor: '#ecc5aeff', margin: '6px' }}>
               <p> # of students </p>
@@ -153,20 +155,20 @@ function ExamAnalytics () {
 
           {/* S3.2*/}
           <div>
-            <table>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>School ID</th>
-                  <th>Objective Score</th>
-                  <th>Essay Score</th>
-                  <th>Score</th>
-                  <th>Time Taken</th>
+                <tr style={{ backgroundColor: '#f2f2f2' }}>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Last Name</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>First Name</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>School ID</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Objective Score</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Essay Score</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Score</th>
                 </tr>
               </thead>
               {selectedSection &&
                 <StudentDetails 
-                  studentsInfo={infoStudent.filter(e=>e.section_id === Number(selectedSection))}
+                  studentsInfo={infoStudent.filter(e=>e.section_id === selectedSection)}
                 />
               }
               
