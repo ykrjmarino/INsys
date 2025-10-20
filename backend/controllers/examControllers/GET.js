@@ -202,8 +202,17 @@ export const getAllScoresByExam = async(req, res) => {
 }
 
 export const getEssayPerStudent = async(req, res) => {
-  const {examId, studentSchoolId } = req.params;
+  const {examId, studentId } = req.params;
   try {
+    /*
+    {
+      question_id: 136,
+      question_text: 'Explain the difference between client-side and server-side scripting.',
+      points: 3,
+      student_answer: 'uwu',
+      essay_score: 0
+    }
+    */
     const result = await db.query(
       `SELECT 
         q.question_id,
@@ -216,8 +225,9 @@ export const getEssayPerStudent = async(req, res) => {
       WHERE q.exam_id = $1 
         AND e.student_school_id = $2
         AND q.question_type = 'essay'`,
-      [examId, studentSchoolId]
+      [examId, studentId]
     );
+    console.log(result)
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Invalid' });
