@@ -18,7 +18,7 @@ function StudentDetails ({studentsInfo}) {
           <td style={{ padding: '8px' }}>{s.first_name}</td>
           <td style={{ padding: '8px' }}>{s.school_id}</td>
           <td style={{ padding: '8px' }}>{s.objective_score}</td>
-          <td style={{ padding: '8px' }}>{s.essay_score} <Button label="View" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>
+          <td style={{ padding: '8px' }}>{s.essay_score === null ? 'Not Yet Graded' : s.essay_score} <Button label="View" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>
           <td style={{ padding: '8px' }}>{s.total_score} / {s.total_points} <Button label="Details" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>
         </tr>
       ))}
@@ -68,7 +68,9 @@ function SectionAnalytics () {
   const [infoStudent, setInfoStudent] = useState([]);
   const [allSections, setAllSections] = useState([]);
   const [generalData, setGeneralData] = useState({});
-  const [selectedSection , setSelectedSection] = useState('');
+  const [selectedSection, setSelectedSection] = useState(
+    localStorage.getItem('selectedSection') || ''
+  );
 
 
   useEffect(()=>{
@@ -84,6 +86,11 @@ function SectionAnalytics () {
       fetchPerSection(selectedSection);
     }
   }, [selectedSection]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('selectedSection');
+    if (saved) setSelectedSection(Number(saved));
+  }, [allSections]);
 
   const fetchExamInfo = async() => {
     const config = {
@@ -146,6 +153,12 @@ function SectionAnalytics () {
     }
   }
 
+  const handleSectionChange = (e) => {
+    const value = Number(e.target.value);
+    setSelectedSection(value);
+    localStorage.setItem('selectedSection', value);
+  };
+
   /*
   s.section_id, 
   s.section_name, 
@@ -186,9 +199,7 @@ function SectionAnalytics () {
             <SelectField
               name="section"
               value={selectedSection}
-              onChange={(e) => {
-                setSelectedSection(Number(e.target.value));
-              }} //this is section_id (optionSections value)
+              onChange={handleSectionChange} //this is section_id (optionSections value)
               options={optionSections}
             />
           </div>

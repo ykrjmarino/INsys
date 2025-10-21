@@ -21,7 +21,9 @@ export const HomeExamsTeacher = () => {
   //========= home filter status =========//
   const { exams, deleteExam, duplicateExam, fetchAllExams } = useExams();
 
-  const [status, setStatus] = useState('draft');
+  const [status, setStatus] = useState(
+    localStorage.getItem('examStatus') || 'draft'
+  );
   const [allExams, setAllExams] = useState([]);
 
   
@@ -32,6 +34,12 @@ export const HomeExamsTeacher = () => {
     };
     load();
   }, []);
+
+  const handleStatusChange = (e) => {
+    const value = e.target.value;
+    setStatus(value);
+    localStorage.setItem('examStatus', value);
+  };
 
   const optionsArray = [
     { value: "draft", label: "Draft" },
@@ -49,7 +57,7 @@ export const HomeExamsTeacher = () => {
       <SelectField className="dropdown-main"
         name="status"
         value={status}
-        onChange={(e) => setStatus(e.target.value)}
+        onChange={handleStatusChange}
         options={optionsArray}
       />
 

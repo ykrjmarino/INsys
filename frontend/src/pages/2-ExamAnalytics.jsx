@@ -76,10 +76,6 @@ function ExamAnalytics () {
   const { examId, studentId } = useParams(); 
 
   const [infoExam, setInfoExam] = useState({});
-  const [infoStudent, setInfoStudent] = useState([]);
-  const [allSections, setAllSections] = useState([]);
-  const [selectedSection , setSelectedSection] = useState('');
-
 
   useEffect(()=>{
     fetchExamInfo(); 
