@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import SelectField from "../components/SelectFields.jsx";
 import Button from "../components/Buttons.jsx"
+import { AnalyticsHeaderBar } from "../components/Header.jsx";
 
 function StudentDetails ({studentsInfo}) {
   const navigate = useNavigate();
@@ -67,7 +68,7 @@ function SectionAnalytics () {
   const [infoExam, setInfoExam] = useState({});
   const [infoStudent, setInfoStudent] = useState([]);
   const [allSections, setAllSections] = useState([]);
-  const [generalData, setGeneralData] = useState({});
+  const [sectionData, setSectionData] = useState({});
   const [selectedSection, setSelectedSection] = useState(
     localStorage.getItem('selectedSection') || ''
   );
@@ -101,7 +102,7 @@ function SectionAnalytics () {
     try {
       const res = await axios.get(`/exams/analytics/${examId}`, config); // getExamAnalytics 
 
-      setInfoExam({...res.data.exam, total_takers: res.data.total_takers});
+      setInfoExam({...res.data.exam, overall_stats: res.data.overall_stats});
       setInfoStudent(res.data.students);
     } catch (err) {
       console.log('fetchExamInfo failed, in ExamAnalytics');
@@ -118,12 +119,12 @@ function SectionAnalytics () {
     };
 
     try {
-      const res = await axios.get(`/exam/analytics/${examId}/section-filter`, {
+      const res = await axios.get(`/exam/analytics/${examId}/section-filter`, { // getSectionAnalytics
         params: {section: sectionId},
         ...config
       });
 
-      setGeneralData(res.data || {});
+      setSectionData(res.data || {});
               // console.log(res.data.section_name);
               // console.log(res.data.average_score);
               // console.log(res.data.highest_score);
@@ -174,25 +175,14 @@ function SectionAnalytics () {
   return (
     <>
       <div style={{ backgroundColor: '#a4f1ffff', padding: '10px' }}> {/* 3 divs */}
-        {/* S1*/}
-        <div style={{ backgroundColor: '#005bc2ff', margin: '6px' }}>
-          
-          <button onClick={() => navigate(-1)}>arrow back-button</button>
-          <p style={{ backgroundColor: '#e2a1d4ff', margin: '5px' }}>
-            {infoExam.title}
-          </p>
-
-        </div> {/* E1*/}
+        
+        <AnalyticsHeaderBar />
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', color: '#333', background: '#f5f5f5', margin: '5px' }}>
           <div onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
           <div>|</div>
           <div onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
         </div>
-        
-        
-
-      
         <div style={{ backgroundColor: '#ffa600ff', margin: '6px', padding: '20px'  }}>
           <div style={{ backgroundColor: '#e403b3ff', padding: '5px' }}>
             <label>Select Section</label>
@@ -217,7 +207,7 @@ function SectionAnalytics () {
 
           <div style={{ backgroundColor: '#00c21aff', margin: '10px', padding: '20px' }}>
             {selectedSection &&
-            <ExamGraph analyticsInfo={generalData || { total_takers: 0 }} />
+            <ExamGraph analyticsInfo={sectionData || { total_takers: 0 }} />
             }
           </div>
 

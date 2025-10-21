@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "../utils/axiosConfig.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LogoutSpan } from "./Logout";
 
 //context
@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 //hooks
 import { useExams } from '../hooks/useExams.js';
 import { useState } from "react";
+import { useEffect } from "react";
 
   
 
@@ -177,6 +178,47 @@ export const SideBar = () => {
         
       </div>
       {/* <!-- end sidebar --> */}
+    </>
+  )
+}
+
+export const AnalyticsHeaderBar = () => {
+  const { accessToken } = useAuth();
+  const navigate = useNavigate();
+  const { examId, studentId } = useParams(); 
+  const [infoExam, setInfoExam] = useState({});
+
+  useEffect(()=>{
+    fetchExamInfo(); 
+  }, [examId]);
+
+  const fetchExamInfo = async() => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
+
+    try {
+      const res = await axios.get(`/exams/analytics/${examId}`, config); // getExamAnalytics 
+
+      setInfoExam({...res.data.exam, overall_stats: res.data.overall_stats});
+      setInfoStudent(res.data.students);
+    } catch (err) {
+      console.log('fetchExamInfo failed, in ExamAnalytics');
+      console.error(err.message);
+    }
+  }
+
+  return(
+    <>
+      {/* S1*/}
+      <div style={{ backgroundColor: '#005bc2ff', margin: '6px' }}>
+        <button onClick={() => navigate('/exams-analytics')}>arrow back-button</button>
+        <p style={{ backgroundColor: '#e2a1d4ff', margin: '5px' }}>
+          {infoExam.title}
+        </p>
+      </div> 
+      {/* E1*/}
     </>
   )
 }
