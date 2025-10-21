@@ -133,5 +133,56 @@ export const getStudentAnalytics = async(req, res) =>{//for essay answer
     console.error('Error getting answers:', error);
     res.status(500).json({ error: error.details || 'Failed to get answers for this student' });
   }
-} 
-    
+}
+
+
+export const getSectionAnalytics = async(req, res) => {
+  const { examId } = req.params;     // ← from URL path
+  const { section } = req.query; 
+
+  console.log('getExam ID:', examId);
+  console.log('getSection ID:', section);
+
+  try {
+    const result = await db.query(
+      `SELECT 
+        st.section_name,
+        COUNT(ss.student_school_id) AS total_takers,
+        COALESCE(ROUND(AVG(ss.total_score)::numeric, 1), 0) AS average_score,
+        COALESCE(MAX(ss.total_score), 0) AS highest_score,
+        COALESCE(MIN(ss.total_score), 0) AS lowest_score
+      FROM student_scores ss
+      JOIN section_takers st 
+        ON st.exam_id = ss.exam_id 
+        AND st.section_name = ss.section_name 
+      WHERE ss.exam_id = $1
+        AND st.section_id = $2              
+      GROUP BY st.section_name
+      ORDER BY st.section_name ASC;
+    `, [examId, section]);
+    /*
+    {
+      "section_name": BSIT 2-A
+      "average_score": 82.5,
+      "highest_score": 98,
+      "lowest_score": 65,
+      "total_takers": 10
+    }
+    */
+
+    if (result.rows.length === 0) {
+      return res.json({
+        section_name: null,
+        total_takers: 0,
+        average_score: 0,
+        highest_score: 0,
+        lowest_score: 0
+      });
+    }
+
+    return res.status(200).json(result.rows[0]);
+  } catch (err) {
+    console.error("getSectionAnalytics failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

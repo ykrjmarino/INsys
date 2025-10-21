@@ -87,7 +87,7 @@ import {
 
 // ANALYTICS
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
-import { getExamAnalytics, getStudentAnalytics } from "./controllers/analyticsControlers/GET.js";
+import { getExamAnalytics, getSectionAnalytics, getStudentAnalytics } from "./controllers/analyticsControlers/GET.js";
 
 // ======================
 // 3️⃣ APP CONFIG
@@ -206,6 +206,7 @@ app.put("/api/student-scores/score", autoScoringTemplate);
 // ======================
 app.get("/api/exams/analytics/:examId", getExamAnalytics);
 app.get("/api/exams/student/:studentId/analytics/:examId", getStudentAnalytics);
+app.get("/api/exam/analytics/:examId/section-filter",getSectionAnalytics);
 
 
 // ======================

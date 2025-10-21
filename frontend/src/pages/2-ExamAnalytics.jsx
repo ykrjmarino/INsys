@@ -27,8 +27,6 @@ function StudentDetails ({studentsInfo}) {
 }
 
 function ExamGraph({ analyticsInfo }) {
-  const navigate = useNavigate();
-
   return (
     <>
       <div>
@@ -87,10 +85,6 @@ function ExamAnalytics () {
     fetchExamInfo(); 
   }, [examId]);
   
-  useEffect(() => {
-    if (infoExam.exam_id) fetchSections();
-  }, [infoExam]);
-
   const fetchExamInfo = async() => {
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -108,35 +102,7 @@ function ExamAnalytics () {
     }
   }
 
-  const fetchSections = async() => {
-    const config = {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      withCredentials: true
-    };
-
-    try {
-      const res = await axios.get(`/exams/${examId}/sections?courseCode=${infoExam.course_code}`, config); // getSectionTakersByExamId
-      setAllSections(res.data);
-      
-      console.log('fetchsections wrking');
-    } catch (err) {
-      console.log('fetchSections failed, in ExamAnalytics');
-      console.error(err.message);
-    }
-  }
-
-  /*
-  s.section_id, 
-  s.section_name, 
-  c.course_code, 
-  y.year_number
-  */
-  const optionSections = allSections.map((s) => (
-    { label:`${s.course_code}–${s.year_number}${s.section_name}`, value: s.section_id }
-  ));
-  
-    
-  
+ 
   return (
     <>
     {/* START */}

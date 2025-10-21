@@ -27,8 +27,6 @@ function StudentDetails ({studentsInfo}) {
 }
 
 function ExamGraph({ analyticsInfo }) {
-  const navigate = useNavigate();
-
   return (
     <>
       <div>
@@ -37,7 +35,7 @@ function ExamGraph({ analyticsInfo }) {
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
             <h4 style={{ margin: "0 0 5px" }}>Average Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>82%</p>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.average_score}</p>
           </div>
 
           <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
@@ -47,12 +45,12 @@ function ExamGraph({ analyticsInfo }) {
 
           <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
             <h4 style={{ margin: "0 0 5px" }}>Highest Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>98%</p>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.highest_score}</p>
           </div>
 
           <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
             <h4 style={{ margin: "0 0 5px" }}>Lowest Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>60%</p>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.lowest_score}</p>
           </div>
         </div>
       </div>
@@ -69,6 +67,7 @@ function SectionAnalytics () {
   const [infoExam, setInfoExam] = useState({});
   const [infoStudent, setInfoStudent] = useState([]);
   const [allSections, setAllSections] = useState([]);
+  const [generalData, setGeneralData] = useState({});
   const [selectedSection , setSelectedSection] = useState('');
 
 
@@ -79,6 +78,12 @@ function SectionAnalytics () {
   useEffect(() => {
     if (infoExam.exam_id) fetchSections();
   }, [infoExam]);
+
+  useEffect(() => {
+    if (selectedSection) {
+      fetchPerSection(selectedSection);
+    }
+  }, [selectedSection]);
 
   const fetchExamInfo = async() => {
     const config = {
@@ -97,7 +102,34 @@ function SectionAnalytics () {
     }
   }
 
-  const fetchSections = async() => {
+  const fetchPerSection = async(sectionId) => {//selectedSection
+    if (!sectionId) return;
+
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
+
+    try {
+      const res = await axios.get(`/exam/analytics/${examId}/section-filter`, {
+        params: {section: sectionId},
+        ...config
+      });
+
+      setGeneralData(res.data || {});
+              // console.log(res.data.section_name);
+              // console.log(res.data.average_score);
+              // console.log(res.data.highest_score);
+              // console.log(res.data.lowest_score);
+              // console.log(res.data.total_takers);
+      console.log('fetchPerSection wrking');
+    } catch (error) {
+      console.log('fetchPerSection failed, in ExamAnalytics');
+      console.error(error.message);
+    }
+  }
+
+  const fetchSections = async() => { //for options
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
       withCredentials: true
@@ -154,7 +186,9 @@ function SectionAnalytics () {
             <SelectField
               name="section"
               value={selectedSection}
-              onChange={(e) => setSelectedSection(Number(e.target.value))} //this is section_id (optionSections value)
+              onChange={(e) => {
+                setSelectedSection(Number(e.target.value));
+              }} //this is section_id (optionSections value)
               options={optionSections}
             />
           </div>
@@ -172,9 +206,7 @@ function SectionAnalytics () {
 
           <div style={{ backgroundColor: '#00c21aff', margin: '10px', padding: '20px' }}>
             {selectedSection &&
-            <ExamGraph 
-              analyticsInfo={infoStudent.find(e=>e.section_id === selectedSection)}
-            />
+            <ExamGraph analyticsInfo={generalData || { total_takers: 0 }} />
             }
           </div>
 
