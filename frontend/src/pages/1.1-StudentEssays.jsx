@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import SelectField from "../components/SelectFields.jsx";
 import Button from "../components/Buttons.jsx"
 
-function EssayComponent({ essay, value, onChange, onSubmit }) {
+function EssayComponent({ essay, value, onChange, onSubmit, max }) {
   return(
     <>
       <div style={{ border: '1px solid #ddd', padding: '15px', borderRadius: '6px', marginBottom: '20px' }}>
@@ -22,6 +22,8 @@ function EssayComponent({ essay, value, onChange, onSubmit }) {
           <input 
             type="number"
             value={value} 
+            min='0'
+            max={max}
             onChange={onChange}
             placeholder="Grade" 
             style={{ width: '60px', padding: '5px' }} />
@@ -86,6 +88,7 @@ function StudentEssays() {
   return(
     <>
       <div style={{ backgroundColor: '#e403b3ff', padding: '5px' }}>
+        <button onClick={() => navigate(-1)}>arrow back-button</button>
         <p>student name {essay.question_id}</p>
         <p>student id</p>
       </div>
@@ -99,11 +102,10 @@ function StudentEssays() {
             key={item.question_id}
             essay={item}
             value={editScore[item.question_id] ?? item.essay_score ?? ''}
-            min={0}
             max={item.points}
             onChange={(e) => setEditScore({
                 ...editScore,
-                [item.question_id]: Math.max(1, parseInt(e.target.value) || 1),
+                [item.question_id]: Math.max(0, parseInt(e.target.value) || 0),
               })
             }
             onSubmit={handleSubmitScore}

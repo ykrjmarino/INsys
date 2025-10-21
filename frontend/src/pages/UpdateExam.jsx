@@ -101,14 +101,24 @@ function UpdateExam() {
   }
 
   const handlePublish = async () => {
+    const now = new Date();
+    const start = new Date(startDateTime);
+    const end = new Date(endDateTime);
+
+    let status;
+
+    if(now < start) status = 'published';
+    else if((now >= start) && (now < end)) status = 'ongoing';
+    else status = 'completed';
+
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
       withCredentials: true
     };
 
     try { 
-      await axios.patch(`/exams/${examId}/status`, {status: 'published'}, config);
-      console.log("Exam published!");
+      await axios.patch(`/exams/${examId}/status`, {status: status}, config);
+      console.log(`Exam status set to: ${status}`);
       navigate('/teacher-dashboard');
     } catch (err) {
       console.error("Failed to publish exam:", err);

@@ -227,7 +227,6 @@ export const getEssayPerStudent = async(req, res) => {
         AND q.question_type = 'essay'`,
       [examId, studentId]
     );
-    console.log(result)
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Invalid' });
