@@ -4,13 +4,6 @@ export const getExamAnalytics = async(req, res) =>{
   const { examId } = req.params;
 
   try {
-    /*
-    {
-      "exam": { exam_id, title, status, exam_type, total_points, passing_score, start_datetime, end_datetime },
-      "students": [ { first_name, last_name, total_score, objective_score, essay_score, section_id, section_name, student_section_name, is_submitted, submitted_at } ],
-      "total_takers"
-    }
-    */
     // 1️⃣ Fetch exam info (even if no students)
     const examInfo = await db.query(`
       SELECT 
@@ -56,17 +49,26 @@ export const getExamAnalytics = async(req, res) =>{
     `, [examId]);
 
     // 3️⃣ Count total assigned
-    const totalTakersResult = await db.query(`
-      SELECT COUNT(*) AS total_takers
-      FROM student_scores
-      WHERE exam_id = $1`, [examId]
+    const overallStats = await db.query(`
+      SELECT 
+        COUNT(ss.student_school_id) AS total_takers,
+        COALESCE(ROUND(AVG(ss.total_score)::numeric, 2), 0) AS average_score,
+        COALESCE(MAX(ss.total_score), 0) AS highest_score,
+        COALESCE(MIN(ss.total_score), 0) AS lowest_score
+      FROM student_scores ss
+      WHERE ss.exam_id = $1`, [examId]
     );
 
     // 4️⃣ Combine results
     const response = {
       exam: examInfo.rows[0],
       students: studentInfo.rows,
-      total_takers: Number(totalTakersResult.rows[0].total_takers),
+      overall_stats: overallStats.rows[0] || {
+        total_takers: 0,
+        average_score: 0,
+        highest_score: 0,
+        lowest_score: 0
+      }
     };
 
     res.status(200).json(response);
@@ -148,7 +150,7 @@ export const getSectionAnalytics = async(req, res) => {
       `SELECT 
         st.section_name,
         COUNT(ss.student_school_id) AS total_takers,
-        COALESCE(ROUND(AVG(ss.total_score)::numeric, 1), 0) AS average_score,
+        COALESCE(ROUND(AVG(ss.total_score)::numeric, 2), 0) AS average_score,
         COALESCE(MAX(ss.total_score), 0) AS highest_score,
         COALESCE(MIN(ss.total_score), 0) AS lowest_score
       FROM student_scores ss
