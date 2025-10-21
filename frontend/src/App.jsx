@@ -14,12 +14,14 @@ import HomeStudent from './pages/HomeStudent.jsx';
 import UpdateExam from './pages/UpdateExam.jsx';
 import Welcome from './pages/Welcome.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
-import ExamAnalytics from './pages/1-ExamAnalytics.jsx';
 import HomeAnalytics from './pages/1-HomeAnalytics.jsx';
-//Layout
+import ExamAnalytics from './pages/2-ExamAnalytics.jsx';
+import SectionAnalytics from './pages/2.1-SectionAnalytics.jsx';
+import StudentEssays from './pages/2.1.1-StudentEssays.jsx';
+
 import LogoutButton from './components/Logout.jsx';
 import ExamQuestions from './components/home-student/ExamQuestions.jsx';
-import StudentEssays from './pages/1.1-StudentEssays.jsx';
+
 
 
 
@@ -128,8 +130,8 @@ useEffect(() => {
           <Route path='/update-exam/:examId' element={<UpdateExam />} />
           <Route path='/exams-analytics' element={<HomeAnalytics />} />
           <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />
+          <Route path='/exam-analytics/section/:examId' element={<SectionAnalytics />} /> 
           <Route path='/exam-analytics/:examId/student-essay/:studentId' element={<StudentEssays />} />
-          
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["student"]} />}>

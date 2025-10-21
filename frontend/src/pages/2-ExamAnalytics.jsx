@@ -19,19 +19,54 @@ function StudentDetails ({studentsInfo}) {
           <td style={{ padding: '8px' }}>{s.school_id}</td>
           <td style={{ padding: '8px' }}>{s.objective_score}</td>
           <td style={{ padding: '8px' }}>{s.essay_score} <Button label="View" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>
-          <td style={{ padding: '8px' }}>{s.total_score} / {s.total_points}</td>
+          <td style={{ padding: '8px' }}>{s.total_score} / {s.total_points} <Button label="Details" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>
         </tr>
       ))}
     </tbody>
   )
 }
 
-function ExamGraph() {
+function ExamGraph({ analyticsInfo }) {
   const navigate = useNavigate();
 
   return (
     <>
-      dito mga graphs.. tapusin mo na to ngayon, we dont have much time
+      <div>
+        <h2>Exam Analytics</h2>
+
+        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+            <h4 style={{ margin: "0 0 5px" }}>Average Score</h4>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>82%</p>
+          </div>
+
+          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+            <h4 style={{ margin: "0 0 5px" }}>Total Takers</h4>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.total_takers}</p>
+          </div>
+
+          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+            <h4 style={{ margin: "0 0 5px" }}>Highest Score</h4>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>98%</p>
+          </div>
+
+          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+            <h4 style={{ margin: "0 0 5px" }}>Lowest Score</h4>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>60%</p>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+const QuestionGraph = () => {
+  return (
+    <>
+      <div>
+        <h3>Question Stats</h3>
+        <p>Q1 - 80% correct</p>
+      </div>
     </>
   )
 }
@@ -114,70 +149,20 @@ function ExamAnalytics () {
             {infoExam.title}
           </p>
 
-          <div style={{ backgroundColor: '#00c21aff', padding: '6px' }}>
-            <ExamGraph />
-          </div>
-
-          <div style={{ backgroundColor: '#e403b3ff', padding: '5px' }}>
-            <label>Select Section</label>
-            <SelectField
-              name="section"
-              value={selectedSection}
-              onChange={(e) => setSelectedSection(Number(e.target.value))} //this is section_id (optionSections value)
-              options={optionSections}
-            />
-          </div>
-
         </div> {/* E1*/}
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', color: '#333', background: '#f5f5f5', margin: '5px' }}>
+          <div onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
+          <div>|</div>
+          <div onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
+        </div>
         
-
-        
-        {/* S2*/}
-        <div style={{ backgroundColor: '#ecebaeff', margin: '6px' }}>
-          <p> Student Performance Analytics </p>
-          <p> Takers: {infoExam?.total_takers} </p>
-        </div> {/* E2*/}
-
-
-
-        {/* S3*/}
-        <div style={{ backgroundColor: '#00a136ff', margin: '5px' }}>
-
-          {/* S3.1*/}
-          <div style={{ backgroundColor: '#ff0000ff', padding: '6px' }}>
-            <div style={{ backgroundColor: '#e8bff5ff', margin: '6px' }}>
-              <p> SECTION: {optionSections.find(o => o.value === selectedSection)?.label || 'None'} </p>
-            </div>
-          </div>{/* E3.1*/}
-
-
-          {/* S3.2*/}
-          <div>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-              <thead>
-                <tr style={{ backgroundColor: '#f2f2f2' }}>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Last Name</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>First Name</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>School ID</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Objective Score</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Essay Score</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Score</th>
-                </tr>
-              </thead>
-              {selectedSection &&
-                <StudentDetails 
-                  studentsInfo={infoStudent.filter(e=>e.section_id === selectedSection)}
-                />
-              }
-              
-              
-
-            </table>
-          </div>{/* E3.2*/}
-
-
-          
-        </div> {/* E3*/}
+        <div style={{ backgroundColor: '#00c21aff', margin: '10px', padding: '20px' }}>
+          <ExamGraph 
+            analyticsInfo={infoExam} //general = all sections data
+          />
+          <QuestionGraph />
+        </div>
 
       </div>
     {/* END */}
