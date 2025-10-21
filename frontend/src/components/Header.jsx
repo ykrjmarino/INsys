@@ -202,7 +202,6 @@ export const AnalyticsHeaderBar = () => {
       const res = await axios.get(`/exams/analytics/${examId}`, config); // getExamAnalytics 
 
       setInfoExam({...res.data.exam, overall_stats: res.data.overall_stats});
-      setInfoStudent(res.data.students);
     } catch (err) {
       console.log('fetchExamInfo failed, in ExamAnalytics');
       console.error(err.message);

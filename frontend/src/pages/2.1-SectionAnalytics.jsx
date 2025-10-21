@@ -10,6 +10,13 @@ import { AnalyticsHeaderBar } from "../components/Header.jsx";
 
 function StudentDetails ({studentsInfo}) {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
+  const violations = [
+    "Opened another tab during the exam",
+    "Left camera off for more than 30 seconds",
+    "Attempted copy-paste in the answer box"
+  ];
 
   return (
     <tbody>
@@ -20,7 +27,25 @@ function StudentDetails ({studentsInfo}) {
           <td style={{ padding: '8px' }}>{s.school_id}</td>
           <td style={{ padding: '8px' }}>{s.objective_score}</td>
           <td style={{ padding: '8px' }}>{s.essay_score === null ? 'Not Yet Graded' : s.essay_score} <Button label="View" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>
-          <td style={{ padding: '8px' }}>{s.total_score} / {s.total_points} <Button label="Details" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>
+          <td style={{ padding: '8px' }}> <span style={{ textDecoration: "underline", color: "blue", cursor: "pointer" }} onClick={() => setShowModal(true)}>View Violations</span>
+            {showModal && (
+              <>
+                <div className="overlay" onClick={() => setShowModal(false)}></div>
+                <div className="modal">
+                  <h3>Violation Details</h3>
+                  <div>
+                    {violations.map((v, index) => (
+                      <p key={index}>{v}</p>
+                    ))}
+                  </div>
+                  <div className="modal-actions">
+                    <button onClick={() => setShowModal(false)}>Close</button>
+                  </div>
+                </div>
+              </>
+            )}  
+          </td>
+          <td style={{ padding: '8px' }}>{s.total_score} / {s.total_points}</td>
         </tr>
       ))}
     </tbody>
@@ -221,6 +246,7 @@ function SectionAnalytics () {
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>School ID</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Objective Score</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Essay Score</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Violations</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Score</th>
                 </tr>
               </thead>
