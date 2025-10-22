@@ -8,6 +8,7 @@ import InputField from "../InputFields"
 import SelectField from "../SelectFields";
 import Button from "../Buttons"
 import { FinishExamInfo } from "./FinishExamInfo";
+import { ResizeMonitor } from "../Monitoring";
 
 
 const MultiChoiceComp = ({mcqText, mcqOptions, name, divClassName, onChange, value}) => {
@@ -251,6 +252,7 @@ function ExamQuestions() {
   const q = examQuestions.length > 0 ? examQuestions[current] : null;  //will use in return(...) for shortcut
 return (
     <>
+    <ResizeMonitor />
     {submitted ? (
       <div>
         {loadingExamInfo ? ( <p>Loading exam questions...</p>) : examInfo ? (
