@@ -8,7 +8,7 @@ import SelectField from "./SelectFields.jsx";
 import Button from "./Buttons.jsx"
 import { AnalyticsHeaderBar } from "./Header.jsx";
 
-export const TabMonitor = () => {
+export const TabMonitor = ({ examId }) => {
   let awayStart = null;
   let totalAwayTime = 0;
 
@@ -29,7 +29,19 @@ export const TabMonitor = () => {
 
           console.log(`Umalis ka for layk ${timeAway.toFixed(2)} seconds.`)   //toFixed(#) is yung number of decimal point
                                                                               //whole number lilitaw is 0 sya   
-          console.log(`total time you probably cheated: ${totalAwayTime} seconds.`)                                                      
+          console.log(`total time you probably cheated: ${totalAwayTime} seconds.`)        
+          
+          
+          // send to backend
+          const is_warning = timeAway >= 5; // warning if they left > 5s
+          axios.post(`/exam/${examId}/violations/student`, {
+            event_type: "tab_switch",
+            is_warning,
+            details: `Left the tab for ${timeAway.toFixed(2)}s`
+          })
+          .then(() => console.log("✅ Tab switch violation saved successfully"))
+          .catch((err) => console.log("❌ Failed to save tab switch violation:", err.message));
+
           awayStart = null;
         
         } else {

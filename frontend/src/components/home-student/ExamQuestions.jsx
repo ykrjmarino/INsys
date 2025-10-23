@@ -8,7 +8,7 @@ import InputField from "../InputFields"
 import SelectField from "../SelectFields";
 import Button from "../Buttons"
 import { FinishExamInfo } from "./FinishExamInfo";
-import { ResizeMonitor } from "../Monitoring";
+import { ResizeMonitor, TabMonitor } from "../Monitoring";
 
 
 const MultiChoiceComp = ({mcqText, mcqOptions, name, divClassName, onChange, value}) => {
@@ -253,6 +253,9 @@ function ExamQuestions() {
 return (
     <>
     <ResizeMonitor 
+      examId={examId}
+    />
+    <TabMonitor 
       examId={examId}
     />
     {submitted ? (
