@@ -1,5 +1,15 @@
 
+#container {
+        display: flex;
+        justify-content: center;
+        /*transform: scaleX(-1);*/
+    }
 
+    canvas {
+        /*transform: scaleX(-1);*/
+        position: absolute;
+        z-index: 10; /* para nasa top layer yung box drawing */
+    }
 
 
 

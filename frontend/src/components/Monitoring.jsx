@@ -4,9 +4,12 @@ import { useEffect } from "react";
 import { useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
-import SelectField from "./SelectFields.jsx";
-import Button from "./Buttons.jsx"
-import { AnalyticsHeaderBar } from "./Header.jsx";
+
+// import * as tf from "@tensorflow/tfjs";
+// import * as faceapi from "face-api.js";
+
+// import { useRef } from "react";
+
 
 export const TabMonitor = ({ examId }) => {
   let awayStart = null;
@@ -123,6 +126,8 @@ export const ResizeMonitor = ({ examId }) => {
       }
     };
 
+    handleResize();
+
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -135,76 +140,84 @@ export const ResizeMonitor = ({ examId }) => {
 };
 
 
-function FaceMonitor() {
-  useEffect(() => {
-    const run = async()=>{
-      //we need to load our models
+// export const FaceMonitor = ({ examId }) => {
+//   const videoRef = useRef(null);
+//   const canvasRef = useRef(null);
 
-      //loading the models is going to use await
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: true,
-          audio: false,
-      })
-      const videoFeedEl = document.getElementById('video-feed')
-      videoFeedEl.srcObject = stream;
+//   useEffect(() => {
+//     let intervalId;
 
-      // Check if it is undefined
-      console.log("bitch" + faceapi.nets.ssdMobilenetv1); 
+//     const run = async () => {
 
-      await Promise.all([
-          faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
-          faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-          faceapi.nets.faceRecognitionNet.loadFromUri('./models'),
-          faceapi.nets.ageGenderNet.loadFromUri('./models'),
-          faceapi.nets.faceExpressionNet.loadFromUri('./models'),
-      ]).then(() => {
-          console.log('All models loaded successfully');
-      }).catch(err => {
-          console.error('Error loading models:', err);
-      })
+//       await tf.setBackend("webgl");
+//       await tf.ready();
 
-  // make the canvas the same size and same location kung asaan video feed natin
-      const canvas = document.getElementById('canvas');
-      canvas.style.left = videoFeedEl.offsetLeft;
-      canvas.style.top = videoFeedEl.offsetTop;
-      canvas.height = videoFeedEl.height;
-      canvas.width = videoFeedEl.width; 
+//       // load models from public/models/
+//       await Promise.all([
+//         faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
+//         faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+//         faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+//         faceapi.nets.ageGenderNet.loadFromUri("/models"),
+//         faceapi.nets.faceExpressionNet.loadFromUri("/models"),
+//       ]).catch(err => console.error("Error loading models:", err));
 
-  // facial detection with points
-      setInterval(async() => {
-      // get video feed and hand it to detectAllFaces method
-          let faceAIData = await faceapi.detectAllFaces(videoFeedEl)
-              .withFaceLandmarks()
-              .withFaceDescriptors()
-              .withFaceExpressions()
-              .withAgeAndGender()
-          // faceAIData is an array, one element for each face
+//       // get video stream
+//       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+//       if (videoRef.current) videoRef.current.srcObject = stream;
 
-      //clear the canvas
-          canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+//       // start detection after video is playing
+//       videoRef.current.addEventListener("play", () => {
+//         const canvas = canvasRef.current;
+//         if (!canvas) return;
 
-      //resize results to fit video-feed
-          faceAIData = faceapi.resizeResults(faceAIData, videoFeedEl);
-          faceapi.draw.drawDetections(canvas, faceAIData);
-          faceapi.draw.drawFaceLandmarks(canvas, faceAIData);
-          faceapi.draw.drawFaceExpressions(canvas, faceAIData);
+//         const displaySize = {
+//           width: videoRef.current.videoWidth,
+//           height: videoRef.current.videoHeight,
+//         };
+//         faceapi.matchDimensions(canvas, displaySize);
 
-      //draw detections pag nadetect yung face
-          if (faceAIData.length > 2) {
-              console.log('More than two faces detected:', faceAIData.length);
-          } else if (faceAIData.length === 2) {
-              console.log('Two faces detected');
-          } else if (faceAIData.length === 1) {
-              console.log('Face detected');
-          } else {
-              console.log('No face detected');
-          }
-      }, 1000) //change speed cuh 1000 is 1sec
+//         intervalId = setInterval(async () => {
+//           const detections = await faceapi
+//             .detectAllFaces(videoRef.current)
+//             .withFaceLandmarks()
+//             .withFaceDescriptors()
+//             .withFaceExpressions()
+//             .withAgeAndGender();
 
-  // console.log(Object.keys(faceapi.nets.ssdMobilenetv1)); // This shows the keys of the object
-    }
-    run()
-  }, []);
-}
+//           // resize detections to video
+//           const resizedDetections = faceapi.resizeResults(detections, displaySize);
 
-export default FaceMonitor;
+//           // clear canvas
+//           const ctx = canvas.getContext("2d");
+//           ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+//           // draw
+//           faceapi.draw.drawDetections(canvas, resizedDetections);
+//           faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+//           faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+
+//           // handle violations
+//           if (detections.length === 0 || detections.length > 1) {
+//             console.log("Face violation detected", detections.length);
+//             axios.post(`/exam/${examId}/violations/student`, {
+//               event_type: "face_violation",
+//               details: `Detected ${detections.length} faces`,
+//               is_warning: true,
+//             }).catch(err => console.error(err.message));
+//           }
+//         }, 1000);
+//       });
+//     };
+
+//     run();
+
+//     return () => clearInterval(intervalId);
+//   }, [examId]);
+
+//   return (
+//     <div style={{ position: "relative", display: "inline-block" }}>
+//       <video ref={videoRef} autoPlay muted width={350} height={280} />
+//       <canvas ref={canvasRef} style={{ position: "absolute", top: 0, left: 0, zIndex: 10 }} />
+//     </div>
+//   );
+// };
