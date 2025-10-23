@@ -206,11 +206,11 @@ app.put("/api/student-scores/score", autoScoringTemplate);
 // ======================
 // 9️⃣ ANALYTICS
 // ======================
-app.get("/api/exams/analytics/:examId", getExamAnalytics);
-app.get("/api/exams/student/:studentId/analytics/:examId", getStudentAnalytics);
-app.get("/api/exam/analytics/:examId/section-filter",getSectionAnalytics);
+app.get("/api/exams/analytics/:examId", teacherOnly, getExamAnalytics);
+app.get("/api/exams/student/:studentId/analytics/:examId", teacherOnly, getStudentAnalytics);
+app.get("/api/exam/analytics/:examId/section-filter", teacherOnly, getSectionAnalytics);
 
-app.post("/api/exam/:examId/violations/:studentId", postViolation);
+app.post("/api/exam/:examId/violations/student", studentOnly, postViolation);
 
 
 // ======================

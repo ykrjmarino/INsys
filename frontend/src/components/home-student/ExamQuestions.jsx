@@ -252,7 +252,9 @@ function ExamQuestions() {
   const q = examQuestions.length > 0 ? examQuestions[current] : null;  //will use in return(...) for shortcut
 return (
     <>
-    <ResizeMonitor />
+    <ResizeMonitor 
+      examId={examId}
+    />
     {submitted ? (
       <div>
         {loadingExamInfo ? ( <p>Loading exam questions...</p>) : examInfo ? (

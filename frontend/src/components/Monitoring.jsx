@@ -43,7 +43,7 @@ export const TabMonitor = () => {
   
 }
 
-export const ResizeMonitor = ({ examId, studentId }) => {
+export const ResizeMonitor = ({ examId }) => {
   // tab when they resize it to cheat
   // do alert or blur
   // idk how to test sa mobile yet, magminecraft muna ako..
@@ -52,7 +52,7 @@ export const ResizeMonitor = ({ examId, studentId }) => {
   const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   const minWidth = isMobile ? 300 : 1700;
   const minHeight = isMobile ? 400 : 400;
-  const [resizeSeconds, setResizeSeconds] = useState(0);
+  const resizeSecondsRef = React.useRef(0); // store cumulative time accurately
 
   // force reload when switching to mobile (for DevTools)
   if (isMobile && !window.localStorage.getItem("mobileModeChecked")) {
@@ -63,6 +63,7 @@ export const ResizeMonitor = ({ examId, studentId }) => {
   useEffect(() => {
     let resizeStart = null;
     let timer = null;
+    let is_warning = null;
 
     const handleResize = () => {
       const tooSmall = window.innerHeight < minHeight || window.innerWidth < minWidth;
@@ -76,7 +77,7 @@ export const ResizeMonitor = ({ examId, studentId }) => {
         document.body.style.pointerEvents = "none";
 
         timer = setInterval(() => {
-          setResizeSeconds((prev) => prev + 1);
+          resizeSecondsRef.current += 1; // increment cumulative seconds every 1s
         }, 1000);
       }
 
@@ -84,21 +85,23 @@ export const ResizeMonitor = ({ examId, studentId }) => {
       else if (!tooSmall && resizeStart) {
         const elapsed = (Date.now() - resizeStart) / 1000;
         clearInterval(timer);
-        setResizeSeconds((prev) => prev + elapsed);
+        resizeSecondsRef.current += elapsed; // add remaining seconds
 
         document.body.style.filter = "none";
         document.body.style.pointerEvents = "auto";
 
         console.log(`✅ Resize violation stopped. Duration: ${elapsed.toFixed(2)}s`);
-        console.log(`📊 Total resize time so far: ${(resizeSeconds + elapsed).toFixed(2)}s`);
+        console.log(`📊 Total resize time so far: ${resizeSecondsRef.current.toFixed(2)}s`);
         console.log("📤 Sending to backend...");
+
+        is_warning = elapsed >= 5;
 
         // patch to backend instead of updating every second
         // we send only after resize violation stops
-        axios.patch(`/exam/${examId}/violations/${studentId}`, {
-          type: "resize",
-          duration: elapsed.toFixed(2),
-          timestamp: new Date().toISOString(),
+        axios.post(`/exam/${examId}/violations/student`, {
+          event_type: "tab_resize",
+          is_warning,
+          details: `Resized window for ${elapsed.toFixed(2)}s`, //just rounds the number to 2 decimal places
         })
         .then(() => console.log("✅ Resize violation saved successfully"))
         .catch((err) => console.log("❌ Failed to save resize violation:", err.message));
@@ -108,14 +111,13 @@ export const ResizeMonitor = ({ examId, studentId }) => {
       }
     };
 
-    handleResize(); // run once on load
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
       clearInterval(timer);
     };
-  }, [minHeight, minWidth, examId, studentId, resizeSeconds]);
+  }, [minHeight, minWidth, examId]);
 
   return null;
 };
