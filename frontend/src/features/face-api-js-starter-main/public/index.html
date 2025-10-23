@@ -1,0 +1,25 @@
+<style>
+    #container {
+        display: flex;
+        justify-content: center;
+        /*transform: scaleX(-1);*/
+    }
+
+    canvas {
+        /*transform: scaleX(-1);*/
+        position: absolute;
+        z-index: 10; /* para nasa top layer yung box drawing */
+    }
+</style>
+
+<canvas id="canvas"></canvas> <!-- this is the ano yung drawing na box na nakikita pag natrack yung face -->
+
+<div id="container">
+    <video id="video-feed" height="280" width="350" autoplay></video>
+</div>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script> -->
+
+<script src="./face-api.min.js"></script>
+
+<script src="scripts.js" defer></script>

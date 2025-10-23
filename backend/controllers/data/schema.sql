@@ -176,19 +176,16 @@ CREATE TABLE student_scores (
 -- ============================================
 
 -- 5.1 EXAM_MONITORING_LOGS
-CREATE TABLE exam_monitoring_logs (
-  log_id SERIAL PRIMARY KEY,
+CREATE TABLE exam_monitoring (
+  monitor_id SERIAL PRIMARY KEY,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
   question_id INT REFERENCES questions(question_id),
-  event_type VARCHAR(50) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- 5.2 STUDENT_WARNINGS
-CREATE TABLE student_warnings (
-  warning_id SERIAL PRIMARY KEY,
-  session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
-  question_id INT REFERENCES questions(question_id),
-  warning_type VARCHAR(50) NOT NULL,
+  
+  event_type VARCHAR(50) NOT NULL,      -- 'tab_switch', 'resize', 'face_away'
+  severity VARCHAR(20) DEFAULT 'low',   -- 'low', 'medium', 'high'
+  is_warning BOOLEAN DEFAULT FALSE,     -- TRUE if this event triggered an official warning
+  violation_count INT DEFAULT 0,        -- optional, if you want to track repeat behavior
+  
+  details TEXT,                         -- optional description (e.g. "Resized window for 4.2s")
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

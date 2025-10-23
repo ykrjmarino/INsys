@@ -43,15 +43,16 @@ export const TabMonitor = () => {
   
 }
 
-export const ResizeMonitor = () => {
+export const ResizeMonitor = ({ examId, studentId }) => {
   // tab when they resize it to cheat
   // do alert or blur
-  // idk how to test sa mobile yet, magminecraft muna ako.. 
-  // also, think another way sa sizes instead of fized size, and for double screen mfs
+  // idk how to test sa mobile yet, magminecraft muna ako..
+  // also, think another way sa mga sizes instead of fixed size, and for double screen mfs
 
   const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   const minWidth = isMobile ? 300 : 1700;
   const minHeight = isMobile ? 400 : 400;
+  const [resizeSeconds, setResizeSeconds] = useState(0);
 
   // force reload when switching to mobile (for DevTools)
   if (isMobile && !window.localStorage.getItem("mobileModeChecked")) {
@@ -59,71 +60,63 @@ export const ResizeMonitor = () => {
     location.reload(); // Refresh to update user agent
   }
 
-  const [resizeSeconds, setResizeSeconds] = useState(0); // total accumulated seconds
-  const [isResizing, setIsResizing] = useState(false); // currently below threshold
-  
-
   useEffect(() => {
-    let startTs = null;      // timestamp when current "too small" period started
-    let tickInterval = null; // interval that increments resizeSeconds every 1s
-
-    const applyBlur = () => {
-      document.body.style.filter = "blur(8px)";
-      document.body.style.pointerEvents = "none";
-    };
-    const removeBlur = () => {
-      document.body.style.filter = "none";
-      document.body.style.pointerEvents = "auto";
-    };
+    let resizeStart = null;
+    let timer = null;
 
     const handleResize = () => {
       const tooSmall = window.innerHeight < minHeight || window.innerWidth < minWidth;
 
-      if (tooSmall) {
-        // started or continuing a too-small period
-        if (!startTs) {
-          startTs = Date.now();
-          setIsResizing(true);
-          applyBlur();
-          // start ticking once per second to accumulate seconds
-          tickInterval = setInterval(() => {
-            setResizeSeconds(prev => prev + 1);
-          }, 1000);
-        }
-        // if already started, nothing else to do here (tickInterval handles accumulation)
-      } else {
-        // restored to acceptable size
-        if (startTs) {
-          // clear the current period
-          startTs = null;
-          setIsResizing(false);
-          removeBlur();
-          if (tickInterval) {
-            clearInterval(tickInterval);
-            tickInterval = null;
-          }
-        }
+      // if smoller yung tab sa minimum
+      if (tooSmall && !resizeStart) {
+        resizeStart = Date.now();
+        console.log("⚠️ Window too small! Possible cheating started");
+
+        document.body.style.filter = "blur(8px)";
+        document.body.style.pointerEvents = "none";
+
+        timer = setInterval(() => {
+          setResizeSeconds((prev) => prev + 1);
+        }, 1000);
+      }
+
+      // when resize violation stops (user returns to normal size)
+      else if (!tooSmall && resizeStart) {
+        const elapsed = (Date.now() - resizeStart) / 1000;
+        clearInterval(timer);
+        setResizeSeconds((prev) => prev + elapsed);
+
+        document.body.style.filter = "none";
+        document.body.style.pointerEvents = "auto";
+
+        console.log(`✅ Resize violation stopped. Duration: ${elapsed.toFixed(2)}s`);
+        console.log(`📊 Total resize time so far: ${(resizeSeconds + elapsed).toFixed(2)}s`);
+        console.log("📤 Sending to backend...");
+
+        // patch to backend instead of updating every second
+        // we send only after resize violation stops
+        axios.patch(`/exam/${examId}/violations/${studentId}`, {
+          type: "resize",
+          duration: elapsed.toFixed(2),
+          timestamp: new Date().toISOString(),
+        })
+        .then(() => console.log("✅ Resize violation saved successfully"))
+        .catch((err) => console.log("❌ Failed to save resize violation:", err.message));
+
+        resizeStart = null;
+        timer = null;
       }
     };
 
-    // run once on mount so blur applies immediately if window already too small
-    handleResize();
-
+    handleResize(); // run once on load
     window.addEventListener("resize", handleResize);
-    // cleanup
+
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (tickInterval) clearInterval(tickInterval);
-      // ensure blur removed when unmounting (so other pages aren't stuck blurred)
-      removeBlur();
+      clearInterval(timer);
     };
-  }, [minHeight, minWidth]);
+  }, [minHeight, minWidth, examId, studentId, resizeSeconds]);
 
-  useEffect(() => {
-    console.log("Resize seconds:", resizeSeconds);
-  }, [resizeSeconds]); //we can store this one cuz it continues counting
-
-  // you can use resizeSeconds and isResizing in your UI or report them via axios when needed
   return null;
 };
 
