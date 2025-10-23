@@ -126,7 +126,7 @@ export const ResizeMonitor = ({ examId }) => {
       }
     };
 
-    handleResize();
+    handleResize()
 
     window.addEventListener("resize", handleResize);
 

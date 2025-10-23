@@ -1,5 +1,5 @@
 import Button from '../../components/Buttons.jsx'
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from '../../utils/axiosConfig.js';
 import { useAuth } from '../../context/AuthContext.jsx';
@@ -49,6 +49,24 @@ function EnterExam() {
       alert(error.response?.data?.error || "Something went wrong");
     }
   }
+
+  
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+  const minWidth = isMobile ? 300 : 1700;
+  const minHeight = isMobile ? 400 : 400;
+
+  const [canStartExam, setCanStartExam] = useState(true);
+
+  useEffect(() => {
+    const checkSize = () => {
+      const tooSmall = window.innerWidth < minWidth || window.innerHeight < minHeight;
+      setCanStartExam(!tooSmall);
+    };
+
+    checkSize(); // initial check on page load
+    window.addEventListener("resize", checkSize); // re-check on resize
+    return () => window.removeEventListener("resize", checkSize);
+  }, [minWidth, minHeight]);
   
   return (
     <>
@@ -106,12 +124,18 @@ function EnterExam() {
             10. Contact the proctor if you encounter technical issues.
           </p>
 
+          {!canStartExam && (
+            <p style={{ color: "red", marginTop: "0.5rem" }}>
+              ⚠️ Your window is too small to take the exam. Please resize it.
+            </p>
+          )}
+
           <div className="student-instruction-bottom-stick">
             <div className="student-instruction-checkbox-container">
               <input type="checkbox" id="agree-checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
               <label for="agree-checkbox">I have read and understand the instructions</label>
             </div>
-            <button className="student-instruction-take-exam-btn" id="student-instruction-take-exam-btn" disabled={!agreed} onClick={handleStartClick}>Take Exam</button>
+            <button className="student-instruction-take-exam-btn" id="student-instruction-take-exam-btn" disabled={!agreed || !canStartExam} onClick={handleStartClick}>Take Exam</button>
           </div>
         </div>
       </div>

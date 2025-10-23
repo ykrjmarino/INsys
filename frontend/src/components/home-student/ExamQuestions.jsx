@@ -161,6 +161,22 @@ function ExamQuestions() {
     fetchSession();
   }, [examId]);
 
+  useEffect(() => {
+    const handleCopy = (e) => e.preventDefault();
+    const handleCut = (e) => e.preventDefault();
+    const handlePaste = (e) => e.preventDefault();
+
+    document.addEventListener("copy", handleCopy);
+    document.addEventListener("cut", handleCut);
+    document.addEventListener("paste", handlePaste);
+
+    return () => {
+      document.removeEventListener("copy", handleCopy);
+      document.removeEventListener("cut", handleCut);
+      document.removeEventListener("paste", handlePaste);
+    };
+  }, []);
+
   const exitExam = async() => {
     const confirmExit = window.confirm("Are you sure you want to exit? Your answers will be submitted automatically.");
     if (confirmExit) {
