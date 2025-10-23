@@ -123,15 +123,17 @@ CREATE TABLE questions (
   -- 4.4 EXAM_MONITORING 
       CREATE TABLE exam_monitoring (
         monitor_id SERIAL PRIMARY KEY,
+        exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
         session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
+        student_school_id BIGINT REFERENCES users(school_id),
         question_id INT REFERENCES questions(question_id),
-        
+
         event_type VARCHAR(50) NOT NULL,      -- 'tab_switch', 'resize', 'face_away'
         severity VARCHAR(20) DEFAULT 'low',   -- 'low', 'medium', 'high'
         is_warning BOOLEAN DEFAULT FALSE,     -- TRUE if this event triggered an official warning
-        violation_count INT DEFAULT 0,        -- optional, if you want to track repeat behavior
-        
-        details TEXT,                         -- optional description (e.g. "Resized window for 4.2s")
+        violation_count INT DEFAULT 0,        -- optional, track repeated behavior
+
+        details TEXT,                         -- e.g. "Resized window for 4.2s"
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
