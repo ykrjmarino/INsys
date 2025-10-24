@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext";
 import HeaderTeacher from "../Header";
+import { HomeSuperadmin } from "../../pages/HomeSuperadmin";
 
 export const DashboardSuper = () => {
   const { accessToken } = useAuth();
@@ -84,36 +85,41 @@ export const DashboardSuper = () => {
 
   return (
     <>
+    <div className="whole">
       <HeaderTeacher />
-      <div className="main-home-content" style={{ padding: '10px' }}>          
-        <h2>Dashboard</h2>
+      <div className="side-bar-and-main-container">
+        <HomeSuperadmin />
+        <div className="main-home-content" style={{ padding: '10px' }}>          
+          <h2>Dashboard</h2>
 
-        {/* Stats Section */}
-        <section className="stats-section" style={{ marginBottom: '20px' }}>
-          <h3>System Overview</h3>
-          <ul>
-            <li>Total Exams: {infoStats.total_exams || 0}</li>
-            <li>Total Students: {infoStats.total_students || 0}</li>
-            <li>Total Admins: {infoStats.total_admins || 0}</li>
-            <li>Total Superadmins: {infoStats.total_superadmins || 0}</li>
-            <li>Total Users: {infoStats.total_users || 0}</li>
-          </ul>
-        </section>
+          {/* Stats Section */}
+          <section className="stats-section" style={{ marginBottom: '20px' }}>
+            <h3>System Overview</h3>
+            <ul>
+              <li>Total Exams: {infoStats.total_exams || 0}</li>
+              <li>Total Students: {infoStats.total_students || 0}</li>
+              <li>Total Admins: {infoStats.total_admins || 0}</li>
+              <li>Total Superadmins: {infoStats.total_superadmins || 0}</li>
+              <li>Total Users: {infoStats.total_users || 0}</li>
+            </ul>
+          </section>
 
-        {/* Logs Section */}
-        <section className="logs-section">
-          <h3>Recent System Logs</h3>
-          <div className="logs-list" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-            {infoLogs.map((log) => (
-              <div key={log.id} className="log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
-                <p><strong>{log.first_name} {log.last_name}</strong></p>
-                <p>{log.action}</p>
-                <p style={{ fontSize: '0.85em', color: '#555' }}>{new Date(log.created_at).toLocaleString()}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+          {/* Logs Section */}
+          <section>
+            <h3>Recent System Logs</h3>
+            <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+              {infoLogs.map((log) => (
+                <div key={log.id} className="log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
+                  <p><strong>{log.first_name} {log.last_name}</strong></p>
+                  <p>{log.action}</p>
+                  <p style={{ fontSize: '0.85em', color: '#555' }}>{new Date(log.created_at).toLocaleString()}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
       </div>
+    </div>
     </>
   )
 }

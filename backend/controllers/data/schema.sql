@@ -202,3 +202,39 @@ CREATE TABLE system_logs (
   target_id INT,                                                     -- optional: affected exam/user/etc.
   created_at TIMESTAMP DEFAULT NOW()                                 -- timestamp of the action
 );
+
+
+
+-- ============================================
+-- ALTERS LOL
+-- ============================================
+
+-- exam_monitoring
+ALTER TABLE exam_monitoring
+DROP CONSTRAINT exam_monitoring_student_school_id_fkey,
+ADD CONSTRAINT exam_monitoring_student_school_id_fkey
+FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
+
+-- student_answers
+ALTER TABLE student_answers
+DROP CONSTRAINT student_answers_student_school_id_fkey,
+ADD CONSTRAINT student_answers_student_school_id_fkey
+FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
+
+-- essay_answers
+ALTER TABLE essay_answers
+DROP CONSTRAINT essay_answers_student_school_id_fkey,
+ADD CONSTRAINT essay_answers_student_school_id_fkey
+FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
+
+-- student_scores
+ALTER TABLE student_scores
+DROP CONSTRAINT student_scores_student_school_id_fkey,
+ADD CONSTRAINT student_scores_student_school_id_fkey
+FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
+
+-- exam_sessions
+ALTER TABLE exam_sessions
+DROP CONSTRAINT exam_sessions_student_school_id_fkey,
+ADD CONSTRAINT exam_sessions_student_school_id_fkey
+FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;

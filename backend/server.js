@@ -87,8 +87,10 @@ import {
 
 // ANALYTICS
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
-import { getAllAnalytics, getExamAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs } from "./controllers/analyticsControlers/GET.js";
+import { getAllAnalytics, getExamAnalytics, getSectionAnalytics, getStudentAnalytics, getStudents, getSystemLogs } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
+import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
+import { updateUser } from "./controllers/analyticsControlers/UPDATE.js";
 
 
 // ======================
@@ -216,6 +218,17 @@ app.get("/api/exam/analytics/:examId/section-filter", adminsOnly, getSectionAnal
 
 app.get("/api/all/analytics", superadminOnly, getAllAnalytics);
 app.get("/api/system/logs", superadminOnly, getSystemLogs);
+app.get("/api/system/manage-users/students", superadminOnly, getStudents);
+
+app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
+
+app.delete("/api/system/manage-users/:userId", superadminOnly, deleteUser);
+
+
+
+
+
+
 
 
 app.post("/api/exam/:examId/violations/student", studentOnly, postViolation);

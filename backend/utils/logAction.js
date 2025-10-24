@@ -39,4 +39,7 @@ export const logAction = async (userId, action, targetId = null) => {
 
   //Updating password (own)
   await logAction(userId, `Updated password`, schoolId);
+
+  //Deleting user
+  await logAction(req.user.userId, `Deleted user: ${userId}`, userId);
 */

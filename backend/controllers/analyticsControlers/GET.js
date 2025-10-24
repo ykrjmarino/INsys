@@ -224,3 +224,25 @@ export const getSystemLogs = async (req, res) => { //superadmin
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const getStudents = async (req, res) => { //superadmin
+  try {
+    const result = await db.query(`
+       SELECT 
+        u.user_id,
+        u.first_name,
+        u.last_name,
+        u.school_id,
+        u.role,
+        u.email
+      FROM users u
+      WHERE u.role = 'student'
+      ORDER BY u.last_name ASC;
+    `);
+
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.error("getStudents failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
