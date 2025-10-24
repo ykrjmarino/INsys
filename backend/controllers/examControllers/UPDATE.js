@@ -1,4 +1,5 @@
 import {db} from '../../db.js';
+import { logAction } from '../../utils/logAction.js'
 
 export const updateSectionTakers = async (req, res) => {
   const { examId } = req.params;
@@ -36,6 +37,7 @@ export const updateSectionTakers = async (req, res) => {
 export const updateExamStatus = async(req, res) => {
   const { examId } = req.params;
   const { status } = req.body;
+  const userId = req.user.userId; 
 
   try {
     const result = await db.query("UPDATE examinations SET status = $1 WHERE exam_id = $2 RETURNING *", [status, examId]);
@@ -43,6 +45,9 @@ export const updateExamStatus = async(req, res) => {
     if(result.rows.length === 0) {
       return res.status(404).json({ message: 'Exam not found' })
     }
+
+    //log the action
+    await logAction(userId, `Published exam: ${examId}`, examId);
 
     res.status(200).json(result.rows[0]);
   } catch (error) {

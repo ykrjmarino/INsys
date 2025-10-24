@@ -87,7 +87,7 @@ import {
 
 // ANALYTICS
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
-import { getExamAnalytics, getSectionAnalytics, getStudentAnalytics } from "./controllers/analyticsControlers/GET.js";
+import { getAllAnalytics, getExamAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 
 
@@ -122,6 +122,9 @@ app.use(
 const studentOnly = [verifyJWT, verifyRole("student")];
 const adminOnly = [verifyJWT, verifyRole("admin")];
 const superadminOnly = [verifyJWT, verifyRole("superadmin")];
+
+const adminsOnly = [verifyJWT, verifyRole("admin", "superadmin")];
+
 
 // ======================
 // 5️⃣ AUTH ROUTES
@@ -206,9 +209,14 @@ app.put("/api/student-scores/score", autoScoringTemplate);
 // ======================
 // 9️⃣ ANALYTICS
 // ======================
-app.get("/api/exams/analytics/:examId", adminOnly, getExamAnalytics);
-app.get("/api/exams/student/:studentId/analytics/:examId", adminOnly, getStudentAnalytics);
-app.get("/api/exam/analytics/:examId/section-filter", adminOnly, getSectionAnalytics);
+app.get("/api/exams/analytics/:examId", adminsOnly, getExamAnalytics);
+app.get("/api/exams/student/:studentId/analytics/:examId", adminsOnly, getStudentAnalytics);
+app.get("/api/exam/analytics/:examId/section-filter", adminsOnly, getSectionAnalytics);
+
+
+app.get("/api/all/analytics", superadminOnly, getAllAnalytics);
+app.get("/api/system/logs", superadminOnly, getSystemLogs);
+
 
 app.post("/api/exam/:examId/violations/student", studentOnly, postViolation);
 

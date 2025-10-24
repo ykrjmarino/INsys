@@ -6,6 +6,7 @@ import { generateOTP, verifyOTP } from "./otp.js";
 import { sendUserEmail } from "./nodemailer.js";
 import redisClient from "./redisClient.js";
 import { generateAccessToken, generateRefreshToken } from "./jwt.js";
+import { logAction } from "./logAction.js";
 
 const authRoutes = express.Router();
 const saltRounds = 5;
@@ -197,6 +198,8 @@ authRoutes.post('/forgot-password/verify-otp', async (req, res) => {
 //check if verified and then we input new password
 authRoutes.post('/forgot-password/reset', async (req, res) => {
   const { email, newPassword } = req.body; //inputted new password
+  const userId = req.user.userId; 
+  const schoolId = req.user.schoolId;
 
   try {
     //check if verified flag exists in Redis
@@ -226,6 +229,8 @@ authRoutes.post('/forgot-password/reset', async (req, res) => {
       WHERE email = $2
       RETURNING *`, 
       [hash, email]); //changed password to hash (hashed password)
+    
+    await logAction(userId, `Updated password`, schoolId);
       
     await redisClient.del(`verifiedEmail:${email}`);
 
@@ -313,6 +318,9 @@ authRoutes.post('/forgot-password/reset-password/:userId/:schoolId', async(req, 
         WHERE user_id = $2
           AND school_id = $3 RETURNING *`,
       [hash, userId, schoolId]);
+    
+    //log
+    await logAction(userId, `Updated password`, schoolId);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "User not found or school ID mismatch." });

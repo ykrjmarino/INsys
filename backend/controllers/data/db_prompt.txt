@@ -134,9 +134,18 @@ CREATE TABLE questions (
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
+-- 5. LOGS
+  -- 5.1 SYSTEM_LOGS
+      CREATE TABLE system_logs (
+        id SERIAL PRIMARY KEY,
+        user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,  -- link to users.user_id
+        action TEXT NOT NULL,                                              -- description of the action
+        target_id INT,                                                     -- optional: affected exam/user/etc.
+        created_at TIMESTAMP DEFAULT NOW()                                 -- timestamp of the action
+      );
 
--- 5. COURSES
-  -- 5.1 COURSES TABLE
+-- 6. COURSES
+  -- 6.1 COURSES TABLE
       CREATE TABLE courses (
         course_id SERIAL PRIMARY KEY,
         course_code VARCHAR(6) UNIQUE NOT NULL, -- e.g., BSIT, BSIS, BSCS
@@ -149,7 +158,7 @@ CREATE TABLE questions (
               ('BSIS', 'Bachelor of Science in Information Systems');
 
 
-  -- 5.2 YEAR_LEVELS TABLE 
+  -- 6.2 YEAR_LEVELS TABLE 
       CREATE TABLE year_levels (
         year_level_id SERIAL PRIMARY KEY,
         year_number INT CHECK (year_number BETWEEN 1 AND 4) UNIQUE NOT NULL
@@ -162,7 +171,7 @@ CREATE TABLE questions (
               (4);
 
 
-  -- 5.3 SECTIONS TABLE
+  -- 6.3 SECTIONS TABLE
       CREATE TABLE sections (
         section_id SERIAL PRIMARY KEY,
         course_id INT REFERENCES courses(course_id) ON DELETE CASCADE DEFAULT 1,

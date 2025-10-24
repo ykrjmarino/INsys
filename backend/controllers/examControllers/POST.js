@@ -1,4 +1,5 @@
 import {db} from '../../db.js';
+import { logAction } from '../../utils/logAction.js'
 
 export const createExam = async(req, res) => {
   const userId = req.user.userId;
@@ -22,6 +23,9 @@ export const createExam = async(req, res) => {
       WHERE s.course_id = 1 AND s.year_level_id = 1 AND s.section_name = 'A'`,
       [examId]
     );
+
+    //logs
+    await logAction(userId, `Created exam: "${result.rows[0].title}"`, result.rows[0].exam_id);
 
     res.status(201).json(result.rows[0])
   } catch (error) {

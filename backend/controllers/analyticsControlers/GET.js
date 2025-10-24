@@ -137,7 +137,6 @@ export const getStudentAnalytics = async(req, res) =>{//for essay answer
   }
 }
 
-
 export const getSectionAnalytics = async(req, res) => {
   const { examId } = req.params;     // ← from URL path
   const { section } = req.query; 
@@ -185,6 +184,43 @@ export const getSectionAnalytics = async(req, res) => {
     return res.status(200).json(result.rows[0]);
   } catch (err) {
     console.error("getSectionAnalytics failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+export const getAllAnalytics = async(req, res) => { //superadmin
+
+  try {
+    const result = await db.query(`
+      SELECT
+        (SELECT COUNT(*) FROM examinations) AS total_exams,
+        (SELECT COUNT(*) FROM users WHERE role = 'student') AS total_students,
+        (SELECT COUNT(*) FROM users WHERE role = 'admin') AS total_admins,
+        (SELECT COUNT(*) FROM users WHERE role = 'superadmin') AS total_superadmins,
+        (SELECT COUNT(*) FROM users) AS total_users
+    `);
+
+    return res.status(200).json(result.rows[0]);
+  } catch (err) {
+    console.error("getAllAnalytics failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getSystemLogs = async (req, res) => { //superadmin
+  try {
+    const result = await db.query(`
+      SELECT sl.id, u.first_name, u.last_name, sl.action, sl.target_id, sl.created_at
+      FROM system_logs sl
+      JOIN users u ON sl.user_id = u.user_id
+      ORDER BY sl.created_at DESC
+      LIMIT 50
+    `);
+
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.error("getSystemLogs failed:", err.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };

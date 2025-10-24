@@ -12,10 +12,10 @@ import SelectedSection from '../components/updateExam/2-Section.jsx';
 import AddQuestionForm, { QuestionAdd, EditableQuestionForm } from '../components/updateExam/3-AllQuesType.jsx';
 import ScheduledTakers from '../components/updateExam/2-Schedule.jsx';
 
-
 function UpdateExam() {
   const { accessToken } = useAuth();
   const { examId } = useParams();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [questionForms, setQuestionForms] = useState([]);
@@ -118,6 +118,7 @@ function UpdateExam() {
 
     try { 
       await axios.patch(`/exams/${examId}/status`, {status: status}, config);
+
       console.log(`Exam status set to: ${status}`);
       navigate('/admin-dashboard');
     } catch (err) {
@@ -257,7 +258,7 @@ function UpdateExam() {
 
         
           <p>Status: {examInfo.status}</p>
-          <Button className="publish-button" label="Publish" onClick={handlePublish} />
+          <Button className="publish-button" disabled={examInfo.status === 'published'} label="Publish" onClick={handlePublish} />
         </div>
         
 

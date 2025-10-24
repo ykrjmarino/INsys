@@ -51,10 +51,10 @@ export const verifyJWT = (req, res, next) => {
   }
 };
 
-export const verifyRole = (requiredRole) => {
+export const verifyRole = (...requiredRoles) => {
   return (req, res, next) => {
-    console.log("Required:", requiredRole, "| Found:", req.user?.role); 
-    if (req.user?.role !== requiredRole) {
+    console.log("Required:", requiredRoles, "| Found:", req.user?.role); 
+    if (!requiredRoles.includes(req.user?.role)) {
       return res.status(403).json({ error: 'Forbidden: insufficient role' });
     }
     next();

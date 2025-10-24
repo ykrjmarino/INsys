@@ -49,7 +49,7 @@ function Login() {
         } else if (user.role === "student") {
           navigate("/student-entry");
         } else if (user.role === "superadmin") {
-          navigate("/admin");
+          navigate("/dashboard");
         }
       })
       .catch(err => {
