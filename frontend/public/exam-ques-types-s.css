@@ -425,6 +425,7 @@
 }
 
 .student-exam-input-identification {
+  user-select: none;
   width: 100%; 
   max-width: 700px; 
   padding: 15px;
@@ -519,6 +520,7 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
+  user-select: none;
 }
 
 .student-exam-container-tf {
