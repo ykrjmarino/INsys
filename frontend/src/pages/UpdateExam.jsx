@@ -119,7 +119,7 @@ function UpdateExam() {
     try { 
       await axios.patch(`/exams/${examId}/status`, {status: status}, config);
       console.log(`Exam status set to: ${status}`);
-      navigate('/teacher-dashboard');
+      navigate('/admin-dashboard');
     } catch (err) {
       console.error("Failed to publish exam:", err);
     }

@@ -75,8 +75,8 @@ function RootRedirect() {
     return <Navigate to="/login" replace />;
   }
 
-  if (user.role === 'teacher') {
-    return <Navigate to="/teacher-dashboard" replace />;
+  if (user.role === 'admin') {
+    return <Navigate to="/admin-dashboard" replace />;
   }
 
   if (user.role === 'student') {
@@ -125,8 +125,8 @@ useEffect(() => {
         {/* Root redirect */}
         <Route path="/" element={<RootRedirect />} />
         
-        <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
-          <Route path='/teacher-dashboard' element={<HomeTeacher />} />
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route path='/admin-dashboard' element={<HomeTeacher />} />
           <Route path='/update-exam/:examId' element={<UpdateExam />} />
           <Route path='/exams-analytics' element={<HomeAnalytics />} />
           <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />

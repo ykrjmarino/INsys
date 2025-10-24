@@ -16,7 +16,7 @@ CREATE TABLE users (
   gender VARCHAR(20) DEFAULT 'N/A',
   college VARCHAR(50),
   school_id BIGINT UNIQUE,
-  role TEXT CHECK (role IN ('student', 'teacher', 'admin')) NOT NULL DEFAULT 'student',
+  role TEXT CHECK (role IN ('student', 'admin', 'superadmin')) NOT NULL DEFAULT 'student',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

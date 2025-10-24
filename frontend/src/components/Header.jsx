@@ -159,7 +159,7 @@ export const SideBar = () => {
             )}
           <button
             className="sidebar-btn"
-            onClick={()=> navigate('/teacher-dashboard')}
+            onClick={()=> navigate('/admin-dashboard')}
           ><i className="fas fa-chart-bar"></i> Dashboard </button>
           <button
             className="sidebar-btn"

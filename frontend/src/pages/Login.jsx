@@ -44,11 +44,11 @@ function Login() {
 
         toast.info(message);
 
-        if (user.role === "teacher") {
-          navigate("/teacher-dashboard");
+        if (user.role === "admin") {
+          navigate("/admin-dashboard");
         } else if (user.role === "student") {
           navigate("/student-entry");
-        } else if (user.role === "admin") {
+        } else if (user.role === "superadmin") {
           navigate("/admin");
         }
       })
