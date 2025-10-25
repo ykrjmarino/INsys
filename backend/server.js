@@ -218,7 +218,7 @@ app.get("/api/exam/analytics/:examId/section-filter", adminsOnly, getSectionAnal
 
 app.get("/api/all/analytics", superadminOnly, getAllAnalytics);
 app.get("/api/system/logs", superadminOnly, getSystemLogs);
-app.get("/api/system/manage-users/students", superadminOnly, getStudents);
+app.get("/api/system/manage-users", superadminOnly, getStudents);
 
 app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
 

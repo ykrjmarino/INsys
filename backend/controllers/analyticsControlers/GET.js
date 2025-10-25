@@ -189,7 +189,7 @@ export const getSectionAnalytics = async(req, res) => {
 };
 
 
-export const getAllAnalytics = async(req, res) => { //superadmin
+export const getAllAnalytics = async(req, res) => { //used by superadmin
 
   try {
     const result = await db.query(`
@@ -208,7 +208,7 @@ export const getAllAnalytics = async(req, res) => { //superadmin
   }
 };
 
-export const getSystemLogs = async (req, res) => { //superadmin
+export const getSystemLogs = async (req, res) => { //used by superadmin
   try {
     const result = await db.query(`
       SELECT sl.id, u.first_name, u.last_name, sl.action, sl.target_id, sl.created_at
@@ -225,7 +225,8 @@ export const getSystemLogs = async (req, res) => { //superadmin
   }
 };
 
-export const getStudents = async (req, res) => { //superadmin
+export const getStudents = async (req, res) => { //used by superadmin
+  const { role } = req.query;
   try {
     const result = await db.query(`
        SELECT 
@@ -236,9 +237,9 @@ export const getStudents = async (req, res) => { //superadmin
         u.role,
         u.email
       FROM users u
-      WHERE u.role = 'student'
+      WHERE u.role = $1
       ORDER BY u.last_name ASC;
-    `);
+    `, [role]);
 
     res.status(200).json(result.rows);
   } catch (err) {
