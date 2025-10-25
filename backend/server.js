@@ -87,7 +87,7 @@ import {
 
 // ANALYTICS
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
-import { getAllAnalytics, getExamAnalytics, getSectionAnalytics, getStudentAnalytics, getStudents, getSystemLogs } from "./controllers/analyticsControlers/GET.js";
+import { getAllAnalytics, getExamAnalytics, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getStudents, getSystemLogs } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateUser } from "./controllers/analyticsControlers/UPDATE.js";
@@ -211,7 +211,10 @@ app.put("/api/student-scores/score", autoScoringTemplate);
 // ======================
 // 9️⃣ ANALYTICS
 // ======================
-app.get("/api/exams/analytics/:examId", adminsOnly, getExamAnalytics);
+//general
+app.get("/api/exam/analytics/:examId", adminsOnly, getExamAnalytics);
+app.get("/api/exam/analytics/:examId/questions", adminsOnly, getQuestionAnalytics);
+//per sections
 app.get("/api/exams/student/:studentId/analytics/:examId", adminsOnly, getStudentAnalytics);
 app.get("/api/exam/analytics/:examId/section-filter", adminsOnly, getSectionAnalytics);
 
@@ -220,8 +223,8 @@ app.get("/api/all/analytics", superadminOnly, getAllAnalytics);
 app.get("/api/system/logs", superadminOnly, getSystemLogs);
 app.get("/api/system/manage-users", superadminOnly, getStudents);
 
-app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
 
+app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
 app.delete("/api/system/manage-users/:userId", superadminOnly, deleteUser);
 
 

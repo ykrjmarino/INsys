@@ -247,3 +247,60 @@ export const getStudents = async (req, res) => { //used by superadmin
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const getQuestionAnalytics = async (req, res) => {
+  const userId = req.user.userId; 
+  const { examId } = req.params;
+  try {
+    const questionsRes = await db.query(
+      `SELECT question_id, question_text
+       FROM questions
+       WHERE exam_id = $1 AND user_id = $2`,
+      [examId, userId]
+    );
+
+    const answersRes = await db.query(
+      `SELECT question_id, is_correct
+       FROM student_answers
+       WHERE exam_id = $1`,
+      [examId]
+    );
+
+    const questions = questionsRes.rows;
+    const answers = answersRes.rows;
+
+    const perQuestionStats = questions.map(q => {
+      const questionAnswers = answers.filter(a => a.question_id === q.question_id);
+      const correctCount = questionAnswers.filter(a => a.is_correct).length;
+      const attemptedCount = questionAnswers.length;
+
+      /*
+      [
+        {
+          "question_id": 1,
+          "question_text": "What is 2 + 2?",
+          "correctCount": 8,
+          "attemptedCount": 10,
+          "accuracy": 80
+        }
+      ]
+      */
+
+      return {
+        question_id: q.question_id,
+        question_text: q.question_text,
+        correctCount,
+        attemptedCount,
+        accuracy: attemptedCount
+          ? Number(((correctCount / attemptedCount) * 100).toFixed(2))
+          : 0
+      };
+    });
+
+    res.json(perQuestionStats);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching analytics" });
+  }
+};
+

@@ -60,11 +60,58 @@ function ExamGraph({ analyticsInfo }) {
 }
 
 const QuestionGraph = () => {
+  const { accessToken } = useAuth();
+  const { examId } = useParams(); 
+
+  const [questionStats, setQuestionStats] = useState([]);
+
+  useEffect(() => {
+    fetchExamAnalytics(examId)
+      .then(data => setQuestionStats(data))
+      .catch(err => console.error(err));
+  }, [examId]);
+
+  const fetchExamAnalytics = async (examId) => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
+
+    try {
+      const res = await axios.get(`/exam/analytics/${examId}/questions`, config);
+      console.log( res.data)
+      return res.data; 
+    } catch (error) {
+      console.error("Error fetching exam analytics:", error);
+      return []; 
+    }
+  };
+
+  
   return (
     <>
       <div>
         <h3>Question Stats</h3>
-        <p>Q1 - 80% correct</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Correct</th>
+              <th>Attempted</th>
+              <th>Accuracy (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {questionStats.map(q => (
+              <tr key={q.question_id}>
+                <td>{q.question_text}</td>
+                <td>{q.correctCount}</td>
+                <td>{q.attemptedCount}</td>
+                <td>{q.accuracy}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   )
@@ -90,11 +137,10 @@ function ExamAnalytics () {
     };
 
     try {
-      const res = await axios.get(`/exams/analytics/${examId}`, config); // getExamAnalytics 
+      const res = await axios.get(`/exam/analytics/${examId}`, config); // getExamAnalytics 
 
       setInfoExam(res.data.exam);
       setInfoStats(res.data.overall_stats);
-      setInfoStudent(res.data.students);
     } catch (err) {
       console.log('fetchExamInfo failed, in ExamAnalytics');
       console.error(err.message);

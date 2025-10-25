@@ -125,7 +125,7 @@ function SectionAnalytics () {
     };
 
     try {
-      const res = await axios.get(`/exams/analytics/${examId}`, config); // getExamAnalytics 
+      const res = await axios.get(`/exam/analytics/${examId}`, config); // getExamAnalytics 
 
       setInfoExam({...res.data.exam, overall_stats: res.data.overall_stats});
       setInfoStudent(res.data.students);
