@@ -41,7 +41,7 @@ export const sendUserEmail = async({ email, token, context }) => {
 
   try {
     await sgMail.send(msg);
-    console.log("Message sent");
+    console.log("Message sent!");
   } catch (error) {
     console.log(error);
     throw new Error(error);

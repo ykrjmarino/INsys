@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext";
 import HeaderTeacher from "../Header";
 import { HomeSuperadmin } from "../../pages/HomeSuperadmin";
+import SelectField from "../SelectFields";
+import Button from "../Buttons";
 
 export const ManageUser = () => {
   const { accessToken } = useAuth();
@@ -72,6 +74,7 @@ export const StudentsTable = () => {
   const [students, setStudents] = useState([]);
   
   const [editUser, setEditUser] = useState(null);
+  const [editCreate, setEditCreate] = useState(null);
   const [formData, setFormData] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -113,7 +116,7 @@ export const StudentsTable = () => {
     }
   };
 
-   const handleEdit = (student) => {
+  const handleEditButton = (student) => {
     setEditUser(student);
     setFormData(student);
   };
@@ -151,7 +154,31 @@ export const StudentsTable = () => {
     }
   };
 
-  const handleCancel = () => setEditUser(null);
+  const handleAddUser = async () => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true,
+    };
+
+    try {
+      const res = await axios.post(`/users`, formData, config);
+
+      // Update UI immediately
+      setStudents((prev) =>
+        prev.map((s) =>
+          s.user_id === res.data.user_id ? res.data : s
+        )
+      );
+
+      setEditCreate(null);
+      console.log("User updated:", res.data);
+    } catch (err) {
+      console.error("Failed to update user:", err);
+      alert(err.response?.data?.error || "Something went wrong.");console.log(err)
+    }
+  };
+
+  const handleCancel = () => {setEditUser(null); setEditCreate(null);}
   
 
   return (
@@ -163,11 +190,23 @@ export const StudentsTable = () => {
         onChange={(e) => setSearchTerm(e.target.value)} 
       />
 
+      <Button 
+        label="Add User" 
+        onClick={() => {
+          setFormData({
+            first_name: "",
+            last_name: "",
+            school_id: "",
+            email: "",
+            password: "",
+            role: "student",
+          });
+          setEditCreate(true);
+        }}/>
 
       <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
         <thead>
           <tr style={{ backgroundColor: "#f2f2f2" }}>
-            <th>ID</th>
             <th>Last Name</th>
             <th>First Name</th>
             <th>School ID</th>
@@ -189,14 +228,13 @@ export const StudentsTable = () => {
             })
             .map((s) => (
             <tr key={s.user_id}>
-              <td>{s.user_id}</td>
               <td>{s.last_name}</td>
               <td>{s.first_name}</td>
               <td>{s.school_id}</td>
               <td>{s.role}</td>
               <td>{s.email}</td>
               <td>
-                <button onClick={() => handleEdit(s)}>Edit</button>
+                <button onClick={() => handleEditButton(s)}>Edit</button>
                 <button
                   onClick={() => handleDelete(s.user_id)}
                   style={{ backgroundColor: "red", color: "white", marginLeft: "5px" }}
@@ -210,75 +248,191 @@ export const StudentsTable = () => {
       </table>
 
       {editUser && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            height: "100%",
-            width: "100%",
-            backgroundColor: "rgba(0,0,0,0.4)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "20px",
-              borderRadius: "10px",
-              width: "400px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-            }}
-          >
-            <h3>Edit User</h3>
-            <label>First Name</label>
-            <input
-              name="first_name"
-              value={formData.first_name}
-              onChange={handleChange}
-              style={{ width: "100%", marginBottom: "8px" }}
-            />
-            <label>Last Name</label>
-            <input
-              name="last_name"
-              value={formData.last_name}
-              onChange={handleChange}
-              style={{ width: "100%", marginBottom: "8px" }}
-            />
-            <label>School ID</label>
-            <input
-              name="school_id"
-              value={formData.school_id}
-              onChange={handleChange}
-              style={{ width: "100%", marginBottom: "8px" }}
-            />
-            <label>Email</label>
-            <input
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              style={{ width: "100%", marginBottom: "15px" }}
-            />
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Leave blank to keep current password"
-              value={formData.password || ""}
-              onChange={handleChange}
-            />
-
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-              <button onClick={handleCancel}>Cancel</button>
-              <button onClick={handleSave} style={{ backgroundColor: "green", color: "white" }}>
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
+        <EditUserComponent 
+          handleCancel={handleCancel}
+          handleSave={handleSave}
+          handleChange={handleChange} 
+          formData={formData}
+        />
+      )}
+      {editCreate && (
+        <AddingUserComponent 
+          handleCancel={handleCancel}
+          handleAddUser={handleAddUser}
+          handleChange={handleChange} 
+          formData={formData}
+          setFormData={setFormData}
+        />
       )}
     </div>
   );
 };
+
+const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) => {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        height: "100%",
+        width: "100%",
+        backgroundColor: "rgba(0,0,0,0.4)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "20px",
+          borderRadius: "10px",
+          width: "400px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+        }}
+      >
+        <h3>Edit User</h3>
+        <p>First Name</p>
+        <input
+          name="first_name"
+          value={formData.first_name}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "8px" }}
+        />
+        <p>Last Name</p>
+        <input
+          name="last_name"
+          value={formData.last_name}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "8px" }}
+        />
+        <p>School ID</p>
+        <input
+          name="school_id"
+          value={formData.school_id}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "8px" }}
+        />
+        <p>Email</p>
+        <input
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "15px" }}
+        />
+        <p>Password</p>
+        <input
+          type="password"
+          name="password"
+          placeholder="Leave blank to keep current password"
+          value={formData.password || ""}
+          onChange={handleChange}
+        />
+        <p>Role</p>
+        <SelectField
+          name="role"
+          id="options"  
+          value={formData.role}
+          onChange={handleChange}
+          options={[
+            { label: "Student", value: "student" },
+            { label: "Admin", value: "admin" }
+          ]}
+        />
+
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+          <button onClick={handleCancel}>Cancel</button>
+          <button onClick={handleSave} style={{ backgroundColor: "green", color: "white" }}>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const AddingUserComponent = ({handleChange, handleAddUser, handleCancel, formData}) => {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        height: "100%",
+        width: "100%",
+        backgroundColor: "rgba(0,0,0,0.4)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "20px",
+          borderRadius: "10px",
+          width: "400px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+        }}
+      >
+        <h3>Add User</h3>
+        <p>First Name</p>
+        <input
+          name="first_name"
+          value={formData.first_name}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "8px" }}
+        />
+        <p>Last Name</p>
+        <input
+          name="last_name"
+          value={formData.last_name}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "8px" }}
+        />
+        <p>School ID</p>
+        <input
+          name="school_id"
+          value={formData.school_id}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "8px" }}
+        />
+        <p>Email</p>
+        <input
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "15px" }}
+        />
+        <p>Password</p>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password || ""}
+          onChange={handleChange}
+          required
+        />
+        <p>Role</p>
+        <SelectField
+          name="role"
+          id="options"  
+          value={formData.role}
+          onChange={handleChange}
+          options={[
+            { label: "Student", value: "student" },
+            { label: "Admin", value: "admin" }
+          ]}
+        />
+
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+          <button onClick={handleCancel}>Cancel</button>
+          <button onClick={handleAddUser} style={{ backgroundColor: "green", color: "white" }}>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}

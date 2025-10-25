@@ -42,7 +42,7 @@ import {
 
 // USER CONTROLLERS
 import { getUserById } from "./controllers/userControllers/GET.js";
-import { createUser } from "./controllers/userControllers/POST.js";
+import { createUser } from "./controllers/analyticsControlers/POST.js";
 
 // EXAM CONTROLLERS
 import {
@@ -159,7 +159,7 @@ app.delete("/api/sections/:sectionId", adminOnly, deleteSection);
 
 // USER ROUTES
 app.get("/api/users/:id", adminOnly, getUserById);
-app.post("/api/users", createUser);
+app.post("/api/users", adminsOnly, createUser);
 
 // EXAM ROUTES
 app.get("/api/exams/:userId", adminOnly, getAllExams);
