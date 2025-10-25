@@ -1,21 +1,6 @@
 DO:
-    EXAM ANALYTICS
-    TIMER (socket.io)
-    ADMIN
-    SUPER-ADMIN
+  EXAM ANALYTICS
+  TIMER (socket.io)
+  ADMIN
+  SUPER-ADMIN
 
-
-
-# if you send every second or too often, it’ll spam your DB.
-
-# Best approach:
-
-    # 🕐 Store locally (in state or localStorage) while counting.
-
-    # 📤 Send once — either when:
-
-    # The exam ends, or
-
-    # The resize violation stops (user returns to normal size).
-
-# That way, you only log meaningful events, not every second.

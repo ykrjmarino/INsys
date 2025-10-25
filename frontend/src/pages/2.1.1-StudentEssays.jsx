@@ -87,6 +87,7 @@ function StudentEssays() {
 
   return(
     <>
+    <div>
       <div style={{ backgroundColor: '#e403b3ff', padding: '5px' }}>
         <button onClick={() => navigate(-1)}>arrow back-button</button>
         <p>student name {essay.question_id}</p>
@@ -110,17 +111,12 @@ function StudentEssays() {
             }
             onSubmit={handleSubmitScore}
           />
-            // <div key={item.question_id} className="essay-item">
-            //   <h4>Question: {item.question_text}</h4>
-            //   <p><strong>Answer:</strong> {item.student_answer}</p>
-            //   <p><strong>Score:</strong> {item.essay_score ?? "Not graded yet"}</p>
-            //   <p><strong>Points:</strong> {item.points}</p>
-            // </div>
           ))
         )}
         {/* Essay Card */}
         
       </div>
+    </div>
     </>
   )
 }

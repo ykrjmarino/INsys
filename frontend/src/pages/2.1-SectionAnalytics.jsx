@@ -55,29 +55,27 @@ function StudentDetails ({studentsInfo}) {
 function ExamGraph({ analyticsInfo }) {
   return (
     <>
-      <div>
-        <h2>Exam Analytics</h2>
+      <h2>Exam Analytics</h2>
 
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-            <h4 style={{ margin: "0 0 5px" }}>Average Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.average_score}</p>
-          </div>
+      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+          <h4 style={{ margin: "0 0 5px" }}>Average Score</h4>
+          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.average_score}</p>
+        </div>
 
-          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-            <h4 style={{ margin: "0 0 5px" }}>Total Takers</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.total_takers}</p>
-          </div>
+        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+          <h4 style={{ margin: "0 0 5px" }}>Total Takers</h4>
+          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.total_takers}</p>
+        </div>
 
-          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-            <h4 style={{ margin: "0 0 5px" }}>Highest Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.highest_score}</p>
-          </div>
+        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+          <h4 style={{ margin: "0 0 5px" }}>Highest Score</h4>
+          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.highest_score}</p>
+        </div>
 
-          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-            <h4 style={{ margin: "0 0 5px" }}>Lowest Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.lowest_score}</p>
-          </div>
+        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+          <h4 style={{ margin: "0 0 5px" }}>Lowest Score</h4>
+          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.lowest_score}</p>
         </div>
       </div>
     </>
