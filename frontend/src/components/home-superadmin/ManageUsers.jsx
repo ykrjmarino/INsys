@@ -13,11 +13,15 @@ export const ManageUser = () => {
   const [infoStats, setInfoStats] = useState({});
   const [infoLogs, setInfoLogs] = useState([]);
 
-  const [activeTab, setActiveTab] = useState('students');
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'students');
 
   useEffect(()=>{
     fetchLogs();
   }, [accessToken]);
+
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab);
+  }, [activeTab]);
 
 
   const fetchLogs = async() => {

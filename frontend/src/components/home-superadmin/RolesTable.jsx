@@ -18,10 +18,16 @@ export const ManageUsersTable = ({selectedRole}) => {
   const [formData, setFormData] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [superadminCount, setSuperadminCount] = useState(0);
+
 
   useEffect(() => {
     fetchStudents();
   }, [accessToken]);
+
+  useEffect(() => {
+    if (selectedRole === "superadmin") checkSuperadminCount();
+  }, [selectedRole]);
 
   const fetchStudents = async () => {
     const config = {
@@ -45,11 +51,16 @@ export const ManageUsersTable = ({selectedRole}) => {
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
       withCredentials: true,
-    };
+    }; 
 
     try {
       await axios.delete(`/system/manage-users/${userId}`, config);
       setStudents((prev) => prev.filter((s) => s.user_id !== userId));
+
+      if (selectedRole === "superadmin") {
+        setSuperadminCount((prev) => prev - 1);
+      }
+
       console.log(`Deleted user ${userId}`);
     } catch (error) {
       console.error("Failed to delete user:", error.message);
@@ -109,8 +120,13 @@ export const ManageUsersTable = ({selectedRole}) => {
           s.user_id === res.data.user_id ? res.data : s
         )
       );
-
       setEditCreate(null);
+
+      if (selectedRole === "superadmin") {
+        setSuperadminCount((prev) => prev + 1);
+        window.location.reload();
+      }
+
       console.log("User updated:", res.data);
     } catch (err) {
       console.error("Failed to update user:", err);
@@ -119,6 +135,20 @@ export const ManageUsersTable = ({selectedRole}) => {
   };
 
   const handleCancel = () => {setEditUser(null); setEditCreate(null);}
+
+  const checkSuperadminCount = async () => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true,
+    };
+
+    try {
+      const res = await axios.get(`/system/manage-users?role=superadmin`, config);
+      setSuperadminCount(res.data.length);
+    } catch (error) {
+      console.error("Failed to check superadmin count:", error.message);
+    }
+  };
   
 
   return (
@@ -177,7 +207,17 @@ export const ManageUsersTable = ({selectedRole}) => {
                 <button onClick={() => handleEditButton(s)}>Edit</button>
                 <button
                   onClick={() => handleDelete(s.user_id)}
-                  style={{ backgroundColor: "red", color: "white", marginLeft: "5px" }}
+                  style={{
+                    backgroundColor:
+                      selectedRole === "superadmin" && superadminCount === 1 ? "gray" : "red",
+                    color: "white",
+                    marginLeft: "5px",
+                    cursor:
+                      selectedRole === "superadmin" && superadminCount === 1
+                        ? "not-allowed"
+                        : "pointer",
+                  }}
+                  disabled={selectedRole === "superadmin" && superadminCount === 1}
                 >
                   Delete
                 </button>
@@ -186,6 +226,12 @@ export const ManageUsersTable = ({selectedRole}) => {
           ))}
         </tbody>
       </table>
+
+      {selectedRole === "superadmin" && superadminCount === 1 && (
+        <p style={{ color: "red", marginTop: "10px" }}>
+          ⚠️ At least one Super Admin must remain in the system.
+        </p>
+      )}
 
       {editUser && (
         <EditUserComponent 
