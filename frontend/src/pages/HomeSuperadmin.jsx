@@ -30,8 +30,8 @@ export const HomeSuperadmin = () => {
           ><i className="fas fa-chart-bar"></i> Dashboard </button>
           <button
             className="sidebar-btn"
-            onClick={()=> navigate('/dashboard')}
-          ><i className="fas fa-chart-bar"></i> Analytics </button>
+            onClick={()=> navigate('/admin-analytics')}
+          ><i className="fas fa-chart-bar"></i> Admin Analytics </button>
           <button
             className="sidebar-btn"
             onClick={()=> navigate('/user-management')}
@@ -47,7 +47,7 @@ export const HomeSuperadmin = () => {
           <i className="fa-solid fa-user"></i>
           <div className="profile-info">
               <div className="profile-name">{user.nameFNfirst}</div>
-              <div className="profile-title">Instructor</div>
+              <div className="profile-title">System Admin</div>
           </div>
         </div>
       </div>

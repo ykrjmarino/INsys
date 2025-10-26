@@ -10,6 +10,27 @@ export const getAllExams = async(req, res) =>{
   }
 } 
 
+export const getAllExamsByTeacher = async(req, res) =>{
+  const { teacherId } = req.params;
+  const { filter } = req.query;
+  try {
+    const result = await db.query(`
+      SELECT * FROM examinations 
+      WHERE user_id = $1
+        AND status ILIKE $2`, [teacherId, filter]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Exam not found' })
+    }
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Error fetching completed exams by teacher', error);
+    res.status(500).json({ message: "Server error" });
+  }
+} 
+
 export const getQuestionsByExamId = async (req, res) => {
   const { examId } = req.params;
   const userId = req.user.userId;

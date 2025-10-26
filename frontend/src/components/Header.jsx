@@ -172,7 +172,7 @@ export const SideBar = () => {
           <i className="fa-solid fa-user"></i>
           <div className="profile-info">
               <div className="profile-name">{user.nameFNfirst}</div>
-              <div className="profile-title">Instructor</div>
+              <div className="profile-title">Admin</div>
           </div>
         </div>
         

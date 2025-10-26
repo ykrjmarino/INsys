@@ -57,6 +57,7 @@ import {
   getExamSchedule,
   getExamSession,
   getStudentCurrentSession,
+  getAllExamsByTeacher,
 } from "./controllers/examControllers/GET.js";
 
 import { createExam, duplicateExam } from "./controllers/examControllers/POST.js";
@@ -87,7 +88,7 @@ import {
 
 // ANALYTICS
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
-import { getAllAnalytics, getExamAnalytics, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getStudents, getSystemLogs } from "./controllers/analyticsControlers/GET.js";
+import { getAdminExamAnalytics, getAllAnalytics, getExamAnalytics, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs, getUser } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateUser } from "./controllers/analyticsControlers/UPDATE.js";
@@ -136,7 +137,7 @@ app.use("/api/student", studentAuthRoutes);
 app.use("/api/teacher", teacherAuthRoutes);
 
 app.post("/api/refresh", refreshAccessToken);
-app.get("/api/protected", adminOnly, (req, res) => {
+app.get("/api/protected", adminsOnly, (req, res) => {
   res.json({ message: "JWT is valid", user: req.user });
 });
 
@@ -151,25 +152,26 @@ app.get("/", (req, res) => res.send("Backend is running UwU!"));
 app.patch("/api/student-score/essay/:examId/:questionId", adminOnly, manualEssayScoring);
 
 // YEAR & SECTION
-app.get("/api/sections/year-section", adminOnly, yearSection);
-app.get("/api/course/details", adminOnly, courseData);
-app.get("/api/year-level/details", adminOnly, yearLevelData);
+app.get("/api/sections/year-section", adminsOnly, yearSection);
+app.get("/api/course/details", adminsOnly, courseData);
+app.get("/api/year-level/details", adminsOnly, yearLevelData);
 app.post("/api/sections", adminOnly, addSection);
 app.delete("/api/sections/:sectionId", adminOnly, deleteSection);
 
 // USER ROUTES
-app.get("/api/users/:id", adminOnly, getUserById);
+app.get("/api/users/:id", adminsOnly, getUserById);
 app.post("/api/users", adminsOnly, createUser);
 
 // EXAM ROUTES
-app.get("/api/exams/:userId", adminOnly, getAllExams);
-app.get("/api/exams/search", adminOnly, getExamsByTitle);
-app.get("/api/exams/status", adminOnly, getExamsByStatus);
-app.get("/api/exams/exam/:examId", adminOnly, getExamById);
-app.get("/api/exams/:examId/essays/:studentId", adminOnly, getEssayPerStudent);
-app.get("/api/exams/:examId/code", adminOnly, getExamCode);
-app.get("/api/exams/:examId/sections", adminOnly, getSectionTakersByExamId);
-app.get("/api/exams/:examId/scores/:sectionTaker", adminOnly, getAllScoresByExam);
+app.get("/api/exams/:userId", adminsOnly, getAllExams);
+app.get("/api/exams/teacher/:teacherId", adminsOnly, getAllExamsByTeacher);
+app.get("/api/exams/search", adminsOnly, getExamsByTitle);
+app.get("/api/exams/status", adminsOnly, getExamsByStatus);
+app.get("/api/exams/exam/:examId", adminsOnly, getExamById);
+app.get("/api/exams/:examId/essays/:studentId", adminsOnly, getEssayPerStudent);
+app.get("/api/exams/:examId/code", adminsOnly, getExamCode);
+app.get("/api/exams/:examId/sections", adminsOnly, getSectionTakersByExamId);
+app.get("/api/exams/:examId/scores/:sectionTaker", adminsOnly, getAllScoresByExam);
 
 app.post("/api/exams/create-exam", adminOnly, createExam);
 app.post("/api/exams/:examId/duplicate", adminOnly, duplicateExam);
@@ -180,14 +182,14 @@ app.patch("/api/exams/:examId/timer", adminOnly, updateExamTimer);
 app.patch("/api/exams/:examId/details", adminOnly, updateExamDetails);
 app.patch("/api/exams/:examId/code", adminOnly, updateExamCode);
 
-app.get("/api/exams/:examId/schedule", adminOnly, getExamSchedule);
+app.get("/api/exams/:examId/schedule", adminsOnly, getExamSchedule);
 app.put("/api/exams/:examId/schedule", adminOnly, finalizeExamSchedule);
 
 app.delete("/api/exams/:examId", adminOnly, deleteExam);
 
 // QUESTION ROUTES
 app.post("/api/questions/:examId", adminOnly, createQuestion);
-app.get("/api/exams/:examId/questions", adminOnly, getQuestionsByExamId);
+app.get("/api/exams/:examId/questions", adminsOnly, getQuestionsByExamId);
 app.patch("/api/exams/:examId/questions/:questionId", adminOnly, updateQuestion);
 app.delete("/api/exams/:examId/questions/:questionId", adminOnly, deleteQuestionById);
 
@@ -220,8 +222,9 @@ app.get("/api/exam/analytics/:examId/section-filter", adminsOnly, getSectionAnal
 
 
 app.get("/api/all/analytics", superadminOnly, getAllAnalytics);
+app.get("/api/admin/analytics", superadminOnly, getAdminExamAnalytics);
 app.get("/api/system/logs", superadminOnly, getSystemLogs);
-app.get("/api/system/manage-users", superadminOnly, getStudents);
+app.get("/api/system/manage-users", superadminOnly, getUser);
 
 
 app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);

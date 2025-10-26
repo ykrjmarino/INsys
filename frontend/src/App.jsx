@@ -24,6 +24,7 @@ import ExamQuestions from './components/home-student/ExamQuestions.jsx';
 import { HomeSuperadmin } from './pages/HomeSuperadmin.jsx';
 import { ManageUser } from './components/home-superadmin/ManageUsers.jsx';
 import { DashboardSuper } from './components/home-superadmin/DashboardSuper.jsx';
+import { AdminAnalytics, HomeAdminAnalytics } from './components/home-superadmin/AdminAnalytics.jsx';
 
 
 
@@ -145,6 +146,8 @@ useEffect(() => {
         <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
           <Route path='/dashboard' element={<DashboardSuper />} />
           <Route path='/user-management' element={<ManageUser />} />
+          <Route path='/admin-analytics' element={<AdminAnalytics />} />
+          <Route path='/exams-analytics/:teacherId' element={<HomeAdminAnalytics />} />
         </Route>
 
         <Route path='/login' element={<Login />} />

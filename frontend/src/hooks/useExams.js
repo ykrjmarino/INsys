@@ -74,5 +74,20 @@ export function useExams() {
     }
   };
 
-  return { exams, duplicateExam, deleteExam, fetchExamsByStatus };
+  const fetchExamsByTeacher = async (teacherId) => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
+    try {
+      const res = await axios.get(`/exams/${teacherId}`, config);
+      setExams(res.data);
+      return res.data;
+    } catch (err) {
+      console.error("Failed to fetch exams for teacher:", err);
+      return [];
+    }
+  };
+
+  return { exams, duplicateExam, deleteExam, fetchExamsByStatus, fetchExamsByTeacher };
 }

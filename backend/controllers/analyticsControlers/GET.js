@@ -188,7 +188,6 @@ export const getSectionAnalytics = async(req, res) => {
   }
 };
 
-
 export const getAllAnalytics = async(req, res) => { //used by superadmin
 
   try {
@@ -204,6 +203,33 @@ export const getAllAnalytics = async(req, res) => { //used by superadmin
     return res.status(200).json(result.rows[0]);
   } catch (err) {
     console.error("getAllAnalytics failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
+  const role = 'admin'
+
+  try {
+    const result = await db.query(`
+      SELECT 
+        u.user_id,
+        u.first_name,
+        u.last_name,
+        u.school_id,
+        u.role,
+        u.email,
+        COUNT(e.exam_id) AS total_exams
+      FROM users u
+      LEFT JOIN examinations e ON e.user_id = u.user_id
+      WHERE u.role = $1
+      GROUP BY u.user_id
+      ORDER BY u.last_name ASC;
+    `, [role]);
+
+    return res.status(200).json(result.rows);
+  } catch (err) {
+    console.error("getAdminExamAnalytics failed:", err.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -225,7 +251,7 @@ export const getSystemLogs = async (req, res) => { //used by superadmin
   }
 };
 
-export const getStudents = async (req, res) => { //used by superadmin
+export const getUser = async (req, res) => { //used by superadmin
   const { role } = req.query;
   try {
     const result = await db.query(`
