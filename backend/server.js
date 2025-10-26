@@ -149,7 +149,7 @@ app.get("/", (req, res) => res.send("Backend is running UwU!"));
 // ======================
 // 7️⃣ TEACHER ROUTES
 // ======================
-app.patch("/api/student-score/essay/:examId/:questionId", adminOnly, manualEssayScoring);
+app.patch("/api/student-score/essay/:examId/:questionId", adminsOnly, manualEssayScoring);
 
 // YEAR & SECTION
 app.get("/api/sections/year-section", adminsOnly, yearSection);

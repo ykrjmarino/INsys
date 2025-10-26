@@ -128,19 +128,16 @@ useEffect(() => {
       <Routes>
         {/* Root redirect */}
         <Route path="/" element={<RootRedirect />} />
-        
+
+         <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
+          <Route path='/student-entry' element={<HomeStudent />} />
+          <Route path='/exam/start/:examId' element={<ExamQuestions />} />
+        </Route>
+
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path='/admin-dashboard' element={<HomeTeacher />} />
           <Route path='/update-exam/:examId' element={<UpdateExam />} />
           <Route path='/exams-analytics' element={<HomeAnalytics />} />
-          <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />
-          <Route path='/exam-analytics/section/:examId' element={<SectionAnalytics />} /> 
-          <Route path='/exam-analytics/:examId/student-essay/:studentId' element={<StudentEssays />} />
-        </Route>
-
-        <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
-          <Route path='/student-entry' element={<HomeStudent />} />
-          <Route path='/exam/start/:examId' element={<ExamQuestions />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
@@ -150,6 +147,12 @@ useEffect(() => {
           <Route path='/exams-analytics/:teacherId' element={<HomeAdminAnalytics />} />
         </Route>
 
+        <Route element={<ProtectedRoute allowedRoles={["superadmin", "admin"]} />}>
+          <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />
+          <Route path='/exam-analytics/section/:examId' element={<SectionAnalytics />} /> 
+          <Route path='/exam-analytics/:examId/student-essay/:studentId' element={<StudentEssays />} />
+        </Route>
+
         <Route path='/login' element={<Login />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/welcome-register' element={<Welcome />} /> 
@@ -157,7 +160,7 @@ useEffect(() => {
         <Route path='/register/teacher' element={<RegisterTeacher />} />
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
       </Routes>
     </AuthLoader>
     

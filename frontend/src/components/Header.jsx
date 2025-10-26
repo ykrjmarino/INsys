@@ -183,9 +183,9 @@ export const SideBar = () => {
 }
 
 export const AnalyticsHeaderBar = () => {
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const navigate = useNavigate();
-  const { examId, studentId } = useParams(); 
+  const { examId } = useParams(); 
   const [infoExam, setInfoExam] = useState({});
 
   useEffect(()=>{
@@ -208,11 +208,13 @@ export const AnalyticsHeaderBar = () => {
     }
   }
 
+  const backPath = user?.role === 'superadmin' ? '/admin-analytics' : '/exams-analytics';
+
   return(
     <>
       {/* S1*/}
       <div style={{ backgroundColor: '#005bc2ff', margin: '6px' }}>
-        <button onClick={() => navigate('/exams-analytics')}>arrow back-button</button>
+        <button onClick={() => navigate(backPath)}>arrow back-button</button>
         <p style={{ backgroundColor: '#e2a1d4ff', margin: '5px' }}>
           {infoExam.title}
         </p>

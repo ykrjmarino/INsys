@@ -130,6 +130,7 @@ export const HomeAdminAnalytics = () => {
         setCompletedExams(res.data || []);
       } catch (err) {
         console.error(err);
+        setCompletedExams([]); //fallback
       }
     };
 
@@ -141,23 +142,37 @@ export const HomeAdminAnalytics = () => {
       <HeaderTeacher />
       <div className="side-bar-and-main-container">
         <HomeSuperadmin />
-        <div className="main-home-content" style={{ padding: '10px' }}>          
-          <div className="main-home-content">
-            <div className="grid-container">
-              {completedExams.map(exam => (
+        <div className="main-home-content" style={{ padding: '10px' }}>     
+          <div className="grid-container">
+            {completedExams.length === 0 ? (
+              <div style={{
+                width: '100%',
+                textAlign: 'center',
+                padding: '20px',
+                margin: '20px 0',
+                color: '#555',
+                backgroundColor: '#f0f0f0',
+                borderRadius: '8px',
+                gridColumn: '1 / -1', // makes it span the full grid if inside a grid
+                fontWeight: '500',
+                fontSize: '16px'
+              }}
+              >
+                No completed exams found for this teacher.
+              </div>
+            ) : (
+              completedExams.map(exam => (
                 <AdminExamCard
                   key={exam.exam_id}
                   exam={exam}
                   onClick={() => navigate(`/exam-analytics/${exam.exam_id}`)}
                 />
-              ))}
-            </div>
+              ))
+            )}
           </div>
         </div>
       </div>
     </div>
-
-    
   );
 };
 
@@ -175,6 +190,7 @@ export const AdminExamCard = ({ exam, onClick }) => {
       }}
     >
       <p><b>Title:</b> {exam.title}</p>
+      <p><b>Status:</b> {exam.status}</p>
     </div>
   );
 };
