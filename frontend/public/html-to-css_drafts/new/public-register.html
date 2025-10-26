@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step Progress Bar</title>
+  <link rel="stylesheet" href="public-register.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+</head>
+<body>
+
+  <div class="register-whole">
+
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+
+
+    <div class="register-side-design">
+        <img src="wait2.PNG" alt="Sidebar Logo">
+        <label>Already Have An Account</label>
+        <button class="registration-login-option">Login</button>
+    </div>
+
+    <div class="registration-whole-form">
+        
+        <div class="registration-top-label">
+          <button class="registration-back-btn"><i class="fa-solid fa-arrow-left"></i></button>
+        </div>
+
+        <div class="reigistration-main-label">
+            <label>Register Your Account</label>
+            
+        </div>
+        
+      <div class="registration-progress-bar">
+        <ul id="progressbar">
+          <li class="active"><strong>Register</strong></li>
+          <li><strong>OTP Code</strong></li>
+          <li><strong>Verify</strong></li>
+        </ul>
+
+      </div>
+
+      <div class="registration-form"  id="registration-form">
+
+                
+            <form id="registration-form">
+                <div class="registration-form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+                </div>
+
+
+                <div class="registration-form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+                </div>
+
+
+                <div class="registration-form-group">
+                    <label for="retype-password">Retype Password</label>
+                    <input type="password" id="retype-password" name="retype-password" placeholder="Retype Password" required>
+                </div>
+
+
+                <div class="registration-name-group">
+                    <div class="registration-form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" name="first-name" placeholder="Enter First Name" required>
+                    </div>
+                    <div class="registration-form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" name="last-name" placeholder="Enter Last Name" required>
+                    </div>
+                </div>
+
+
+                <div class="registration-form-group">
+                    <label>Gender</label>
+                    <div class="registration-radio-group">
+                        <input type="radio" id="male" name="gender" value="male" required>
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label>
+                        <input type="radio" id="other" name="gender" value="other">
+                        <label for="other">Other</label>
+                    </div>
+                </div>
+
+
+
+                <div class="registration-form-group">
+                    <label for="options">College Department</label>
+                    <select id="options" name="options" required>
+                        <option value="" disabled selected>College Department</option>
+                        <option value="one">Information Technology</option>
+                        <option value="two">Information System</option>
+                        <option value="three">Computer Science</option>
+                    </select>
+                </div>
+
+                      
+          
+         
+        </div>
+
+
+        
+        <div class="registration-container" id="otp-container" style="display: none;">
+            <form id="otp-form">
+    
+                <div class="registration-form-group">
+                    <label for="school-id">School Id</label>
+                    <input type="text" id="school-id" name="school-id" placeholder="Enter your School Id" required>
+                </div>
+               
+            </form>
+        </div>
+
+         <div class="registration-container" id="otp-code-container" style="display: none;">
+            <form id="otp-code-form">
+                <label class= "registration-otp-message">We sent a code to your account <span id="user-email"></span></label>
+                <div class="registration-form-group">
+                    <label for="otp-code">OTP Code</label>
+                    <input type="text" id="otp-code" name="otp-code" placeholder="Enter OTP Code" required>
+                </div>
+            </form>
+            <label class="registration-resend-link"><a href="#" id="resend-otp">Didn't get a code? Resend</a></label>
+        </div>
+
+
+               
+            </form>
+        <button class="registration-next-btn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <script>
+
+    $(document).ready(function() {
+  let current = 0;
+  const steps = $("#progressbar li");
+  const containers = [
+    $("#registration-form"), 
+    $("#otp-container"),     
+    $("#otp-code-container")
+  ];
+
+  function updateProgress() {
+    
+    steps.removeClass("active");
+    for (let i = 0; i <= current; i++) {
+      $(steps[i]).addClass("active");
+    }
+
+   
+    const progressPercent = (current / (steps.length - 1)) * 100;
+    $("#progressbar").css("--progress-width", progressPercent + "%");
+
+
+    containers.forEach(function(container, index) {
+      if (index === current) {
+        container.show();
+      } else {
+        container.hide();
+      }
+    });
+  }
+
+  $(".registration-next-btn").click(function() {
+    if (current < steps.length - 1) {
+      current++;
+      updateProgress();
+    }
+  });
+
+  $(".registration-back-btn").click(function() {
+    if (current > 0) {
+      current--;
+      updateProgress();
+    }
+  });
+
+
+  updateProgress();
+});
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,394 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.student-exam-whole {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.student-exam-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  background-color: #1a1a2e;
+  margin-top: 0;
+}
+
+.student-exam-header button {
+  border: none;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 45px;
+}
+
+.student-exam-left-side p {
+  margin-left: 15px;
+  color: #ffffff;
+}
+
+.student-exam-left-side {
+  width: 50%;
+  height: 50px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.student-exam-timer-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 20px;
+}
+
+.student-exam-points {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  font-size: 18px;
+  color: #000;
+}
+
+
+.base-timer {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+  width: 100%;
+  height: 100%;
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 5px;
+  stroke: grey;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 5px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}
+
+.base-timer__path-remaining.green { color: rgb(65, 184, 131); }
+.base-timer__path-remaining.orange { color: orange; }
+.base-timer__path-remaining.red { color: red; }
+
+.base-timer__label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #000000;
+}
+
+.student-exam-container {
+  width: 100%; 
+  background-color: #ffffff;
+  border-bottom: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+  padding-top: 0;
+  padding-left: 0;
+  position: relative;
+}
+
+.student-exam-container > label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #797777;
+  align-self: flex-start;
+  margin-left: 5%;
+}
+
+.student-exam-box {
+  width: 90%;
+  height: 50%;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 15px;
+  color: #000;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.student-exam-box > p {
+  font-size: 24px;
+}
+
+.student-exam-box:focus {
+  outline: none;
+  border: 2px solid #1b72c4;
+}
+
+.student-exam-option-container {
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 40px;
+  height: 40%;
+  padding: 40px 10%;
+}
+
+.option-pair {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: transparent;
+  border: 2px solid #ccc;
+}
+
+.option-pair:hover {
+  border: 2px solid #3b7ffe;
+}
+
+.option-pair input[type="radio"]:checked + label {
+  border-radius: 8px;
+}
+
+.option-pair:has(input[type="radio"]:checked) {
+  background-color: #e3eef6;
+  border: 2px solid #3b7ffe;
+}
+
+.option-pair input[type="radio"] {
+  transform: scale(1); 
+  margin-right: 5px;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.option-pair label {
+  font-size: 18px;
+  color: #000;
+}
+
+.student-exam-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
+  padding-bottom: 30px;
+  padding-right: 5%;
+}
+
+.student-exam-button-container button {
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  background-color: #3b7ffe;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 200px;
+  height: 50px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.student-exam-button-container button:hover {
+  background: #1a1a2e;
+}
+
+
+
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .student-exam-container {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  .student-exam-box > p {
+    font-size: 20px;
+  }
+
+  .student-exam-option-container {
+    padding: 20px 5%;
+    gap: 20px;
+  }
+
+  .option-pair {
+    padding: 15px;
+  }
+
+  .option-pair label {
+    font-size: 16px;
+  }
+
+  .student-exam-button-container {
+    padding-right: 3%; 
+  }
+
+  .student-exam-button-container button {
+    width: 150px;
+    height: 45px;
+    font-size: 16px;
+  }
+
+  .student-exam-timer-container {
+    width: 60px;
+    height: 60px;
+  }
+
+  .base-timer {
+    width: 60px;
+    height: 60px;
+  }
+
+  .base-timer__label {
+    font-size: 16px;
+  }
+}
+
+
+@media screen and (max-width: 767px) {
+  .student-exam-whole {
+    gap: 10px;
+  }
+
+  .student-exam-header {
+    padding: 5px;
+  }
+
+  .student-exam-header button {
+    font-size: 30px;
+  }
+
+  .student-exam-left-side {
+    width: 70%;
+  }
+
+  .student-exam-left-side label {
+    font-size: 14px;
+  }
+
+  .student-exam-container {
+    max-width: 95%;
+    padding: 15px;
+  }
+
+  .student-exam-box {
+    width: 95%;
+    height: 40%;
+  }
+
+  .student-exam-box > p {
+    font-size: 18px;
+  }
+
+  .student-exam-option-container {
+    display: grid;
+    grid-template-columns: 1fr; 
+    grid-template-rows: repeat(4, auto); 
+    gap: 15px;
+    padding: 15px 5%;
+    height: auto;
+  }
+
+  .option-pair {
+    padding: 10px;
+  }
+
+  .option-pair label {
+    font-size: 14px;
+  }
+
+
+.option-pair input[type="radio"] {
+  transform: scale(0.7);
+  margin-right: 5px;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+  .student-exam-button-container {
+    padding-right: 5%; 
+    padding-bottom: 20px;
+  }
+
+  .student-exam-button-container button {
+    width: 120px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .student-exam-timer-container {
+    width: 50px;
+    height: 50px;
+    top: 5px;
+    right: 5px;
+  }
+
+  .base-timer {
+    width: 50px;
+    height: 50px;
+  }
+
+  .base-timer__label {
+    font-size: 14px;
+  }
+
+  .student-exam-points {
+    font-size: 14px;
+    left: 15px;
+    top: 5px;
+  }
+}
