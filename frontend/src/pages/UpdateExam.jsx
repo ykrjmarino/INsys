@@ -25,7 +25,6 @@ function UpdateExam() {
 
   const [examInfo, setExamInfo] = useState(null); //title, code, stats, sched, sect
   const [examQues, setExamQues] = useState(null); //questions
-  const [selectedType, setSelectedType] = useState('');
   const [passingScore, setPassingScore] = useState('');
 
 
@@ -48,7 +47,6 @@ function UpdateExam() {
 
       setExamInfo(examInfo.data);
       setExamQues(examQuestions.data);
-      setSelectedType(examInfo.data.exam_type);
       setPassingScore(examInfo.data.passing_score);
     } catch (err) {
       console.error("Error fetching exam data:", err);
@@ -74,7 +72,6 @@ function UpdateExam() {
       const updatedExamInfo = {
         ...examInfo,
         passing_score: passingScore,
-        exam_type: selectedType,
       };
       await axios.patch(`/exams/${examId}/details`, updatedExamInfo, config);
       console.log("Exam info updated");
@@ -217,17 +214,6 @@ function UpdateExam() {
             <Button className="header-save-button" label="Save" onClick={handleSaveExamInfo} />
             <p className="exam-code" placeholder="Exam Code">{examInfo.exam_code}</p>
             <button className="randomize-button" onClick={handleRandomizeCode}><i className="fa-solid fa-arrow-rotate-left"></i></button>
-            <SelectField
-              className="question-type-dropdown"
-              name="questionType"
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-              options={[
-                { label: "Exam", value: "exam" },
-                { label: "Quiz", value: "quiz" },
-                { label: "Activity", value: "activity" }
-              ]}
-            />
           </div>
 
           <p>Total points: {examInfo.total_points}</p>

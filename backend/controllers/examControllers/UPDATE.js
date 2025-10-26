@@ -77,7 +77,7 @@ export const updateExamTimer = async(req, res) => {
 export const updateExamDetails = async(req, res) => {
   const { examId } = req.params;
   const userId = req.user.userId;
-  const { title, schedule, exam_duration, status, passing_score, exam_type } = req.body;
+  const { title, schedule, exam_duration, status, passing_score } = req.body;
 
   try {
     const fields = [];
@@ -104,13 +104,7 @@ export const updateExamDetails = async(req, res) => {
       fields.push(`passing_score = $${count++}`);
       values.push(passing_score);
     }
-
-    if (exam_type !== undefined) {
-      fields.push(`exam_type = $${count++}`);
-      values.push(exam_type);
-    }
     
-
     if (fields.length === 0) {
       return res.status(404).json({ message: "Exam not found or unauthorized" });
     }
