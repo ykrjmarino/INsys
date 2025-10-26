@@ -159,7 +159,7 @@ export const updateExamCode = async(req, res) => {
 
 export const finalizeExamSchedule = async(req, res) => {
   const {examId} = req.params;
-  const {scheduledDate, addExamDuration, sectionName} = req.body; 
+  const {scheduledDate, addExamDuration, sectionName, questionTimer} = req.body; 
         //scheduledDate here is a string... convert to date 
 
   // Validate scheduledDate
@@ -186,14 +186,17 @@ export const finalizeExamSchedule = async(req, res) => {
       */
 
   try {
+    const timerValue = Number(questionTimer) > 0 ? Number(questionTimer) : null;
+
     const result = await db.query(`
       UPDATE examinations
       SET start_datetime = $1,
           exam_duration = $2,
-          end_datetime = $3
-      WHERE exam_id = $4
+          end_datetime = $3,
+          timer_question = $4
+      WHERE exam_id = $5
       RETURNING *`, 
-      [startExamDateUTC, addExamDuration, endExamDateUTC.toISOString(), examId]);
+      [startExamDateUTC, addExamDuration, endExamDateUTC.toISOString(), timerValue || 0, examId]);
 
 
       if (result.rows.length === 0) {

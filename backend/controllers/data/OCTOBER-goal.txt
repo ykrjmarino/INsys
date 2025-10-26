@@ -1,0 +1,15 @@
+DO:
+  EXAM ANALYTICS
+  TIMER (socket.io)
+  ADMIN
+  SUPER-ADMIN
+
+          Student side (exam view)
+
+          When loading the exam:
+
+          if (!exam.timer_question) {
+            // no timer — skip countdown logic
+          } else {
+            // start timer as usual
+          }

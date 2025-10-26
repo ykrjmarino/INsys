@@ -75,6 +75,9 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
   // const [endDateTime, setEndDateTime] = useState("");
     //toLocaleString() === 8/12/2025, 9:15:00 AM
 
+  const [questionMinutes, setQuestionMinutes] = useState(0);
+  const [questionSeconds, setQuestionSeconds] = useState(0);
+
   //ISO format for DB
   const [startDateTimeISO, setStartDateTimeISO] = useState("");
   const [endDateTimeISO, setEndDateTimeISO] = useState("");
@@ -109,6 +112,15 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
           const totalMinutes = Number(res.data.exam_duration);
           setDurationHours(Math.floor(totalMinutes / 60));
           setDurationMinutes(totalMinutes % 60);
+        }
+
+        if (res.data.timer_question) {
+          const totalSeconds = Number(res.data.timer_question);
+          setQuestionMinutes(Math.floor(totalSeconds / 60));
+          setQuestionSeconds(totalSeconds % 60);
+        } else {
+          setQuestionMinutes(0);
+          setQuestionSeconds(0); //display empty timer
         }
       } catch (err) {
         console.error("Error fetching saved date", err);
@@ -158,11 +170,13 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
     start.setHours(hours, minutes, 0, 0);
 
     const totalMinutes = Number(durationHours) * 60 + Number(durationMinutes);
+    const totalQuestionSeconds = Number(questionMinutes) * 60 + Number(questionSeconds);
 
     try {
       await axios.put(`/exams/${examId}/schedule`, {
         scheduledDate: start.toISOString(),
         addExamDuration: totalMinutes,
+        questionTimer: totalQuestionSeconds,
       }, config);
       console.log("Saved schedule!");
     } catch (err) {
@@ -225,6 +239,38 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
         />
+      </div>
+      {/* ==== TIMER PER QUESTION ==== */} 
+      <div className="duration-container">
+        <label className="duration-label">Question timer:</label>
+        <div className="duration-inner-container">
+          <input
+            type="number"
+            min="0"
+            value={questionMinutes}
+            onChange={(e) => {
+              let val = e.target.value;
+              if (val.length > 2) val = val.slice(0, 2);
+              setQuestionMinutes(Math.max(0, parseInt(val) || 0));
+            }}
+            style={{ width: "50px" }}
+          />
+          <span>m</span>
+          <input
+            type="number"
+            min="0"
+            max="59"
+            value={questionSeconds}
+            onChange={(e) => {
+              let val = e.target.value;
+              if (val.length > 2) val = val.slice(0, 2);
+              setQuestionSeconds(Math.min(59, Math.max(0, parseInt(val) || 0)));
+            }}
+            style={{ width: "50px" }}
+          />
+          <span>s</span>
+        </div>
+        <button className="save-duration-button" onClick={handleSave}>Save S</button>
       </div>
     </>
   );
