@@ -10,7 +10,6 @@ export const getExamAnalytics = async(req, res) =>{
         exam_id,
         title,
         status,
-        exam_type,
         total_points,
         passing_score,
         start_datetime,
