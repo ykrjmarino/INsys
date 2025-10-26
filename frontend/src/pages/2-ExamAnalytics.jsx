@@ -79,7 +79,7 @@ const QuestionGraph = () => {
 
     try {
       const res = await axios.get(`/exam/analytics/${examId}/questions`, config);
-      console.log( res.data)
+      console.log(res.data)
       return res.data; 
     } catch (error) {
       console.error("Error fetching exam analytics:", error);
@@ -97,7 +97,7 @@ const QuestionGraph = () => {
             <tr>
               <th>Question</th>
               <th>Correct</th>
-              <th>Attempted</th>
+              <th>Points</th>
               <th>Accuracy (%)</th>
             </tr>
           </thead>
@@ -106,7 +106,7 @@ const QuestionGraph = () => {
               <tr key={q.question_id}>
                 <td>{q.question_text}</td>
                 <td>{q.correctCount}</td>
-                <td>{q.attemptedCount}</td>
+                <td>{q.points}</td>
                 <td>{q.accuracy}</td>
               </tr>
             ))}

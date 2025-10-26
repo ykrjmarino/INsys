@@ -39,7 +39,11 @@ export const getExamAnalytics = async(req, res) =>{
         ss.submitted_at,
         e.total_points,
         e.passing_score,
-        e.exam_id
+        e.exam_id,
+        CASE 
+          WHEN ss.total_score >= e.passing_score THEN 'Passed'
+          ELSE 'Failed'
+        END AS result
       FROM student_scores ss
       JOIN users u ON ss.student_school_id = u.school_id
       JOIN section_takers st ON ss.exam_id = st.exam_id AND ss.section_name = st.section_name
@@ -53,10 +57,22 @@ export const getExamAnalytics = async(req, res) =>{
         COUNT(ss.student_school_id) AS total_takers,
         COALESCE(ROUND(AVG(ss.total_score)::numeric, 2), 0) AS average_score,
         COALESCE(MAX(ss.total_score), 0) AS highest_score,
-        COALESCE(MIN(ss.total_score), 0) AS lowest_score
+        COALESCE(MIN(ss.total_score), 0) AS lowest_score,
+        COUNT(CASE WHEN ss.total_score >= e.passing_score THEN 1 END)::int AS passed_count,
+        COUNT(CASE WHEN ss.total_score < e.passing_score THEN 1 END)::int AS failed_count
       FROM student_scores ss
-      WHERE ss.exam_id = $1`, [examId]
-    );
+      INNER JOIN examinations e ON e.exam_id = ss.exam_id
+      WHERE ss.exam_id = $1
+    `, [examId]);
+    // const overallStats = await db.query(`
+    //   SELECT 
+    //     COUNT(ss.student_school_id) AS total_takers,
+    //     COALESCE(ROUND(AVG(ss.total_score)::numeric, 2), 0) AS average_score,
+    //     COALESCE(MAX(ss.total_score), 0) AS highest_score,
+    //     COALESCE(MIN(ss.total_score), 0) AS lowest_score
+    //   FROM student_scores ss
+    //   WHERE ss.exam_id = $1`, [examId]
+    // );
 
     // 4️⃣ Combine results
     const response = {
@@ -144,8 +160,35 @@ export const getSectionAnalytics = async(req, res) => {
   console.log('getSection ID:', section);
 
   try {
-    const result = await db.query(
-      `SELECT 
+    const result = await db.query(`
+      SELECT 
+        st.section_name,
+        COUNT(ss.student_school_id) AS total_takers,
+        COALESCE(ROUND(AVG(ss.total_score)::numeric, 2), 0) AS average_score,
+        COALESCE(MAX(ss.total_score), 0) AS highest_score,
+        COALESCE(MIN(ss.total_score), 0) AS lowest_score,
+        COUNT(*) FILTER (WHERE ss.total_score >= (SELECT passing_score FROM examinations WHERE exam_id = $1)) AS passed_count,
+        COUNT(*) FILTER (WHERE ss.total_score <  (SELECT passing_score FROM examinations WHERE exam_id = $1)) AS failed_count
+      FROM student_scores ss
+      JOIN section_takers st 
+        ON st.exam_id = ss.exam_id 
+        AND st.section_name = ss.section_name 
+      WHERE ss.exam_id = $1
+        AND st.section_id = $2              
+      GROUP BY st.section_name
+      ORDER BY st.section_name ASC;`
+      , [examId, section]);
+
+    /*
+    {
+      "section_name": BSIT 2-A
+      "average_score": 82.5,
+      "highest_score": 98,
+      "lowest_score": 65,
+      "total_takers": 10
+    }
+      
+    `SELECT 
         st.section_name,
         COUNT(ss.student_school_id) AS total_takers,
         COALESCE(ROUND(AVG(ss.total_score)::numeric, 2), 0) AS average_score,
@@ -159,15 +202,7 @@ export const getSectionAnalytics = async(req, res) => {
         AND st.section_id = $2              
       GROUP BY st.section_name
       ORDER BY st.section_name ASC;
-    `, [examId, section]);
-    /*
-    {
-      "section_name": BSIT 2-A
-      "average_score": 82.5,
-      "highest_score": 98,
-      "lowest_score": 65,
-      "total_takers": 10
-    }
+    `
     */
 
     if (result.rows.length === 0) {
@@ -278,7 +313,7 @@ export const getQuestionAnalytics = async (req, res) => {
   const { examId } = req.params;
   try {
     const questionsRes = await db.query(
-      `SELECT question_id, question_text
+      `SELECT question_id, question_text, points
        FROM questions
        WHERE exam_id = $1 AND user_id = $2`,
       [examId, userId]
@@ -312,6 +347,7 @@ export const getQuestionAnalytics = async (req, res) => {
       */
 
       return {
+        points: q.points,
         question_id: q.question_id,
         question_text: q.question_text,
         correctCount,

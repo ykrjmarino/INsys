@@ -53,6 +53,9 @@ function StudentDetails ({studentsInfo}) {
 }
 
 function ExamGraph({ analyticsInfo }) {
+  console.log("uwwww:", analyticsInfo);
+
+
   return (
     <>
       <h2>Exam Analytics</h2>
@@ -76,6 +79,11 @@ function ExamGraph({ analyticsInfo }) {
         <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
           <h4 style={{ margin: "0 0 5px" }}>Lowest Score</h4>
           <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.lowest_score}</p>
+        </div>
+
+        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
+          <h4 style={{ margin: "0 0 5px" }}>No. of Passers</h4>
+          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.passed_count}</p>
         </div>
       </div>
     </>
@@ -125,7 +133,7 @@ function SectionAnalytics () {
     try {
       const res = await axios.get(`/exam/analytics/${examId}`, config); // getExamAnalytics 
 
-      setInfoExam({...res.data.exam, overall_stats: res.data.overall_stats});
+      setInfoExam({...res.data.exam, overall_stats: res.data.overall_stats}); //added: passed_count, failed_count
       setInfoStudent(res.data.students);
     } catch (err) {
       console.log('fetchExamInfo failed, in ExamAnalytics');
@@ -153,6 +161,7 @@ function SectionAnalytics () {
               // console.log(res.data.highest_score);
               // console.log(res.data.lowest_score);
               // console.log(res.data.total_takers);
+              // console.log(res.data.passed_count);
       console.log('fetchPerSection wrking');
     } catch (error) {
       console.log('fetchPerSection failed, in ExamAnalytics');
