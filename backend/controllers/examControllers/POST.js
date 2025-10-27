@@ -43,7 +43,7 @@ export const duplicateExam = async (req, res) => { //duplicate title and questio
   try {
     //Fetch original exam
     const examResult = await db.query( //will get: examResult.rows[0].title
-      `SELECT title
+      `SELECT title, passing_score
        FROM examinations 
        WHERE exam_id = $1`,
       [examId]
@@ -55,10 +55,10 @@ export const duplicateExam = async (req, res) => { //duplicate title and questio
 
     //Create new exam
     const newExamResult = await db.query(
-      `INSERT INTO examinations (user_id, title, status, exam_code)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO examinations (user_id, title, status, exam_code, passing_score)
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING exam_id`,
-      [userId, `${examResult.rows[0].title} copy`, 'draft', randomExamCode]
+      [userId, `${examResult.rows[0].title} copy`, 'draft', randomExamCode, examResult.rows[0].passing_score]
     );
 
     const newExamId = newExamResult.rows[0].exam_id;
@@ -91,6 +91,30 @@ export const duplicateExam = async (req, res) => { //duplicate title and questio
        WHERE exam_id = $2`,
       [newExamId, examId]
     );
+
+    //Recalculate total points
+    await db.query(`
+      UPDATE examinations 
+      SET total_points = (
+        SELECT COALESCE(SUM(points), 0)
+        FROM questions 
+        WHERE exam_id = $1
+      )
+      WHERE exam_id = $1
+    `, [newExamId]);
+
+    //Insert section (default: BSIT 1-A)
+    await db.query(`
+      INSERT INTO section_takers (exam_id, section_id, section_name)
+      SELECT 
+        $1, 
+        s.section_id, 
+        c.course_code || ' ' || y.year_number || '-' || s.section_name
+      FROM sections s
+      JOIN courses c ON s.course_id = c.course_id
+      JOIN year_levels y ON s.year_level_id = y.year_level_id
+      WHERE s.course_id = 1 AND s.year_level_id = 1 AND s.section_name = 'A'
+    `, [newExamId]);
 
     res.status(201).json({ message: 'Exam duplicated successfully', newExamId });
   } catch (error) {
