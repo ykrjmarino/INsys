@@ -352,7 +352,7 @@ export const manualEssayScoring = async(req, res) => {
     }
 
 //Purpose: Fetch details of one specific exam for the logged-in student. example: exam details after exam ends
-//Response: Single exam object [title, teacher, section, submitted_at, total_score, total_questions(number of questions)].
+//Response: Single exam object [title, teacher, section, submitted_at, total_score, total_points, total_questions(number of questions), timer_question].
 export const getInfoPerExam = async(req, res) => {
   const studentId = req.user.schoolId;
   const { examId } = req.params;
@@ -360,7 +360,7 @@ export const getInfoPerExam = async(req, res) => {
   try {
     const result = await db.query(`
       SELECT
-        e.exam_id, e.title, e.total_points,
+        e.exam_id, e.title, e.total_points, e.timer_question,
         (u.first_name || ' ' || u.last_name) AS teacher_name_db,
         s.section_name, s.submitted_at, s.total_score,
         ( SELECT COUNT(*) 
@@ -373,6 +373,8 @@ export const getInfoPerExam = async(req, res) => {
       WHERE e.exam_id = $1 
         AND s.student_school_id = $2
       `, [examId, studentId]);
+
+      console.log(result.rows[0].timer_question);
 
     if (result.rows.length === 0) {
       return res.status(404).json({error: 'No Exam detail fetched'})

@@ -115,6 +115,43 @@ function ExamQuestions() {
   const [examInfo, setExamInfo] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
+  const [timerLeft, setTimerLeft] = useState(0);
+
+  useEffect(() => {
+    // 1️⃣ Load saved start time or create a new one
+    let startTime = localStorage.getItem("examStartTime");
+    if (!startTime) {
+      startTime = Date.now();
+      localStorage.setItem("examStartTime", startTime);
+    }
+
+    // 2️⃣ Convert timer from seconds → milliseconds
+    const totalTime = examInfo?.timer_question * 1000;
+    if (!totalTime) return;
+
+    // 3️⃣ Function to calculate remaining time
+    const updateTimer = () => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(totalTime - elapsed, 0);
+      setTimerLeft(Math.floor(remaining / 1000));
+
+      // Auto-stop and clear when time runs out
+      if (remaining <= 0) {
+        clearInterval(interval);
+        localStorage.removeItem("examStartTime"); // optional: reset timer
+        // TODO: auto-submit exam here if needed
+      }
+    };
+
+    // 4️⃣ Run once immediately to avoid flicker
+    updateTimer();
+
+    // 5️⃣ Continue updating every second
+    const interval = setInterval(updateTimer, 1000);
+
+    return () => clearInterval(interval);
+  }, [examInfo]);
+
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoadingQuestions(true);
@@ -137,7 +174,7 @@ function ExamQuestions() {
         setExamQuestions(combined);
       } catch (error) {
         console.error(error);
-        alert(error.response?.data?.error || "Something went wrong in fetchingQuestions");
+        alert(error.response?.data?.error || "Something went wrong in fetchQuestions");
       } finally {
         setLoadingQuestions(false);
       }
@@ -153,12 +190,13 @@ function ExamQuestions() {
         setExamSession(res.data.status);
       } catch (error) {
         console.error(error);
-        alert(error.response?.data?.error || "Something went wrong in fetchingQuestions");
+        alert(error.response?.data?.error || "Something went wrong in fetchSession");
       }
     }
 
     fetchQuestions(); 
     fetchSession();
+    fetchExamInfo();
   }, [examId]);
 
   useEffect(() => {
@@ -207,8 +245,10 @@ function ExamQuestions() {
 
     setLoadingExamInfo(true);
     try {
-      const res = await axios.get(`/student/exams/${examId}/info`, config);
+      const res = await axios.get(`/student/exams/${examId}/info`, config); //getInfoPerExam
       setExamInfo(res.data);
+      setTimerLeft(res.data.timer_question || 0);
+
     } catch (error) {
       console.log(
         error.response?.data?.error ||
@@ -266,6 +306,17 @@ function ExamQuestions() {
   }
 
   const q = examQuestions.length > 0 ? examQuestions[current] : null;  //will use in return(...) for shortcut
+
+  useEffect(() => {
+    if (timerLeft <= 0) return; // stop if no time
+
+    const interval = setInterval(() => {
+      setTimerLeft(prev => prev - 1); // subtract 1 each second
+    }, 1000);
+
+    return () => clearInterval(interval); // cleanup
+  }, [timerLeft]);
+
   return (
     <>
     <ResizeMonitor 
@@ -298,7 +349,10 @@ function ExamQuestions() {
       <div className="student-exam-whole">
         <div className="student-exam-back">
           <button onClick={exitExam}>&lt;</button>
-          <h2>Question {current + 1}</h2> 
+          {/* <h2>Question {current + 1}</h2>  */}
+            <div className="exam-timer">
+              <h2>Time left: {timerLeft}s</h2>
+            </div>
         </div>
 
         {!submitted && q && (
