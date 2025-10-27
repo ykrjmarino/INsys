@@ -10,8 +10,7 @@ function RadioButtonOptions({ label, name, value, onChange, options, divClassNam
 
           const safeValue = value ?? ''; 
           return (
-            <div className={divClassName2}>
-            <React.Fragment key={index}>
+            <div key={index} className={divClassName2}>
               <input
                 type="radio"
                 id={id}
@@ -22,7 +21,6 @@ function RadioButtonOptions({ label, name, value, onChange, options, divClassNam
                 required={index === 0} // only first one has required
               />
               <label htmlFor={id}>{option}</label>
-            </React.Fragment>
             </div>
           );
         })}
