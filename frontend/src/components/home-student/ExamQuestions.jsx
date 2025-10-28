@@ -9,6 +9,7 @@ import SelectField from "../SelectFields";
 import Button from "../Buttons"
 import { FinishExamInfo } from "./FinishExamInfo";
 import { ResizeMonitor, TabMonitor } from "../Monitoring";
+import { useRef } from "react";
 
 
 const MultiChoiceComp = ({mcqText, mcqOptions, name, divClassName, onChange, value}) => {
@@ -116,7 +117,7 @@ function ExamQuestions() {
   const [submitted, setSubmitted] = useState(false);
 
   const [timerLeft, setTimerLeft] = useState(0);
-
+  
 useEffect(() => {
   if (!examInfo?.timer_question || !examQuestions[current]) return;
 
