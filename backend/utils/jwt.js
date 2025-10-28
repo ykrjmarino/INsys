@@ -20,7 +20,9 @@ export const generateRefreshToken = (userPayload) => {
       schoolId: userPayload.schoolId,
       role: userPayload.role,
       nameFNfirst: userPayload.nameFNfirst,
-      nameLNfirst: userPayload.nameLNfirst
+      nameLNfirst: userPayload.nameLNfirst,
+      firstName: userPayload.firstName,
+      lastName: userPayload.lastName
     },
     process.env.JWT_REFRESH_SECRET, 
     { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || "7d" });

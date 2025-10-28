@@ -9,6 +9,8 @@ export const AuthProvider = ({ children }) => {
     userId: "",
     schoolId: "",
     role: "",
+    lastName: "", 
+    firstName: "",
   });
   const [accessToken, setAccessToken] = useState('');
 

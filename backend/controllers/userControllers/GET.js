@@ -1,7 +1,7 @@
 import {db} from '../../db.js'
 
 export const getUserById = async(req, res) => {
-  const userId = req.params.id;
+  const {userId} = req.params;
   try {
     const result = await db.query('SELECT * FROM users WHERE user_id = $1', [userId]);
 

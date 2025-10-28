@@ -61,7 +61,9 @@ authRoutes.post('/login', async (req, res) => {
       schoolId: user.school_id, //these came from database, hence snake_case
       role: user.role,
       nameLNfirst: `${user.last_name}, ${user.first_name}`,
-      nameFNfirst: `${user.first_name} ${user.last_name}`
+      nameFNfirst: `${user.first_name} ${user.last_name}`,
+      lastName: user.last_name,
+      firstName: user.first_name
     };
 
     const accessToken = generateAccessToken(userPayload);
