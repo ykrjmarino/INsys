@@ -92,6 +92,7 @@ import { getAdminExamAnalytics, getAllAnalytics, getExamAnalytics, getQuestionAn
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateUser } from "./controllers/analyticsControlers/UPDATE.js";
+import { deleteOwnAccount } from "./controllers/userControllers/DELETE.js";
 
 // ======================
 // 3️⃣ APP CONFIG
@@ -125,6 +126,7 @@ const studentOnly = [verifyJWT, verifyRole("student")];
 const adminOnly = [verifyJWT, verifyRole("admin")];
 const superadminOnly = [verifyJWT, verifyRole("superadmin")];
 
+const usersOnly = [verifyJWT, verifyRole("student", "admin", "superadmin")];
 const adminsOnly = [verifyJWT, verifyRole("admin", "superadmin")];
 
 
@@ -158,8 +160,9 @@ app.post("/api/sections", adminOnly, addSection);
 app.delete("/api/sections/:sectionId", adminOnly, deleteSection);
 
 // USER ROUTES
-app.get("/api/users/:userId", adminsOnly, getUserById);
+app.get("/api/users/:userId", usersOnly, getUserById);
 app.post("/api/users", adminsOnly, createUser);
+app.delete("/api/user/delete", usersOnly, deleteOwnAccount);
 
 // EXAM ROUTES
 app.get("/api/exams/:userId", adminsOnly, getAllExams);
@@ -228,9 +231,6 @@ app.get("/api/system/manage-users", superadminOnly, getUser);
 
 app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
 app.delete("/api/system/manage-users/:userId", superadminOnly, deleteUser);
-
-
-
 
 
 

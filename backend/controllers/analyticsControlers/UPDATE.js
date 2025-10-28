@@ -4,6 +4,7 @@ import { logAction } from '../../utils/logAction.js';
 
 export const updateUser = async (req, res) => {
   const { userId } = req.params;
+  const actorId = req.user.userId;
   let { first_name, last_name, school_id, email, password, role } = req.body;
 
   try {
@@ -32,7 +33,7 @@ export const updateUser = async (req, res) => {
       , [first_name, last_name, school_id, email, role, userId]
       );
     }
-    await logAction(userId, `Updated password`, school_id);
+    await logAction(actorId, `Updated user information: ${userId}`, userId);
 
     res.status(200).json({ message: "User updated successfully" });
   } catch (err) {

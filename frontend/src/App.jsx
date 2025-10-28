@@ -152,6 +152,9 @@ useEffect(() => {
           <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />
           <Route path='/exam-analytics/section/:examId' element={<SectionAnalytics />} /> 
           <Route path='/exam-analytics/:examId/student-essay/:studentId' element={<StudentEssays />} />
+        </Route>
+
+        <Route element={<ProtectedRoute allowedRoles={["superadmin", "admin", "student"]} />}>
           <Route path='/account-settings' element={<UserSettings />} />
         </Route>
 

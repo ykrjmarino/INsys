@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { logAction } from '../../utils/logAction.js';
 
 export const createUser = async (req, res) => {
+  const actorId = req.user.userId
   const { userId } = req.params;
   let { first_name, last_name, school_id, password, role, email } = req.body;
 
@@ -30,7 +31,7 @@ export const createUser = async (req, res) => {
       INSERT INTO users (email, password, first_name, last_name, school_id, role ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6) RETURNING *
     `, [email, hash, first_name, last_name, school_id, role]); //changed password to hash (hashed password)
 
-    await logAction(userId, `Updated password`, school_id);
+    await logAction(actorId, `Created an account`, school_id);
 
     res.status(200).json({ message: "User updated successfully" });
   } catch (err) {

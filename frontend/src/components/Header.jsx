@@ -64,6 +64,7 @@ function HeaderTeacher() {
 }
 
 export const HeaderStudent = () => {
+  const navigate = useNavigate();
     return (
         <>
         {/* <!-- header start --> */}
@@ -85,8 +86,13 @@ export const HeaderStudent = () => {
               <li className="nav-item">
                 <span>Settings</span>
                 <ul className="teacher-home-header-dropdown">
-                  <li><span>Account</span></li>
-                  <li><span>Theme</span></li>
+                  {/* <li><span>Account</span></li>
+                  <li><span>Theme</span></li> */}
+                  <button
+                    className="sidebar-btn"
+                    onClick={()=> navigate('/account-settings')}
+                  ><i className="fas fa-chart-bar"></i> Account Settings </button>
+                  
                 </ul>
               </li>
               <li className="nav-item">
@@ -165,6 +171,10 @@ export const SideBar = () => {
             className="sidebar-btn"
             onClick={()=> navigate('/exams-analytics')}
           ><i className="fas fa-chart-bar"></i> Exam Analytics </button>
+          <button
+            className="sidebar-btn"
+            onClick={()=> navigate('/account-settings')}
+          ><i className="fas fa-chart-bar"></i> Account Settings </button>
           
         </div>
 

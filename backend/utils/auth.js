@@ -5,7 +5,7 @@ import {db} from '../db.js';
 import { generateOTP, verifyOTP } from "./otp.js";
 import { sendUserEmail } from "./nodemailer.js";
 import redisClient from "./redisClient.js";
-import { generateAccessToken, generateRefreshToken } from "./jwt.js";
+import { generateAccessToken, generateRefreshToken, verifyJWT } from "./jwt.js";
 import { logAction } from "./logAction.js";
 
 const authRoutes = express.Router();
@@ -26,9 +26,6 @@ authRoutes.get('/protected', (req, res) => {
     return res.status(403).json({ error: 'Invalid token' });
   }
 });
-
-
-
 
 
 authRoutes.post('/login', async (req, res) => {
@@ -201,7 +198,6 @@ authRoutes.post('/forgot-password/verify-otp', async (req, res) => {
 authRoutes.post('/forgot-password/reset', async (req, res) => {
   const { email, newPassword } = req.body; //inputted new password
   const userId = req.user.userId; 
-  const schoolId = req.user.schoolId;
 
   try {
     //check if verified flag exists in Redis
@@ -232,7 +228,7 @@ authRoutes.post('/forgot-password/reset', async (req, res) => {
       RETURNING *`, 
       [hash, email]); //changed password to hash (hashed password)
     
-    await logAction(userId, `Updated password`, schoolId);
+    await logAction(userId, `Updated user info`, userId);
       
     await redisClient.del(`verifiedEmail:${email}`);
 
@@ -339,7 +335,7 @@ authRoutes.post('/forgot-password/reset-password/:userId/:schoolId', async(req, 
 
 
 //verify passwordMatch - only used in frontend
-authRoutes.post('/verify/current-password', async (req, res) => {
+authRoutes.post('/verify/current-password', verifyJWT, async (req, res) => {
   // const { userId } = req.params;
   const userId = req.user.userId; 
   const { currentPassword } = req.body;
@@ -355,6 +351,7 @@ authRoutes.post('/verify/current-password', async (req, res) => {
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
 
     if (!passwordMatch) return res.status(401).json({ error: 'Incorrect Password' });
+    console.log(res.status)
 
     return res.status(200).json({ passwordMatch: true });
   } catch (error) {
@@ -385,7 +382,7 @@ authRoutes.post('/change/current-password/:userId', async(req, res) => {
     const passwordMatch = await bcrypt.compare(currentPassword, user.password ) //true or false
 
     if (!passwordMatch) { //if false (password did not match)
-      return res.status(401).json({error: `Password input did not match`});
+      return res.status(401).json({error: `The current password you entered is incorrect.`});
     }
 
     if (!strongPassword.test(newPassword)) {
