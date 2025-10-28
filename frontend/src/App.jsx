@@ -25,6 +25,7 @@ import { HomeSuperadmin } from './pages/HomeSuperadmin.jsx';
 import { ManageUser } from './components/home-superadmin/ManageUsers.jsx';
 import { DashboardSuper } from './components/home-superadmin/DashboardSuper.jsx';
 import { AdminAnalytics, HomeAdminAnalytics } from './components/home-superadmin/AdminAnalytics.jsx';
+import UserSettings from './pages/UserSettings.jsx';
 
 
 
@@ -102,11 +103,11 @@ useEffect(() => {
   axios.post("/refresh")
     .then(res => {
       const newToken = res.data.accessToken;
-      const { userId, schoolId, nameFNfirst, nameLNfirst, role } = res.data.user || {};
+      const { userId, schoolId, nameFNfirst, nameLNfirst, role, lastName, firstName } = res.data.user || {};
 
       setAccessToken(res.data.accessToken);
       setUser({ userId, schoolId, nameFNfirst, nameLNfirst, role });
-                            console.log("User after refresh: (obj)", { userId, schoolId, nameFNfirst, nameLNfirst, role }); //obj. for debugging only
+                            console.log("User after refresh: (obj)", { userId, schoolId, nameFNfirst, nameLNfirst, role, lastName, firstName}); //obj. for debugging only
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
       console.log("Access token set:", newToken);
@@ -151,6 +152,7 @@ useEffect(() => {
           <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />
           <Route path='/exam-analytics/section/:examId' element={<SectionAnalytics />} /> 
           <Route path='/exam-analytics/:examId/student-essay/:studentId' element={<StudentEssays />} />
+          <Route path='/account-settings' element={<UserSettings />} />
         </Route>
 
         <Route path='/login' element={<Login />} />
