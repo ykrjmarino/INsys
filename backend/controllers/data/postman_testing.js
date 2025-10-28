@@ -497,8 +497,8 @@ const postmanLinks = [
     WHAT: "AUTH: Verify Current Password before Changing Password", //for frontend, idk if i can use (if maalala ko)
     FUNC: authRoutes,
     CRUD: "POST",
-    path: "/api/verify-password/:userId",
-    link: "http://localhost:3000/api/verify-password/38",
+    path: "/api/verify/current-password/:userId",
+    link: "http://localhost:3000/api/verify/current-password/66",
     body:{
         "currentPassword": "ylayla"
     }
@@ -507,8 +507,8 @@ const postmanLinks = [
     WHAT: "AUTH: Verify AND Change Password",
     FUNC: authRoutes,
     CRUD: "POST",
-    path: "/api/change-password/:userId",
-    link: "http://localhost:3000/api/change-password/38",
+    path: "/api/change/current-password/:userId",
+    link: "http://localhost:3000/api/change/current-password/66",
     body: {
         "currentPassword": "ylayla",
         "newPassword": "Yla123"

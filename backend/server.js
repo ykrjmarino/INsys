@@ -93,7 +93,6 @@ import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateUser } from "./controllers/analyticsControlers/UPDATE.js";
 
-
 // ======================
 // 3️⃣ APP CONFIG
 // ======================
@@ -159,7 +158,7 @@ app.post("/api/sections", adminOnly, addSection);
 app.delete("/api/sections/:sectionId", adminOnly, deleteSection);
 
 // USER ROUTES
-app.get("/api/users/:id", adminsOnly, getUserById);
+app.get("/api/users/:userId", adminsOnly, getUserById);
 app.post("/api/users", adminsOnly, createUser);
 
 // EXAM ROUTES

@@ -40,6 +40,10 @@ export const HomeSuperadmin = () => {
             className="sidebar-btn"
             onClick={()=> navigate('/dashboard')}
           ><i className="fas fa-chart-bar"></i> System Settings </button>
+          <button
+            className="sidebar-btn"
+            onClick={()=> navigate('/account-settings')}
+          ><i className="fas fa-chart-bar"></i> Account Settings </button>
           
         </div>
 

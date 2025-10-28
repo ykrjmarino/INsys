@@ -339,8 +339,9 @@ authRoutes.post('/forgot-password/reset-password/:userId/:schoolId', async(req, 
 
 
 //verify passwordMatch - only used in frontend
-authRoutes.post('/verify-password/:userId', async (req, res) => {
-  const { userId } = req.params;
+authRoutes.post('/verify/current-password', async (req, res) => {
+  // const { userId } = req.params;
+  const userId = req.user.userId; 
   const { currentPassword } = req.body;
 
   if (!currentPassword) return res.status(400).json({ error: 'Please enter your current password' });
@@ -362,9 +363,13 @@ authRoutes.post('/verify-password/:userId', async (req, res) => {
 });
 
 //verify if passwordMatch before changing password
-authRoutes.post('/change-password/:userId', async(req, res) => {
+authRoutes.post('/change/current-password/:userId', async(req, res) => {
+  console.log("sumabit")
   const { userId } = req.params;
   const { currentPassword, newPassword } = req.body;
+
+  console.log("sumabit: ", currentPassword)
+  console.log("sumabit: ", newPassword)
 
   const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
 

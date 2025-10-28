@@ -309,14 +309,14 @@ export const getUser = async (req, res) => { //used by superadmin
 };
 
 export const getQuestionAnalytics = async (req, res) => {
-  const userId = req.user.userId; 
+  const userId = req.user.userId; //cant use para makita ng superadmin
   const { examId } = req.params;
   try {
     const questionsRes = await db.query(
       `SELECT question_id, question_text, points
        FROM questions
-       WHERE exam_id = $1 AND user_id = $2`,
-      [examId, userId]
+       WHERE exam_id = $1`,
+      [examId]
     );
 
     const answersRes = await db.query(

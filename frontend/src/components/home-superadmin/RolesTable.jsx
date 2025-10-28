@@ -323,7 +323,8 @@ const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) =
           onChange={handleChange}
           options={[
             { label: "Student", value: "student" },
-            { label: "Admin", value: "admin" }
+            { label: "Admin", value: "admin" },
+            { label: "Superadmin", value: "superadmin" }
           ]}
         />
 
