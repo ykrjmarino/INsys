@@ -318,7 +318,7 @@ authRoutes.post('/forgot-password/reset-password/:userId/:schoolId', async(req, 
       [hash, userId, schoolId]);
     
     //log
-    await logAction(userId, `Updated password`, schoolId);
+    await logAction(userId, `Updated their password`, schoolId);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "User not found or school ID mismatch." });
@@ -396,6 +396,9 @@ authRoutes.post('/change/current-password/:userId', async(req, res) => {
     const hash = await bcrypt.hash(newPassword, saltRounds);
     
     await db.query (`UPDATE users SET password = $1 WHERE user_id = $2`, [hash, userId]);
+
+    //log
+    await logAction(userId, `Updated their password`, schoolId);
 
     return res.status(200).json({ message: "Password changed successfully"});
   } catch (error) {
@@ -513,9 +516,11 @@ authRoutes.post('/forgot-password/in/reset', verifyJWT, async (req, res) => {
       WHERE email = $2
       RETURNING *`, 
       [hash, email]); //changed password to hash (hashed password)
-    
-    await logAction(null, `Password reset for ${email}`);
       
+    //log
+    await logAction(userId, `Updated their password`, schoolId);
+    
+    
     await redisClient.del(`verifiedEmail:${email}`);
 
     return res.status(200).json({ message: "Password reset successfully" });

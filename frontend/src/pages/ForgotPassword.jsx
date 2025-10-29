@@ -209,16 +209,17 @@ function ForgotPassword() { //when logged-out
     try {
       const res = await axios.post('/forgot-password/verify-otp', { email: form.email, code });
       setMessage(res.data.message);
-      toast.success("Email verified successfully!");
+      toast.success(res.data.message);
       setError("");
       setIsVerified(true);
     } catch (err) {
       console.log(err.response?.data);
-      setError("Invalid OTP");
-      toast.info(error);
+      setError(err.response?.data.message);
+      toast.error(err.response?.data.message);
       setMessage("");
     }
   };
+
 
   const handleSubmit = async(e) => {
     e.preventDefault();
