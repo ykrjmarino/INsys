@@ -128,7 +128,8 @@ const SettingsPasswordManage = () => {
             required
           />
         </div>
-
+        <a className="forgot-password" href="/account-settings/forgot-password">Forgot Password?</a>
+        <br></br>
         <button type="submit">Update Password</button>
       </form>
     </div>

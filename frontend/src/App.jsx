@@ -13,7 +13,7 @@ import HomeTeacher from './pages/HomeTeacher.jsx';
 import HomeStudent from './pages/HomeStudent.jsx';
 import UpdateExam from './pages/UpdateExam.jsx';
 import Welcome from './pages/Welcome.jsx';
-import ForgotPassword from './pages/ForgotPassword.jsx';
+import ForgotPassword, { ForgotPasswordLoggedIn } from './pages/ForgotPassword.jsx';
 import HomeAnalytics from './pages/1-HomeAnalytics.jsx';
 import ExamAnalytics from './pages/2-ExamAnalytics.jsx';
 import SectionAnalytics from './pages/2.1-SectionAnalytics.jsx';
@@ -124,7 +124,7 @@ useEffect(() => {
 
   return(
     <>
-    <ToastContainer position="top-right" autoClose={3000} />
+    <ToastContainer position="top-right" autoClose={2000} />
     <AuthLoader>
       <Routes>
         {/* Root redirect */}
@@ -156,6 +156,7 @@ useEffect(() => {
 
         <Route element={<ProtectedRoute allowedRoles={["superadmin", "admin", "student"]} />}>
           <Route path='/account-settings' element={<UserSettings />} />
+          <Route path='/account-settings/forgot-password' element={<ForgotPasswordLoggedIn />} />
         </Route>
 
         <Route path='/login' element={<Login />} />
