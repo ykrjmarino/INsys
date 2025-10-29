@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx';
 import axios from '../utils/axiosConfig.js';
+import { toast } from 'react-toastify';
 
 //hooks
 import { useExams } from '../hooks/useExams.js';
@@ -28,22 +29,52 @@ function HomeStudent() {
         if(res.data) {
           setExamId(res.data.exam_id);
           setCheckSession(res.data);
-          setShowPopup(true);
-          console.log(`there is an exam ongoing at exam_id: ${res.data.exam_id}`); //should be ${sessionExamId}, but console.log works first before it updates the useState
+
+
+          // session in-progress and exam active → show popup
+          const now = new Date();
+          const startTime = new Date(res.data.start_datetime);
+          const endTime = new Date(res.data.end_datetime);
+
+          if (res.data.status === 'in-progress' && now >= startTime && now <= endTime) {
+            setShowPopup(true);
+            console.log(`Ongoing exam at exam_id: ${res.data.exam_id}`);
+          } else {
+            // auto-submit if session is in-progress but exam ended OR already submitted
+            console.log('No popup: exam already completed or session submitted.');
+            if (res.data.status === 'in-progress') {
+              await axios.post(`/student/exams/${res.data.exam_id}/submit`, {}, config);
+              console.log('Exam session auto-submitted.');
+            }
+          }
         }
       } catch (error) {
         console.log('wala nahanap');
+        console.log('No active session found');
       }
     }
 
     fetchSession();
   }, []);
 
-  // navigate to exam page
-  const handleEnterExam = () => {
-    console.log("Entering exam", examId);
-    setShowPopup(false);
-    navigate(`/exam/start/${examId}`);
+  //navigate to exam page
+  const handleEnterExam = async() => {
+    try {
+      const res = await axios.get(`/student/verify/re-enter/${examId}`); 
+      
+      if (!res.data.allowed) {
+        toast.error("You cannot enter this exam yet.");
+        return;
+      }
+
+      setShowPopup(false);
+      navigate(`/exam/start/${examId}`);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to check exam status.");
+    }
+    // console.log("Entering exam", examId);
+    // setShowPopup(false);
   };
 
   //submitAll

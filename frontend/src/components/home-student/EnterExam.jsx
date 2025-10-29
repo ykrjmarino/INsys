@@ -79,7 +79,7 @@ function EnterExam() {
         </div>
 
         <div className="student-home-input">
-          <label for="section">Section</label>
+          <label htmlFor="section">Section</label>
           <InputField 
             name="section"
             id="section"
@@ -90,7 +90,7 @@ function EnterExam() {
         </div>
 
         <div className="student-home-input">
-          <label for="code">Code</label>
+          <label htmlFor="code">Code</label>
           <InputField
             name="code"
             id="code"

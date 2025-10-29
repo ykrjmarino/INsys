@@ -1,5 +1,40 @@
 import {db} from '../db.js';
 
+export const verifyDateBeforeReEntering = async (req, res) => {
+  const { examId } = req.params; // or from params if you prefer
+
+  try {
+    const result = await db.query(
+      `SELECT start_datetime AS start_utc, end_datetime AS end_utc
+       FROM examinations
+       WHERE exam_id = $1
+         AND (status = 'published' OR status = 'ongoing')`,
+      [examId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Exam not found or not active' });
+    }
+
+    const currentTimeUTC = new Date();
+    const startTimeUTC = new Date(result.rows[0].start_utc);
+    const endTimeUTC = new Date(result.rows[0].end_utc);
+
+    if (currentTimeUTC < startTimeUTC) {
+      return res.status(403).json({ error: 'Exam has not started' });
+    }
+
+    if (currentTimeUTC > endTimeUTC) {
+      return res.status(403).json({ error: 'Exam has ended' });
+    }
+
+    res.status(200).json({ allowed: true, message: 'Exam is active' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to verify exam' });
+  }
+};
+
 //VERIFY BEFORE ENTERING
 export const verifyExamAccess = async(req, res) => {
   console.log("Raw body:", req.body);

@@ -38,6 +38,7 @@ import {
   autoSubmitAllAnswers,
   startExam,
   submitAllAnswers,
+  verifyDateBeforeReEntering,
 } from "./controllers/studentQuery.js";
 
 // USER CONTROLLERS
@@ -152,7 +153,7 @@ app.get("/", (req, res) => res.send("Backend is running UwU!"));
 // ======================
 app.patch("/api/student-score/essay/:examId/:questionId", adminsOnly, manualEssayScoring);
 
-// YEAR & SECTION
+// YEAR & SECTION 
 app.get("/api/sections/year-section", adminsOnly, yearSection);
 app.get("/api/course/details", adminsOnly, courseData);
 app.get("/api/year-level/details", adminsOnly, yearLevelData);
@@ -198,6 +199,7 @@ app.delete("/api/exams/:examId/questions/:questionId", adminOnly, deleteQuestion
 // ======================
 // 8️⃣ STUDENT ROUTES
 // ======================
+app.get("/api/student/verify/re-enter/:examId", studentOnly, verifyDateBeforeReEntering);
 app.post("/api/student/verify", studentOnly, verifyExamAccess);
 app.post("/api/student/exams/:examId/start", studentOnly, startExam);
 app.get("/api/student/session", studentOnly, getStudentCurrentSession);

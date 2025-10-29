@@ -306,14 +306,24 @@ export const getStudentCurrentSession = async(req, res) => { //status: in-progre
   const studentId = req.user.schoolId;
 
   try {
-    const result = await db.query(`
-      SELECT status, exam_id, current_index
-        FROM exam_sessions
-      WHERE student_school_id = $1
-        AND status = 'in-progress'
-      `, [studentId]);
+    // const result = await db.query(`
+    //   SELECT status, exam_id, current_index
+    //     FROM exam_sessions
+    //   WHERE student_school_id = $1
+    //     AND status = 'in-progress'
+    //   `
+    // , [studentId]);
 
-    if (result.rows.length === 0) return res.status(404).json({ message: "No exam-session found. Can enter other exam" })
+    const result = await db.query(`
+      SELECT s.*, e.status AS exam_status, e.start_datetime, e.end_datetime
+      FROM exam_sessions s
+      JOIN examinations e ON s.exam_id = e.exam_id
+      WHERE s.student_school_id = $1
+      ORDER BY s.started_at DESC
+      LIMIT 1`
+    , [studentId]);
+
+    if (result.rows.length === 0) return res.status(404).json({ message: "No exam-session found. Can enter other exam" });
 
     res.status(200).json(result.rows[0]);
   } catch (error) {
