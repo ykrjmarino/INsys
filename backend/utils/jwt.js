@@ -6,7 +6,11 @@ export const generateAccessToken = (userPayload) => {
     {
       userId: userPayload.userId,
       schoolId: userPayload.schoolId,
-      role: userPayload.role
+      role: userPayload.role,
+      nameFNfirst: userPayload.nameFNfirst,
+      nameLNfirst: userPayload.nameLNfirst,
+      firstName: userPayload.firstName,
+      lastName: userPayload.lastName
     }, 
     process.env.JWT_ACCESS_SECRET,
     { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN || "15m" }

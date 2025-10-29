@@ -165,7 +165,7 @@ authRoutes.post('/forgot-password/request-otp', async (req, res) => {
       300, 
       JSON.stringify({ user_id: user.user_id, school_id: user.school_id }));
 
-    return res.status(200).json({ message: 'OTP sent. Verify to reset password.' });
+    return res.status(200).json({ message: 'OTP sent! Verify to reset password.' });
   } catch (error) {
     console.error('Error Reset Password', error);
     res.status(500).json({ error: 'Failed to reset password' });
@@ -197,7 +197,7 @@ authRoutes.post('/forgot-password/verify-otp', async (req, res) => {
 //check if verified and then we input new password
 authRoutes.post('/forgot-password/reset', async (req, res) => {
   const { email, newPassword } = req.body; //inputted new password
-  const userId = req.user.userId; 
+  const userId = null; 
 
   try {
     //check if verified flag exists in Redis
@@ -228,7 +228,7 @@ authRoutes.post('/forgot-password/reset', async (req, res) => {
       RETURNING *`, 
       [hash, email]); //changed password to hash (hashed password)
     
-    await logAction(userId, `Updated user info`, userId);
+    await logAction(null, `Password reset for ${email}`);
       
     await redisClient.del(`verifiedEmail:${email}`);
 
@@ -287,7 +287,7 @@ authRoutes.post('/forgot-password/reset', async (req, res) => {
 
 
 
-//FOR FORGOT PASSWORD WHEN LOGGED IN
+//FOR FORGOT PASSWORD WHEN LOGGED IN ---- BY CURRENT PASSWORD
 //verify and confirm reset password
 authRoutes.post('/forgot-password/reset-password/:userId/:schoolId', async(req, res) => {
   const { userId, schoolId } = req.params;
@@ -403,6 +403,137 @@ authRoutes.post('/change/current-password/:userId', async(req, res) => {
     res.status(500).json({ error: 'Failed to change password' });
   }
 });
+
+
+
+
+
+
+//FOR FORGOT PASSWORD WHEN LOGGED IN ---- BY OTP
+//send request otp only
+authRoutes.post('/forgot-password/in/request-otp', verifyJWT,  async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const result = await db.query(`
+      SELECT email, school_id 
+      FROM users 
+      WHERE user_id = $1`
+    , [userId]);
+    
+    if (result.rows.length === 0) return res.status(404).json({ error: "User not found." });
+
+    const user = result.rows[0]; //email and school_id
+    const { email } = user;
+
+    //generate OTP and send email
+    const otp = await generateOTP(email, "forgot"); //wait for redis to store this
+    await sendUserEmail({ email, token: otp, context: "forgot" }); //nodemailer
+
+    //temporarily store user info in Redis (to auto-insert after verify)
+    await redisClient.setEx(`pendingUser:${email}`, 
+      300, 
+      JSON.stringify({ user_id: user.user_id, school_id: user.school_id }));
+
+    return res.status(200).json({ message: 'OTP sent! Verify to reset password.' });
+  } catch (error) {
+    console.error('Error Reset Password', error);
+    res.status(500).json({ error: 'Failed to reset password' });
+  }
+
+})
+
+
+//verify otp 
+authRoutes.post('/forgot-password/in/verify-otp', verifyJWT, async (req, res) => {
+  const { code } = req.body; //inputted new password
+  const userId = req.user.userId;
+
+  try {
+    //get user's email from DB
+    const result = await db.query(`SELECT email FROM users WHERE user_id = $1`,[userId]);
+
+    if (result.rows.length === 0) return res.status(404).json({ message: "User not found" });
+
+    const { email } = result.rows[0];
+
+    //========== verify otp ==========//
+    const isValid = await verifyOTP(email, code); //send to generateOTP.js
+            console.log(`isValid: ${isValid}`)
+    if (!isValid) return res.status(400).json({ message: 'Invalid or expired code' })
+
+    await redisClient.setEx(`verifiedEmail:${email}`, 300, "true");
+
+    return res.status(201).json({ message: 'Email verified' });
+  } catch (err) {
+    console.error('OTP Verification Error:', err);
+    return res.status(500).json({ message: 'Server error during verification' });
+  }
+})
+
+
+//check if verified and then we input new password
+authRoutes.post('/forgot-password/in/reset', verifyJWT, async (req, res) => {
+  const { newPassword } = req.body; //inputted new password
+  const userId = req.user.userId;
+
+  try {
+    //get user's email from DB
+    const result = await db.query(`SELECT email FROM users WHERE user_id = $1`,[userId]);
+
+    if (result.rows.length === 0) return res.status(404).json({ message: "User not found" });
+
+    const { email } = result.rows[0];
+
+
+    //check if verified flag exists in Redis
+    const verified = await redisClient.get(`verifiedEmail:${email}`);
+    const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+      //At least 8 characters
+      // At least one uppercase letter (A–Z)
+      // At least one lowercase letter (a–z)
+      // At least one number (0–9)
+      // At least one special character (!@#$%^&*)
+
+    if (!verified) {
+      return res.status(400).json({ message: "Email not verified" });
+    }
+
+    if (!strongPassword.test(newPassword)) {
+      return res.status(400).json({ error: "Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character." });
+    }
+
+    //password hashing
+    const hash = await bcrypt.hash(newPassword, saltRounds);
+
+    //updating password to database
+    await db.query(`
+      UPDATE users 
+      SET password = $1
+      WHERE email = $2
+      RETURNING *`, 
+      [hash, email]); //changed password to hash (hashed password)
+    
+    await logAction(null, `Password reset for ${email}`);
+      
+    await redisClient.del(`verifiedEmail:${email}`);
+
+    return res.status(200).json({ message: "Password reset successfully" });
+  } catch (err) {
+    console.error('OTP Verification Error:', err);
+    return res.status(500).json({ message: 'Server error during verification' });
+  }
+})
+
+
+
+
+
+
+
+
+
+
 
 
 export default authRoutes;

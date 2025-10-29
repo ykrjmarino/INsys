@@ -196,7 +196,7 @@ CREATE TABLE exam_monitoring (
 
 CREATE TABLE system_logs (
   id SERIAL PRIMARY KEY,
-  user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,  -- link to users.user_id
+  user_id INT REFERENCES users(user_id) ON DELETE CASCADE,  -- link to users.user_id
   action TEXT NOT NULL,                                              -- description of the action
   target_id INT,                                                     -- optional: affected exam/user/etc.
   created_at TIMESTAMP DEFAULT NOW()                                 -- timestamp of the action
