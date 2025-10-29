@@ -12,6 +12,20 @@ const axios = axiosLib .create({
 });
 console.log("Axios instance baseURL:", axios.defaults.baseURL);
 
+axios.interceptors.response.use(
+  res => res,
+  err => {
+    const status = err.response?.status;
+    const currentPath = window.location.pathname;
+    if (status === 403) {
+      window.location.href = "/forbidden";
+    } else if (status === 401 && currentPath !== "/login") {
+      window.location.href = "/login";
+    }
+    return Promise.reject(err);
+  }
+);
+
 
 export default axios;
 

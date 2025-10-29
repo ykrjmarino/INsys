@@ -114,7 +114,7 @@ export const ForgotPasswordLoggedIn = () => { //when logged-in
 
   return (
     <>
-      {/*{!isVerified ? ( */}
+      {!isVerified ? (
         <>
         <p> Forgot Password </p>
         <label>Email</label>
@@ -126,26 +126,29 @@ export const ForgotPasswordLoggedIn = () => { //when logged-in
           disabled
         />
         <Button label="Send OTP" onClick={handleSendOtp} />
-        <label>OTP</label>
+        <label htmlFor="code">OTP</label>
         <InputField 
           name="code"
+          id="code"
           value={code} 
           onChange={(e) => setCode(e.target.value)}
           placeholder="Enter OTP"
         />
         <Button label="Verify" onClick={handleVerifyOtp} />
         </>
-      {/* ) : ( */}
+      ) : ( 
         <>
-        <label>password</label>
+        <label htmlFor="newPassword">password</label>
         <InputField 
           name="password"
+          id="newPassword"
           value={form.password} 
           onChange={(e) => setForm({ ...form, password: e.target.value })}
           placeholder="Password"
         />
-        <label>re-type password</label>
+        <label htmlFor="confirmPassword">re-type password</label>
         <InputField 
+          id="confirmPassword"
           name="retypePassword"
           value={form.retypePassword} 
           onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
@@ -153,7 +156,7 @@ export const ForgotPasswordLoggedIn = () => { //when logged-in
         />
         <Button label="Reset Password" onClick={handleSubmit} />
         </>
-      {/* )} */}
+      )}
       
     </>
   )

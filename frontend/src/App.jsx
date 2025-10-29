@@ -26,6 +26,7 @@ import { ManageUser } from './components/home-superadmin/ManageUsers.jsx';
 import { DashboardSuper } from './components/home-superadmin/DashboardSuper.jsx';
 import { AdminAnalytics, HomeAdminAnalytics } from './components/home-superadmin/AdminAnalytics.jsx';
 import UserSettings from './pages/UserSettings.jsx';
+import { ForbiddenPage, NotFoundPage, UnauthorizedPage } from './pages/ErrorPage/ErrorPages.jsx';
 
 
 
@@ -165,8 +166,13 @@ useEffect(() => {
         <Route path='/register/student' element={<RegisterStudent />} />
         <Route path='/register/teacher' element={<RegisterTeacher />} />
 
-        {/* Fallback */}
-        {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
+        <Route path="/forbidden" element={<ForbiddenPage />} />
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+
+
+        {/* Fallback */}        
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </AuthLoader>
     
