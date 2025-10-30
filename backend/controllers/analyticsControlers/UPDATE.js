@@ -41,3 +41,36 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const updateDeduction = async (req, res) => {
+  const { examId, studentId } = req.params;
+  const { deduction } = req.body;
+
+  try {
+    // 1️⃣ Get current scores
+    const result = await db.query(
+      `SELECT objective_score, essay_score FROM student_scores 
+       WHERE exam_id = $1 AND student_school_id = $2`,
+      [examId, studentId]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Student score not found" });
+    }
+
+    const { objective_score, essay_score } = result.rows[0];
+    const total_score = (objective_score || 0) + (essay_score || 0) - deduction;
+
+    // 2️⃣ Update the deduction and total_score
+    await db.query(
+      `UPDATE student_scores 
+       SET deduction = $1, total_score = $2 
+       WHERE exam_id = $3 AND student_school_id = $4`,
+      [deduction, total_score, examId, studentId]
+    );
+
+    res.status(200).json({ message: "Deduction updated", total_score });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update deduction" });
+  }
+};

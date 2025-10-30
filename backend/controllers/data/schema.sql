@@ -164,6 +164,7 @@ CREATE TABLE student_scores (
   total_score INT DEFAULT 0,
   objective_score INT DEFAULT 0,
   essay_score INT DEFAULT 0,
+  deduction INT DEFAULT 0,
   section_name TEXT,
   is_submitted BOOLEAN DEFAULT FALSE,
   submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

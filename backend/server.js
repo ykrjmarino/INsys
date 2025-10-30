@@ -92,7 +92,7 @@ import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/qu
 import { getAdminExamAnalytics, getAllAnalytics, getExamAnalytics, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs, getUser } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
-import { updateUser } from "./controllers/analyticsControlers/UPDATE.js";
+import { updateDeduction, updateUser } from "./controllers/analyticsControlers/UPDATE.js";
 import { deleteOwnAccount } from "./controllers/userControllers/DELETE.js";
 import { deleteAllData, deleteOldData } from "./controllers/systemSystemControllers/superadminSettings.js";
 
@@ -153,6 +153,7 @@ app.get("/", (req, res) => res.send("Backend is running UwU!"));
 // 7️⃣ TEACHER ROUTES
 // ======================
 app.patch("/api/student-score/essay/:examId/:questionId", adminsOnly, manualEssayScoring);
+app.patch("/api/exam-analytics/:examId/student/:studentId/deduction", adminsOnly, updateDeduction);
 
 // YEAR & SECTION 
 app.get("/api/sections/year-section", adminsOnly, yearSection);

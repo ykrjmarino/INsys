@@ -34,6 +34,7 @@ export const getExamAnalytics = async(req, res) =>{
         ss.total_score,
         ss.objective_score,
         ss.essay_score,
+        ss.deduction,
         ss.section_name AS student_section_name,
         ss.is_submitted,
         ss.submitted_at,
@@ -74,7 +75,22 @@ export const getExamAnalytics = async(req, res) =>{
     //   WHERE ss.exam_id = $1`, [examId]
     // );
 
-    // 4️⃣ Combine results
+    // 4️⃣ Fetch all violations for this exam
+    const violations = await db.query(`
+      SELECT 
+        em.monitor_id,
+        em.exam_id,
+        em.student_school_id,
+        em.event_type,
+        em.is_warning,
+        em.details,
+        em.created_at
+      FROM exam_monitoring em
+      WHERE em.exam_id = $1
+      ORDER BY em.created_at DESC
+    `, [examId]);
+
+    // 5️⃣ Combine results
     const response = {
       exam: examInfo.rows[0],
       students: studentInfo.rows,
@@ -83,7 +99,8 @@ export const getExamAnalytics = async(req, res) =>{
         average_score: 0,
         highest_score: 0,
         lowest_score: 0
-      }
+      },
+      violations: violations.rows
     };
 
     res.status(200).json(response);
