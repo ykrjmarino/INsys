@@ -27,6 +27,7 @@ import { DashboardSuper } from './components/home-superadmin/DashboardSuper.jsx'
 import { AdminAnalytics, HomeAdminAnalytics } from './components/home-superadmin/AdminAnalytics.jsx';
 import UserSettings from './pages/UserSettings.jsx';
 import { ForbiddenPage, NotFoundPage, UnauthorizedPage } from './pages/ErrorPage/ErrorPages.jsx';
+import SystemSettings from './components/home-superadmin/SystemContent.jsx';
 
 
 
@@ -147,6 +148,7 @@ useEffect(() => {
           <Route path='/user-management' element={<ManageUser />} />
           <Route path='/admin-analytics' element={<AdminAnalytics />} />
           <Route path='/exams-analytics/:teacherId' element={<HomeAdminAnalytics />} />
+          <Route path='/system-settings' element={<SystemSettings />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["superadmin", "admin"]} />}>
@@ -168,8 +170,6 @@ useEffect(() => {
 
         <Route path="/forbidden" element={<ForbiddenPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
-
-
 
         {/* Fallback */}        
         <Route path="*" element={<NotFoundPage />} />

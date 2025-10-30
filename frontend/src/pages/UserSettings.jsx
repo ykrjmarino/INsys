@@ -3,6 +3,8 @@ import React, { useState }  from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
+import HeaderTeacher from "../components/Header";
+import { HomeSuperadmin } from "./HomeSuperadmin";
 
 const SettingsBasicInformation = () => {
   const { accessToken, user } = useAuth();
@@ -275,7 +277,7 @@ const SettingsAccountControl = () => {
   )
 }
 
-function UserSettings () {
+export const UserSettingsContent = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'information');
 
@@ -296,6 +298,24 @@ function UserSettings () {
         {activeTab === "account-control" && <SettingsAccountControl />}
       </div>
 
+    </div>
+    </>
+  )
+}
+
+function UserSettings() {
+  return (
+    <>
+    <div className="whole">
+      <HeaderTeacher />
+      <div className="side-bar-and-main-container">
+        <HomeSuperadmin />
+        <div className="main-home-content" style={{ padding: '10px' }}>          
+          <h2>Admin Analytics</h2>
+
+          <UserSettingsContent />
+        </div>
+      </div>
     </div>
     </>
   )

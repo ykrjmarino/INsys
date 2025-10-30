@@ -94,6 +94,7 @@ import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateUser } from "./controllers/analyticsControlers/UPDATE.js";
 import { deleteOwnAccount } from "./controllers/userControllers/DELETE.js";
+import { deleteAllData, deleteOldData } from "./controllers/systemSystemControllers/superadminSettings.js";
 
 // ======================
 // 3️⃣ APP CONFIG
@@ -234,7 +235,9 @@ app.get("/api/system/manage-users", superadminOnly, getUser);
 app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
 app.delete("/api/system/manage-users/:userId", superadminOnly, deleteUser);
 
-
+//system maintenance
+app.delete("/api/maintenance/old", superadminOnly, deleteOldData); //7months old data in examinations and logs
+app.delete("/api/maintenance/all", superadminOnly, deleteAllData); //all rows in examinations and logs
 
 
 
