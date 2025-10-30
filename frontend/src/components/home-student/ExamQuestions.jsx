@@ -112,6 +112,7 @@ function ExamQuestions() {
   const [loadingQuestions, setLoadingQuestions] = useState(true);
   const [loadingExamInfo, setLoadingExamInfo] = useState(false);
 
+  const [answers, setAnswers] = useState({});
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [examInfo, setExamInfo] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -120,12 +121,10 @@ function ExamQuestions() {
 
   const answeredRef = useRef({}); // key: question index
 
-  const handleStudentAnswerOnce = async () => {
-    if (answeredRef.current[current]) return; // already submitted
-    answeredRef.current[current] = true; // mark immediately
-
-    const currentQuestion = examQuestions[current];
-    await handleStudentAnswer(); // your existing function
+  const handleStudentAnswerOnce = async (index) => {
+    if (answeredRef.current[index]) return;
+    answeredRef.current[index] = true;
+    await handleStudentAnswer(index);
   };
   
 // useEffect(() => { THIS WORKS BUT TOO SLOW TO RENDER 
@@ -175,6 +174,7 @@ function ExamQuestions() {
 
     const questionKey = `exam-${examId}-q-${current}-startTime`;
 
+
     // Load or initialize startTime
     let startTime = localStorage.getItem(questionKey);
     if (!startTime) {
@@ -193,7 +193,7 @@ function ExamQuestions() {
 
       if (remaining <= 0) {
         localStorage.removeItem(questionKey);
-        handleStudentAnswerOnce().then(() => {
+        handleStudentAnswerOnce(current).then(() => {
           if (current === examQuestions.length - 1) {
             fetchExamInfo().then(() => setSubmitted(true));
           } else {
@@ -339,8 +339,10 @@ function ExamQuestions() {
   //   examQuestions[current].option_b
   // ];
 
-  const handleStudentAnswer = async() => { //adds blank form just for displaying empty form UI 
-    const currentQuestion = examQuestions[current];
+  const handleStudentAnswer = async(index) => { //adds blank form just for displaying empty form UI 
+    const currentQuestion = examQuestions[index];
+    if (!currentQuestion) return; // STOP if undefined
+    const currentAnswer = answers[index] || '';
 
     try {
       const config = {
@@ -352,14 +354,16 @@ function ExamQuestions() {
       await axios.post(`/student-answers/${examId}/submit`, {
         examId,
         questionId: currentQuestion.question_id,
-        studentAnswer: selectedAnswer
+        studentAnswer: currentAnswer
       }, config);
 
       console.log("student answer saved to DB... save student_answers table");
       //clear answer for next question
       setSelectedAnswer('');
     } catch (error) {
+      console.log("Error object:", error);
       alert(error.response?.data?.error || "Failed to save answer");
+      answeredRef.current[index] = false;
     }
   }
 
@@ -438,8 +442,8 @@ function ExamQuestions() {
                       mcqText={q.question_text}
                       mcqOptions={optionsArrayMCQ}
                       name={`q${current}`} 
-                      value={selectedAnswer}
-                      onChange={(e) => setSelectedAnswer(e.target.value)}
+                      value={answers[current] || ""}
+  onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
                     />
                   )
                 case "identification":
@@ -447,9 +451,9 @@ function ExamQuestions() {
                     <IdentificationComp
                       idenText={q.question_text}
                       name={`q${current}`} 
-                      value={selectedAnswer}
-                      onChange={(e) => setSelectedAnswer(e.target.value)}
-                       placeholder="Enter your answer"
+                      value={answers[current] || ""}
+  onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
+                      placeholder="Enter your answer"
                     />
                   )
                 case "essay":
@@ -457,8 +461,8 @@ function ExamQuestions() {
                     <EssayComp
                       essayText={q.question_text}
                       name={`q${current}`}
-                      value={selectedAnswer || ""} 
-                      onChange={(e) => setSelectedAnswer(e.target.value)}
+                      value={answers[current] || ""}
+  onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
                       placeholder="Enter your essay answer"
                     />
                   )
@@ -468,8 +472,8 @@ function ExamQuestions() {
                       tfText={q.question_text}
                       tfOptions={optionsArrayTF}
                       name={`q${current}`} 
-                      value={selectedAnswer}
-                      onChange={(e) => setSelectedAnswer(e.target.value)}
+                      value={answers[current] || ""}
+  onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
                     />
                   )
                 default: 
@@ -488,30 +492,22 @@ function ExamQuestions() {
           </button> */}
           <Button 
             label={current === examQuestions.length - 1 ? "Submit" : "Next"}
-            onClick={async() => {
-              // Save current answer
-              await handleStudentAnswerOnce();
+            onClick={async () => {
+              await handleStudentAnswerOnce(current);
 
-              // Clear previous question timer from localStorage
-              const prevQuestionKey = `exam-${examId}-q-${current}-startTime`;
-              localStorage.removeItem(prevQuestionKey);
-              
-              if (current === examQuestions.length - 1) { 
-                //(array minus 1) is the last object
-                //fetch exam info -> triggers showing FinishExamInfo
+              const key = `exam-${examId}-q-${current}-startTime`;
+              localStorage.removeItem(key);
+
+              if (current === examQuestions.length - 1) {
                 await fetchExamInfo();
                 setSubmitted(true);
               } else {
-                const nextQuestionIndex = current + 1;
-                setCurrent(nextQuestionIndex);
-                // Reset timer for the next question
+                const nextIndex = current + 1;
+                setCurrent(nextIndex);
                 setTimerLeft(examInfo.timer_question);
-
-                // Remove any existing startTime for the next question
-                const nextQuestionKey = `exam-${examId}-q-${nextQuestionIndex}-startTime`;
-                localStorage.removeItem(nextQuestionKey);
+                localStorage.removeItem(`exam-${examId}-q-${nextIndex}-startTime`);
               }
-            }}  
+            }}
           />
         </div>
       </div>

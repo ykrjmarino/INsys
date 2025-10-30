@@ -39,7 +39,7 @@ export const FinishExamInfo = ({ examTitle, examAutomatedScore, examTotalPoints,
         <div className="student-s-exam-results-card">
           <div className="student-s-exam-header">
             <h1 className="student-s-exam-title">{examTitle}</h1>
-            <img src="/images/correct.png" alt="Checkmark" class="student-s-checkmark-icon" />
+            <img src="/images/correct.png" alt="Checkmark" className="student-s-checkmark-icon" />
           </div>
 
           <div className="student-s-score-section">
