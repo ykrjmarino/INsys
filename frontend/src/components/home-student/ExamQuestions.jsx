@@ -117,48 +117,98 @@ function ExamQuestions() {
   const [submitted, setSubmitted] = useState(false);
 
   const [timerLeft, setTimerLeft] = useState(0);
-  
-useEffect(() => {
-  if (!examInfo?.timer_question || !examQuestions[current]) return;
 
-  const questionKey = `exam-${examId}-q-${current}-startTime`;
+  const answeredRef = useRef({}); // key: question index
 
-  // Load or initialize startTime for this question
-  let startTime = localStorage.getItem(questionKey);
-  if (!startTime) {
-    startTime = Date.now();
-    localStorage.setItem(questionKey, startTime);
-  } else {
-    startTime = Number(startTime);
-  }
+  const handleStudentAnswerOnce = async () => {
+    if (answeredRef.current[current]) return; // already submitted
+    answeredRef.current[current] = true; // mark immediately
 
-  const totalTime = examInfo.timer_question * 1000;
-
-  const updateTimer = () => {
-    const elapsed = Date.now() - startTime;
-    const remaining = Math.max(totalTime - elapsed, 0);
-    setTimerLeft(Math.floor(remaining / 1000));
+    const currentQuestion = examQuestions[current];
+    await handleStudentAnswer(); // your existing function
   };
+  
+// useEffect(() => { THIS WORKS BUT TOO SLOW TO RENDER 
+//   if (!examInfo?.timer_question || !examQuestions[current]) return;
 
-  // Update immediately
-  updateTimer();
+//   const questionKey = `exam-${examId}-q-${current}-startTime`;
 
-  // Interval for countdown
-  const interval = setInterval(() => {
-    const elapsed = Date.now() - startTime;
-    const remaining = Math.max(totalTime - elapsed, 0);
-    setTimerLeft(Math.floor(remaining / 1000));
+//   // Load or initialize startTime for this question
+//   let startTime = localStorage.getItem(questionKey);
+//   if (!startTime) {
+//     startTime = Date.now();
+//     localStorage.setItem(questionKey, startTime);
+//   } else {
+//     startTime = Number(startTime);
+//   }
 
-    if (remaining <= 0) {
-      clearInterval(interval);
-      localStorage.removeItem(questionKey);
-      // Only auto-submit current question
-      handleStudentAnswer();
+//   const totalTime = examInfo.timer_question * 1000;
+
+//   const updateTimer = () => {
+//     const elapsed = Date.now() - startTime;
+//     const remaining = Math.max(totalTime - elapsed, 0);
+//     setTimerLeft(Math.floor(remaining / 1000));
+//   };
+
+//   // Update immediately
+//   updateTimer();
+
+//   // Interval for countdown
+//   const interval = setInterval(() => {
+//     const elapsed = Date.now() - startTime;
+//     const remaining = Math.max(totalTime - elapsed, 0);
+//     setTimerLeft(Math.floor(remaining / 1000));
+
+//     if (remaining <= 0) {
+//       clearInterval(interval);
+//       localStorage.removeItem(questionKey);
+//       // Only auto-submit current question
+//       handleStudentAnswer();   ERASE THIS
+// NOW IT'S CALLED handleStudentAnswerOnce()
+//     }
+//   }, 1000);
+
+//   return () => clearInterval(interval);
+// }, [examInfo, current]);
+  useEffect(() => {
+    if (!examInfo?.timer_question || !examQuestions[current]) return;
+
+    const questionKey = `exam-${examId}-q-${current}-startTime`;
+
+    // Load or initialize startTime
+    let startTime = localStorage.getItem(questionKey);
+    if (!startTime) {
+      startTime = Date.now();
+      localStorage.setItem(questionKey, startTime);
+    } else {
+      startTime = Number(startTime);
     }
-  }, 1000);
 
-  return () => clearInterval(interval);
-}, [examInfo, current]);
+    const totalTime = examInfo.timer_question * 1000;
+
+    const tick = () => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(totalTime - elapsed, 0);
+      setTimerLeft(Math.ceil(remaining / 1000));
+
+      if (remaining <= 0) {
+        localStorage.removeItem(questionKey);
+        handleStudentAnswerOnce().then(() => {
+          if (current === examQuestions.length - 1) {
+            fetchExamInfo().then(() => setSubmitted(true));
+          } else {
+            setCurrent(current + 1);
+          }
+        });
+      } else {
+        requestAnimationFrame(tick); // high-precision, smooth timer
+      }
+    };
+
+    tick();
+
+    return () => {};
+  }, [examInfo, current, examQuestions]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -440,7 +490,7 @@ useEffect(() => {
             label={current === examQuestions.length - 1 ? "Submit" : "Next"}
             onClick={async() => {
               // Save current answer
-              await handleStudentAnswer();
+              await handleStudentAnswerOnce();
 
               // Clear previous question timer from localStorage
               const prevQuestionKey = `exam-${examId}-q-${current}-startTime`;
