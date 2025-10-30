@@ -33,13 +33,16 @@ export const AdminsComponent = () => {
   const { accessToken } = useAuth();
 
   const [examInfo, setExamInfo] = useState([]); //per admin
-  
   const [searchTerm, setSearchTerm] = useState("");
+
+  const pageSize = 2; // or whatever you want per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
 
   useEffect(() => {
     fetchExamInfo();
-  }, [accessToken]);
+  }, [accessToken, currentPage]);
 
   const fetchExamInfo = async() => {
     const config = {
@@ -48,13 +51,14 @@ export const AdminsComponent = () => {
     };
 
     try {
-      const res = await axios.get(`/admin/analytics`, config); //getAdminExamAnalytics
+      const res = await axios.get(`/admin/analytics?page=${currentPage}&limit=${pageSize}`, config); //getAdminExamAnalytics
       /* {
         user_id, first_name, last_name, school_id, role, email, total_exams
       } */
       
 
-      setExamInfo(res.data || []);
+      setExamInfo(res.data.admins || []);
+      setTotalPages(res.data.totalPages || 1);
       console.log(res.data);
 
       console.log('fetchExamInfo wrking');
@@ -102,6 +106,12 @@ export const AdminsComponent = () => {
             <p><b>Email:</b> {s.email}</p> */}
           </div>
         ))}
+
+        <div className="pagination">
+          <button onClick={() => setCurrentPage(p => Math.max(p-1, 1))} disabled={currentPage === 1}>Prev</button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button onClick={() => setCurrentPage(p => Math.min(p+1, totalPages))} disabled={currentPage === totalPages}>Next</button>
+        </div>
 
     </div>
   );
