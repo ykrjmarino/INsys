@@ -286,8 +286,19 @@ export const getSystemLogs = async (req, res) => { //used by superadmin
 };
 
 export const getUser = async (req, res) => { //used by superadmin
-  const { role } = req.query;
+  const { role, page = 1, limit = 10 } = req.query;
+  // Convert query params to numbers
+  const pageNum = parseInt(page, 10) || 1;
+  const limitNum = parseInt(limit, 10) || 10;
+  const offset = (pageNum - 1) * limitNum;
+
   try {
+    // Total users with that role
+    const countRes = await db.query(`SELECT COUNT(*) FROM users WHERE role = $1`, [role]);
+    const totalCount = parseInt(countRes.rows[0].count, 10);
+    const totalPages = Math.ceil(totalCount / limitNum);
+
+    // Fetch users for the current page
     const result = await db.query(`
        SELECT 
         u.user_id,
@@ -298,10 +309,11 @@ export const getUser = async (req, res) => { //used by superadmin
         u.email
       FROM users u
       WHERE u.role = $1
-      ORDER BY u.last_name ASC;
-    `, [role]);
+      ORDER BY u.last_name ASC
+      LIMIT $2 OFFSET $3
+    `, [role, limitNum, offset]);
 
-    res.status(200).json(result.rows);
+    res.status(200).json({ users: result.rows, totalPages });
   } catch (err) {
     console.error("getStudents failed:", err.message);
     res.status(500).json({ message: "Internal server error" });

@@ -29,8 +29,7 @@ function HomeStudent() {
         if(res.data) {
           setExamId(res.data.exam_id);
           setCheckSession(res.data);
-
-
+          
           // session in-progress and exam active → show popup
           const now = new Date();
           const startTime = new Date(res.data.start_datetime);

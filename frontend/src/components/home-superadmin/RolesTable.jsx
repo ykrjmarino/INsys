@@ -11,7 +11,7 @@ import Button from "../Buttons";
 
 export const ManageUsersTable = ({selectedRole}) => {
   const { accessToken } = useAuth();
-  const [students, setStudents] = useState([]);
+  const [users, setUsers] = useState([]);
   
   const [editUser, setEditUser] = useState(null);
   const [editCreate, setEditCreate] = useState(null);
@@ -20,28 +20,44 @@ export const ManageUsersTable = ({selectedRole}) => {
 
   const [superadminCount, setSuperadminCount] = useState(0);
 
+  const pageSize = 2; 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); // will update after fetching
 
   useEffect(() => {
-    fetchStudents();
-  }, [accessToken]);
+    fetchUsers();
+  }, [accessToken, currentPage, selectedRole]);
 
   useEffect(() => {
     if (selectedRole === "superadmin") checkSuperadminCount();
-  }, [selectedRole]);
+  }, [accessToken, currentPage, selectedRole]);
 
-  const fetchStudents = async () => {
+  const fetchUsers = async () => {
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
       withCredentials: true,
     };
 
     try {
-      const res = await axios.get(`/system/manage-users?role=${selectedRole}`, config);
+      const res = await axios.get(`/system/manage-users?role=${selectedRole}&page=${currentPage}&limit=${pageSize}`, config);
 
-      setStudents(res.data || []);
+      setUsers(res.data.users);
+      setTotalPages(res.data.totalPages);
       console.log(res.data)
     } catch (error) {
-      console.error("Failed to fetch students:", error.message);
+      console.error("Failed to fetch users:", error.message);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
     }
   };
 
@@ -55,7 +71,7 @@ export const ManageUsersTable = ({selectedRole}) => {
 
     try {
       await axios.delete(`/system/manage-users/${userId}`, config);
-      setStudents((prev) => prev.filter((s) => s.user_id !== userId));
+      setUsers((prev) => prev.filter((s) => s.user_id !== userId));
 
       if (selectedRole === "superadmin") {
         setSuperadminCount((prev) => prev - 1);
@@ -91,7 +107,7 @@ export const ManageUsersTable = ({selectedRole}) => {
       );
 
       // Update UI immediately
-      setStudents((prev) =>
+      setUsers((prev) =>
         prev.map((s) =>
           s.user_id === res.data.user_id ? res.data : s
         )
@@ -115,7 +131,7 @@ export const ManageUsersTable = ({selectedRole}) => {
       const res = await axios.post(`/users`, formData, config);
 
       // Update UI immediately
-      setStudents((prev) =>
+      setUsers((prev) =>
         prev.map((s) =>
           s.user_id === res.data.user_id ? res.data : s
         )
@@ -186,7 +202,7 @@ export const ManageUsersTable = ({selectedRole}) => {
           </tr>
         </thead>
         <tbody>
-          {students
+          {users
             .filter((s) => {
               const term = searchTerm.toLowerCase();
                 return (
@@ -226,6 +242,12 @@ export const ManageUsersTable = ({selectedRole}) => {
           ))}
         </tbody>
       </table>
+
+      <div className="pagination">
+        <button onClick={handlePrev} disabled={currentPage === 1}>Prev</button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
+      </div>
 
       {selectedRole === "superadmin" && superadminCount === 1 && (
         <p style={{ color: "red", marginTop: "10px" }}>
