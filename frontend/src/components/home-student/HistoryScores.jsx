@@ -8,7 +8,7 @@ const ScoreDetails = () => {
   const { accessToken, user } = useAuth();
   
 
-  const [history, setHistory] = useState();
+  const [history, setHistory] = useState([]);
   
   useEffect(() => {
     const fetchHistory = async() => {
@@ -20,6 +20,15 @@ const ScoreDetails = () => {
         const res = await axios.get('/students/exam-history', config);
         setHistory(res.data);
         console.log(res.data || "history");
+        /*
+          exam_id: 51
+          section_name: "BSCS 2-A"
+          submitted_at: "2025-10-19T14:19:32.587Z"
+          teacher_name: "Mina Myoui"
+          title: "Testing with student data"
+          total_points: 22
+          total_score: 17
+        */
       } catch (error) {
         console.error("Error fetching score history: ", error);
       }
@@ -28,26 +37,17 @@ const ScoreDetails = () => {
   }, []);
   return (
     <>
-    <div className="history-grids">
-      <div className="student-home-scores">
-        <p>---</p>
+    {history.map((h) => (
+      <div key={h.exam_id} className="history-grids">
+        <div className="student-home-scores">
+          <p>{h.title}</p>
+          <p>{h.section_name}</p>
+          <p>{h.total_score} / {h.total_points}</p>
+          <p>{h.teacher_name}</p>
+          <p>{new Date(h.submitted_at).toLocaleString()}</p>
+        </div>
       </div>
-    </div>
-    <div className="history-grids">
-      <div className="student-home-scores">
-        <p>---</p>
-      </div>
-    </div>
-    <div className="history-grids">
-      <div className="student-home-scores">
-        <p>---</p>
-      </div>
-    </div>
-    <div className="history-grids">
-      <div className="student-home-scores">
-        <p>---</p>
-      </div>
-    </div>
+    ))}
     </>
   )
 }
@@ -60,10 +60,11 @@ function ScoreHistory() {
       <div className="student-home-history-label">History <i className="fa-solid fa-clock-rotate-left"></i></div>
       <div className="student-home-grid">
         <div className="history-grids-label">
-          <span className="history-label">Subject</span>
-          <span className="history-label">Type</span>
-          <span className="history-label">Date</span>
+          <span className="history-label">Title</span>
+          <span className="history-label">Class/Section</span>
           <span className="history-label">Score</span>
+          <span className="history-label">Instructor</span>
+          <span className="history-label">Date Taken</span>
         </div>
 
         <ScoreDetails />

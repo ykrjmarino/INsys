@@ -441,7 +441,8 @@ export const getStudentExamHistory = async(req, res) => {
       JOIN examinations e ON s.exam_id = e.exam_id
       JOIN users u ON e.user_id = u.user_id
       WHERE s.student_school_id = $1
-      ORDER BY s.submitted_at DESC;
+      ORDER BY s.submitted_at DESC
+      LIMIT 20;
       `, [studentId]);
 
       if (result.rows.length === 0) {
