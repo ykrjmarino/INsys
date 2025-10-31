@@ -17,7 +17,7 @@ export const HomeSuperadmin = () => {
   return (
     <>
       {/* start sidebar */}
-      <div className="sidebar">
+      <div className="super-admin-sidebar">
         <div className="sidebar-image">
           <img src="/images/insys3.webp" alt="Sidebar Image"/>
         </div>
@@ -47,11 +47,11 @@ export const HomeSuperadmin = () => {
           
         </div>
 
-        <div className="profile-container">
+        <div className="sidebar-profile-container">
           <i className="fa-solid fa-user"></i>
-          <div className="profile-info">
-              <div className="profile-name">{user.nameFNfirst}</div>
-              <div className="profile-title">System Admin</div>
+          <div className="sidebar-profile-info">
+              <div className="sidebar-profile-name">{user.nameFNfirst}</div>
+              <div className="sidebar-profile-title">System Admin</div>
           </div>
         </div>
       </div>

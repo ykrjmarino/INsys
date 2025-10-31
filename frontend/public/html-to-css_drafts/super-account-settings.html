@@ -1,0 +1,192 @@
+<!-- START: WHOLE -->
+<div class="whole" style="background-color:#f5f5f5;">
+
+  <!-- START: HEADERTEACHER -->
+  <header class="teacher-home-main-header" style="background-color:#cfe2ff; ">
+    <div class="teacher-home-header-logo">
+      <img src="/images/insys-logo.webp" alt="logo" />
+    </div>
+
+    <div class="teacher-home-spacer"></div>
+    <nav>
+      <ul>
+        <li class="nav-item">
+          <span>About</span>
+          <ul class="teacher-home-header-dropdown">
+            <li><span>About Us</span></li>
+            <li><span>Terms and Conditions</span></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <span>Settings</span>
+          <ul class="teacher-home-header-dropdown">
+            <li><span>Account</span></li>
+            <li><span>Theme</span></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <span>Logout</span>
+          <ul class="teacher-home-header-dropdown">
+            <li>
+              <span class="dropdown-logout-btn">Logout</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- END: HEADERTEACHER -->
+
+  <!-- START: SIDE-BAR-AND-MAIN-CONTAINER -->
+  <div class="side-bar-and-main-container" style="background-color:#e2ffe2;">
+
+    <!-- START: HOMESUPERADMIN -->
+    <div class="super-admin-sidebar" style="background-color:#fff3cd;">
+      <div class="sidebar-image">
+        <img src="/images/insys3.webp" alt="Sidebar Image" />
+      </div>
+
+      <div class="sidebar-buttons">
+        <h1 class="sidebar-title">Tools</h1>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> Dashboard</button>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> Admin Analytics</button>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> Manage Accounts</button>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> System Settings</button>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> Account Settings</button>
+      </div>
+
+      <div class="sidebar-profile-container">
+        <i class="fa-solid fa-user"></i>
+        <div class="sidebar-profile-info">
+          <div class="sidebar-profile-name">[Admin Name]</div>
+          <div class="sidebar-profile-title">System Admin</div>
+        </div>
+      </div>
+    </div>
+    <!-- END: HOMESUPERADMIN -->
+
+    <!-- START: MAIN-HOME-CONTENT -->
+    <div class="main-home-content" style="background-color:#fde2e2; padding:10px; flex:1;">
+      <h2>Admin Analytics</h2>
+      
+      <!--DITO KA MAGPAPALIT NG LAMAN _____++++++++++____=======HERE!~~~~~!!!!!!!!-->
+
+    </div>
+    <!-- END: MAIN-HOME-CONTENT -->
+
+  </div>
+  <!-- END: SIDE-BAR-AND-MAIN-CONTAINER -->
+
+</div>
+<!-- END: WHOLE -->
+
+
+
+
+
+
+
+<!--PALITAN EVERY LAMAN LOOB NG  MAIN-HOME-CONTENT -->
+
+<!--ONE!!!!!!!!!!!-->
+<!-- START: USER SETTINGS OUTER CONTAINER -->
+<div class="user-settings-outer-container" style="background-color: #00c21a; margin: 5px; padding: 10px;">
+
+  <!-- START: USER SETTINGS INNER CONTAINER ONE -->
+  <div class="user-settings-inner-container-one" style="background-color: #8df79b; margin: 10px; padding: 20px;">
+    <div class="user-settings-account-info">Account Information</div>
+    <div>|</div>
+    <div class="user-settings-change-password">Change Password</div>
+    <div>|</div>
+    <div class="user-settings-account-deletion">Account Deletion</div>
+  </div>
+  <!-- END: USER SETTINGS INNER CONTAINER ONE -->
+
+  <!-- START: USER SETTINGS INNER CONTAINER TWO -->
+  <div class="user-settings-inner-container-two" style="background-color: #8ec696; margin: 5px; padding: 10px;">
+
+    <!-- START: BASIC INFORMATION BOX -->
+    <!-- IMPORTANT: This section’s content should NOT be mixed or separated from its parent container -->
+    <div style="background-color: #da84ff; margin: 2px; padding: 5px;">
+      <h3>Basic Information</h3>
+      <p><strong>First Name:</strong> [first_name]</p>
+      <p><strong>Last Name:</strong> [last_name]</p>
+      <p><strong>Email:</strong> [email]</p>
+      <p><strong>School ID:</strong> [school_id]</p>
+      <p><strong>Account Created:</strong> [created_at]</p>
+    </div>
+    <!-- END: BASIC INFORMATION BOX -->
+
+  </div>
+  <!-- END: USER SETTINGS INNER CONTAINER TWO -->
+
+</div>
+<!-- END: USER SETTINGS OUTER CONTAINER -->
+
+
+
+
+
+
+
+
+
+
+
+<!--TWO!!!!!!!!!!!-->
+<!-- START: PASSWORD MANAGEMENT SECTION -->
+<!-- IMPORTANT: This section’s elements must stay together as a unit -->
+<div style="background-color: #da84ff; margin: 2px; padding: 10px;">
+  <h3>Password Management</h3>
+
+  <p>[message]</p> <!-- This will show feedback messages dynamically -->
+
+  <form>
+    <div style="margin-bottom: 10px;">
+      <label for="currentPassword">Current Password:</label><br />
+      <input type="password" id="currentPassword" name="currentPassword" required />
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <label for="newPassword">New Password:</label><br />
+      <input type="password" id="newPassword" name="newPassword" required />
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <label for="confirmNewPassword">Confirm New Password:</label><br />
+      <input type="password" id="confirmNewPassword" name="confirmNewPassword" required />
+    </div>
+
+    <a class="forgot-password" href="/account-settings/forgot-password">Forgot Password?</a>
+    <br />
+    <button type="submit">Update Password</button>
+  </form>
+</div>
+<!-- END: PASSWORD MANAGEMENT SECTION -->
+
+
+
+
+
+
+
+<!--THREE!!!!!!!!!!!-->
+<!-- START: ACCOUNT CONTROL SECTION -->
+<div style="background-color: #da84ff;">
+  <h3>Account Control</h3>
+
+  <!-- PASSWORD VERIFY -->
+  <div style="background-color: #f5baff;">
+    <input type="password" placeholder="Enter current password" />
+    <button>Verify Password</button>
+  </div>
+
+  <!-- MESSAGE -->
+  <p style="background-color: #ffbaba; color: red;">[message]</p>
+
+  <!-- DELETE BUTTON -->
+  <div style="background-color: #ff7b7b;">
+    <button>Delete Account</button>
+  </div>
+</div>
+<!-- END: ACCOUNT CONTROL SECTION -->

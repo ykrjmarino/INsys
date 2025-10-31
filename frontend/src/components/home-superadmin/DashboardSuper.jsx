@@ -93,7 +93,7 @@ export const DashboardSuper = () => {
           <h2>Dashboard</h2>
 
           {/* Stats Section */}
-          <section className="stats-section" style={{ marginBottom: '20px' }}>
+          <section className="super-dashboard-stats-section" style={{ marginBottom: '20px' }}>
             <h3>System Overview</h3>
             <ul>
               <li>Total Exams: {infoStats.total_exams || 0}</li>
@@ -105,11 +105,11 @@ export const DashboardSuper = () => {
           </section>
 
           {/* Logs Section */}
-          <section>
+          <section className="super-dashboard-logs-section">
             <h3>Recent System Logs</h3>
-            <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+            <div className="super-dashboard-logs-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
               {infoLogs.map((log) => (
-                <div key={log.id} className="log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
+                <div key={log.id} className="super-dashboard-log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
                   <p><strong>{log.first_name} {log.last_name}</strong></p>
                   <p>{log.action}</p>
                   <p style={{ fontSize: '0.85em', color: '#555' }}>{new Date(log.created_at).toLocaleString()}</p>

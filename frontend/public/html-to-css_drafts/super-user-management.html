@@ -1,0 +1,227 @@
+<!-- START: WHOLE -->
+<div class="whole" style="background-color:#f5f5f5;">
+
+  <!-- START: HEADERTEACHER -->
+  <header class="teacher-home-main-header" style="background-color:#cfe2ff; ">
+    <div class="teacher-home-header-logo">
+      <img src="/images/insys-logo.webp" alt="logo" />
+    </div>
+
+    <div class="teacher-home-spacer"></div>
+    <nav>
+      <ul>
+        <li class="nav-item">
+          <span>About</span>
+          <ul class="teacher-home-header-dropdown">
+            <li><span>About Us</span></li>
+            <li><span>Terms and Conditions</span></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <span>Settings</span>
+          <ul class="teacher-home-header-dropdown">
+            <li><span>Account</span></li>
+            <li><span>Theme</span></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <span>Logout</span>
+          <ul class="teacher-home-header-dropdown">
+            <li>
+              <span class="dropdown-logout-btn">Logout</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- END: HEADERTEACHER -->
+
+  <!-- START: SIDE-BAR-AND-MAIN-CONTAINER -->
+  <div class="side-bar-and-main-container" style="background-color:#e2ffe2;">
+
+    <!-- START: HOMESUPERADMIN -->
+    <div class="super-admin-sidebar" style="background-color:#fff3cd;">
+      <div class="sidebar-image">
+        <img src="/images/insys3.webp" alt="Sidebar Image" />
+      </div>
+
+      <div class="sidebar-buttons">
+        <h1 class="sidebar-title">Tools</h1>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> Dashboard</button>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> Admin Analytics</button>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> Manage Accounts</button>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> System Settings</button>
+        <button class="sidebar-btn"><i class="fas fa-chart-bar"></i> Account Settings</button>
+      </div>
+
+      <div class="sidebar-profile-container">
+        <i class="fa-solid fa-user"></i>
+        <div class="sidebar-profile-info">
+          <div class="sidebar-profile-name">[Admin Name]</div>
+          <div class="sidebar-profile-title">System Admin</div>
+        </div>
+      </div>
+    </div>
+    <!-- END: HOMESUPERADMIN -->
+
+    <!-- START: MAIN-HOME-CONTENT -->
+    <div class="main-home-content" style="background-color:#fde2e2; padding:10px; flex:1;">
+      
+        <!-- START: USER MANAGEMENT SECTION -->
+<div style="margin: 5px;">
+  <!-- START: USER TYPE TABS -->
+  <div style="display: flex; gap: 5px; margin: 5px;">
+    <div>Students</div>
+    <div>|</div>
+    <div>Admins</div>
+    <div>|</div>
+    <div>Superadmins</div>
+  </div>
+  <!-- END: USER TYPE TABS -->
+
+  <!-- START: USER TABLE SECTION -->
+  <div>
+    <input type="text" placeholder="Search..." />
+    <button>Add User</button>
+
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>School ID</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- SAMPLE ROW -->
+        <tr>
+          <td>Doe</td>
+          <td>John</td>
+          <td>2023-001</td>
+          <td>Admin</td>
+          <td>john.doe@email.com</td>
+          <td>
+            <button>Edit</button>
+            <button style="background-color: red; color: white; margin-left: 5px;">Delete</button>
+          </td>
+        </tr>
+        <!-- END SAMPLE ROW -->
+         <!-- SAMPLE ROW -->
+        <tr>
+          <td>Doe</td>
+          <td>John</td>
+          <td>2023-001</td>
+          <td>Admin</td>
+          <td>john.doe@email.com</td>
+          <td>
+            <button>Edit</button>
+            <button style="background-color: red; color: white; margin-left: 5px;">Delete</button>
+          </td>
+        </tr>
+        <!-- END SAMPLE ROW -->
+      </tbody>
+    </table>
+
+    <!-- START: PAGINATION -->
+    <div class="pagination">
+      <button>Prev</button>
+      <span>Page 1 of 10</span>
+      <button>Next</button>
+    </div>
+    <!-- END: PAGINATION -->
+
+    <p style="color: red; margin-top: 10px;">
+      ⚠️ At least one Super Admin must remain in the system.
+    </p>
+  </div>
+  <!-- END: USER TABLE SECTION -->
+</div>
+<!-- END: USER MANAGEMENT SECTION -->
+
+
+<!-- START: EDIT USER MODAL 
+<div style="background-color: rgba(0,0,0,0.4); position: fixed; top: 0; left: 0; height: 100%; width: 100%;">
+  <div style="background-color: white; padding: 20px; border-radius: 10px; width: 400px; margin: 100px auto;">
+    <h3>Edit User</h3>
+
+    <p>First Name</p>
+    <input type="text" />
+
+    <p>Last Name</p>
+    <input type="text" />
+
+    <p>School ID</p>
+    <input type="text" />
+
+    <p>Email</p>
+    <input type="email" />
+
+    <p>Password</p>
+    <input type="password" placeholder="Leave blank to keep current password" />
+
+    <p>Role</p>
+    <select>
+      <option value="student">Student</option>
+      <option value="admin">Admin</option>
+      <option value="superadmin">Superadmin</option>
+    </select>
+
+    <div style="margin-top: 10px; text-align: right;">
+      <button>Cancel</button>
+      <button style="background-color: green; color: white;">Save</button>
+    </div>
+  </div>
+</div>
+-- END: EDIT USER MODAL --
+
+
+-- START: ADD USER MODAL --
+<div style="background-color: rgba(0,0,0,0.4); position: fixed; top: 0; left: 0; height: 100%; width: 100%;">
+  <div style="background-color: white; padding: 20px; border-radius: 10px; width: 400px; margin: 100px auto;">
+    <h3>Add User</h3>
+
+    <p>First Name</p>
+    <input type="text" />
+
+    <p>Last Name</p>
+    <input type="text" />
+
+    <p>School ID</p>
+    <input type="text" />
+
+    <p>Email</p>
+    <input type="email" />
+
+    <p>Password</p>
+    <input type="password" placeholder="Password" />
+
+    <p>Role</p>
+    <select>
+      <option value="student">Student</option>
+      <option value="admin">Admin</option>
+      <option value="superadmin">Superadmin</option>
+    </select>
+
+    <div style="margin-top: 10px; text-align: right;">
+      <button>Cancel</button>
+      <button style="background-color: green; color: white;">Save</button>
+    </div>
+  </div>
+</div>
+
+-- END: ADD USER MODAL -->
+
+
+    </div>
+    <!-- END: MAIN-HOME-CONTENT -->
+
+  </div>
+  <!-- END: SIDE-BAR-AND-MAIN-CONTAINER -->
+
+</div>
+<!-- END: WHOLE -->
+

@@ -283,16 +283,16 @@ export const UserSettingsContent = () => {
 
   return (
     <>
-    <div style={{ backgroundColor: '#00c21aff', margin: '5px', padding: '10px' }}>
+    <div className="user-settings-outer-container" style={{ backgroundColor: '#00c21aff', margin: '5px', padding: '10px' }}>
 
-      <div style={{ backgroundColor: '#8df79bff', margin: '10px', padding: '20px' }}>
-        <div onClick={() => setActiveTab('basic-information')}>Account Information</div>
+      <div className="user-settings-inner-container-one" style={{ backgroundColor: '#8df79bff', margin: '10px', padding: '20px' }}>
+        <div className="user-settings-account-info" onClick={() => setActiveTab('basic-information')}>Account Information</div>
         <div>|</div>
-        <div onClick={() => setActiveTab('password-manage')}>Change Password</div>
+        <div className="user-settings-change-password" onClick={() => setActiveTab('password-manage')}>Change Password</div>
         <div>|</div>
-        <div onClick={() => setActiveTab('account-control')}>Account Deletion</div>
+        <div className="user-settings-account-deletion" onClick={() => setActiveTab('account-control')}>Account Deletion</div>
       </div>
-      <div style={{ backgroundColor: '#8ec696ff', margin: '5px', padding: '10px' }}>
+      <div className="user-settings-inner-container-two" style={{ backgroundColor: '#8ec696ff', margin: '5px', padding: '10px' }}>
         {activeTab === "basic-information" && <SettingsBasicInformation />}
         {activeTab === "password-manage" && <SettingsPasswordManage />}
         {activeTab === "account-control" && <SettingsAccountControl />}

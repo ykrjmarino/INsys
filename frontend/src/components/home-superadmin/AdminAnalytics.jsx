@@ -188,7 +188,7 @@ export const HomeAdminAnalytics = () => {
 
 export const AdminExamCard = ({ exam, onClick }) => {
   return (
-    <div
+    <div className="super-admin-exam-card"
       onClick={onClick}
       style={{
         border: "2px solid black",
@@ -199,8 +199,8 @@ export const AdminExamCard = ({ exam, onClick }) => {
         cursor: "pointer"
       }}
     >
-      <p><b>Title:</b> {exam.title}</p>
-      <p><b>Status:</b> {exam.status}</p>
+      <p className="super-admin-exam-card-title"><b>Title:</b> {exam.title}</p>
+      <p className="super-admin-exam-card-status"><b>Status:</b> {exam.status}</p>
     </div>
   );
 };
