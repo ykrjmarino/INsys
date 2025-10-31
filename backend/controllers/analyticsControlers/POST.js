@@ -5,7 +5,7 @@ import { logAction } from '../../utils/logAction.js';
 export const createUser = async (req, res) => {
   const actorId = req.user.userId
   const { userId } = req.params;
-  let { first_name, last_name, school_id, password, role, email } = req.body;
+  let { first_name, last_name, middle_initial, school_id, password, role, email } = req.body;
 
   if (!school_id) return res.status(400).json({ error: 'Missing school ID' });
 
@@ -28,8 +28,8 @@ export const createUser = async (req, res) => {
     const hash = await bcrypt.hash(password, saltRounds);
     
     await db.query(`
-      INSERT INTO users (email, password, first_name, last_name, school_id, role ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6) RETURNING *
-    `, [email, hash, first_name, last_name, school_id, role]); //changed password to hash (hashed password)
+      INSERT INTO users (email, password, first_name, last_name, middle_initial, school_id, role ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6, $7) RETURNING *
+    `, [email, hash, first_name, last_name, middle_initial, school_id, role]); //changed password to hash (hashed password)
 
     await logAction(actorId, `Created an account`, school_id);
 

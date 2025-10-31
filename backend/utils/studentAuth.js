@@ -68,9 +68,15 @@ studentAuthRoutes.post('/register/verify-otp', async (req, res) => { //verify co
 
 studentAuthRoutes.post ('/register/user-info', async(req, res) => { //complete input user data
   //needed
-  const {username, password, firstName, lastName} = req.body;
+  let { username, password, firstName, lastName, middleInitial } = req.body;
   const schoolId = username
   const email = `${schoolId}@pampangastateu.edu.ph`;
+
+  // capitalize first letter of first and last name
+  firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+  lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase();
+  middleInitial = middleInitial.toUpperCase();
+  
   //optional
   const {userGender, college} = req.body;
 
@@ -99,8 +105,8 @@ studentAuthRoutes.post ('/register/user-info', async(req, res) => { //complete i
 
     //registering details to database
     await db.query(`
-      INSERT INTO users (email, password, first_name, last_name, school_id, gender, college, role ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6 ,$7, $8) RETURNING *
-    `, [email, hash, firstName, lastName, schoolId, userGender, college, 'student']); //changed password to hash (hashed password)
+      INSERT INTO users (email, password, first_name, last_name, school_id, gender, college, role, middle_initial ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6 ,$7, $8, $9) RETURNING *
+    `, [email, hash, firstName, lastName, schoolId, userGender, college, 'student', middleInitial]); //changed password to hash (hashed password)
 
     await redisClient.del(`verifiedEmail:${email}`);//delete temporary user info
     return res.status(200).json({ message: 'User registered successfully' });

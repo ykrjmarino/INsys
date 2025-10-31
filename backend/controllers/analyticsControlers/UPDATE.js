@@ -5,7 +5,7 @@ import { logAction } from '../../utils/logAction.js';
 export const updateUser = async (req, res) => {
   const { userId } = req.params;
   const actorId = req.user.userId;
-  let { first_name, last_name, school_id, email, password, role } = req.body;
+  let { first_name, last_name, middle_initial, school_id, email, password, role } = req.body;
 
   try {
     const saltRounds = 5;
@@ -21,16 +21,16 @@ export const updateUser = async (req, res) => {
       const hash = await bcrypt.hash(password, saltRounds);
       await db.query(`
         UPDATE users
-        SET first_name = $1, last_name = $2, school_id = $3, email = $4, password = $5, role = $6
-        WHERE user_id = $7`
-      , [first_name, last_name, school_id, email, hash, role, userId]
+        SET first_name = $1, last_name = $2, school_id = $3, email = $4, password = $5, role = $6, middle_initial = $7
+        WHERE user_id = $8`
+      , [first_name, last_name, school_id, email, hash, role, middle_initial, userId]
       );
     } else {
       await db.query(`
         UPDATE users
-        SET first_name = $1, last_name = $2, school_id = $3, email = $4, role = $5
-        WHERE user_id = $6`
-      , [first_name, last_name, school_id, email, role, userId]
+        SET first_name = $1, last_name = $2, school_id = $3, email = $4, role = $5, middle_initial = $6
+        WHERE user_id = $7`
+      , [first_name, last_name, school_id, email, role, middle_initial, userId]
       );
     }
     await logAction(actorId, `Updated user information: ${userId}`, userId);

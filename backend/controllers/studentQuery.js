@@ -47,7 +47,7 @@ export const verifyExamAccess = async(req, res) => {
   try {  
     //========= kuha lang tayo ng info sa user dito, not really that important sa logic =========//
     const resUserInfo = await db.query(`
-      SELECT school_id, first_name, last_name
+      SELECT school_id, first_name, last_name, middle_initial
       FROM users
       WHERE user_id = $1
       `, [userId]);
@@ -55,7 +55,7 @@ export const verifyExamAccess = async(req, res) => {
     if (resUserInfo.rows.length === 0) return res.status(404).json({ error: "User not found, can't access exam" }) //prbly expired token, cuz the userId is from jwt payload
        
     const resUser = resUserInfo.rows[0];
-    const studentName = `${resUser.last_name}, ${resUser.first_name}`;
+    const studentName = `${resUser.last_name}, ${resUser.first_name} ${resUser.middle_initial}.`;
     const studentSchoolId = resUser.school_id; //or just req.user.schoolId.. lol
     //========= ========= ========= ========= ========= ========= ========= ========= =========//
     
@@ -396,7 +396,7 @@ export const getInfoPerExam = async(req, res) => {
     const result = await db.query(`
       SELECT
         e.exam_id, e.title, e.total_points, e.timer_question,
-        (u.first_name || ' ' || u.last_name) AS teacher_name_db,
+        (u.first_name || ' ' || u.middle_initial || '. ' || u.last_name) AS teacher_name_db,
         s.section_name, s.submitted_at, s.total_score,
         ( SELECT COUNT(*) 
           FROM questions q
@@ -433,7 +433,7 @@ export const getStudentExamHistory = async(req, res) => {
         e.exam_id,
         e.title,
         e.total_points,
-        (u.first_name || ' ' || u.last_name) AS teacher_name,
+        (u.first_name || ' ' || u.middle_initial || '. ' || u.last_name) AS teacher_name,
         s.section_name,
         s.submitted_at,
         s.total_score

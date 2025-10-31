@@ -17,6 +17,7 @@ function RegisterTeacher() {
     retypePassword: "",
     firstName: "",
     lastName: "",
+    middleInitial: "",
     userGender: "",
     college: ""
   });
@@ -144,6 +145,8 @@ function RegisterTeacher() {
             <label>Password</label>
             <InputField 
               name="password"
+              id="password"
+              type="password"
               value={formRegister.password}
               onChange={handleChange}
               placeholder="Enter your password"
@@ -153,6 +156,8 @@ function RegisterTeacher() {
             <label>Re-type Password</label>
             <InputField 
               name="retypePassword"
+              id="retype-password"
+              type="password"
               value={formRegister.retypePassword}
               onChange={handleChange}
               placeholder="Re-type your password"
@@ -178,6 +183,18 @@ function RegisterTeacher() {
                 placeholder="Enter your last name"
               />
             </div>
+            <div className="form-group">
+                <label>Middle Initial</label>
+                <InputField 
+                  name="middleInitial"
+                  id="middle-initial" 
+                  value={formRegister.middleInitial}
+                  onChange={handleChange}
+                  placeholder="Enter your middle initial, e.g., R"
+                  maxLength={1}
+                />
+            </div>
+
           </div>
           <div className="form-group">
             <label>School ID</label>

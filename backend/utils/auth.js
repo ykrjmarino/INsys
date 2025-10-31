@@ -57,10 +57,11 @@ authRoutes.post('/login', async (req, res) => {
       userId: user.user_id, //we turn them to camelCase coz we handle them in frontend
       schoolId: user.school_id, //these came from database, hence snake_case
       role: user.role,
-      nameLNfirst: `${user.last_name}, ${user.first_name}`,
-      nameFNfirst: `${user.first_name} ${user.last_name}`,
+      nameLNfirst: `${user.last_name}, ${user.first_name} ${user.middle_initial}.`,
+      nameFNfirst: `${user.first_name} ${user.middle_initial}. ${user.last_name}`,
       lastName: user.last_name,
-      firstName: user.first_name
+      firstName: user.first_name,
+      middleInitial: user.middle_initial
     };
 
     const accessToken = generateAccessToken(userPayload);

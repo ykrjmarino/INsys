@@ -61,8 +61,13 @@ teacherAuthRoutes.post('/register/verify-otp', async (req, res) => { //verify co
 });
 
 teacherAuthRoutes.post ('/register/user-info', async(req, res) => { //complete input user data
-  const {username, schoolId, password, firstName, lastName} = req.body;
+  let { username, schoolId, password, firstName, lastName, middleInitial } = req.body;
   const email = `${username}@pampangastateu.edu.ph`;
+  
+  // capitalize first letter of first and last name
+  firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+  lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase();
+  middleInitial = middleInitial.toUpperCase();
   //optional
   const {userGender, college} = req.body;
 

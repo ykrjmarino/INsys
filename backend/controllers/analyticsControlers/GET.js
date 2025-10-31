@@ -27,6 +27,7 @@ export const getExamAnalytics = async(req, res) =>{
       SELECT 
         u.first_name,
         u.last_name,
+        u.middle_initial,
         u.school_id,
         u.email,
         st.section_id, 
@@ -276,6 +277,7 @@ export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
       SELECT 
         u.user_id,
         u.first_name,
+        u.middle_initial,
         u.last_name,
         u.school_id,
         u.role,
@@ -299,7 +301,7 @@ export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
 export const getSystemLogs = async (req, res) => { //used by superadmin
   try {
     const result = await db.query(`
-      SELECT sl.id, u.first_name, u.last_name, sl.action, sl.target_id, sl.created_at
+      SELECT sl.id, u.first_name, u.last_name, u.middle_initial, sl.action, sl.target_id, sl.created_at
       FROM system_logs sl
       JOIN users u ON sl.user_id = u.user_id
       ORDER BY sl.created_at DESC
@@ -332,6 +334,7 @@ export const getUser = async (req, res) => { //used by superadmin
         u.user_id,
         u.first_name,
         u.last_name,
+        u.middle_initial,
         u.school_id,
         u.role,
         u.email

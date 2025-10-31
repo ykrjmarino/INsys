@@ -16,6 +16,7 @@ function RegisterStudent() {
     retypePassword: "",
     firstName: "",
     lastName: "",
+    middleInitial: "",
     userGender: "",
     college: ""
   });
@@ -166,6 +167,7 @@ function RegisterStudent() {
               <InputField 
                 name="retypePassword"
                 id="retype-password"
+                type="password"
                 value={formRegister.retypePassword}
                 onChange={handleChange}
                 placeholder="Re-type your password"
@@ -192,6 +194,17 @@ function RegisterStudent() {
                   value={formRegister.lastName}
                   onChange={handleChange}
                   placeholder="Enter your last name"
+                />
+              </div>
+              <div className="form-group">
+                <label>Middle Initial</label>
+                <InputField 
+                  name="middleInitial"
+                  id="middle-initial" 
+                  value={formRegister.middleInitial}
+                  onChange={handleChange}
+                  placeholder="Enter your middle initial, e.g., R"
+                  maxLength={1}
                 />
               </div>
               
