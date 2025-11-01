@@ -40,7 +40,8 @@ export const getQuestionsByExamId = async (req, res) => {
       `SELECT question_id, question_text, question_type, option_a, option_b, option_c, option_d, correct_answer, points 
       FROM questions 
       WHERE exam_id = $1
-        AND user_id = $2`, 
+        AND user_id = $2
+      ORDER BY question_id ASC`, 
       [examId, userId]
     );
 
