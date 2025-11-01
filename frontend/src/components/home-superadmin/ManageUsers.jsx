@@ -13,7 +13,7 @@ export const ManageUser = () => {
   const [infoStats, setInfoStats] = useState({});
   const [infoLogs, setInfoLogs] = useState([]);
 
-  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'students');
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'student');
 
   useEffect(()=>{
     fetchLogs();
@@ -44,26 +44,56 @@ export const ManageUser = () => {
     }
   }
 
+  const exportUserByRole = async() => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
+
+    try {
+      const response = await axios.get(`/export/users/${activeTab}`, { 
+        ...config,
+        responseType: "blob"
+      });
+
+      // Create a blob URL and trigger download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${activeTab}_list.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      console.log('exportUserByRole wrking');
+    } catch (error) {
+      console.log('exportUserByRole failed, in ExamAnalytics');
+      console.error(error.message);
+    }
+  }
+
   return (
     <>
     <div className="whole">
       <HeaderTeacher />
       <div className="side-bar-and-main-container">
         <HomeSuperadmin />
-        <div className="main-home-content" style={{ padding: '10px' }}>          
-          <h2>User Management</h2>
-
+        <div className="main-home-content" style={{ padding: '10px' }}>
+          <div className="user-management-export" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px"}}>
+            <h2>User Management</h2> <i className="fa-solid fa-file-export" onClick={exportUserByRole}></i>
+          </div>
+        
           <div style={{ display: 'flex', gap: '5px', margin: '5px' }}>
-            <div onClick={() => setActiveTab('students')}>Students</div>
+            <div onClick={() => setActiveTab('student')}>Students</div>
             <div>|</div>
-            <div onClick={() => setActiveTab('admins')}>Admins</div>
+            <div onClick={() => setActiveTab('admin')}>Admins</div>
             <div>|</div>
-            <div onClick={() => setActiveTab('superadmins')}>Superadmins</div>
+            <div onClick={() => setActiveTab('superadmin')}>Superadmins</div>
           </div>
 
-          {activeTab === 'students' && <ManageUsersTable selectedRole="student" />}
-          {activeTab === 'admins' && <ManageUsersTable selectedRole="admin" />}
-          {activeTab === 'superadmins' && <ManageUsersTable selectedRole="superadmin" />}
+          {activeTab === 'student' && <ManageUsersTable selectedRole="student" />}
+          {activeTab === 'admin' && <ManageUsersTable selectedRole="admin" />}
+          {activeTab === 'superadmin' && <ManageUsersTable selectedRole="superadmin" />}
         </div>
       </div>
     </div>

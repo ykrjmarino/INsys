@@ -95,6 +95,7 @@ import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateDeduction, updateUser } from "./controllers/analyticsControlers/UPDATE.js";
 import { deleteOwnAccount } from "./controllers/userControllers/DELETE.js";
 import { deleteAllData, deleteOldData } from "./controllers/systemSystemControllers/superadminSettings.js";
+import { exportExamScores, exportUsers } from "./controllers/analyticsControlers/ExportExcel.js";
 
 // ======================
 // 3️⃣ APP CONFIG
@@ -232,7 +233,7 @@ app.get("/api/admin/analytics", superadminOnly, getAdminExamAnalytics);
 app.get("/api/system/logs", superadminOnly, getSystemLogs);
 app.get("/api/system/manage-users", superadminOnly, getUser);
 
-
+//user management
 app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
 app.delete("/api/system/manage-users/:userId", superadminOnly, deleteUser);
 
@@ -240,10 +241,12 @@ app.delete("/api/system/manage-users/:userId", superadminOnly, deleteUser);
 app.delete("/api/maintenance/old", superadminOnly, deleteOldData); //7months old data in examinations and logs
 app.delete("/api/maintenance/all", superadminOnly, deleteAllData); //all rows in examinations and logs
 
-
-
+//logs when student violates exam
 app.post("/api/exam/:examId/violations/student", studentOnly, postViolation);
 
+//export to excel
+app.get("/api/export/:examId", exportExamScores);
+app.get("/api/export/users/:role", superadminOnly, exportUsers);
 
 // ======================
 // 🔟 START SERVER

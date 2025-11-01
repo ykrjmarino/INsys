@@ -282,7 +282,7 @@ export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
         u.school_id,
         u.role,
         u.email,
-        COUNT(e.exam_id) AS total_exams
+        COUNT(CASE WHEN e.status = 'completed' THEN 1 END) AS total_exams
       FROM users u
       LEFT JOIN examinations e ON e.user_id = u.user_id
       WHERE u.role = $1
