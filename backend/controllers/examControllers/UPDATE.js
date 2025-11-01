@@ -47,7 +47,7 @@ export const updateExamStatus = async(req, res) => {
     }
 
     //log the action
-    await logAction(userId, `Published exam: ${examId}`, examId);
+    await logAction(userId, `Published Exam: ${examId}`, examId);
 
     res.status(200).json(result.rows[0]);
   } catch (error) {

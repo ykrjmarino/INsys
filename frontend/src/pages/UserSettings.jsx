@@ -39,6 +39,7 @@ const SettingsBasicInformation = () => {
     <div style={{ backgroundColor: '#da84ffff', margin: '2px', padding: '5px' }}>
       <h3>Basic Information</h3>
       <p><strong>First Name:</strong> {userInfo.first_name}</p>
+      <p><strong>Middle Initial:</strong> {userInfo.middle_initial}</p>
       <p><strong>Last Name:</strong> {userInfo.last_name}</p>
       <p><strong>Email:</strong> {userInfo.email}</p>
       <p><strong>School ID:</strong> {userInfo.school_id}</p>

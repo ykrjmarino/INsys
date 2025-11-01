@@ -7,6 +7,11 @@ export const createUser = async (req, res) => {
   const { userId } = req.params;
   let { first_name, last_name, middle_initial, school_id, password, role, email } = req.body;
 
+  // capitalize first letter of first and last name
+  first_name = first_name.charAt(0).toUpperCase() + first_name.slice(1).toLowerCase();
+  last_name = last_name.charAt(0).toUpperCase() + last_name.slice(1).toLowerCase();
+  middle_initial = middle_initial.toUpperCase();
+
   if (!school_id) return res.status(400).json({ error: 'Missing school ID' });
 
   try {
@@ -31,7 +36,14 @@ export const createUser = async (req, res) => {
       INSERT INTO users (email, password, first_name, last_name, middle_initial, school_id, role ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6, $7) RETURNING *
     `, [email, hash, first_name, last_name, middle_initial, school_id, role]); //changed password to hash (hashed password)
 
-    await logAction(actorId, `Created an account`, school_id);
+    const roleDescription =
+      role === "student"
+      ? "a Student Account"
+      : role === "admin"
+      ? "an Admin Account"
+      : "a Co-Superadmin Account";
+
+    await logAction(actorId, `Created ${roleDescription}`, school_id);
 
     res.status(200).json({ message: "User updated successfully" });
   } catch (err) {

@@ -98,7 +98,7 @@ export const AdminsComponent = () => {
             }}
             onClick={() => navigate(`/exams-analytics/${s.user_id}`)}
           >
-            <p><b>Name:</b> {s.last_name}, {s.first_name}</p>
+            <p><b>Name:</b> {s.last_name}, {s.first_name} {s.middle_initial}.</p>
             <p><b>School ID:</b> {s.school_id}</p>
             <p><b>Email:</b> {s.email}</p>
             <p><b>Exams Published:</b> {s.total_exams}</p>

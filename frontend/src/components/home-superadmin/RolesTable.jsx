@@ -8,6 +8,7 @@ import { HomeSuperadmin } from "../../pages/HomeSuperadmin";
 import SelectField from "../SelectFields";
 import Button from "../Buttons";
 
+import { toast } from 'react-toastify';
 
 export const ManageUsersTable = ({selectedRole}) => {
   const { accessToken } = useAuth();
@@ -23,6 +24,9 @@ export const ManageUsersTable = ({selectedRole}) => {
   const pageSize = 2; 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // will update after fetching
+
+  const [showModal, setShowModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -62,7 +66,7 @@ export const ManageUsersTable = ({selectedRole}) => {
   };
 
   const handleDelete = async (userId) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    // if (!window.confirm("Are you sure you want to delete this user?")) return;
 
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -77,9 +81,13 @@ export const ManageUsersTable = ({selectedRole}) => {
         setSuperadminCount((prev) => prev - 1);
       }
 
+      toast.success("User deleted successfully");
       console.log(`Deleted user ${userId}`);
     } catch (error) {
       console.error("Failed to delete user:", error.message);
+    } finally {
+      setShowModal(false);
+      setUserToDelete(null);
     }
   };
 
@@ -140,9 +148,10 @@ export const ManageUsersTable = ({selectedRole}) => {
 
       if (selectedRole === "superadmin") {
         setSuperadminCount((prev) => prev + 1);
-        window.location.reload();
+        setTimeout(() => window.location.reload(), 1000); //let the toast show before reloading page
       }
 
+      toast.success("User added successfully");
       console.log("User updated:", res.data);
     } catch (err) {
       console.error("Failed to update user:", err);
@@ -160,11 +169,13 @@ export const ManageUsersTable = ({selectedRole}) => {
 
     try {
       const res = await axios.get(`/system/manage-users?role=superadmin`, config);
-      setSuperadminCount(res.data.length);
+      setSuperadminCount(res.data.users?.length || 0);
     } catch (error) {
       console.error("Failed to check superadmin count:", error.message);
     }
   };
+
+  console.log("selectedRole:", selectedRole, "superadminCount:", superadminCount);
   
 
   return (
@@ -176,12 +187,80 @@ export const ManageUsersTable = ({selectedRole}) => {
         onChange={(e) => setSearchTerm(e.target.value)} 
       />
 
+      {showModal && (
+        <div
+          onClick={() => setShowModal(false)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "white",
+              padding: "25px",
+              borderRadius: "12px",
+              textAlign: "center",
+              width: "90%",
+              maxWidth: "400px",
+              boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+            }}
+          >
+            <h3 style={{ marginBottom: "10px" }}>Confirm Deletion</h3>
+            <p>Are you sure you want to delete this user?</p>
+
+            <div style={{ marginTop: "20px" }}>
+              <button
+                onClick={() => handleDelete(userToDelete)}
+                style={{
+                  padding: "10px 20px",
+                  backgroundColor: "#d9534f",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  width: "100px",
+                }}
+              >
+                Yes
+              </button>
+
+              <button
+                onClick={() => setShowModal(false)}
+                style={{
+                  padding: "10px 20px",
+                  backgroundColor: "#ccc",
+                  color: "#333",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  marginLeft: "10px",
+                  width: "100px",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Button 
         label="Add User" 
         onClick={() => {
           setFormData({
             first_name: "",
             last_name: "",
+            middle_initial: "",
             school_id: "",
             email: "",
             password: "",
@@ -195,6 +274,7 @@ export const ManageUsersTable = ({selectedRole}) => {
           <tr style={{ backgroundColor: "#f2f2f2" }}>
             <th>Last Name</th>
             <th>First Name</th>
+            <th>Middle Initial</th>
             <th>School ID</th>
             <th>Role</th>
             <th>Email</th>
@@ -216,13 +296,17 @@ export const ManageUsersTable = ({selectedRole}) => {
             <tr key={s.user_id}>
               <td>{s.last_name}</td>
               <td>{s.first_name}</td>
+              <td>{s.middle_initial}.</td>
               <td>{s.school_id}</td>
               <td>{s.role}</td>
               <td>{s.email}</td>
               <td>
                 <button onClick={() => handleEditButton(s)}>Edit</button>
                 <button
-                  onClick={() => handleDelete(s.user_id)}
+                  onClick={() => {
+                    setUserToDelete(s.user_id);
+                    setShowModal(true);
+                  }}
                   style={{
                     backgroundColor:
                       selectedRole === "superadmin" && superadminCount === 1 ? "gray" : "red",
@@ -399,6 +483,14 @@ const AddingUserComponent = ({handleChange, handleAddUser, handleCancel, formDat
           value={formData.last_name}
           onChange={handleChange}
           style={{ width: "100%", marginBottom: "8px" }}
+        />
+        <p>Middle Initial</p>
+        <input
+          name="middle_initial"
+          value={formData.middle_initial}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: "8px" }}
+          maxLength={1}
         />
         <p>School ID</p>
         <input

@@ -17,6 +17,7 @@ function StudentDetails ({studentsInfo}) {
         <tr key={s.school_id} style={{ borderBottom: '1px solid #ddd' }}>
           <td style={{ padding: '8px' }}>{s.last_name}</td>
           <td style={{ padding: '8px' }}>{s.first_name}</td>
+          <td style={{ padding: '8px' }}>{s.middle_initial}</td>
           <td style={{ padding: '8px' }}>{s.school_id}</td>
           <td style={{ padding: '8px' }}>{s.objective_score}</td>
           <td style={{ padding: '8px' }}>{s.essay_score} <Button label="View" onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)} /></td>

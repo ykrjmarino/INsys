@@ -58,6 +58,7 @@ export const DashboardSuper = () => {
           "id": 1,
           "first_name": "John",
           "last_name": "Doe",
+          "middle_initial": "R",
           "action": "Published exam: 5",
           "target_id": 5,
           "created_at": "2025-10-24T09:30:00.000Z"
@@ -66,6 +67,7 @@ export const DashboardSuper = () => {
           "id": 2,
           "first_name": "Jane",
           "last_name": "Smith",
+          "middle_initial": "R",
           "action": "Updated password",
           "target_id": 3,
           "created_at": "2025-10-24T08:45:00.000Z"
@@ -110,7 +112,7 @@ export const DashboardSuper = () => {
             <div className="super-dashboard-logs-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
               {infoLogs.map((log) => (
                 <div key={log.id} className="super-dashboard-log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
-                  <p><strong>{log.first_name} {log.last_name}</strong></p>
+                  <p><strong>{log.first_name} {log.middle_initial}. {log.last_name}</strong></p>
                   <p>{log.action}</p>
                   <p style={{ fontSize: '0.85em', color: '#555' }}>{new Date(log.created_at).toLocaleString()}</p>
                 </div>

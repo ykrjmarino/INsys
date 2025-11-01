@@ -66,6 +66,7 @@ function StudentDetails({ studentsInfo, violations, refreshExamInfo }) {
           <tr key={s.school_id} style={{ borderBottom: "1px solid #ddd" }}>
             <td style={{ padding: "8px" }}>{s.last_name}</td>
             <td style={{ padding: "8px" }}>{s.first_name}</td>
+            <td style={{ padding: "8px" }}>{s.middle_initial}</td>
             <td style={{ padding: "8px" }}>{s.school_id}</td>
             <td style={{ padding: "8px" }}>{s.objective_score}</td>
             <td style={{ padding: "8px" }}>
@@ -347,6 +348,7 @@ function SectionAnalytics () {
                 <tr style={{ backgroundColor: '#f2f2f2' }}>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Last Name</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>First Name</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Middle Initial</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>School ID</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Objective Score</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Essay Score</th>

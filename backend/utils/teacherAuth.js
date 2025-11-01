@@ -102,8 +102,8 @@ teacherAuthRoutes.post ('/register/user-info', async(req, res) => { //complete i
 
     //registering details to database
     await db.query(`
-      INSERT INTO users (email, password, first_name, last_name, school_id, gender, college, role ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6 ,$7, $8) RETURNING *
-    `, [email, hash, firstName, lastName, schoolId, userGender, college, 'admin']); //changed password to hash (hashed password)
+      INSERT INTO users (email, password, first_name, last_name, school_id, gender, college, role, middle_initial ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6 ,$7, $8, $9) RETURNING *
+    `, [email, hash, firstName, lastName, schoolId, userGender, college, 'admin', middleInitial]); //changed password to hash (hashed password)
 
     await redisClient.del(`verifiedEmail:${email}`);//delete temporary user info
     return res.status(201).json({ message: 'User registered successfully' });
