@@ -1,8 +1,8 @@
 import ExcelJS from "exceljs";
 import {db} from '../../db.js';
 
-export const exportExamScores = async(req, res) => {
-  const { examId } = req.params;
+export const exportExamScores = async(req, res) => { //per section
+  const { examId, sectionId } = req.params;
 
   try {
     // 1️⃣ Fetch student analytics
@@ -16,13 +16,18 @@ export const exportExamScores = async(req, res) => {
         ss.objective_score,
         ss.essay_score,
         ss.deduction,
-        e.title AS exam_title
+        e.title AS exam_title,
+        st.section_id,
+        st.section_name
       FROM student_scores ss
       JOIN users u ON ss.student_school_id = u.school_id
       JOIN examinations e ON ss.exam_id = e.exam_id
-      WHERE ss.exam_id = $1
+      JOIN section_takers st 
+        ON st.exam_id = ss.exam_id
+        AND st.section_name = ss.section_name
+      WHERE ss.exam_id = $1 AND st.section_id = $2
       ORDER BY u.last_name ASC, u.first_name ASC
-    `, [examId]);
+    `, [examId, sectionId]);
 
     const fileName = `${studentInfo.rows[0]?.exam_title || "exam"}_scores.xlsx`;
 

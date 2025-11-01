@@ -300,7 +300,43 @@ function SectionAnalytics () {
     { label:`${s.course_code}–${s.year_number}${s.section_name}`, value: s.section_id }
   ));
   
-    
+  const exportScoresPerSection = async() => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
+
+    if (!infoStudent || !infoStudent.length) {
+      console.log("No student data to export");
+      return;
+    }
+
+    try {
+      const response = await axios.get(`/export/${examId}/${selectedSection}`, { 
+        ...config,
+        responseType: "blob"
+      });
+
+      const examTitle = infoStudent[0]?.title;
+      const sectionName = infoStudent[0]?.student_section_name;
+
+      console.log("examTitle::::", examTitle);
+
+      // Create a blob URL and trigger download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${examTitle}_${sectionName}_scores.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      console.log('exportScoresPerSection wrking');
+    } catch (error) {
+      console.log('exportScoresPerSection failed, in ExamAnalytics');
+      console.error(error.message);
+    }
+  }
   
   return (
     <>
@@ -322,11 +358,11 @@ function SectionAnalytics () {
               onChange={handleSectionChange} //this is section_id (optionSections value)
               options={optionSections}
             />
+            <i className="fa-solid fa-file-export" onClick={exportScoresPerSection}></i>
           </div>
 
-          <p> Student Performance Analytics </p>
 
-          
+          <p> Student Performance Analytics </p>
           
           <div style={{ backgroundColor: '#ff0000ff', padding: '6px' }}>
             <div style={{ backgroundColor: '#e8bff5ff', margin: '6px' }}>

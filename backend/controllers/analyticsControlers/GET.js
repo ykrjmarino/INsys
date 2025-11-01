@@ -42,6 +42,7 @@ export const getExamAnalytics = async(req, res) =>{
         e.total_points,
         e.passing_score,
         e.exam_id,
+        e.title,
         CASE 
           WHEN ss.total_score >= e.passing_score THEN 'Passed'
           ELSE 'Failed'
