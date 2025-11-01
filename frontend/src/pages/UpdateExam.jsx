@@ -147,7 +147,9 @@ function UpdateExam() {
         //if EXISTING --- UPDATE existing question
         console.log("Payload being sent:", { ...data, exam_id: examId });
 
-        await axios.patch(`/exams/${examId}/questions/${questionId}`, { ...data, exam_id: examId }, config);
+        console.log("Editing question:", questionId, data);
+
+        await axios.patch(`/exams/${examId}/questions/${questionId}`, { ...data, exam_id: examId }, config); //updateQuestion
         
         //update in place instead of refetching para di magulo yung sequence na showing sa frontend
         setExamQues((prev) => {

@@ -176,7 +176,7 @@ function AddQuestionForm({ exam, onSave, formId, defaultEditing = false  }) { //
         options={[
           { label: "Identification", value: "identification" },
           { label: "Multiple Choice", value: "multiplechoice" },
-          // { label: "True or False", value: "truefalse" },
+          { label: "True or False", value: "truefalse" },
           { label: "Essay", value: "essay" }
         ]}
       />
