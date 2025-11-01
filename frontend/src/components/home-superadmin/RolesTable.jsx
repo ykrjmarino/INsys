@@ -47,7 +47,6 @@ export const ManageUsersTable = ({selectedRole}) => {
 
       setUsers(res.data.users);
       setTotalPages(res.data.totalPages);
-      console.log(res.data)
     } catch (error) {
       console.error("Failed to fetch users:", error.message);
     }
@@ -174,8 +173,6 @@ export const ManageUsersTable = ({selectedRole}) => {
       console.error("Failed to check superadmin count:", error.message);
     }
   };
-
-  console.log("selectedRole:", selectedRole, "superadminCount:", superadminCount);
   
 
   return (
