@@ -147,7 +147,7 @@ function RegisterStudent() {
                   border: "none",
                   borderRadius: "6px",
                 }}
-                disabled={isVerified || disableButton}
+                disabled={isVerified}
               />
                
             </form>
