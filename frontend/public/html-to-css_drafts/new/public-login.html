@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="public-login.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <!--start whole-->
+    <div class="log-in-whole">
+        <!--start bg-->
+        <div id="login-stars"></div>
+        <div id="login-stars2"></div>
+        <div id="login-stars3"></div>
+        <!--end bg-->
+
+        <!--side design start-->
+        <div class="login-side-design">
+            <img src="wait2.PNG" alt="Sidebar Logo">
+            <label>Don't Have An Account Yet</label>
+            <Button className="login-register-btn" label="Sign Up" onClick={() => navigate('/welcome-register')} />
+        </div>
+        <!--side design end-->
+
+        <!--start login container-->
+        <div class="login-whole-container">
+            <button class="login-back-btn"><i class="fa fa-arrow-left"></i></button>
+
+            <label class="login-label">Login</label>
+            
+            <div id="login-container">
+                <div class="login-group">
+                    <label for="email">Email</label>
+                    <InputField 
+                      name="email"
+                      id="email"
+                      type="email"
+                      value={formLogin.email}
+                      onChange={handleChange}
+                      placeholder="Enter your email"
+                      required
+                    />
+                </div>
+                <div class="login-group">
+                    <label for="password">Password</label>
+                    <InputField 
+                      name="password"
+                      id="password"
+                      type="password"
+                      value={formLogin.password}
+                      onChange={handleChange}
+                      placeholder="Enter your password"
+                      required
+                    />
+                </div>
+                <div class="login-forgot-password">
+                    <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+                </div>
+            </div>
+            
+            <Button className="login-btn" label="Login" type="submit" />
+            <div class="login-or-label">or</div>
+            <Button className="login-register-btn-mobile" label="Sign Up" onClick={() => navigate('/welcome-register')} />
+        </div>
+        <!--end login container-->
+    </div>
+    <!--end whole-->
+</body>
+</html>

@@ -30,7 +30,7 @@ function Login() {
 
         
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
 
     axios.post("/login", formLogin, { withCredentials: true })
@@ -71,12 +71,77 @@ function Login() {
   };
 
   return (
+    <div className="log-in-whole">
+      
+        <div id="login-stars"></div>
+        <div id="login-stars2"></div>
+        <div id="login-stars3"></div>
+
+        <div className="login-side-design">
+            <img src="wait2.PNG" alt="Sidebar Logo" />
+            <label>Don't Have An Account Yet</label>
+            <Button className="login-register-btn" label="Sign Up" onClick={() => navigate('/welcome-register')} />
+        </div>
+        
+        <div className="login-whole-container">
+            <button className="login-back-btn"><i className="fa fa-arrow-left"></i></button>
+
+            <label className="login-label">Login</label>
+            
+            <div id="login-container">
+                <div className="login-group">
+                    <label htmlFor="email">Email</label>
+                    <InputField 
+                      name="email"
+                      id="email"
+                      type="email"
+                      value={formLogin.email}
+                      onChange={handleChange}
+                      placeholder="Enter your email"
+                      required
+                    />
+                </div>
+                <div className="login-group">
+                    <label htmlFor="password">Password</label>
+                    <InputField 
+                      name="password"
+                      id="password"
+                      type="password"
+                      value={formLogin.password}
+                      onChange={handleChange}
+                      placeholder="Enter your password"
+                      required
+                    />
+                </div>
+                <div className="login-forgot-password">
+                    <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
+                </div>
+            </div>
+            
+            <Button className="login-btn" label="Login" onClick={handleLogin}/>
+            <div className="login-or-label">or</div>
+            <Button className="login-register-btn-mobile" label="Sign Up" onClick={() => navigate('/welcome-register')} />
+        </div>
+    </div>
+  )
+
+}
+
+export default Login;
+
+/*
+
+  return (
    <>
    <div className="login-whole">
+    <div id="login-stars"></div>
+    <div id="login-stars2"></div>
+    <div id="login-stars3"></div>
+
     <div className="container" id="login-container">
       <h1>Login</h1>
       <div id="login-container-inner">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <div className="email-group">
             <label>Email</label>
             <InputField 
@@ -110,7 +175,7 @@ function Login() {
             <span>or</span>
           </div>
 
-          <Button className="signup-btn" label="Sign Up" onClick={() => navigate('/welcome-register')} />
+          <Button className="login-register-btn" label="Sign Up" onClick={() => navigate('/welcome-register')} />
         </form>
       </div>
     </div>
@@ -119,6 +184,4 @@ function Login() {
     </>
   )
 
-}
-
-export default Login;
+*/

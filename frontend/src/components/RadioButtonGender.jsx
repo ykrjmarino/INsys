@@ -5,7 +5,7 @@ function RadioButtonGender({ label, name, value, onChange, options, divClassName
   return (
     <div className={divClassName}>
       {label && <label>{label}</label>}
-      <div className="radio-group">
+      <div className="registration-radio-group">
         {options.map((option, index) => {
           const id = option.value.toLowerCase(); // e.g. "Male" → "male"
           return (
