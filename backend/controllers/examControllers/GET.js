@@ -34,6 +34,19 @@ export const getAllExamsByTeacher = async(req, res) =>{
 export const getQuestionsByExamId = async (req, res) => {
   const { examId } = req.params;
   const userId = req.user.userId;
+  const role = req.user.role;
+
+  //Check if user owns the exam or is superadmin
+  const examCheck = await db.query(
+    `SELECT user_id FROM examinations WHERE exam_id = $1`,
+    [examId]
+  );
+
+  if (!examCheck.rows.length) return res.status(404).json({ message: "Exam not found" });
+  const examOwner = examCheck.rows[0].user_id;
+
+  if (examOwner !== userId && role !== 'superadmin') return res.status(403).json({ message: "Access denied" });
+
 
   try {
     const result = await db.query(
@@ -72,7 +85,22 @@ export const getExamsByTitle = async(req, res) => { //for searbar sorting
 }
 
 export const getExamById = async(req, res) => {
-  const {examId} = req.params;
+  const { examId } = req.params;
+  const userId = req.user.userId;
+  const role = req.user.role;
+
+  //Check if user owns the exam or is superadmin
+  const examCheck = await db.query(
+    `SELECT user_id FROM examinations WHERE exam_id = $1`,
+    [examId]
+  );
+
+  if (!examCheck.rows.length) return res.status(404).json({ message: "Exam not found" });
+  const examOwner = examCheck.rows[0].user_id;
+
+  if (examOwner !== userId && role !== 'superadmin') return res.status(403).json({ message: "Access denied" });
+
+
   try {
     const result = await db.query("SELECT * FROM examinations WHERE exam_id = $1", [examId]
     );
@@ -130,6 +158,21 @@ export const getExamCode = async(req, res) => {
 export const getSectionTakersByExamId = async (req, res) => {
   const { examId } = req.params;
   const { courseCode } = req.query; //for fallback onli??
+
+  const userId = req.user.userId;
+  const role = req.user.role;
+
+  //Check if user owns the exam or is superadmin
+  const examCheck = await db.query(
+    `SELECT user_id FROM examinations WHERE exam_id = $1`,
+    [examId]
+  );
+
+  if (!examCheck.rows.length) return res.status(404).json({ message: "Exam not found" });
+  const examOwner = examCheck.rows[0].user_id;
+
+  if (examOwner !== userId && role !== 'superadmin') return res.status(403).json({ message: "Access denied" });
+
 
   console.log("examId:", examId, "courseCode:", courseCode);
 
@@ -225,6 +268,20 @@ export const getAllScoresByExam = async(req, res) => {
 
 export const getEssayPerStudent = async(req, res) => {
   const {examId, studentId } = req.params;
+  const userId = req.user.userId;
+  const role = req.user.role;
+
+  //Check if user owns the exam or is superadmin
+  const examCheck = await db.query(
+    `SELECT user_id FROM examinations WHERE exam_id = $1`,
+    [examId]
+  );
+
+  if (!examCheck.rows.length) return res.status(404).json({ message: "Exam not found" });
+  const examOwner = examCheck.rows[0].user_id;
+
+  if (examOwner !== userId && role !== 'superadmin') return res.status(403).json({ message: "Access denied" });
+
   try {
     /*
     {

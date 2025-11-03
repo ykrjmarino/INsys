@@ -2,6 +2,19 @@ import {db} from '../../db.js';
 
 export const getExamAnalytics = async(req, res) =>{
   const { examId } = req.params;
+  const userId = req.user.userId;
+  const role = req.user.role;
+
+  //Check if user owns the exam or is superadmin
+  const examCheck = await db.query(
+    `SELECT user_id FROM examinations WHERE exam_id = $1`,
+    [examId]
+  );
+
+  if (!examCheck.rows.length) return res.status(404).json({ message: "Exam not found" });
+  const examOwner = examCheck.rows[0].user_id;
+
+  if (examOwner !== userId && role !== 'superadmin') return res.status(403).json({ message: "Access denied" });
 
   try {
     // 1️⃣ Fetch exam info (even if no students)
@@ -174,6 +187,21 @@ export const getStudentAnalytics = async(req, res) =>{//for essay answer
 export const getSectionAnalytics = async(req, res) => {
   const { examId } = req.params;     // ← from URL path
   const { section } = req.query; 
+
+  const userId = req.user.userId;
+  const role = req.user.role;
+
+  //Check if user owns the exam or is superadmin
+  const examCheck = await db.query(
+    `SELECT user_id FROM examinations WHERE exam_id = $1`,
+    [examId]
+  );
+
+  if (!examCheck.rows.length) return res.status(404).json({ message: "Exam not found" });
+  const examOwner = examCheck.rows[0].user_id;
+
+  if (examOwner !== userId && role !== 'superadmin') return res.status(403).json({ message: "Access denied" });
+
 
   console.log('getExam ID:', examId);
   console.log('getSection ID:', section);
@@ -353,8 +381,22 @@ export const getUser = async (req, res) => { //used by superadmin
 };
 
 export const getQuestionAnalytics = async (req, res) => {
-  const userId = req.user.userId; //cant use para makita ng superadmin
+  const userId = req.user.userId;
+  const role = req.user.role;
   const { examId } = req.params;
+
+  //check if user owns the exam or is superadmin
+  const examCheck = await db.query(
+    `SELECT user_id FROM examinations WHERE exam_id = $1`, //selects the teacher who made the exam
+    [examId]
+  );
+
+  if (!examCheck.rows.length) return res.status(404).json({ message: "Exam not found" });
+
+  const examOwner = examCheck.rows[0].user_id; //teacher
+
+  if (examOwner !== userId && role !== 'superadmin') return res.status(403).json({ message: "Access denied" });
+
   try {
     const questionsRes = await db.query(
       `SELECT question_id, question_text, points
