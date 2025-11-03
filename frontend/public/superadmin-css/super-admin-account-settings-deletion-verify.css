@@ -1,0 +1,421 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+
+/*ito lng nabago*/
+.super-admin-deletion-message p {
+  color: #ef4444;
+  font-size: 14px;
+  font-style: italic;
+}
+/*ito lng nabago*/
+
+
+.super-admin-account-settings-whole {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    overflow: hidden;
+}
+
+
+.super-admin-account-settings-sidebar {
+    width: 15%;
+    min-width: 240px;
+    height: 100%;
+    background: linear-gradient(180deg, #1A1A2E 0%, #16213E 100%);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    color: #e2e8f0;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
+    border-right: 1px solid #2d3748;
+}
+
+.super-admin-analytics-sidebar-image {
+    height: 100px;
+    border-bottom: 1px solid #2d3748;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 16px;
+}
+
+.super-admin-analytics-sidebar-image img {
+    height: 90px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.super-admin-analytics-sidebar-image img:hover {
+    transform: scale(1.05);
+}
+
+.super-admin-account-settings-sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.super-admin-account-settings-sidebar-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+}
+
+.super-admin-account-seetings-sidebar-btn {
+    width: 100%;
+    height: 54px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    font-weight: 500;
+    font-size: 14.5px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.super-admin-account-seetings-sidebar-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.super-admin-account-seetings-sidebar-btn:hover::before {
+    left: 100%;
+}
+
+.super-admin-account-seetings-sidebar-btn:hover {
+    background: rgba(59, 130, 246, 0.15);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.super-admin-account-seetings-sidebar-btn.active {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+    border: none;
+}
+
+.super-admin-account-seetings-sidebar-btn.active::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 32px;
+    background: #60a5fa;
+    border-radius: 2px;
+    box-shadow: 0 0 12px rgba(96, 165, 250, 0.6);
+}
+
+.super-admin-account-settings-sidebar-profile-container {
+    margin-top: auto;
+    height: 76px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 14px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.super-admin-account-settings-sidebar-profile-container:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.super-admin-account-settings-sidebar-profile-container i {
+    font-size: 26px;
+    background: #4d5761;
+    color: #e2e8f0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.super-admin-account-seetings-sidebar-profile-name {
+    font-weight: 600;
+    font-size: 14.5px;
+}
+
+.super-admin-account-seetings-sidebar-profile-title {
+    font-size: 12px;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+
+.user-settings-outer-container {
+    flex: 1;
+    padding: 32px;
+    overflow-y: auto;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.user-settings-outer-container h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.user-settings-outer-container > h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #3b82f6;
+    border-radius: 2px;
+    margin-top: 8px;
+}
+
+
+.user-settings-inner-container-one-account-deletion {
+    display: flex;
+    gap: 8px;
+    background: #ffffff;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+
+.user-settings-account-info-account-deletion,
+.user-settings-change-password-account-deletion,
+.user-settings-account-deletion-account-deletion {
+    flex: 1;
+    padding: 14px 20px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14.5px;
+    color: #64748b;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-settings-account-info-account-deletion:hover,
+.user-settings-change-password-account-deletion:hover,
+.user-settings-account-deletion-account-deletion:hover {
+    background: rgba(59, 130, 246, 0.08);
+    color: #3b82f6;
+}
+
+.user-settings-account-deletion-account-deletion.active {
+    background: linear-gradient(145deg, #1E1E2E, #2A2A4A);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+}
+
+
+.super-admin-account-deletion-account-control-container {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.super-admin-account-deletion-account-control-container h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.super-admin-account-deletion-account-control-container h3::before {
+    content: '';
+    width: 5px;
+    height: 20px;
+    background: #ef4444;
+    border-radius: 3px;
+}
+
+.super-admin-account-deletion-account-input {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.super-admin-account-deletion-account-input input {
+    flex: 1;
+    padding: 14px 16px;
+    font-size: 14.5px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.super-admin-account-deletion-account-input input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.super-admin-account-deletion-account-input button {
+    padding: 0 24px;
+    background: #3b82f6;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.super-admin-account-deletion-account-input button:hover {
+    background: #1e40af;
+    transform: translateY(-1px);
+}
+
+
+
+.super-admin-account-deletion-account-button {
+    display: flex;
+    justify-content: center;
+}
+
+.super-admin-account-deletion-account-button button {
+    padding: 14px 32px;
+    background: #ef4444;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
+}
+
+.super-admin-account-deletion-account-button button:hover {
+    background: #dc2626;
+}
+
+
+@media (max-width: 1200px) {
+    .user-settings-inner-container-one-account-deletion {
+        flex-direction: column;
+    }
+    .user-settings-account-info-account-deletion,
+    .user-settings-change-password-account-deletion,
+    .user-settings-account-deletion-account-deletion {
+        text-align: left;
+    }
+}
+
+@media (max-width: 992px) {
+    .super-admin-account-settings-sidebar {
+        width: 20%;
+    }
+}
+
+@media (max-width: 768px) {
+    .super-admin-account-settings-whole {
+        flex-direction: column;
+    }
+
+    .super-admin-account-settings-sidebar {
+        width: 100%;
+        height: auto;
+        padding: 0 20px;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 8px;
+    }
+
+    .super-admin-analytics-sidebar-image,
+    .super-admin-account-settings-sidebar-profile-container,
+    .super-admin-account-settings-sidebar-title {
+        display: none;
+    }
+
+    .super-admin-account-settings-sidebar-buttons {
+        flex-direction: row;
+        gap: 8px;
+        justify-content: space-around;
+        width: 100%;
+        padding: 8px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .super-admin-account-seetings-sidebar-btn {
+        min-width: 48px;
+        height: 48px;
+        font-size: 0;
+        padding: 0;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .super-admin-account-seetings-sidebar-btn i {
+        font-size: 20px;
+    }
+
+    .super-admin-account-seetings-sidebar-btn.active::after {
+        display: none;
+    }
+
+    .user-settings-outer-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .super-admin-account-deletion-account-input {
+        flex-direction: column;
+
+    }
+
+    .super-admin-account-deletion-account-input button {
+        height: 50px;
+        width: 100%;
+    }
+}
