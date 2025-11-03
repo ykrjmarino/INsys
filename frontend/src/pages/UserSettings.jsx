@@ -307,15 +307,12 @@ export const UserSettingsContent = () => {
 function UserSettings() {
   return (
     <>
-    <div className="whole">
-      <HeaderTeacher />
-      <div className="side-bar-and-main-container">
-        <HomeSuperadmin />
-        <div className="main-home-content" style={{ padding: '10px' }}>          
-          <h2>Admin Analytics</h2>
+    <div className="super-admin-whole">
+      <HomeSuperadmin />
+      <div className="main-home-content" style={{ padding: '10px' }}>          
+        <h2>Admin Analytics</h2>
 
-          <UserSettingsContent />
-        </div>
+        <UserSettingsContent />
       </div>
     </div>
     </>

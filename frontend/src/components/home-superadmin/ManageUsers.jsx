@@ -74,27 +74,24 @@ export const ManageUser = () => {
 
   return (
     <>
-    <div className="whole">
-      <HeaderTeacher />
-      <div className="side-bar-and-main-container">
-        <HomeSuperadmin />
-        <div className="main-home-content" style={{ padding: '10px' }}>
-          <div className="user-management-export" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px"}}>
-            <h2>User Management</h2> <i className="fa-solid fa-file-export" onClick={exportUserByRole}></i>
-          </div>
-        
-          <div style={{ display: 'flex', gap: '5px', margin: '5px' }}>
-            <div onClick={() => setActiveTab('student')}>Students</div>
-            <div>|</div>
-            <div onClick={() => setActiveTab('admin')}>Admins</div>
-            <div>|</div>
-            <div onClick={() => setActiveTab('superadmin')}>Superadmins</div>
-          </div>
-
-          {activeTab === 'student' && <ManageUsersTable selectedRole="student" />}
-          {activeTab === 'admin' && <ManageUsersTable selectedRole="admin" />}
-          {activeTab === 'superadmin' && <ManageUsersTable selectedRole="superadmin" />}
+    <div className="super-admin-whole">
+      <HomeSuperadmin />
+      <div className="main-home-content" style={{ padding: '10px' }}>
+        <div className="user-management-export" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px"}}>
+          <h2>User Management</h2> <i className="fa-solid fa-file-export" onClick={exportUserByRole}></i>
         </div>
+      
+        <div style={{ display: 'flex', gap: '5px', margin: '5px' }}>
+          <div onClick={() => setActiveTab('student')}>Students</div>
+          <div>|</div>
+          <div onClick={() => setActiveTab('admin')}>Admins</div>
+          <div>|</div>
+          <div onClick={() => setActiveTab('superadmin')}>Superadmins</div>
+        </div>
+
+        {activeTab === 'student' && <ManageUsersTable selectedRole="student" />}
+        {activeTab === 'admin' && <ManageUsersTable selectedRole="admin" />}
+        {activeTab === 'superadmin' && <ManageUsersTable selectedRole="superadmin" />}
       </div>
     </div>
     </>

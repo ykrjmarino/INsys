@@ -87,39 +87,38 @@ export const DashboardSuper = () => {
 
   return (
     <>
-    <div className="whole">
-      <HeaderTeacher />
-      <div className="side-bar-and-main-container">
-        <HomeSuperadmin />
-        <div className="main-home-content" style={{ padding: '10px' }}>          
-          <h2>Dashboard</h2>
+    <div className="super-admin-whole">
 
-          {/* Stats Section */}
-          <section className="super-dashboard-stats-section" style={{ marginBottom: '20px' }}>
-            <h3>System Overview</h3>
-            <ul>
-              <li>Total Exams: {infoStats.total_exams || 0}</li>
-              <li>Total Students: {infoStats.total_students || 0}</li>
-              <li>Total Admins: {infoStats.total_admins || 0}</li>
-              <li>Total Superadmins: {infoStats.total_superadmins || 0}</li>
-              <li>Total Users: {infoStats.total_users || 0}</li>
-            </ul>
-          </section>
+      <HomeSuperadmin />
 
-          {/* Logs Section */}
-          <section className="super-dashboard-logs-section">
-            <h3>Recent System Logs</h3>
-            <div className="super-dashboard-logs-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-              {infoLogs.map((log) => (
-                <div key={log.id} className="super-dashboard-log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
-                  <p><strong>{log.first_name} {log.middle_initial}. {log.last_name}</strong></p>
-                  <p>{log.action}</p>
-                  <p style={{ fontSize: '0.85em', color: '#555' }}>{new Date(log.created_at).toLocaleString()}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
+      <div className="main-home-content" style={{ padding: '10px' }}>          
+        <h2>Dashboard</h2>
+
+        {/* Stats Section */}
+        <section className="super-dashboard-stats-section" style={{ marginBottom: '20px' }}>
+          <h3>System Overview</h3>
+          <ul>
+            <li>Total Exams: {infoStats.total_exams || 0}</li>
+            <li>Total Students: {infoStats.total_students || 0}</li>
+            <li>Total Admins: {infoStats.total_admins || 0}</li>
+            <li>Total Superadmins: {infoStats.total_superadmins || 0}</li>
+            <li>Total Users: {infoStats.total_users || 0}</li>
+          </ul>
+        </section>
+
+        {/* Logs Section */}
+        <section className="super-dashboard-logs-section">
+          <h3>Recent System Logs</h3>
+          <div className="super-dashboard-logs-container">
+            {infoLogs.map((log) => (
+              <div key={log.id} className="super-dashboard-log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
+                <p><strong>{log.first_name} {log.middle_initial}. {log.last_name}</strong></p>
+                <p>{log.action}</p>
+                <p style={{ fontSize: '0.85em', color: '#555' }}>{new Date(log.created_at).toLocaleString()}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
     </>

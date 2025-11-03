@@ -25,26 +25,25 @@ export const HomeSuperadmin = () => {
         <div className="sidebar-buttons">
           <h1 className="sidebar-title">Tools</h1>
           <button
-            className="sidebar-btn"
+            className="super-admin-sidebar-btn active"
             onClick={()=> navigate('/dashboard')}
           ><i className="fas fa-chart-bar"></i> Dashboard </button>
           <button
-            className="sidebar-btn"
+            className="super-admin-sidebar-btn active"
             onClick={()=> navigate('/admin-analytics')}
-          ><i className="fas fa-chart-bar"></i> Admin Analytics </button>
+          ><i className="fa-solid fa-chart-simple"></i> Admin Analytics </button>
           <button
-            className="sidebar-btn"
+            className="super-admin-sidebar-btn active"
             onClick={()=> navigate('/user-management')}
-          ><i className="fas fa-chart-bar"></i> Manage Accounts </button>
+          ><i className="fa-solid fa-users"></i> Manage Accounts </button>
           <button
-            className="sidebar-btn"
+            className="super-admin-sidebar-btn active"
             onClick={()=> navigate('/system-settings')}
-          ><i className="fas fa-chart-bar"></i> System Settings </button>
+          ><i className="fa-solid fa-sliders"></i> System Settings </button>
           <button
-            className="sidebar-btn"
+            className="super-admin-sidebar-btn active"
             onClick={()=> navigate('/account-settings')}
-          ><i className="fas fa-chart-bar"></i> Account Settings </button>
-          
+          ><i className="fa-solid fa-gear"></i> Account Settings </button>
         </div>
 
         <div className="sidebar-profile-container">
