@@ -171,6 +171,7 @@ function ExamQuestions() {
 // }, [examInfo, current]);
   useEffect(() => {
     if (!examInfo?.timer_question || !examQuestions[current]) return;
+    if (examQuestions[current].question_type === 'essay') return;
 
     const questionKey = `exam-${examId}-q-${current}-startTime`;
 
@@ -413,7 +414,7 @@ function ExamQuestions() {
           <button onClick={exitExam}>&lt;</button>
           {/* <h2>Question {current + 1}</h2>  */}
             <div className="exam-timer">
-              <h2>Time left: {timerLeft}s</h2>
+              {examQuestions[current] ? (examQuestions[current].question_type === 'essay' ? (<h2>This question has no time limit</h2>) : (<h2>Time left: {timerLeft}s</h2>)) : null}
             </div>
         </div>
 

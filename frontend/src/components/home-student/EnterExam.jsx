@@ -133,7 +133,7 @@ function EnterExam() {
           <div className="student-instruction-bottom-stick">
             <div className="student-instruction-checkbox-container">
               <input type="checkbox" id="agree-checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
-              <label for="agree-checkbox">I have read and understand the instructions</label>
+              <label htmlFor="agree-checkbox">I have read and understand the instructions</label>
             </div>
             <button className="student-instruction-take-exam-btn" id="student-instruction-take-exam-btn" disabled={!agreed || !canStartExam} onClick={handleStartClick}>Take Exam</button>
           </div>

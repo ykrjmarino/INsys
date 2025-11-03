@@ -85,10 +85,10 @@ export const verifyExamAccess = async(req, res) => {
 
   //time validation
     if (currentTimeUTC > endTimeUTC) {
-      return res.status(403).json({ error: 'Exam has ended' });
+      return res.status(409).json({ error: 'Exam has ended' });
     }
     if (currentTimeUTC < startTimeUTC) {
-      return res.status(403).json({ error: 'Exam has not started' });
+      return res.status(409).json({ error: 'Exam has not started' });
     }
     
   //check submissions
