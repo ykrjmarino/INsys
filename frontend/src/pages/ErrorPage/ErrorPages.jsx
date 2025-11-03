@@ -1,28 +1,40 @@
-import axios from "../../utils/axiosConfig";
-import React, { useState }  from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import { useEffect } from "react";
 
-export const ForbiddenPage = () => (
-  <div style={{ textAlign: "center", padding: "50px" }}>
-    <h1>403 - Forbidden</h1>
-    <p>You don't have permission to access this page.</p>
-  </div>
-);
+export const ForbiddenPage = () => {
+  const navigate = useNavigate();
 
-export const UnauthorizedPage = () => (
-  <div style={{ textAlign: "center", padding: "50px" }}>
-    <h1>401 - Unauthorized Access</h1>
-    <p>401 - You don’t have permission to view this page.</p>
-  </div>
-);
+  return (
+    <div className="body-error-status">
+      <h1 class="error-code">403</h1>
+      <h2 class="error-title">Forbidden</h2>
+      <p class="error-description">You don't have permission to access this page.</p>
+      <button onClick={() => navigate(-1)} class="error-home-button">Go to Homepage</button>
+    </div>
+  )
+}
+
+export const UnauthorizedPage = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="body-error-status">
+      <h1 class="error-code">401</h1>
+      <h2 class="error-title">Unauthorized Access</h2>
+      <p class="error-description">You don’t have permission to view this page.</p>
+      <button onClick={() => navigate(-1)} class="error-home-button">Go to Homepage</button>
+    </div>
+  )
+}
 
 export const NotFoundPage = () => {
+  const navigate = useNavigate();
+
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      <h1>404 - Page Not Found</h1>
-      <p>404 - The page you’re looking for doesn’t exist.</p>
+    <div className="body-error-status">
+      <h1 class="error-code">404</h1>
+      <h2 class="error-title">Page Not Found</h2>
+      <p class="error-description">The page you're looking for doesn't exist or has been moved.</p>
+      <button onClick={() => navigate(-1)} class="error-home-button">Go to Homepage</button>
     </div>
   );
 }
