@@ -43,7 +43,7 @@ export const LogoutSpan = ({className}) => {
 
   return (
     <>
-    <span className={className} onClick={handleLogout}>Logout</span>
+    <button className={className} onClick={handleLogout}>Logout</button>
     </>
   )
 }

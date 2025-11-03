@@ -12,9 +12,9 @@ export const AdminAnalytics = () => {
 
   return (
     <>
-    <div className="super-admin-whole">
+    <div className="super-admin-analytics-whole">
       <HomeSuperadmin />
-      <div className="main-home-content" style={{ padding: '10px' }}>          
+      <div className="main-home-content">          
         <h2>Admin Analytics</h2>
 
         <AdminsComponent />
@@ -66,8 +66,8 @@ export const AdminsComponent = () => {
   }
 
   return (
-    <div style={{ position: "relative" }}>
-      <input 
+    <div className="super-admin-analytics-components">
+      <input className="super-admin-analytics-search"
         type="text" 
         placeholder="Search..." 
         value={searchTerm} 
@@ -84,7 +84,7 @@ export const AdminsComponent = () => {
           )
         })
         .map((s) => (
-          <div
+          <div className="super-admin-analytics-box-info"
             key={s.user_id}
             style={{
               border: '2px solid black',
@@ -104,10 +104,10 @@ export const AdminsComponent = () => {
           </div>
         ))}
 
-        <div className="pagination">
-          <button onClick={() => setCurrentPage(p => Math.max(p-1, 1))} disabled={currentPage === 1}>Prev</button>
-          <span>Page {currentPage} of {totalPages}</span>
-          <button onClick={() => setCurrentPage(p => Math.min(p+1, totalPages))} disabled={currentPage === totalPages}>Next</button>
+        <div className="super-admin-analytics-pagination">
+          <button className="super-admin-pagination-btn" onClick={() => setCurrentPage(p => Math.max(p-1, 1))} disabled={currentPage === 1}>Prev</button>
+          <span className="super-admin-analytics-pagination-label">Page {currentPage} of {totalPages}</span>
+          <button className="super-admin-pagination-btn" onClick={() => setCurrentPage(p => Math.min(p+1, totalPages))} disabled={currentPage === totalPages}>Next</button>
         </div>
 
     </div>

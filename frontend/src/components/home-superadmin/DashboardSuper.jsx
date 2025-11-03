@@ -91,7 +91,7 @@ export const DashboardSuper = () => {
 
       <HomeSuperadmin />
 
-      <div className="main-home-content" style={{ padding: '10px' }}>          
+      <div className="main-home-content">          
         <h2>Dashboard</h2>
 
         {/* Stats Section */}

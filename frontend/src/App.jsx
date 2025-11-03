@@ -82,6 +82,10 @@ function RootRedirect() {
     return <Navigate to="/login" replace />;
   }
 
+  if (user.role === 'superadmin') {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   if (user.role === 'admin') {
     return <Navigate to="/admin-dashboard" replace />;
   }

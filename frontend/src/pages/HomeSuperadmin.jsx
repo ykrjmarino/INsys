@@ -9,6 +9,7 @@ import { useExams } from '../hooks/useExams.js';
 import { useState } from "react";
 import { useEffect } from "react";
 import { DashboardSuper } from "../components/home-superadmin/DashboardSuper.jsx";
+import { LogoutSpan } from "../components/Logout.jsx";
 
 export const HomeSuperadmin = () => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ export const HomeSuperadmin = () => {
             className="super-admin-sidebar-btn active"
             onClick={()=> navigate('/account-settings')}
           ><i className="fa-solid fa-gear"></i> Account Settings </button>
+          <LogoutSpan className="super-admin-sidebar-btn"/>
         </div>
 
         <div className="sidebar-profile-container">
