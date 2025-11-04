@@ -30,7 +30,7 @@ export const ManageUsersTable = ({selectedRole}) => {
 
   useEffect(() => {
     fetchUsers();
-  }, [accessToken, currentPage, selectedRole]);
+  }, [accessToken, currentPage, selectedRole, searchTerm]);
 
   useEffect(() => {
     if (selectedRole === "superadmin") checkSuperadminCount();
@@ -43,7 +43,7 @@ export const ManageUsersTable = ({selectedRole}) => {
     };
 
     try {
-      const res = await axios.get(`/system/manage-users?role=${selectedRole}&page=${currentPage}&limit=${pageSize}`, config);
+      const res = await axios.get(`/system/manage-users?role=${selectedRole}&page=${currentPage}&limit=${pageSize}&search=${searchTerm}`, config);
 
       setUsers(res.data.users);
       setTotalPages(res.data.totalPages);
@@ -181,7 +181,10 @@ export const ManageUsersTable = ({selectedRole}) => {
         type="text" 
         placeholder="Search..." 
         value={searchTerm} 
-        onChange={(e) => setSearchTerm(e.target.value)} 
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1); // reset to first page when searching
+        }} 
       />
 
       {showModal && (
@@ -280,15 +283,6 @@ export const ManageUsersTable = ({selectedRole}) => {
         </thead>
         <tbody>
           {users
-            .filter((s) => {
-              const term = searchTerm.toLowerCase();
-                return (
-                  s.first_name.toLowerCase().includes(term) ||
-                  s.last_name.toLowerCase().includes(term) ||
-                  s.school_id.toLowerCase().includes(term) ||
-                  s.email.toLowerCase().includes(term)
-                )
-            })
             .map((s) => (
             <tr key={s.user_id}>
               <td>{s.last_name}</td>

@@ -362,15 +362,28 @@ export const getSystemLogs = async (req, res) => { //used by superadmin
 };
 
 export const getUser = async (req, res) => { //used by superadmin
-  const { role, page = 1, limit = 10 } = req.query;
+  const { role, page = 1, limit = 10, search = "" } = req.query;
   // Convert query params to numbers
   const pageNum = parseInt(page, 10) || 1;
   const limitNum = parseInt(limit, 10) || 10;
   const offset = (pageNum - 1) * limitNum;
 
   try {
+    const searchPattern = `%${search}%`;
+
     // Total users with that role
-    const countRes = await db.query(`SELECT COUNT(*) FROM users WHERE role = $1`, [role]);
+    const countRes = await db.query(`
+      SELECT COUNT(*) 
+      FROM users 
+      WHERE role = $1
+      AND (
+        first_name ILIKE $2 OR 
+        last_name ILIKE $2 OR 
+        email ILIKE $2 OR 
+        CAST(school_id AS TEXT) ILIKE $2
+      )
+    `, [role, searchPattern]);
+
     const totalCount = parseInt(countRes.rows[0].count, 10);
     const totalPages = Math.ceil(totalCount / limitNum);
 
@@ -386,9 +399,15 @@ export const getUser = async (req, res) => { //used by superadmin
         u.email
       FROM users u
       WHERE u.role = $1
+      AND (
+        u.first_name ILIKE $2 OR 
+        u.last_name ILIKE $2 OR 
+        u.email ILIKE $2 OR 
+        CAST(u.school_id AS TEXT) ILIKE $2
+      )
       ORDER BY u.last_name ASC
-      LIMIT $2 OFFSET $3
-    `, [role, limitNum, offset]);
+      LIMIT $3 OFFSET $4
+    `, [role, searchPattern, limitNum, offset]);
 
     res.status(200).json({ users: result.rows, totalPages });
   } catch (err) {
