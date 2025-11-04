@@ -36,10 +36,13 @@ export const AdminsComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-
+  
   useEffect(() => {
-    fetchExamInfo();
-  }, [accessToken, currentPage]);
+    const delay = setTimeout(() => {
+      fetchExamInfo();
+    }, 300); // debounce for smoother typing
+    return () => clearTimeout(delay);
+  }, [accessToken, currentPage, searchTerm]);
 
   const fetchExamInfo = async() => {
     const config = {
@@ -48,7 +51,10 @@ export const AdminsComponent = () => {
     };
 
     try {
-      const res = await axios.get(`/admin/analytics?page=${currentPage}&limit=${pageSize}`, config); //getAdminExamAnalytics
+      const res = await axios.get(`/admin/analytics`, {
+        ...config,
+        params: { page: currentPage, limit: pageSize, search: searchTerm },
+      }); //getAdminExamAnalytics
       /* {
         user_id, first_name, last_name, school_id, role, email, total_exams
       } */
@@ -71,18 +77,12 @@ export const AdminsComponent = () => {
         type="text" 
         placeholder="Search..." 
         value={searchTerm} 
-        onChange={(e) => setSearchTerm(e.target.value)} 
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1); // reset to first page when searching
+        }}
       />
         {examInfo
-        .filter((s) => {
-          const term = searchTerm.toLowerCase();
-          return (
-            s.first_name.toLowerCase().includes(term) ||
-            s.last_name.toLowerCase().includes(term) ||
-            s.school_id.toLowerCase().includes(term) ||
-            s.email.toLowerCase().includes(term)
-          )
-        })
         .map((s) => (
           <div className="super-admin-analytics-box-info"
             key={s.user_id}

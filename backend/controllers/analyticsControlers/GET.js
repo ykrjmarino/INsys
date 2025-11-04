@@ -291,14 +291,26 @@ export const getAllAnalytics = async(req, res) => { //used by superadmin
 export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
   const role = 'admin'
 
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 10, search = "" } = req.query;
   const pageNum = parseInt(page, 10) || 1;
   const limitNum = parseInt(limit, 10) || 10;
   const offset = (pageNum - 1) * limitNum;
 
   try {
+    const searchPattern = `%${search}%`;
+
     // total admins
-    const countRes = await db.query(`SELECT COUNT(*) FROM users WHERE role = $1`, [role]);
+    const countRes = await db.query(`
+      SELECT COUNT(*) 
+      FROM users 
+      WHERE role = $1
+        AND (
+          first_name ILIKE $2 
+          OR last_name ILIKE $2 
+          OR CAST(school_id AS TEXT) ILIKE $2
+        )`
+    , [role, searchPattern]);
+
     const totalCount = parseInt(countRes.rows[0].count, 10);
     const totalPages = Math.ceil(totalCount / limitNum);
 
@@ -315,10 +327,15 @@ export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
       FROM users u
       LEFT JOIN examinations e ON e.user_id = u.user_id
       WHERE u.role = $1
+        AND (
+          u.first_name ILIKE $2 
+          OR u.last_name ILIKE $2 
+          OR CAST(u.school_id AS TEXT) ILIKE $2
+        )
       GROUP BY u.user_id
       ORDER BY u.last_name ASC 
-      LIMIT $2 OFFSET $3
-    `, [role, limitNum, offset]);
+      LIMIT $3 OFFSET $4
+    `, [role, searchPattern, limitNum, offset]);
 
     return res.status(200).json({ admins: result.rows, totalPages });
   } catch (err) {
