@@ -31,31 +31,31 @@ function StudentDetails ({studentsInfo}) {
 function ExamGraph({ analyticsInfo }) {
   return (
     <>
-      <div>
-        <h2>Exam Analytics</h2>
+      <div className = "score-analytics-conatiner">
+        <div className="analytics-exam-analytics-label">Exam Analytics</div>
 
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-            <h4 style={{ margin: "0 0 5px" }}>Average Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.average_score}</p>
+        <div className="analytics-exam-analytics-container">
+          <div className="analytics-exam-items">
+            <label className="analytics-exam-label">Average Score</label>
+            <p>{analyticsInfo.average_score}</p>
           </div>
 
-          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-            <h4 style={{ margin: "0 0 5px" }}>Total Takers</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.total_takers}</p>
+          <div className="analytics-exam-items">
+            <label className="analytics-exam-label">Total Takers</label>
+            <p>{analyticsInfo.total_takers}</p>
           </div>
 
-          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-            <h4 style={{ margin: "0 0 5px" }}>Highest Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.highest_score}</p>
+          <div className="analytics-exam-items">
+           <label className="analytics-exam-label">Highest Score</label>
+            <p>{analyticsInfo.highest_score}</p>
           </div>
 
-          <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-            <h4 style={{ margin: "0 0 5px" }}>Lowest Score</h4>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.lowest_score}</p>
+          <div className="analytics-exam-items">
+            <label className="analytics-exam-label">Lowest Score</label>
+            <p>{analyticsInfo.lowest_score}</p>
           </div>
         </div>
-      </div>
+      </div> 
     </>
   )
 }
@@ -91,8 +91,8 @@ const QuestionGraph = () => {
   
   return (
     <>
-      <div>
-        <h3>Question Stats</h3>
+      <div class= "analytics-table">
+        <div class="analytics-exam-analytics-label">Question Stats</div>
         <table>
           <thead>
             <tr>
@@ -152,17 +152,16 @@ function ExamAnalytics () {
   return (
     <>
     {/* START */}
-      <div style={{ backgroundColor: '#a4f1ffff', padding: '10px' }}> {/* 3 divs */}
+      <div> {/* 3 divs */}
         
         <AnalyticsHeaderBar />
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', color: '#333', background: '#f5f5f5', margin: '5px' }}>
-          <div onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
-          <div>|</div>
-          <div onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
+        <div class="analytics-score-choice">
+          <div class="analytics-btn active" onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
+          <div class="score-btn" onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
         </div>
         
-        <div style={{ backgroundColor: '#00c21aff', margin: '10px', padding: '20px' }}>
+        <div class="main-score-container">
           <ExamGraph analyticsInfo={infoStats || { total_takers: 0 }}/>
           <QuestionGraph />
         </div>

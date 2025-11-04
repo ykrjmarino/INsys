@@ -223,12 +223,10 @@ export const AnalyticsHeaderBar = () => {
   return(
     <>
       {/* S1*/}
-      <div style={{ backgroundColor: '#005bc2ff', margin: '6px' }}>
-        <button onClick={() => navigate(backPath)}>arrow back-button</button>
-        <p style={{ backgroundColor: '#e2a1d4ff', margin: '5px' }}>
-          {infoExam.title}
-        </p>
-      </div> 
+      <div class="analytics-header">
+        <button class="analytics-back-button"  onClick={() => navigate(backPath)}><i class="fa-solid fa-arrow-left"></i></button>
+        <label class ="analytics-exam-title-label">{infoExam.title}</label>
+      </div>
       {/* E1*/}
     </>
   )

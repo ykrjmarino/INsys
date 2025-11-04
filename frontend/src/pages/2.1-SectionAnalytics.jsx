@@ -63,7 +63,7 @@ function StudentDetails({ studentsInfo, violations, refreshExamInfo }) {
         );
 
         return (
-          <tr key={s.school_id} style={{ borderBottom: "1px solid #ddd" }}>
+          <tr key={s.school_id}>
             <td style={{ padding: "8px" }}>{s.last_name}</td>
             <td style={{ padding: "8px" }}>{s.first_name}</td>
             <td style={{ padding: "8px" }}>{s.middle_initial}</td>
@@ -71,17 +71,12 @@ function StudentDetails({ studentsInfo, violations, refreshExamInfo }) {
             <td style={{ padding: "8px" }}>{s.objective_score}</td>
             <td style={{ padding: "8px" }}>
               {s.essay_score === null ? "Not Yet Graded" : s.essay_score}{" "}
-              <Button
-                label="View"
-                onClick={() =>
-                  navigate(
-                    `/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`
-                  )
-                }
-              />
+              <button onClick={() =>navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)}>
+                <i class="fa-solid fa-eye"></i>
+              </button>
             </td>
 
-            <td style={{ padding: "8px" }}>
+            <td>
               <p>-{deductions[s.school_id]}</p>
               <span
                 style={{
@@ -153,32 +148,28 @@ function ExamGraph({ analyticsInfo }) {
 
   return (
     <>
-      <h2>Exam Analytics</h2>
+      <div class="score-exam-analytics-label">Exam Analytics</div>
 
-      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-          <h4 style={{ margin: "0 0 5px" }}>Average Score</h4>
-          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.average_score}</p>
+      <div class="score-exam-analytics-container">
+        <div class="score-exam-items">
+          <label class="score-exam-label">Average Score</label>
+          <p>{analyticsInfo.average_score}</p>
         </div>
-
-        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-          <h4 style={{ margin: "0 0 5px" }}>Total Takers</h4>
-          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.total_takers}</p>
+        <div class="score-exam-items">
+          <label class="score-exam-label">Total Takers</label>
+          <p>{analyticsInfo.total_takers}</p>
         </div>
-
-        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-          <h4 style={{ margin: "0 0 5px" }}>Highest Score</h4>
-          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.highest_score}</p>
+        <div class="score-exam-items">
+          <label class="score-exam-label">Highest Score</label>
+          <p>{analyticsInfo.highest_score}</p>
         </div>
-
-        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-          <h4 style={{ margin: "0 0 5px" }}>Lowest Score</h4>
-          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.lowest_score}</p>
+        <div class="score-exam-items">
+          <label class="score-exam-label">Lowest Score</label>
+          <p>{analyticsInfo.lowest_score}</p>
         </div>
-
-        <div style={{ flex: 1, minWidth: "150px", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", textAlign: "center" }}>
-          <h4 style={{ margin: "0 0 5px" }}>No. of Passers</h4>
-          <p style={{ fontSize: "20px", fontWeight: "bold" }}>{analyticsInfo.passed_count}</p>
+        <div class="score-exam-items">
+          <label class="score-exam-label">No. of Passers</label>
+          <p>{analyticsInfo.passed_count}</p>
         </div>
       </div>
     </>
@@ -340,19 +331,19 @@ function SectionAnalytics () {
   
   return (
     <>
-      <div style={{ backgroundColor: '#a4f1ffff', padding: '10px' }}> {/* 3 divs */}
+      <div class="score-whole"> {/* 3 divs */}
         
         <AnalyticsHeaderBar />
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', color: '#333', background: '#f5f5f5', margin: '5px' }}>
-          <div onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
-          <div>|</div>
-          <div onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
-        </div>
-        <div style={{ backgroundColor: '#ffa600ff', margin: '6px', padding: '20px'  }}>
-          <div style={{ backgroundColor: '#e403b3ff', padding: '5px' }}>
-            <label>Select Section</label>
+        <div class="analytics-score-choice"> 
+          <div class="analytic-score-btn" onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
+          <div class="analytics-s-score-btn active" onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
+        </div> 
+        <div class="score-main-container">
+          <div>
+            <div class="score-select-sectopn-label">Select Section</div>
             <SelectField
+              className="score-select-section-inner"
               name="section"
               value={selectedSection}
               onChange={handleSectionChange} //this is section_id (optionSections value)
@@ -362,23 +353,23 @@ function SectionAnalytics () {
           </div>
 
 
-          <p> Student Performance Analytics </p>
+          <div class="score-student-performance-label">Student Performance Analytics</div>
           
-          <div style={{ backgroundColor: '#ff0000ff', padding: '6px' }}>
-            <div style={{ backgroundColor: '#e8bff5ff', margin: '6px' }}>
+          <div class="score-selected-section-container">
+            <div class="score-selected-section-inner">
               <p> SECTION: {optionSections.find(o => o.value === selectedSection)?.label || 'None'} </p>
             </div>
           </div>
 
 
-          <div style={{ backgroundColor: '#00c21aff', margin: '10px', padding: '20px' }}>
+          <div class="score-analytics-conatiner">
             {selectedSection &&
             <ExamGraph analyticsInfo={sectionData || { total_takers: 0 }} />
             }
           </div>
 
           
-          <div>
+          <div class="table-container">
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
                 <tr style={{ backgroundColor: '#f2f2f2' }}>

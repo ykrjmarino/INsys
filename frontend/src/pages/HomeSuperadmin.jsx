@@ -22,27 +22,27 @@ export const HomeSuperadmin = () => {
         <div className="sidebar-image">
           <img src="/images/insys3.webp" alt="Sidebar Image"/>
         </div>
-
+{/* className= 'active' */}
         <div className="sidebar-buttons">
           <h1 className="sidebar-title">Tools</h1>
           <button
-            className="super-admin-sidebar-btn active"
+            className="super-admin-sidebar-btn"
             onClick={()=> navigate('/dashboard')}
           ><i className="fas fa-chart-bar"></i> Dashboard </button>
           <button
-            className="super-admin-sidebar-btn active"
+            className="super-admin-sidebar-btn"
             onClick={()=> navigate('/admin-analytics')}
           ><i className="fa-solid fa-chart-simple"></i> Admin Analytics </button>
           <button
-            className="super-admin-sidebar-btn active"
+            className="super-admin-sidebar-btn"
             onClick={()=> navigate('/user-management')}
           ><i className="fa-solid fa-users"></i> Manage Accounts </button>
           <button
-            className="super-admin-sidebar-btn active"
+            className="super-admin-sidebar-btn"
             onClick={()=> navigate('/system-settings')}
           ><i className="fa-solid fa-sliders"></i> System Settings </button>
           <button
-            className="super-admin-sidebar-btn active"
+            className="super-admin-sidebar-btn"
             onClick={()=> navigate('/account-settings')}
           ><i className="fa-solid fa-gear"></i> Account Settings </button>
           <LogoutSpan className="super-admin-sidebar-btn"/>

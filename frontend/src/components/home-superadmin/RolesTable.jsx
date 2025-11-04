@@ -176,8 +176,8 @@ export const ManageUsersTable = ({selectedRole}) => {
   
 
   return (
-    <div style={{ position: "relative" }}>
-      <input 
+    <div className="">
+      <input className=""
         type="text" 
         placeholder="Search..." 
         value={searchTerm} 
@@ -185,7 +185,7 @@ export const ManageUsersTable = ({selectedRole}) => {
       />
 
       {showModal && (
-        <div
+        <div className=""
           onClick={() => setShowModal(false)}
           style={{
             position: "fixed",
@@ -200,7 +200,7 @@ export const ManageUsersTable = ({selectedRole}) => {
             zIndex: 9999,
           }}
         >
-          <div
+          <div className=""
             onClick={(e) => e.stopPropagation()}
             style={{
               background: "white",
@@ -212,11 +212,11 @@ export const ManageUsersTable = ({selectedRole}) => {
               boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
             }}
           >
-            <h3 style={{ marginBottom: "10px" }}>Confirm Deletion</h3>
+            <h3>Confirm Deletion</h3>
             <p>Are you sure you want to delete this user?</p>
 
-            <div style={{ marginTop: "20px" }}>
-              <button
+            <div className="">
+              <button className=""
                 onClick={() => handleDelete(userToDelete)}
                 style={{
                   padding: "10px 20px",
@@ -231,7 +231,7 @@ export const ManageUsersTable = ({selectedRole}) => {
                 Yes
               </button>
 
-              <button
+              <button className=""
                 onClick={() => setShowModal(false)}
                 style={{
                   padding: "10px 20px",
