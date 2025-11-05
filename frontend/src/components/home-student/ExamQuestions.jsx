@@ -8,7 +8,7 @@ import InputField from "../InputFields"
 import SelectField from "../SelectFields";
 import Button from "../Buttons"
 import { FinishExamInfo } from "./FinishExamInfo";
-import { MouseMonitor, ResizeMonitor, TabMonitor } from "../Monitoring";
+import { CameraMonitor, MouseMonitor, ResizeMonitor, TabMonitor } from "../Monitoring";
 import { useRef } from "react";
 
 
@@ -389,9 +389,14 @@ function ExamQuestions() {
       examId={examId}
     />
 
-    <MouseMonitor
+    {/* <MouseMonitor
       examId={examId}
-    />
+    /> */}
+
+    <CameraMonitor />
+
+
+
     {/* <FaceMonitor 
       examId={examId} 
     /> */}

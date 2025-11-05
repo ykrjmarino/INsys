@@ -1,9 +1,8 @@
 import axios from "../utils/axiosConfig.js";
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
+import { toast } from 'react-toastify';
 
 // import * as tf from "@tensorflow/tfjs";
 // import * as faceapi from "face-api.js";
@@ -235,6 +234,117 @@ export const MouseMonitor = ({ examId }) => {
       hideWarning();
     };
   }, [examId]);
+};
+
+
+export const CameraMonitor = () => {
+  const [position, setPosition] = useState({ x: 20, y: 20 });
+  const [offset, setOffset] = useState(null);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const startCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        if (videoRef.current) videoRef.current.srcObject = stream;
+
+        const checkCameraActive = setInterval(() => {
+          const track = stream.getVideoTracks()[0];
+          if (!track || track.readyState === "ended") {
+            console.log("🚨 Camera turned off or permission revoked");
+            toast.error("🚨 Camera turned off or permission revoked!");
+          }
+        }, 5000); // 5000ms = 5s
+
+        // cleanup
+        return () => clearInterval(checkCameraActive);
+      } catch (err) {
+        toast.error("❌ Camera access denied");
+        console.error("Camera access denied:", err);
+      }
+    };
+    startCamera();
+  }, []);
+
+  const handleMouseDown = (e) => {
+    setOffset({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (offset) {
+      setPosition({
+        x: e.clientX - offset.x,
+        y: e.clientY - offset.y,
+      });
+    }
+  };
+
+  const handleMouseUp = () => setOffset(null);
+
+  // Touch support (for mobile)
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    setOffset({
+      x: touch.clientX - position.x,
+      y: touch.clientY - position.y,
+    });
+  };
+
+  const handleTouchMove = (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    if (offset) {
+      setPosition({
+        x: touch.clientX - offset.x,
+        y: touch.clientY - offset.y,
+      });
+    }
+  };
+
+  const handleTouchEnd = () => setOffset(null);
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  });
+
+  return (
+    <div
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      style={{
+        position: "fixed",
+        top: position.y,
+        left: position.x,
+        cursor: "move",
+        zIndex: 9999,
+        borderRadius: "20px",
+        width: "360px",
+        height: "280px",
+        boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+      }}
+    >
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        style={{ width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)"}}
+      />
+    </div>
+  );
 };
 
 
