@@ -34,27 +34,22 @@ export const SystemMaintenance = () => {
   };
 
   return (
-    <div className="danger-zone">
-      <h3>Danger Zone</h3>
-      <p>
-        These actions are permanent and cannot be undone. Proceed only if you fully understand the consequences.
+    <div class="super-admin-system-settings-main-container">
+      <h2>System Settings</h2>
+      <p class="super-admin-system-settings-warning"> <i class="fa-solid fa-triangle-exclamation"></i>
+        These actions are <strong>permanent</strong> and <strong>cannot be undone</strong>. Proceed only if you fully understand the consequences.
       </p>
 
-      <div className="danger-actions">
-        <button onClick={() => handleOpenModal("old")}>
-          Delete Old Data
-          <br />
-          <small>Removes exams and logs older than 7 months.</small>
-        </button>
+      <div class="super-admin-system-settings-buttons-row">
+        <div class="super-admin-system-settings-button" onClick={() => handleOpenModal("old")}>
+          <h1>Delete Old Data</h1>
+          <p>Remove exams and logs older than 7 months</p>
+        </div>
 
-        <button
-          onClick={() => handleOpenModal("all")}
-          style={{ marginLeft: "10px", color: "red" }}
-        >
-          Clear All System Data
-          <br />
-          <small>Deletes all exams, student submissions, and logs.</small>
-        </button>
+        <div class="super-admin-system-settings-button" onClick={() => handleOpenModal("all")}>
+          <h1>Clear All System Data</h1>
+          <p>Deletes all exams, student submissions, and logs.</p>
+        </div>
       </div>
 
       {showModal && (
@@ -139,10 +134,8 @@ function SystemSettings() {
   return (
     <>
     <div className="super-admin-whole">
-      <HomeSuperadmin />
-      <div className="main-home-content" style={{ padding: '10px' }}>          
+      <HomeSuperadmin />        
       <SystemMaintenance />
-      </div>
     </div>
     </>
   )

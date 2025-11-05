@@ -280,7 +280,11 @@ const SettingsAccountControl = () => {
 
 export const UserSettingsContent = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'information');
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'basic-information');
+
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab);
+  }, [activeTab]);
 
   return (
     <>
