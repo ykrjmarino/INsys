@@ -18,21 +18,21 @@ export const TabMonitor = ({ examId }) => {
   useEffect(() => {
     const userInTab = () => {
       if (document.hidden) {
-        console.log("you left the exam");
-        document.title = "you left, cheater.";
+        console.log("user left the tab");
+        document.title = "user left; possible cheating.";
     // dood left the tab
         awayStart = Date.now();
       } else {
-        console.log("done cheating?")
-        document.title = "now you back, cunt."
+        console.log("user back")
+        document.title = "INsys"
       // dood came back
         if (awayStart !== null) { //if yung awayStart is nagstart na magcount
           const timeAway = ((Date.now() - awayStart) / 1000)  //time now - awayStart then divide to 1sec
           totalAwayTime += timeAway;
 
-          console.log(`Umalis ka for layk ${timeAway.toFixed(2)} seconds.`)   //toFixed(#) is yung number of decimal point
+          console.log(`Gone for ${timeAway.toFixed(2)} seconds.`)   //toFixed(#) is yung number of decimal point
                                                                               //whole number lilitaw is 0 sya   
-          console.log(`total time you probably cheated: ${totalAwayTime} seconds.`)        
+          console.log(`Total time user left: ${totalAwayTime} seconds.`)        
           
           
           // send to backend
@@ -55,7 +55,7 @@ export const TabMonitor = ({ examId }) => {
     document.addEventListener('visibilitychange', userInTab);
     return () => document.removeEventListener("visibilitychange", userInTab);
   }, []);
-  
+  return null;
 }
 
 export const ResizeMonitor = ({ examId }) => {
@@ -79,6 +79,36 @@ export const ResizeMonitor = ({ examId }) => {
     let resizeStart = null;
     let timer = null;
     let is_warning = null;
+    let warningOverlay = null;
+
+    const showWarning = () => {
+      if (warningOverlay) return; // avoid duplicates
+
+      warningOverlay = document.createElement("div");
+      warningOverlay.style.position = "fixed";
+      warningOverlay.style.top = 0;
+      warningOverlay.style.left = 0;
+      warningOverlay.style.width = "100vw";
+      warningOverlay.style.height = "100vh";
+      warningOverlay.style.backgroundColor = "rgba(0,0,0,0.7)";
+      warningOverlay.style.backdropFilter = "blur(8px)";
+      warningOverlay.style.display = "flex";
+      warningOverlay.style.alignItems = "center";
+      warningOverlay.style.justifyContent = "center";
+      warningOverlay.style.zIndex = 9999;
+      warningOverlay.style.color = "white";
+      warningOverlay.style.fontSize = "2rem";
+      warningOverlay.style.fontWeight = "bold";
+      warningOverlay.innerText = "⚠️ Window too small — Please return to the exam!";
+      document.body.appendChild(warningOverlay);
+    };
+
+    const hideWarning = () => {
+      if (warningOverlay) {
+        warningOverlay.remove();
+        warningOverlay = null;
+      }
+    };
 
     const handleResize = () => {
       const tooSmall = window.innerHeight < minHeight || window.innerWidth < minWidth;
@@ -88,8 +118,7 @@ export const ResizeMonitor = ({ examId }) => {
         resizeStart = Date.now();
         console.log("⚠️ Window too small! Possible cheating started");
 
-        document.body.style.filter = "blur(8px)";
-        document.body.style.pointerEvents = "none";
+        showWarning();
 
         timer = setInterval(() => {
           resizeSecondsRef.current += 1; // increment cumulative seconds every 1s
@@ -102,8 +131,7 @@ export const ResizeMonitor = ({ examId }) => {
         clearInterval(timer);
         resizeSecondsRef.current += elapsed; // add remaining seconds
 
-        document.body.style.filter = "none";
-        document.body.style.pointerEvents = "auto";
+        hideWarning();
 
         console.log(`✅ Resize violation stopped. Duration: ${elapsed.toFixed(2)}s`);
         console.log(`📊 Total resize time so far: ${resizeSecondsRef.current.toFixed(2)}s`);
@@ -137,6 +165,76 @@ export const ResizeMonitor = ({ examId }) => {
   }, [minHeight, minWidth, examId]);
 
   return null;
+};
+
+
+export const MouseMonitor = ({ examId }) => {
+  useEffect(() => {
+    console.log("🟢 MouseMonitor active");
+    let mouseLeftAt = null;
+    let warningOverlay = null;
+
+    const showWarning = () => {
+      warningOverlay = document.createElement("div");
+      warningOverlay.style.position = "fixed";
+      warningOverlay.style.top = 0;
+      warningOverlay.style.left = 0;
+      warningOverlay.style.width = "100vw";
+      warningOverlay.style.height = "100vh";
+      warningOverlay.style.backgroundColor = "rgba(0,0,0,0.7)";
+      warningOverlay.style.backdropFilter = "blur(8px)";
+      warningOverlay.style.display = "flex";
+      warningOverlay.style.alignItems = "center";
+      warningOverlay.style.justifyContent = "center";
+      warningOverlay.style.zIndex = 9999;
+      warningOverlay.style.color = "white";
+      warningOverlay.style.fontSize = "2rem";
+      warningOverlay.style.fontWeight = "bold";
+      warningOverlay.innerText = "Focus Lost — Please return to the exam!";
+      document.body.appendChild(warningOverlay);
+    };
+
+    const hideWarning = () => {
+      if (warningOverlay) {
+        warningOverlay.remove();
+        warningOverlay = null;
+      }
+    };
+
+    const handleMouseLeave = () => {
+      console.log("Mouse left the exam window");
+      mouseLeftAt = Date.now();
+      showWarning();
+    };
+
+    const handleMouseEnter = () => {
+      hideWarning();
+      if (mouseLeftAt) {
+        const timeAway = ((Date.now() - mouseLeftAt) / 1000).toFixed(2);
+        console.log(`Mouse returned after ${timeAway}s`);
+
+        const is_warning = timeAway >= 3;
+        axios.post(`/exam/${examId}/violations/student`, {
+          event_type: "mouse_leave",
+          is_warning,
+          details: `Mouse left window for ${timeAway}s`
+        })
+        .then(() => console.log("✅ Mouse violation saved"))
+        .catch((err) => console.log("❌ Failed to save mouse violation:", err.message));
+
+        mouseLeftAt = null;
+      }
+    };
+
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
+
+    return () => {
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
+      hideWarning();
+    };
+  }, [examId]);
 };
 
 
