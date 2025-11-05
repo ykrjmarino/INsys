@@ -36,7 +36,7 @@ const SettingsBasicInformation = () => {
 
   return (
     <>
-    <div style={{ backgroundColor: '#da84ffff', margin: '2px', padding: '5px' }}>
+    <div class="super-admin-account-seetings-info-container">
       <h3>Basic Information</h3>
       <p><strong>First Name:</strong> {userInfo.first_name}</p>
       <p><strong>Middle Initial:</strong> {userInfo.middle_initial}</p>
@@ -92,11 +92,11 @@ const SettingsPasswordManage = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#da84ffff", margin: "2px", padding: "10px" }}>
+    <div class="super-admin-account-seetings-change-password-container">
       <h3>Password Management</h3>
       {message && <p>{message}</p>}
       <form onSubmit={handleChangePassword}>
-        <div style={{ marginBottom: "10px" }}>
+        <div class="super-admin-account-settings-change-password-form">
           <label htmlFor="currentPassword">Current Password:</label><br />
           <input
             type="password"
@@ -108,7 +108,7 @@ const SettingsPasswordManage = () => {
           />
         </div>
 
-        <div style={{ marginBottom: "10px" }}>
+        <div class="super-admin-account-settings-change-password-input">
           <label htmlFor="newPassword">New Password:</label><br />
           <input
             type="password"
@@ -120,7 +120,7 @@ const SettingsPasswordManage = () => {
           />
         </div>
 
-        <div style={{ marginBottom: "10px" }}>
+        <div class="super-admin-account-settings-change-password-input">
           <label htmlFor="confirmNewPassword">Confirm New Password:</label><br />
           <input
             type="password"
@@ -206,11 +206,11 @@ const SettingsAccountControl = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#da84ffff", margin: "2px", padding: "5px" }}>
+    <div class="super-admin-account-deletion-account-control-container">
       <h3>Account Control</h3>
 
       {!verified && (
-        <div>
+        <div class="super-admin-account-deletion-account-input">
           <input
             type="password"
             placeholder="Enter current password"
@@ -224,12 +224,12 @@ const SettingsAccountControl = () => {
       {message && <p style={{ color: "red" }}>{message}</p>}
 
       {verified && !showModal && (
-        <button
-          style={{ backgroundColor: "red", color: "white", marginTop: "10px" }}
-          onClick={handleOpenModal}
-        >
-          Delete Account
-        </button>
+        <div class="super-admin-account-deletion-account-input">
+          <button onClick={handleOpenModal}>
+            Delete Account
+          </button>
+        </div>
+        
       )}
 
       {showModal && (
@@ -284,16 +284,14 @@ export const UserSettingsContent = () => {
 
   return (
     <>
-    <div className="user-settings-outer-container" style={{ backgroundColor: '#00c21aff', margin: '5px', padding: '10px' }}>
+    <div className="user-settings-outer-container">
 
-      <div className="user-settings-inner-container-one" style={{ backgroundColor: '#8df79bff', margin: '10px', padding: '20px' }}>
+      <div className="user-settings-inner-container-one">
         <div className="user-settings-account-info" onClick={() => setActiveTab('basic-information')}>Account Information</div>
-        <div>|</div>
         <div className="user-settings-change-password" onClick={() => setActiveTab('password-manage')}>Change Password</div>
-        <div>|</div>
         <div className="user-settings-account-deletion" onClick={() => setActiveTab('account-control')}>Account Deletion</div>
       </div>
-      <div className="user-settings-inner-container-two" style={{ backgroundColor: '#8ec696ff', margin: '5px', padding: '10px' }}>
+      <div className="user-settings-inner-container-two">
         {activeTab === "basic-information" && <SettingsBasicInformation />}
         {activeTab === "password-manage" && <SettingsPasswordManage />}
         {activeTab === "account-control" && <SettingsAccountControl />}

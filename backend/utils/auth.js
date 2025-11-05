@@ -49,7 +49,7 @@ authRoutes.post('/login', async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password ) //true or false
 
     if (!passwordMatch) { //if false (password did not match)
-      return res.status(401).json({error: `Incorrect Password`})
+      return res.status(400).json({error: `Incorrect Password`})
     }
 
 //=================== JWT start ===================//
@@ -351,7 +351,7 @@ authRoutes.post('/verify/current-password', verifyJWT, async (req, res) => {
     const user = result.rows[0];
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
 
-    if (!passwordMatch) return res.status(401).json({ error: 'Incorrect Password' });
+    if (!passwordMatch) return res.status(400).json({ error: 'Incorrect Password' });
     console.log(res.status)
 
     return res.status(200).json({ passwordMatch: true });
@@ -383,7 +383,7 @@ authRoutes.post('/change/current-password/:userId', async(req, res) => {
     const passwordMatch = await bcrypt.compare(currentPassword, user.password ) //true or false
 
     if (!passwordMatch) { //if false (password did not match)
-      return res.status(401).json({error: `The current password you entered is incorrect.`});
+      return res.status(400).json({error: `The current password you entered is incorrect.`});
     }
 
     if (!strongPassword.test(newPassword)) {

@@ -136,7 +136,7 @@ useEffect(() => {
         {/* Root redirect */}
         <Route path="/" element={<RootRedirect />} />
 
-         <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
+        <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
           <Route path='/student-entry' element={<HomeStudent />} />
           <Route path='/exam/start/:examId' element={<ExamQuestions />} />
         </Route>
