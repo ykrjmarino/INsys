@@ -5,9 +5,7 @@ import axios from '../../utils/axiosConfig.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 import InputField from '../InputFields.jsx';
-import ScoreHistory from './HistoryScores.jsx';
-import { HeaderStudent } from '../Header.jsx';
-
+import { LogoutSpan } from '../Logout.jsx';
 
 function EnterExam() {
   const { accessToken } = useAuth();
@@ -116,7 +114,7 @@ function EnterExam() {
 
 
           <div className="student-home-logout">
-            <a href="#" className="student-home-logout-btn"><i className="fa-solid fa-right-from-bracket"></i> Logout</a>
+            <LogoutSpan className="student-home-logout-btn"/>
           </div>
         </div>
 
@@ -192,7 +190,6 @@ function EnterExam() {
       </div>
       </>
     )}
-    
     </>
   )
 }
