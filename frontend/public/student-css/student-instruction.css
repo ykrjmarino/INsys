@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.student-instructions-whole {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh; 
+    background-color:transparent; /* ikaw na magpalit*/
+    padding: 20px;
+    position: relative;
+    z-index: 1; 
+}
+
+.student-instructions-container {
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh; 
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px; 
+    position: relative;
+    z-index: 10;
+}
+
+.student-instructions-container::-webkit-scrollbar {
+    width: 9px;
+}
+
+.student-instructions-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.student-instructions-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(67, 93, 210, 0.10);
+}
+
+.student-instruction-icon-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.student-instruction-icon-container i {
+    font-size: 48px;
+    color: #1A1A2E;
+}
+
+.student-instructions-container label {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    display: block;
+}
+
+
+  .student-instructions-text {
+    margin: 0;
+    padding: 0;
+    line-height: 1.8;
+    counter-reset: bullet;
+  }
+  .student-instructions-text br::before {
+    content: "• ";
+    display: inline-block;
+    width: 1.5em;
+    margin-left: -1.5em;
+  }
+  .student-instructions-text br:first-of-type::before {
+    content: ""; /* no bullet on first line */
+  }
+
+
+.student-intruction-warning{
+    color: #0000;
+    font-style: italic;
+}
+
+.student-instruction-bottom-stick {
+    display: none; 
+    position: sticky;
+    bottom: 0;
+    background-color: white; 
+    padding: 10px 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+    gap: 10px;
+}
+
+.student-instruction-bottom-stick.show {
+    display: flex; 
+}
+
+.student-instruction-checkbox-container {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.student-instruction-checkbox-container input {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.student-instruction-checkbox-container label {
+    color: #333;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.student-instruction-take-exam-btn{
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 200px;
+}
+
+.student-instruction-take-exam-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.student-instruction-take-exam-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+}

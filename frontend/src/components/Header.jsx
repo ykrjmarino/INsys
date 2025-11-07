@@ -70,7 +70,7 @@ export const HeaderStudent = () => {
         {/* <!-- header start --> */}
         <header className="teacher-home-main-header">
           <div className = "teacher-home-header-logo" >
-            <img src="/images/insys-logo.webp" alt="logo" />
+            <img alt="logo" />
           </div>
   
           <div className="teacher-home-spacer"></div>
@@ -137,7 +137,7 @@ export const SideBar = () => {
       <!-- start-->   */}
       <div className="sidebar">
         <div className="sidebar-image">
-          <img src="/images/insys3.webp" alt="Sidebar Image"/>
+          <img alt="Sidebar Image"/>
         </div>
 
         <div className="sidebar-buttons">

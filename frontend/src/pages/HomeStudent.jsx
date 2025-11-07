@@ -100,37 +100,36 @@ function HomeStudent() {
 
   return (
     <>
-      <div className="student-home-whole">
-        <EnterExam />
-        {showPopup && (
+      <div className="student-home-grid-bg"></div>
+
+      <EnterExam />
+      {showPopup && (
+        <div style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 1000 }}
+        >
           <div style={{
-            position: "fixed",
-            top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000 }}
+            background: "white",
+            padding: "20px",
+            borderRadius: "10px",
+            width: "300px",
+            textAlign: "center",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.3)"}}
           >
-            <div style={{
-              background: "white",
-              padding: "20px",
-              borderRadius: "10px",
-              width: "300px",
-              textAlign: "center",
-              boxShadow: "0 2px 10px rgba(0,0,0,0.3)"}}
-            >
-              <h2>Ongoing Exam</h2>
-              <p>You already have an exam in progress. Continue or submit?</p>
-              <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-around" }}>
-                <button onClick={handleEnterExam}>Enter Exam</button>
-                <button onClick={handleSubmitExam}>Submit Exam</button>
-              </div>
+            <h2>Ongoing Exam</h2>
+            <p>You already have an exam in progress. Continue or submit?</p>
+            <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-around" }}>
+              <button onClick={handleEnterExam}>Enter Exam</button>
+              <button onClick={handleSubmitExam}>Submit Exam</button>
             </div>
           </div>
-        )}
-
-      </div>
+        </div>
+      )}
     </>
   );
 }

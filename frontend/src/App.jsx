@@ -28,6 +28,7 @@ import { AdminAnalytics, HomeAdminAnalytics } from './components/home-superadmin
 import UserSettings from './pages/UserSettings.jsx';
 import { ForbiddenPage, NotFoundPage, UnauthorizedPage } from './pages/ErrorPage/ErrorPages.jsx';
 import SystemSettings from './components/home-superadmin/SystemContent.jsx';
+import ScoreHistory from './components/home-student/HistoryScores.jsx';
 
 
 
@@ -138,6 +139,7 @@ useEffect(() => {
 
         <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
           <Route path='/student-entry' element={<HomeStudent />} />
+          <Route path='/student-history' element={<ScoreHistory />} />
           <Route path='/exam/start/:examId' element={<ExamQuestions />} />
         </Route>
 
