@@ -63,7 +63,9 @@ export const verifyExamAccess = async(req, res) => {
       `SELECT *,
         e.start_datetime AS start_utc,
         e.end_datetime   AS end_utc,
-        e.exam_id 
+        e.exam_id,
+        e.timer_question,
+        e.exam_duration 
       FROM examinations e
       JOIN section_takers s
         ON e.exam_id = s.exam_id 
@@ -148,7 +150,9 @@ export const startExam = async(req, res) => {
       `SELECT *,
         e.start_datetime AS start_utc,
         e.end_datetime   AS end_utc,
-        e.exam_id 
+        e.exam_id,
+        e.timer_question,
+        e.exam_duration 
       FROM examinations e
       JOIN section_takers s
         ON e.exam_id = s.exam_id 
@@ -210,7 +214,9 @@ export const startExam = async(req, res) => {
 
     res.status(201).json({ 
       message: 'Exam session started', 
-      session: newSession.rows[0] 
+      session: newSession.rows[0],
+      timer_question: result.rows[0].timer_question,
+      exam_duration: result.rows[0].exam_duration 
     });
   } catch (error) {
     console.error('Error starting exam', error);
