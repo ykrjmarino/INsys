@@ -62,18 +62,31 @@ function EnterExam() {
   const minWidth = isMobile ? 300 : 1700;
   const minHeight = isMobile ? 400 : 400;
 
-  const [canStartExam, setCanStartExam] = useState(true);
+  const [isCameraOn, setIsCameraOn] = useState(false);
+  const [isWindowTooSmall, setIsWindowTooSmall] = useState(false);
+  const [canStartExam, setCanStartExam] = useState(false);
 
   useEffect(() => {
-    const checkSize = () => {
+    if (!isVerified) return; // don't check camera yet
+
+    const checkAll = async () => {
       const tooSmall = window.innerWidth < minWidth || window.innerHeight < minHeight;
-      setCanStartExam(!tooSmall);
+      setIsWindowTooSmall(tooSmall);
+
+      try {
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        setIsCameraOn(true);
+      } catch {
+        setIsCameraOn(false);
+      }
+
+      setCanStartExam(!tooSmall && isCameraOn);
     };
 
-    checkSize(); // initial check on page load
-    window.addEventListener("resize", checkSize); // re-check on resize
-    return () => window.removeEventListener("resize", checkSize);
-  }, [minWidth, minHeight]);
+    checkAll();
+    window.addEventListener("resize", checkAll);
+    return () => window.removeEventListener("resize", checkAll);
+  }, [isVerified, minWidth, minHeight, isCameraOn]);
   
   return (
     <>
@@ -154,19 +167,19 @@ function EnterExam() {
             • Contact the proctor if you encounter technical issues.
           </p>
 
-          {!canStartExam && (
+          {isWindowTooSmall  && (
             <p style={{ color: "red", marginTop: "0.5rem" }}>
               <i className="fa-solid fa-triangle-exclamation" style={{ fontStyle: "italic"}}></i>
               Your window is too small to take the exam. Please resize it.
             </p>
           )}
 
-          {/* {!canStartExam && (
+          {!isCameraOn  && (
             <p style={{ color: "red", marginTop: "0.5rem" }}>
               <i className="fa-solid fa-triangle-exclamation" style={{ fontStyle: "italic"}}></i>
               Open your camera.
             </p>
-          )} */}
+          )}
 
           <div className="student-instruction-bottom-stick">
             <div className="student-instruction-checkbox-container">
