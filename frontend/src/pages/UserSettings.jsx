@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 import HeaderTeacher from "../components/Header";
 import { HomeSuperadmin } from "./HomeSuperadmin";
+import { SidebarTeacher } from "../components/SidebarTeacher";
 
 const SettingsBasicInformation = () => {
   const { accessToken, user } = useAuth();
@@ -306,7 +307,7 @@ export const UserSettingsContent = () => {
   )
 }
 
-function UserSettings() {
+export const UserSettingsStudent = () => { //student
   return (
     <>
     <div className="super-admin-whole">
@@ -321,4 +322,30 @@ function UserSettings() {
   )
 }
 
-export default UserSettings;
+export const UserSettingsTeacher = () => { //student
+  return (
+    <>
+    <div className="teacher-home-whole">
+      <SidebarTeacher />
+      <UserSettingsContent />
+    </div>
+    </>
+  )
+}
+
+function UserSettingsSuperadmin() { //superadmin
+  return (
+    <>
+    <div className="super-admin-whole">
+      <HomeSuperadmin />
+      <div className="main-home-content" style={{ padding: '10px' }}>          
+        <h2>Admin Analytics</h2>
+
+        <UserSettingsContent />
+      </div>
+    </div>
+    </>
+  )
+}
+
+export default UserSettingsSuperadmin;

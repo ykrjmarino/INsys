@@ -10,16 +10,6 @@ import { useExams } from '../hooks/useExams.js';
 import { useState } from "react";
 import { useEffect } from "react";
 
-  
-
-export const AboutComponent = () => {
-  return (
-    <>
-    
-    </>
-  )
-}
-
 
 function HeaderTeacher() {
     return (
@@ -111,7 +101,7 @@ export const HeaderStudent = () => {
     )
 }
 
-export const SideBar = () => {
+export const SideBar = () => { //old one
   const navigate = useNavigate();
   const { user } = useAuth();
   //========= create exam modal =========//

@@ -32,7 +32,7 @@ export const HomeCard = ({ data, title, status, onClickNav, onClickDel, onClickD
       </div>
         
       <div className="exam-content">
-        <div class="teacher-home-illustation">
+        <div className="teacher-home-illustation">
           <p className="overlay-text">{title}</p>
           <img src="tryyy.jpg" alt="Exam container pic"></img>
         </div>

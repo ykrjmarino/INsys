@@ -10,8 +10,7 @@ import { useExams } from '../hooks/useExams.js';
 
 //components
 import { HomeCard } from "../components/home-teacher/CompletedExams.jsx";
-import HomeTeacher from "./HomeTeacher.jsx";
-import HeaderTeacher, { SideBar } from "../components/Header.jsx";
+import { SidebarTeacher } from "../components/SidebarTeacher.jsx";
 
 
 function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className }) {
@@ -19,8 +18,11 @@ function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className }) {
 
   return (
     <>
-    <div className="main-home-content">
-      <label className="main-container-title">Exams Analytics</label>
+    <div className="teacher-home-main-content">
+      <div className="teacher-home-labels-dropdown-container">
+       <label className="main-container-title">Exams Analytics</label>
+      </div>
+      
       <div className="grid-container">
         {exams.map((e) => (
           <HomeCard //these from the database so use snake_case
@@ -53,14 +55,13 @@ function HomeAnalytics() {
   
   return (
     <>
-    <div className="whole">
-      <div className="side-bar-and-main-container">
-        <AnalyticsHomeExams 
-          exams={exams.filter(e => e.status === 'completed')} 
-          onClickDel={deleteExam} 
-          onClickDupe={duplicateExam} 
-        />
-      </div>
+    <div className="teacher-home-whole">
+      <SidebarTeacher />
+      <AnalyticsHomeExams 
+        exams={exams.filter(e => e.status === 'completed')} 
+        onClickDel={deleteExam} 
+        onClickDupe={duplicateExam} 
+      />
     </div>
     </>
   )

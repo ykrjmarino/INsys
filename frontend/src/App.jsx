@@ -19,16 +19,14 @@ import ExamAnalytics from './pages/2-ExamAnalytics.jsx';
 import SectionAnalytics from './pages/2.1-SectionAnalytics.jsx';
 import StudentEssays from './pages/2.1.1-StudentEssays.jsx';
 
-import LogoutButton from './components/Logout.jsx';
 import ExamQuestions from './components/home-student/ExamQuestions.jsx';
-import { HomeSuperadmin } from './pages/HomeSuperadmin.jsx';
 import { ManageUser } from './components/home-superadmin/ManageUsers.jsx';
 import { DashboardSuper } from './components/home-superadmin/DashboardSuper.jsx';
 import { AdminAnalytics, HomeAdminAnalytics } from './components/home-superadmin/AdminAnalytics.jsx';
-import UserSettings from './pages/UserSettings.jsx';
 import { ForbiddenPage, NotFoundPage, UnauthorizedPage } from './pages/ErrorPage/ErrorPages.jsx';
 import SystemSettings from './components/home-superadmin/SystemContent.jsx';
 import ScoreHistory from './components/home-student/HistoryScores.jsx';
+import UserSettingsSuperadmin, { UserSettingsStudent, UserSettingsTeacher } from './pages/UserSettings.jsx';
 
 
 
@@ -141,12 +139,14 @@ useEffect(() => {
           <Route path='/student-entry' element={<HomeStudent />} />
           <Route path='/student-history' element={<ScoreHistory />} />
           <Route path='/exam/start/:examId' element={<ExamQuestions />} />
+          <Route path='student/account-settings' element={<UserSettingsStudent />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path='/admin-dashboard' element={<HomeTeacher />} />
           <Route path='/update-exam/:examId' element={<UpdateExam />} />
           <Route path='/exams-analytics' element={<HomeAnalytics />} />
+          <Route path='/admin/account-settings' element={<UserSettingsTeacher />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
@@ -155,6 +155,7 @@ useEffect(() => {
           <Route path='/admin-analytics' element={<AdminAnalytics />} />
           <Route path='/exams-analytics/:teacherId' element={<HomeAdminAnalytics />} />
           <Route path='/system-settings' element={<SystemSettings />} />
+          <Route path='/account-settings' element={<UserSettingsSuperadmin />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["superadmin", "admin"]} />}>
@@ -164,7 +165,6 @@ useEffect(() => {
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["superadmin", "admin", "student"]} />}>
-          <Route path='/account-settings' element={<UserSettings />} />
           <Route path='/account-settings/forgot-password' element={<ForgotPasswordLoggedIn />} />
         </Route>
 
