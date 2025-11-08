@@ -1,0 +1,198 @@
+
+
+    <div class="teacher-home-whole">
+
+        <div class="header"></div>
+        
+            <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+            <label for="openSidebarMenu" class="sidebarIconToggle">
+                <div class="spinner diagonal part-1"></div>
+                <div class="spinner horizontal"></div>
+                <div class="spinner diagonal part-2"></div>
+            </label>
+            
+            <div id="sidebarMenu">
+                <div class="sidebar-logo">
+                    <img src="insys3.PNG" alt="Sidebar Logo">
+                </div>
+
+
+                <div class="teacher-home-sidebar-buttons">
+                    <h1 class="teacher-home-sidebar-title">Tools</h1>
+                    <button class="student-home-sidebar-btn"><i class="fas fa-chart-bar"></i> Dashboard</button>
+                    <button class="student-home-sidebar-btn"><i class="fa-solid fa-clock-rotate-left"></i>History</button>
+                    <button class="student-home-sidebar-btn"><i class="fa-solid fa-gear"></i> Settings</button>
+                </div>
+                    
+                <div class="teacher-home-logout">
+                        <a href="#" class="teacher-home-logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                </div>
+
+
+            </div>
+
+
+
+
+
+            <div class="teacher-home-main-content">
+
+                <div class="teacher-home-labels-dropdown-container">
+                 <label class="main-container-title">Exams</label>
+                    <SelectField className="dropdown-main"
+                        name="status"
+                        value={status}
+                        onChange={handleStatusChange}
+                        options={optionsArray}
+                    />
+                </div>
+
+                <div class="grid-container">
+
+        <!-- grid item start (gumamit ako ng span dito) --> 
+            <div class="grid-item" data-id="1">
+                <div class="teacher-home-grid-item-buttons">
+                    <button class="teacher-home-duplicate-button">
+                        <i class="fa-solid fa-clone"></i>
+                        <span class="tooltip">Duplicate</span>
+                    </button>
+                    <button class="teacher-home-delete-button">
+                        <i class="fas fa-trash"></i>
+                        <span class="tooltip">Delete</span>
+                    </button>
+                </div>
+
+                <div class="exam-content">
+                    <div class="teacher-home-illustation">
+                    <img src="tryyy.jpg" alt="Sidebar Logo">
+                 </div>
+            
+                </div>
+                <div class="taskbar">
+                    <div class="taskbar-left">None</div>
+                    <div class="taskbar-right">Status: <span class="done-text">None</span></div>
+                </div>
+            </div>
+            <!-- grid item end -->
+
+
+            <!-- grid item start (gumamit ako ng span dito) --> 
+            <div class="grid-item quiz-item" data-id="1">
+                <div class="teacher-home-grid-item-buttons">
+                    <button class="teacher-home-duplicate-button">
+                        <i class="fa-solid fa-clone"></i>
+                        <span class="tooltip">Duplicate</span>
+                    </button>
+                    <button class="teacher-home-delete-button">
+                        <i class="fas fa-trash"></i>
+                        <span class="tooltip">Delete</span>
+                    </button>
+                </div>
+                <div class="exam-content">
+                        <div class="teacher-home-illustation">
+                        <img src="tryyy.jpg" alt="Sidebar Logo">
+                 </div>
+            
+                </div>
+                <div class="taskbar">
+                    <div class="taskbar-left">Quiz</div>
+                    <div class="taskbar-right">Status: <span class="done-text">Completed</span></div>
+                </div>
+            </div>
+            <!-- grid item end -->
+              <!-- grid item start (gumamit ako ng span dito) --> 
+            <div class="grid-item quiz-item" data-id="1">
+                <div class="teacher-home-grid-item-buttons">
+                    <button class="teacher-home-duplicate-button">
+                        <i class="fa-solid fa-clone"></i>
+                        <span class="tooltip">Duplicate</span>
+                    </button>
+                    <button class="teacher-home-delete-button">
+                        <i class="fas fa-trash"></i>
+                        <span class="tooltip">Delete</span>
+                    </button>
+                </div>
+                <div class="exam-content">
+                        <div class="teacher-home-illustation">
+                        <img src="tryyy.jpg" alt="Sidebar Logo">
+                 </div>
+            
+                </div>
+                <div class="taskbar">
+                    <div class="taskbar-left">Quiz</div>
+                    <div class="taskbar-right">Status: <span class="done-text">Completed</span></div>
+                </div>
+            </div>
+            <!-- grid item end -->
+
+            <!-- grid item start (gumamit ako ng span dito) --> 
+            <div class="grid-item activity-item" data-id="1">
+                <div class="teacher-home-grid-item-buttons">
+                    <button class="teacher-home-duplicate-button">
+                        <i class="fa-solid fa-clone"></i>
+                        <span class="tooltip">Duplicate</span>
+                    </button>
+                    <button class="teacher-home-delete-button">
+                        <i class="fas fa-trash"></i>
+                        <span class="tooltip">Delete</span>
+                    </button>
+                </div>
+                <div class="exam-content">
+                        <div class="teacher-home-illustation">
+                        <img src="tryyy.jpg" alt="Sidebar Logo">
+                 </div>
+            
+                </div>
+                <div class="taskbar">
+                    <div class="taskbar-left">Activity</div>
+                    <div class="taskbar-right">Status: <span class="done-text">Completed</span></div>
+                </div>
+            </div>
+            <!-- grid item end -->
+
+            <!-- grid item start (gumamit ako ng span dito) --> 
+            <div class="grid-item exam-item" data-id="1">
+                <div class="teacher-home-grid-item-buttons">
+                    <button class="teacher-home-duplicate-button">
+                        <i class="fa-solid fa-clone"></i>
+                        <span class="tooltip">Duplicate</span>
+                    </button>
+                    <button class="teacher-home-delete-button">
+                        <i class="fas fa-trash"></i>
+                        <span class="tooltip">Delete</span>
+                    </button>
+                </div>
+                <div class="exam-content">
+                        <div class="teacher-home-illustation">
+                        <img src="tryyy.jpg" alt="Sidebar Logo">
+                 </div>
+            
+                </div>
+                <div class="taskbar">
+                    <div class="taskbar-left">Exam</div>
+                    <div class="taskbar-right">Status: <span class="done-text">Completed</span></div>
+                </div>
+            </div>
+            <!-- grid item end -->
+
+            <!-- grid item end -->
+
+
+
+            
+
+
+
+
+
+
+
+            
+                <!-- grid container end (nanay ng grids)-->
+            </div>
+
+            
+        </div>
+    </div>
+
+  

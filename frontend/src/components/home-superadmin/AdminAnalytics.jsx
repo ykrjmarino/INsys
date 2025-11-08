@@ -146,7 +146,6 @@ export const HomeAdminAnalytics = () => {
 
   return (
     <div className="whole">
-      <HeaderTeacher />
       <div className="side-bar-and-main-container">
         <HomeSuperadmin />
         <div className="main-home-content" style={{ padding: '10px' }}>     

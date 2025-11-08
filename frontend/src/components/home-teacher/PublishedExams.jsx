@@ -1,7 +1,7 @@
 import Button from '../Buttons.jsx'
 import { useNavigate } from "react-router-dom";
 
-export const HomeCard = ({ data, title, subjCode, schedule, status, sections, onClickNav, onClickDel, onClickDupe }) => {
+export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel, onClickDupe }) => {
 
   return (
     <>
@@ -32,12 +32,14 @@ export const HomeCard = ({ data, title, subjCode, schedule, status, sections, on
       </div>
         
       <div className="exam-content">
-        <i className="fas fa-folder"></i>
-        <span>{title}</span>
+        <div class="teacher-home-illustation">
+          <p className="overlay-text">{title}</p>
+          <img src="tryyy.jpg" alt="Exam container pic"></img>
+        </div>
       </div>
 
       <div className="taskbar">
-        <div className="taskbar-left"></div> {/* None */}
+        <div className="taskbar-left">Code: <span className="done-text">{examCode}</span></div> 
         <div className="taskbar-right">Status: <span className="done-text">{status}</span></div>
       </div>
       
@@ -55,7 +57,7 @@ function PublishedExams({ exams, onClickDel, onClickDupe, className }) {
           className={className}
           key={e.exam_id}
           title={e.title}
-          subjCode={e.subj_code}
+          examCode={e.exam_code}
           schedule={e.schedule}
           status={e.status}
           sections={e.sections}

@@ -27,7 +27,7 @@ function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className }) {
             className={className}
             key={e.exam_id}
             title={e.title}
-            subjCode={e.subj_code}
+            examCode={e.exam_code}
             schedule={e.schedule}
             status={e.status}
             sections={e.sections}
@@ -54,9 +54,7 @@ function HomeAnalytics() {
   return (
     <>
     <div className="whole">
-      <HeaderTeacher />
       <div className="side-bar-and-main-container">
-        <SideBar />
         <AnalyticsHomeExams 
           exams={exams.filter(e => e.status === 'completed')} 
           onClickDel={deleteExam} 
