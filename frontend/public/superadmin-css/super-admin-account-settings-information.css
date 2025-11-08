@@ -171,6 +171,20 @@
     font-weight: 500;
 }
 
+.user-settings-outer-container-ts{
+    margin-top:100px;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    overflow-y: auto;
+    overflow: hidden;
+    background: transparent;
+    gap: 32px;
+    padding: 32px;
+}
 
 .user-settings-outer-container {
     flex: 1;

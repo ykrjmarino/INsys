@@ -279,8 +279,7 @@ const SettingsAccountControl = () => {
   )
 }
 
-export const UserSettingsContent = () => {
-  const navigate = useNavigate();
+export const UserSettingsContentSuperadmin = () => {
   const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'basic-information');
 
   useEffect(() => {
@@ -307,6 +306,34 @@ export const UserSettingsContent = () => {
   )
 }
 
+export const UserSettingsContentTS = () => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'basic-information');
+
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab);
+  }, [activeTab]);
+
+  return (
+    <>
+    <div className="user-settings-outer-container-ts">
+
+      <div className="user-settings-inner-container-one">
+        <div className="user-settings-account-info" onClick={() => setActiveTab('basic-information')}>Account Information</div>
+        <div className="user-settings-change-password" onClick={() => setActiveTab('password-manage')}>Change Password</div>
+        <div className="user-settings-account-deletion" onClick={() => setActiveTab('account-control')}>Account Deletion</div>
+      </div>
+      <div className="user-settings-inner-container-two">
+        {activeTab === "basic-information" && <SettingsBasicInformation />}
+        {activeTab === "password-manage" && <SettingsPasswordManage />}
+        {activeTab === "account-control" && <SettingsAccountControl />}
+      </div>
+
+    </div>
+    </>
+  )
+}
+
 export const UserSettingsStudent = () => { //student
   return (
     <>
@@ -315,7 +342,7 @@ export const UserSettingsStudent = () => { //student
       <div className="main-home-content" style={{ padding: '10px' }}>          
         <h2>Admin Analytics</h2>
 
-        <UserSettingsContent />
+        <UserSettingsContentTS />
       </div>
     </div>
     </>
@@ -327,7 +354,7 @@ export const UserSettingsTeacher = () => { //student
     <>
     <div className="teacher-home-whole">
       <SidebarTeacher />
-      <UserSettingsContent />
+      <UserSettingsContentTS />
     </div>
     </>
   )
@@ -341,7 +368,7 @@ function UserSettingsSuperadmin() { //superadmin
       <div className="main-home-content" style={{ padding: '10px' }}>          
         <h2>Admin Analytics</h2>
 
-        <UserSettingsContent />
+        <UserSettingsContentSuperadmin />
       </div>
     </div>
     </>
