@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { LogoutSpan } from "../Logout";
+import { SidebarStudent } from "../SidebarTS";
 
 const ScoreDetails = () => {
   const { accessToken, user } = useAuth();
@@ -58,32 +59,7 @@ function ScoreHistory() {
 
   return (
     <div className="student-home-whole">
-      <div className="student-home-header"></div>
-
-      <input type="checkbox" className="student-home-open-sidebar-menu" id="student-home-open-sidebar-menu" />
-      <label htmlFor="student-home-open-sidebar-menu" className="student-home-sidebar-icon-toggle">
-          <div className="s-h-spinner s-h-diagonal s-h-part-1"></div>
-          <div className="s-h-spinner s-h-horizontal"></div>
-          <div className="s-h-spinner s-h-diagonal s-h-part-2"></div>
-      </label>
-
-      <div id="student-home-sidebar-menu">
-        <div className="sidebar-logo">
-          <img src="insys3.PNG" alt="Sidebar Logo" />
-        </div>
-
-        <div className="student-home-sidebar-buttons">
-          <h1 className="student-home-sidebar-title">Tools</h1>
-          <button className="student-home-sidebar-btn" onClick={()=> navigate('/student-entry')}><i className="fas fa-chart-bar"></i> Dashboard</button>
-          <button className="student-home-sidebar-btn" onClick={()=> navigate('/student-history')}><i className="fa-solid fa-clock-rotate-left"></i>History</button>
-          <button className="student-home-sidebar-btn"><i className="fa-solid fa-gear"></i> Settings</button>
-        </div>
-
-
-        <div className="student-home-logout">
-          <LogoutSpan className="student-home-logout-btn"/>
-        </div>
-      </div>
+      <SidebarStudent />
 
 
       <div className="student-home-history">

@@ -16,7 +16,7 @@ import PublishedExams from '../components/home-teacher/PublishedExams.jsx';
 import OngoingExams from '../components/home-teacher/OngoingExams.jsx';
 import CompletedExams from '../components/home-teacher/CompletedExams.jsx';
 import HeaderTeacher, { SideBar } from '../components/Header.jsx';
-import { SidebarTeacher } from '../components/SidebarTeacher.jsx';
+import { SidebarTeacher } from '../components/SidebarTS.jsx';
 
 export const HomeExamsTeacher = () => {
   //========= home filter status =========//

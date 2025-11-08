@@ -10,7 +10,7 @@ import { useExams } from '../hooks/useExams.js';
 
 //components
 import { HomeCard } from "../components/home-teacher/CompletedExams.jsx";
-import { SidebarTeacher } from "../components/SidebarTeacher.jsx";
+import { SidebarTeacher } from "../components/SidebarTS.jsx";
 
 
 function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className }) {

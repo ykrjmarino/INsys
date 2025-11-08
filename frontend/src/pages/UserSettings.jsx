@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 import { toast } from 'react-toastify';
 import { HomeSuperadmin } from "./HomeSuperadmin";
-import { SidebarTeacher } from "../components/SidebarTeacher";
+import { SidebarStudent, SidebarTeacher } from "../components/SidebarTS";
 import { ForgotPasswordLoggedInComponent } from "./ForgotPassword";
 
 const SettingsBasicInformation = () => {
@@ -385,8 +385,8 @@ export const UserSettingsContentTS = () => {
 export const UserSettingsStudent = () => { //student
   return (
     <>
-    <div className="teacher-home-whole">
-      <HomeSuperadmin />
+    <div className="student-home-whole">
+      <SidebarStudent />
       <UserSettingsContentTS />
     </div>
     </>

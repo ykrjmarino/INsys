@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import Button from "../components/Buttons.jsx";
 import InputField from "../components/InputFields.jsx";
 import { useAuth } from "../context/AuthContext";
-import { SidebarTeacher } from "../components/SidebarTeacher.jsx";
+import { SidebarTeacher } from "../components/SidebarTS.jsx";
 
 
 

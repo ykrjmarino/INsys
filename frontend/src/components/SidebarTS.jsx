@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "../utils/axiosConfig.js";
 import { useNavigate } from "react-router-dom";
-import { LogoutSpan } from "./Logout";
+import { LogoutSpan } from "./Logout.jsx";
 
 import ReactDOM from "react-dom";
 
@@ -129,11 +129,66 @@ export const SidebarTeacher = () => {
         </div>
             
         <div className="teacher-home-logout">
-          <div className="sidebar-profile-container">
+          <div className="sidebar-profile-container" style={{margin: "10px"}}>
             <i className="fa-solid fa-user"></i>
             <div className="sidebar-profile-info">
               <div className="sidebar-profile-name">{user.nameFNfirst}</div>
-              <div className="sidebar-profile-title">System Admin</div>
+              <div className="sidebar-profile-title">Instructor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* DITO YUNG MAIN COMPONENT */}
+
+    {/* </div> */}
+    </>
+  );
+}
+
+
+
+
+
+
+
+
+export const SidebarStudent = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  return (
+    <>
+    {/* <div className="student-home-whole"> */}
+      <div className="student-home-header"></div>
+
+      <input type="checkbox" className="student-home-open-sidebar-menu" id="student-home-open-sidebar-menu" />
+      <label htmlFor="student-home-open-sidebar-menu" className="student-home-sidebar-icon-toggle">
+          <div className="s-h-spinner s-h-diagonal s-h-part-1"></div>
+          <div className="s-h-spinner s-h-horizontal"></div>
+          <div className="s-h-spinner s-h-diagonal s-h-part-2"></div>
+      </label>
+      
+      <div id="student-home-sidebar-menu">
+        <div className="sidebar-logo">
+          <img src="insys3.PNG" alt="Sidebar Logo" />
+        </div>
+
+        <div className="student-home-sidebar-buttons">
+          <h1 className="student-home-sidebar-title">Tools</h1>
+          <button className="student-home-sidebar-btn" onClick={()=> navigate('/student-entry')}><i className="fas fa-chart-bar"></i> Dashboard</button>
+          <button className="student-home-sidebar-btn" onClick={()=> navigate('/student-history')}><i className="fa-solid fa-clock-rotate-left"></i>History</button>
+          <button className="student-home-sidebar-btn" onClick={()=> navigate('/student/account-settings')}><i className="fa-solid fa-gear"></i> Settings</button>
+          <LogoutSpan className="student-home-sidebar-btn"/>
+        </div>
+
+
+        <div className="student-home-logout">
+          <div className="sidebar-profile-container" style={{margin: "10px"}}>
+            <i className="fa-solid fa-user"></i>
+            <div className="sidebar-profile-info">
+              <div className="sidebar-profile-name">{user.nameFNfirst}</div>
+              <div className="sidebar-profile-title">Student</div>
             </div>
           </div>
         </div>
