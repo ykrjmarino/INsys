@@ -399,7 +399,7 @@ authRoutes.post('/change/current-password/:userId', async(req, res) => {
     await db.query (`UPDATE users SET password = $1 WHERE user_id = $2`, [hash, userId]);
 
     //log
-    await logAction(userId, `Updated their password`, schoolId);
+    await logAction(userId, `Updated their password`, userId);
 
     return res.status(200).json({ message: "Password changed successfully"});
   } catch (error) {
@@ -519,7 +519,7 @@ authRoutes.post('/forgot-password/in/reset', verifyJWT, async (req, res) => {
       [hash, email]); //changed password to hash (hashed password)
       
     //log
-    await logAction(userId, `Updated their password`, schoolId);
+    await logAction(userId, `Updated their password`, userId);
     
     
     await redisClient.del(`verifiedEmail:${email}`);

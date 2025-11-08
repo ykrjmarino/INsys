@@ -8,10 +8,11 @@ import { useEffect } from "react";
 import Button from "../components/Buttons.jsx";
 import InputField from "../components/InputFields.jsx";
 import { useAuth } from "../context/AuthContext";
+import { SidebarTeacher } from "../components/SidebarTeacher.jsx";
 
 
 
-export const ForgotPasswordLoggedIn = () => { //when logged-in
+export const ForgotPasswordLoggedInComponent = () => { //when logged-in
   const navigate = useNavigate();
   const { accessToken, user } = useAuth();
 
@@ -97,10 +98,10 @@ export const ForgotPasswordLoggedIn = () => { //when logged-in
 
       setMessage(res.data.message);
       toast.success(res.data.message);
-      setTimeout(() => navigate("/account-settings"), 2000);//2 sec
+      setTimeout(() => navigate("/"), 2000);//2 sec
     } catch (err) {
       setError(err.response?.data?.message);
-      toast.error(error);
+      toast.error(err.response?.data?.message);
     }
   }
 
@@ -115,71 +116,62 @@ export const ForgotPasswordLoggedIn = () => { //when logged-in
   return (
     <>
       {!isVerified ? (
-        <>
-        <p> Forgot Password </p>
+      <>
+        <h3>Forgot Password</h3>
         <label>Email</label>
-        <InputField 
-          name="email"
-          value={userEmail}
-          onChange={handleChange}
-          placeholder="Enter Email"
-          disabled
-        />
-        <Button label="Send OTP" onClick={handleSendOtp} />
+        <div className="super-admin-account-settings-change-password-two-containers">
+          <InputField 
+            name="email"
+            value={userEmail}
+            onChange={handleChange}
+            placeholder="Enter Email"
+            disabled
+          />
+          <Button label="Send OTP" onClick={handleSendOtp} />
+        </div>
+
         <label htmlFor="code">OTP</label>
-        <InputField 
-          name="code"
-          id="code"
-          value={code} 
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="Enter OTP"
-        />
-        <Button label="Verify" onClick={handleVerifyOtp} />
-        </>
+        <div className="super-admin-account-settings-change-password-two-containers">
+          <InputField 
+            name="code"
+            id="code"
+            value={code} 
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Enter OTP"
+          />
+          <Button label="Verify" onClick={handleVerifyOtp} />
+        </div>
+        
+      </>
       ) : ( 
         <>
-        <label htmlFor="newPassword">password</label>
-        <InputField 
-          name="password"
-          id="newPassword"
-          value={form.password} 
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-          placeholder="Password"
-        />
-        <label htmlFor="confirmPassword">re-type password</label>
-        <InputField 
-          id="confirmPassword"
-          name="retypePassword"
-          value={form.retypePassword} 
-          onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
-          placeholder="Confirm Password"
-        />
-        <Button label="Reset Password" onClick={handleSubmit} />
+        <label htmlFor="newPassword">New Password:</label>
+        <div class="super-admin-account-settings-change-password-input">
+          <InputField 
+            name="password"
+            id="newPassword"
+            value={form.password} 
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            placeholder="New Password"
+          />
+        </div>
+
+        <label htmlFor="confirmPassword">Confirm New Password:</label>
+        <div class="super-admin-account-settings-change-password-input">
+          <InputField 
+            id="confirmPassword"
+            name="retypePassword"
+            value={form.retypePassword} 
+            onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
+            placeholder="Confirm Password"
+          />
+        </div>
+        <Button className="super-admin-account-seetings-change-password-container-button" label="Reset Password" onClick={handleSubmit} />
         </>
       )}
-      
     </>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function ForgotPassword() { //when logged-out

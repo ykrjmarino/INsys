@@ -13,7 +13,7 @@ import HomeTeacher from './pages/HomeTeacher.jsx';
 import HomeStudent from './pages/HomeStudent.jsx';
 import UpdateExam from './pages/UpdateExam.jsx';
 import Welcome from './pages/Welcome.jsx';
-import ForgotPassword, { ForgotPasswordLoggedIn } from './pages/ForgotPassword.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
 import HomeAnalytics from './pages/1-HomeAnalytics.jsx';
 import ExamAnalytics from './pages/2-ExamAnalytics.jsx';
 import SectionAnalytics from './pages/2.1-SectionAnalytics.jsx';
@@ -139,7 +139,7 @@ useEffect(() => {
           <Route path='/student-entry' element={<HomeStudent />} />
           <Route path='/student-history' element={<ScoreHistory />} />
           <Route path='/exam/start/:examId' element={<ExamQuestions />} />
-          <Route path='student/account-settings' element={<UserSettingsStudent />} />
+          <Route path='/student/account-settings' element={<UserSettingsStudent />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
@@ -162,10 +162,6 @@ useEffect(() => {
           <Route path='/exam-analytics/:examId' element={<ExamAnalytics />} />
           <Route path='/exam-analytics/section/:examId' element={<SectionAnalytics />} /> 
           <Route path='/exam-analytics/:examId/student-essay/:studentId' element={<StudentEssays />} />
-        </Route>
-
-        <Route element={<ProtectedRoute allowedRoles={["superadmin", "admin", "student"]} />}>
-          <Route path='/account-settings/forgot-password' element={<ForgotPasswordLoggedIn />} />
         </Route>
 
         <Route path='/login' element={<Login />} />

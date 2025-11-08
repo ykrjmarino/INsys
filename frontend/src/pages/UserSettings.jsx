@@ -3,9 +3,10 @@ import React, { useState }  from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
-import HeaderTeacher from "../components/Header";
+import { toast } from 'react-toastify';
 import { HomeSuperadmin } from "./HomeSuperadmin";
 import { SidebarTeacher } from "../components/SidebarTeacher";
+import { ForgotPasswordLoggedInComponent } from "./ForgotPassword";
 
 const SettingsBasicInformation = () => {
   const { accessToken, user } = useAuth();
@@ -83,7 +84,7 @@ const SettingsPasswordManage = () => {
         config
       );
 
-      alert(res.data.message);
+      toast.info(res.data.message);
       setCurrentPassword("");
       setNewPassword("");
       setConfirmNewPassword("");
@@ -92,50 +93,61 @@ const SettingsPasswordManage = () => {
     }
   };
 
+  const [showForgot, setShowForgot] = useState(false);
+
   return (
     <div class="super-admin-account-seetings-change-password-container">
-      <h3>Password Management</h3>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleChangePassword}>
-        <div class="super-admin-account-settings-change-password-form">
-          <label htmlFor="currentPassword">Current Password:</label><br />
-          <input
-            type="password"
-            id="currentPassword"
-            name="currentPassword"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            required
-          />
-        </div>
+      {!showForgot ? (
+        <>
+        <h3>Password Management</h3>
+        {message && <p>{message}</p>}
+        <form onSubmit={handleChangePassword}>
+          <div class="super-admin-account-settings-change-password-form">
+            <label htmlFor="currentPassword">Current Password:</label><br />
+            <input
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <div class="super-admin-account-settings-change-password-input">
-          <label htmlFor="newPassword">New Password:</label><br />
-          <input
-            type="password"
-            id="newPassword"
-            name="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </div>
+          <div class="super-admin-account-settings-change-password-input">
+            <label htmlFor="newPassword">New Password:</label><br />
+            <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <div class="super-admin-account-settings-change-password-input">
-          <label htmlFor="confirmNewPassword">Confirm New Password:</label><br />
-          <input
-            type="password"
-            id="confirmNewPassword"
-            name="confirmNewPassword"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-            required
-          />
-        </div>
-        <a className="forgot-password" href="/account-settings/forgot-password">Forgot Password?</a>
-        <br></br>
-        <button type="submit">Update Password</button>
-      </form>
+          <div class="super-admin-account-settings-change-password-input">
+            <label htmlFor="confirmNewPassword">Confirm New Password:</label><br />
+            <input
+              type="password"
+              id="confirmNewPassword"
+              name="confirmNewPassword"
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
+              required
+            />
+          </div>
+          <a className="forgot-password" onClick={() => setShowForgot(true)}>Forgot Password?</a>
+          <br></br>
+          <button className="super-admin-account-seetings-change-password-container-button" type="submit">Update Password</button>
+        </form>
+        </>
+      ):(
+        <>
+        <ForgotPasswordLoggedInComponent />
+        </>
+      )}
+      
     </div>
   );
 }
@@ -210,28 +222,26 @@ const SettingsAccountControl = () => {
     <div class="super-admin-account-deletion-account-control-container">
       <h3>Account Control</h3>
 
+    <div class="super-admin-account-deletion-account-input">
       {!verified && (
-        <div class="super-admin-account-deletion-account-input">
-          <input
+        <>
+        <input
             type="password"
             placeholder="Enter current password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
           />
           <button onClick={handleVerifyPassword}>Verify Password</button>
-        </div>
-      )}
-
-      {message && <p style={{ color: "red" }}>{message}</p>}
-
+        </>
+      )} 
+      {message && <p style={{ color: "red", marginBottom: "10px" }}>{message}</p>}
       {verified && !showModal && (
-        <div class="super-admin-account-deletion-account-input">
-          <button onClick={handleOpenModal}>
-            Delete Account
-          </button>
-        </div>
-        
+        <button onClick={handleOpenModal}> Delete Account </button>
       )}
+    </div>
+     
+
+      
 
       {showModal && (
         <div
@@ -241,37 +251,75 @@ const SettingsAccountControl = () => {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
+            background: "rgba(0, 0, 0, 0.4)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            zIndex: 9999,
           }}
         >
           <div
             style={{
-              backgroundColor: "white",
-              padding: "20px",
-              borderRadius: "8px",
-              width: "400px",
+              background: "#fff",
+              padding: "28px 32px",
+              borderRadius: "16px",
+              width: "380px",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
               textAlign: "center",
+              animation: "fadeIn 0.2s ease",
             }}
           >
-            <h4>Confirm Account Deletion</h4>
-            <p>Type <strong>{requiredPhrase}</strong> to confirm deletion:</p>
+            <h4 style={{ marginBottom: "10px", fontSize: "20px", fontWeight: 600 }}>Confirm Account Deletion</h4>
+            <p style={{
+              marginBottom: "16px",
+              color: "#475569",
+              fontSize: "15px",
+              whiteSpace: "nowrap", // 👈 prevents wrapping
+            }}>Type <strong>{requiredPhrase}</strong> to confirm deletion:</p>
             <input
               type="text"
               value={confirmationText}
               onChange={handleChangeText}
-              style={{ width: "100%", marginBottom: "10px" }}
+              style={{
+                width: "100%",
+                padding: "12px 14px",
+                marginBottom: "20px",
+                border: "1.5px solid #cbd5e1",
+                borderRadius: "10px",
+                outline: "none",
+                fontSize: "14.5px",
+                transition: "all 0.3s ease",
+              }}
             />
-            <button
-              onClick={handleDeleteAccount}
-              disabled={!confirmEnabled}
-              style={{ backgroundColor: "red", color: "white", marginRight: "10px" }}
-            >
-              Confirm Delete
-            </button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
+            <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+              <button
+                onClick={handleDeleteAccount}
+                disabled={!confirmEnabled}
+                style={{
+                  backgroundColor: confirmEnabled ? "#ef4444" : "#fca5a5",
+                  color: "white",
+                  fontWeight: 600,
+                  padding: "10px 18px",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: confirmEnabled ? "pointer" : "not-allowed",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                Confirm Delete
+              </button>
+              <button onClick={() => setShowModal(false)}
+                style={{
+                  backgroundColor: "#e2e8f0",
+                  color: "#1e293b",
+                  fontWeight: 600,
+                  padding: "10px 18px",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+              }}>Cancel</button>
+            </div>
           </div>
         </div>
       )}
@@ -307,7 +355,6 @@ export const UserSettingsContentSuperadmin = () => {
 }
 
 export const UserSettingsContentTS = () => {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'basic-information');
 
   useEffect(() => {
