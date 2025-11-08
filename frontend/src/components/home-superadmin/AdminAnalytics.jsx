@@ -16,7 +16,6 @@ export const AdminAnalytics = () => {
       <HomeSuperadmin />
       <div className="main-home-content">          
         <h2>Admin Analytics</h2>
-
         <AdminsComponent />
       </div>
     </div>

@@ -125,10 +125,17 @@ export const SidebarTeacher = () => {
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/admin-dashboard')}><i className="fas fa-chart-bar"></i> Dashboard</button>
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/exams-analytics')}><i className="fa-solid fa-clock-rotate-left"></i>Exam Analytics</button>
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/admin/account-settings')}><i className="fa-solid fa-gear"></i>Account Settings</button>
+          <LogoutSpan className="student-home-sidebar-btn"/>
         </div>
             
         <div className="teacher-home-logout">
-          <LogoutSpan className="teacher-home-logout-btn"/>
+          <div className="sidebar-profile-container">
+            <i className="fa-solid fa-user"></i>
+            <div className="sidebar-profile-info">
+              <div className="sidebar-profile-name">{user.nameFNfirst}</div>
+              <div className="sidebar-profile-title">System Admin</div>
+            </div>
+          </div>
         </div>
       </div>
 

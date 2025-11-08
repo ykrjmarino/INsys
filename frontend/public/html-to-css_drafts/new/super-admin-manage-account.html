@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Home</title>
+    <link rel="stylesheet" href="super-admin-manage-account.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<!-- START: WHOLE -->
+<div class="super-admin-manage-account-whole">
+
+
+    <div class="super-admin--manage-account-sidebar"> <!-- nilagyanko ng super-admin mga classnames, yung sa iba rin halos nilagyan ko lng ng "super-admin"-->
+
+      <!-- START: sidebar-image -->
+      <div class="sidebar-image">
+        <img src="insys4.PNG" alt="Sidebar Image">
+      </div>
+      <!-- END: sidebar-image -->
+
+      <!-- START: sidebar-buttons -->
+      <div class="super-admin-manage-account-sidebar-buttons">
+        <h1 class="sidebar-title">Tools</h1>
+        <button class="super-admin-manage-account-sidebar-btn"><i class="fas fa-chart-bar"></i> Dashboard</button>
+        <button class="super-admin-manage-account-sidebar-btn "><i class="fa-solid fa-chart-simple"></i> Admin Analytics</button>
+        <button class="super-admin-manage-account-sidebar-btn active"><i class="fa-solid fa-users"></i> Manage Accounts</button>
+        <button class="super-admin-manage-account-sidebar-btn"><i class="fa-solid fa-sliders"></i> System Settings</button>
+        <button class="super-admin-manage-account-sidebar-btn"><i class="fa-solid fa-gear"></i> Account Settings</button>
+      </div>
+      <!-- END: sidebar-buttons -->
+
+      <!-- START: sidebar-profile-container -->
+      <div class="super-admin-manange-account-sidebar-profile-container">
+        <i class="fa-solid fa-user"></i>
+        <div class="super-admin-manange-sidebar-profile-info">
+          <div class="super-admin-manange-sidebar-profile-name">Corazon Bagang</div>
+          <div class="super-admin-manange-sidebar-profile-title">System Admin</div>
+        </div>
+      </div>
+      <!-- END: sidebar-profile-container -->
+
+    </div>
+    <!-- END: super-admin-sidebar -->
+   
+
+
+
+    <!-- START: MAIN-HOME-CONTENT -->
+    <div class="super-admin-manange-main-home-content">
+      
+
+        <!-- START: USER MANAGEMENT SECTION -->
+<div class="super-admin-manage-account-components">
+  <!-- START: USER TYPE TABS -->
+  <div class="super-admin-manage-account-choice">
+    <div class="super-admin-manage-student-btn active">Students</div>
+    <div class="super-admin-manage-admins-btn">Admins</div>
+    <div class="super-admin-manage-super-admins-btn">SuperAdmin</div>
+  </div>
+  <!-- END: USER TYPE TABS -->
+
+
+
+
+
+  
+
+  <!-- START: USER TABLE SECTION -->
+  <div class="super-admin-manage-account-table-container">
+     <input type="text" placeholder="Search" class="super-admin-manage-account-search">
+    <button class="super-admin-manage-account-add-btn">Add User</button>
+
+<!-- START: SCROOL-->
+    <div class="super-admin-manage-account-table-scroll">  
+    <table>
+      <thead>
+        <tr>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>School ID</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- SAMPLE ROW -->
+        <tr>
+          <td>Sagmit</td>
+          <td>Faithful</td>
+          <td>2023-001</td>
+          <td>Admin</td>
+          <td>faithful.kind.com</td>
+          <td>
+            <button class="super-admin-manage-account-edit-btn">Edit</button>
+            <button class="super-admin-manage-account-delete-btn">Delete</button>
+          </td>
+        </tr>
+        <!-- END SAMPLE ROW -->
+
+         <!-- SAMPLE ROW -->
+        <tr>
+          <td>Charmaine</td>
+          <td>Richards</td>
+          <td>2023-001</td>
+          <td>Admin</td>
+          <td>gabriella.com</td>
+          <td>
+            <button class="super-admin-manage-account-edit-btn">Edit</button>
+            <button class="super-admin-manage-account-delete-btn">Delete</button>
+          </td>
+        </tr>
+        <!-- END SAMPLE ROW;-->
+
+      </tbody>
+    </table>
+     </div>
+<!-- END: SCROLL-->
+
+
+
+     <!-- START: MESSASGE-->
+        <div class="super-admin--manage-account-message">
+          <p>⚠️ At least one Super Admin must remain in the system.</p>
+        </div>
+      <!-- END: MESSAGE -->
+
+
+    <!-- START: PAGINATION -->
+    <div class="super-admin-manage-account-pagination">
+      <button class="super-admin-manage-account-button">Prev</button>
+      <label class="super-admin-manage-account-pagination-label" >Page 1 of 10</label>
+      <button class="super-admin-manage-account--button">Next</button>
+    </div>
+
+    <!-- END: PAGINATION -->
+
+
+
+  </div>
+  <!-- Start table container scroll -->
+
+  <!-- END: USER TABLE SECTION -->
+</div>
+<!-- END: USER MANAGEMENT SECTION -->
+
+
+<!-- START: ADD USER MODAL  buuin motong comment 
+
+
+<div class="super-admin-manage-account-modal-container">
+  <div class="super-admin-manage-account-modal-inner">
+    <label class="super-admin--manage-modal-label"> Add User</label>
+
+    <p>First Name</p>
+    <input type="text" placeholder="Enter First Name" class="super-admin-manage-input">
+
+    <p>Middle Initial</p>
+    <input type="text" placeholder="Enter Middle Initial" class="super-admin-manage-input">
+
+    <p>Last Name</p>
+    <input type="text" placeholder="Enter Last Name" class="super-admin-manage-input">
+
+    <p>School ID</p>
+    <input type="text" placeholder="Enter School ID" class="super-admin-manage-input">
+
+    <p>Email</p>
+    <input type="email" placeholder="Enter Email" class="super-admin-manage-input">
+
+    <p>Password</p>
+    <input type="password" placeholder="Password" class="super-admin-manage-input">
+
+    <p>Role</p>
+    <select class="super-admin-manage-input">
+      <option value="student">Student</option>
+      <option value="admin">Admin</option>
+      <option value="superadmin">Superadmin</option>
+    </select>
+
+    <div class="modal-actions">
+      <button type="button" class="super-admin-manage-modal-cancel-btn">Cancel</button>
+      <button type="button" class="super-admin-manage-modal-save-btn">Save User</button>
+    </div>
+  </div>
+</div>
+
+<!-- END: ADD USER MODAL -->
+
+
+<!-- START: ADD USER MODAL 
+<div class="super-admin-manage-account-modal-container">
+  <div class="super-admin-manage-account-modal-inner">
+    <label class="super-admin--manage-modal-label">Add User</label>
+
+    <p>First Name</p>
+    <input type="text" placeholder="Enter First Name" class="super-admin-manage-input">
+
+    <p>Middle Initial</p>
+    <input type="text" placeholder="Enter Middle Initial" class="super-admin-manage-input">
+
+    <p>Last Name</p>
+    <input type="text" placeholder="Enter Last Name" class="super-admin-manage-input">
+
+    <p>School ID</p>
+    <input type="text" placeholder="Enter School ID" class="super-admin-manage-input">
+
+    <p>Email</p>
+    <input type="email" placeholder="Enter Email" class="super-admin-manage-input">
+
+    <p>Password</p>
+    <input type="password" placeholder="Enter Password" class="super-admin-manage-input">
+
+    <p>Role</p>
+    <select class="super-admin-manage-input">
+      <option value="student">Student</option>
+      <option value="admin">Admin</option>
+      <option value="superadmin">Superadmin</option>
+    </select>
+
+    <div class="modal-actions">
+      <button type="button" class="super-admin-manage-modal-cancel-btn">Cancel</button>
+      <button type="button" class="super-admin-manage-modal-save-btn">Save User</button>
+    </div>
+  </div>
+</div>
+<!-- END: ADD USER MODAL -->
+
+
+    </div>
+    <!-- END: MAIN-HOME-CONTENT -->
+
+
+</div>
+<!-- END: WHOLE -->
+
+</head>
+    </body>

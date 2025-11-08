@@ -74,19 +74,20 @@ export const ManageUser = () => {
 
   return (
     <>
-    <div className="super-admin-whole">
+    <div className="super-admin-manage-account-whole">
       <HomeSuperadmin />
-      <div className="main-home-content" style={{ padding: '10px' }}>
+      
+      <div className="super-admin-manange-main-home-content">
         <div className="user-management-export" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px"}}>
           <h2>User Management</h2> <i className="fa-solid fa-file-export" onClick={exportUserByRole}></i>
         </div>
-      
-        <div style={{ display: 'flex', gap: '5px', margin: '5px' }}>
-          <div onClick={() => setActiveTab('student')}>Students</div>
-          <div>|</div>
-          <div onClick={() => setActiveTab('admin')}>Admins</div>
-          <div>|</div>
-          <div onClick={() => setActiveTab('superadmin')}>Superadmins</div>
+
+        <div className="super-admin-manage-account-components">
+          <div className="super-admin-manage-account-choice">
+            <div className={`super-admin-manage-student-btn ${activeTab === 'student' ? 'active' : ''}`} onClick={() => setActiveTab('student')}>Students</div>
+            <div className={`super-admin-manage-student-btn ${activeTab === 'admin' ? 'active' : ''}`}onClick={() => setActiveTab('admin')}>Admins</div>
+            <div className={`super-admin-manage-student-btn ${activeTab === 'superadmin' ? 'active' : ''}`}onClick={() => setActiveTab('superadmin')}>Superadmins</div>
+          </div>
         </div>
 
         {activeTab === 'student' && <ManageUsersTable selectedRole="student" />}

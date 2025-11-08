@@ -337,11 +337,12 @@ export const UserSettingsContentSuperadmin = () => {
   return (
     <>
     <div className="user-settings-outer-container">
-
+      <h2>Admin Analytics</h2>
+{`super-admin-manage-student-btn ${activeTab === 'student' ? 'active' : ''}`}
       <div className="user-settings-inner-container-one">
-        <div className="user-settings-account-info" onClick={() => setActiveTab('basic-information')}>Account Information</div>
-        <div className="user-settings-change-password" onClick={() => setActiveTab('password-manage')}>Change Password</div>
-        <div className="user-settings-account-deletion" onClick={() => setActiveTab('account-control')}>Account Deletion</div>
+        <div className={`user-settings-account-info ${activeTab === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTab('basic-information')}>Account Information</div>
+        <div className={`user-settings-account-info ${activeTab === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTab('password-manage')}>Change Password</div>
+        <div className={`user-settings-account-info ${activeTab === 'account-control' ? 'active' : ''}`} onClick={() => setActiveTab('account-control')}>Account Deletion</div>
       </div>
       <div className="user-settings-inner-container-two">
         {activeTab === "basic-information" && <SettingsBasicInformation />}
@@ -366,9 +367,9 @@ export const UserSettingsContentTS = () => {
     <div className="user-settings-outer-container-ts">
 
       <div className="user-settings-inner-container-one">
-        <div className="user-settings-account-info" onClick={() => setActiveTab('basic-information')}>Account Information</div>
-        <div className="user-settings-change-password" onClick={() => setActiveTab('password-manage')}>Change Password</div>
-        <div className="user-settings-account-deletion" onClick={() => setActiveTab('account-control')}>Account Deletion</div>
+        <div className={`user-settings-account-info ${activeTab === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTab('basic-information')}>Account Information</div>
+        <div className={`user-settings-account-info ${activeTab === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTab('password-manage')}>Change Password</div>
+        <div className={`user-settings-account-info ${activeTab === 'account-control' ? 'active' : ''}`} onClick={() => setActiveTab('account-control')}>Account Deletion</div>
       </div>
       <div className="user-settings-inner-container-two">
         {activeTab === "basic-information" && <SettingsBasicInformation />}
@@ -384,13 +385,9 @@ export const UserSettingsContentTS = () => {
 export const UserSettingsStudent = () => { //student
   return (
     <>
-    <div className="super-admin-whole">
+    <div className="teacher-home-whole">
       <HomeSuperadmin />
-      <div className="main-home-content" style={{ padding: '10px' }}>          
-        <h2>Admin Analytics</h2>
-
-        <UserSettingsContentTS />
-      </div>
+      <UserSettingsContentTS />
     </div>
     </>
   )
@@ -412,11 +409,7 @@ function UserSettingsSuperadmin() { //superadmin
     <>
     <div className="super-admin-whole">
       <HomeSuperadmin />
-      <div className="main-home-content" style={{ padding: '10px' }}>          
-        <h2>Admin Analytics</h2>
-
-        <UserSettingsContentSuperadmin />
-      </div>
+      <UserSettingsContentSuperadmin />
     </div>
     </>
   )

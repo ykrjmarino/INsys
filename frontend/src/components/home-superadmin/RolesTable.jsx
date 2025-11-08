@@ -176,8 +176,8 @@ export const ManageUsersTable = ({selectedRole}) => {
   
 
   return (
-    <div className="">
-      <input className=""
+    <div className="super-admin-manage-account-table-container">
+      <input className="super-admin-manage-account-search"
         type="text" 
         placeholder="Search..." 
         value={searchTerm} 
@@ -253,10 +253,65 @@ export const ManageUsersTable = ({selectedRole}) => {
           </div>
         </div>
       )}
-
-      <Button 
-        label="Add User" 
-        onClick={() => {
+      
+      <div className="super-admin-manage-account-table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Last Name</th>
+              <th>First Name</th>
+              <th>Middle Initial</th>
+              <th>School ID</th>
+              <th>Role</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users
+              .map((s) => (
+              <tr key={s.user_id}>
+                <td>{s.last_name}</td>
+                <td>{s.first_name}</td>
+                <td>{s.middle_initial}.</td>
+                <td>{s.school_id}</td>
+                <td>{s.role}</td>
+                <td className="email">{s.email}</td>
+                <td>
+                  <button className="super-admin-manage-account-edit-btn" onClick={() => handleEditButton(s)}>Edit</button>
+                  <button
+                    className="super-admin-manage-account-delete-btn"
+                    onClick={() => {
+                      setUserToDelete(s.user_id);
+                      setShowModal(true);
+                    }}
+                    style={{
+                      backgroundColor:
+                        selectedRole === "superadmin" && superadminCount === 1 ? "gray" : "red",
+                      color: "white",
+                      marginLeft: "5px",
+                      cursor:
+                        selectedRole === "superadmin" && superadminCount === 1
+                          ? "not-allowed"
+                          : "pointer",
+                    }}
+                    disabled={selectedRole === "superadmin" && superadminCount === 1}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      
+      <div className="super-admin-manage-acount-message">
+        <Button 
+          className="super-admin-manage-account-add-btn"
+          label="Add User" 
+          onClick={() => {
           setFormData({
             first_name: "",
             last_name: "",
@@ -268,67 +323,19 @@ export const ManageUsersTable = ({selectedRole}) => {
           });
           setEditCreate(true);
         }}/>
-
-      <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
-        <thead>
-          <tr style={{ backgroundColor: "#f2f2f2" }}>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Middle Initial</th>
-            <th>School ID</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users
-            .map((s) => (
-            <tr key={s.user_id}>
-              <td>{s.last_name}</td>
-              <td>{s.first_name}</td>
-              <td>{s.middle_initial}.</td>
-              <td>{s.school_id}</td>
-              <td>{s.role}</td>
-              <td>{s.email}</td>
-              <td>
-                <button onClick={() => handleEditButton(s)}>Edit</button>
-                <button
-                  onClick={() => {
-                    setUserToDelete(s.user_id);
-                    setShowModal(true);
-                  }}
-                  style={{
-                    backgroundColor:
-                      selectedRole === "superadmin" && superadminCount === 1 ? "gray" : "red",
-                    color: "white",
-                    marginLeft: "5px",
-                    cursor:
-                      selectedRole === "superadmin" && superadminCount === 1
-                        ? "not-allowed"
-                        : "pointer",
-                  }}
-                  disabled={selectedRole === "superadmin" && superadminCount === 1}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="pagination">
-        <button onClick={handlePrev} disabled={currentPage === 1}>Prev</button>
-        <span>Page {currentPage} of {totalPages}</span>
-        <button onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
+        {selectedRole === "superadmin" && superadminCount === 1 && (
+        <p className="super-admin--manage-account-message" style={{ color: "red", marginTop: "10px" }}>⚠️ At least one Super Admin must remain in the system.</p>
+        )}
+      </div>
+        
+      
+      <div className="super-admin-manage-account-pagination">
+        <button className="super-admin-manage-account-button" onClick={handlePrev} disabled={currentPage === 1}>Prev</button>
+        <label className="super-admin-manage-account-pagination-label">Page {currentPage} of {totalPages}</label>
+        <button className="super-admin-manage-account--button" onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
       </div>
 
-      {selectedRole === "superadmin" && superadminCount === 1 && (
-        <p style={{ color: "red", marginTop: "10px" }}>
-          ⚠️ At least one Super Admin must remain in the system.
-        </p>
-      )}
+      
 
       {editUser && (
         <EditUserComponent 
