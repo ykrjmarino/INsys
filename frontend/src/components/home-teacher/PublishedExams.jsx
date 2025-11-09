@@ -2,6 +2,8 @@ import Button from '../Buttons.jsx'
 import { useNavigate } from "react-router-dom";
 
 export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel, onClickDupe }) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
   return (
     <>
@@ -14,7 +16,8 @@ export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel
           className="teacher-home-duplicate-button"
           onClick={(e) => { 
             e.stopPropagation(); 
-            onClickDupe(data.exam_id); 
+            setShowConfirm(true);
+            // onClickDupe(data.exam_id); 
           }}>
           <i className="fa-solid fa-clone"></i>
           <span className="tooltip">Duplicate</span>
@@ -23,7 +26,8 @@ export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel
           className="teacher-home-delete-button"
           onClick={(e) => { 
             e.stopPropagation(); 
-            onClickDel(data.exam_id); 
+            setShowDelete(true);
+            // onClickDel(data.exam_id); 
           }} 
         >
           <i className="fas fa-trash"></i>
@@ -44,6 +48,62 @@ export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel
       </div>
       
     </div>
+
+    {showConfirm && (
+        <div className="admins-exam-modal" onClick={() => setShowConfirm(false)}>
+          <div className="admins-exam-modal-container" onClick={(e) => e.stopPropagation()}>
+            <h4 className="admins-exam-modal-title">Duplicate Exam</h4>
+            <p className="admins-exam-modal-text">
+              Do you want to duplicate this exam?
+            </p>
+            <div className="admins-exam-modal-buttons">
+              <button
+                className="confirm"
+                onClick={() => {
+                  onClickDupe(data.exam_id);
+                  setShowConfirm(false);
+                }}
+              >
+                Yes, Duplicate
+              </button>
+              <button
+                className="cancel"
+                onClick={() => setShowConfirm(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDelete && (
+        <div className="admins-exam-modal" onClick={() => setShowDelete(false)}>
+          <div className="admins-exam-modal-container" onClick={(e) => e.stopPropagation()}>
+            <h4 className="admins-exam-modal-title">Confirm Delete</h4>
+            <p className="admins-exam-modal-text">
+              Do you want to delete this exam? This action cannot be undone.
+            </p>
+            <div className="admins-exam-modal-buttons">
+              <button
+                className="delete"
+                onClick={() => {
+                  onClickDel(data.exam_id);
+                  setShowDelete(false);
+                }}
+              >
+                Delete
+              </button>
+              <button
+                className="cancel"
+                onClick={() => setShowDelete(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -46,7 +46,7 @@ export const LogoutSpan = ({className}) => {
 
   const confirmLogout = () => {
     setShowModal(false);
-    setInterval(() => handleLogout(), 1000);
+    setTimeout(() => handleLogout(), 1000);
   };
 
   return (
