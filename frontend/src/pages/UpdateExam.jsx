@@ -114,6 +114,8 @@ function UpdateExam() {
     };
 
     try { 
+      handleSaveExamInfo();
+      
       await axios.patch(`/exams/${examId}/status`, {status: status}, config);
 
       console.log(`Exam status set to: ${status}`);
@@ -129,8 +131,7 @@ function UpdateExam() {
 
 
 
-  const handleSaveQuestion = async(data) => { //save via axios //data is from allquestype
-    console.log("Posting question:", data);
+  const handleSaveQuestion = async (data) => {
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
       withCredentials: true
@@ -139,40 +140,39 @@ function UpdateExam() {
     const questionId = Number.isInteger(data.questionId) ? data.questionId : null;
 
     try {
-      console.log("print questionId:", data.questionId); 
-      //will only print if we edit the existing question. undefined if it's a new  question, 
-      //because questionId is from frontend, and we dont axios GET the data when we create, backend will handle the id creation.
+      let updatedQuestions;
 
-      if (questionId) {//camelCase cuz it's from AllQuesType.jsx
-        //if EXISTING --- UPDATE existing question
-        console.log("Payload being sent:", { ...data, exam_id: examId });
+      if (questionId) {
+        // UPDATE existing question
+        await axios.patch(`/exams/${examId}/questions/${questionId}`, { ...data, exam_id: examId }, config);
 
-        console.log("Editing question:", questionId, data);
+        updatedQuestions = examQues.map(q => q.question_id === questionId ? { ...q, ...data } : q);
 
-        await axios.patch(`/exams/${examId}/questions/${questionId}`, { ...data, exam_id: examId }, config); //updateQuestion
-        
-        //update in place instead of refetching para di magulo yung sequence na showing sa frontend
-        setExamQues((prev) => {
-          const updated = [...prev];
-          const idx = updated.findIndex(q => q.question_id === questionId);
-          if (idx !== -1) {
-            updated[idx] = { ...updated[idx], ...data }; // merge changes
-            }
-            return updated;
-          });
+      } else {
+        // CREATE new question
+        const res = await axios.post(`/questions/${examId}`, { ...data, exam_id: examId }, config);
+        updatedQuestions = [...examQues, res.data]; // add new question
+      }
 
-        } else {
-          //if NOT EXISTING --- POST create another question
-          await axios.post(`/questions/${examId}`, { ...data, exam_id: examId }, config);
+      // Recalculate total points
+      const totalPoints = updatedQuestions.reduce((sum, q) => sum + (q.points || 0), 0);
 
-          //refetch and update questions from DB.. best practice
-          const updatedQuestions = await axios.get(`/exams/${examId}/questions`, config);
-          setExamQues(updatedQuestions.data);
-        }
-        //clear add form
-        setQuestionForms([]);
+      // PATCH total_points to backend
+      await axios.patch(`/exams/${examId}/details`, { total_points: totalPoints }, config);
+
+      // Update frontend state
+      setExamQues(updatedQuestions);
+      setExamInfo(info => ({
+        ...info,
+        total_points: totalPoints,
+        passing_score: Math.min(info.passing_score, totalPoints)
+      }));
+
+      // Clear add form
+      setQuestionForms([]);
+
     } catch (err) {
-      console.error("Failed to create question:", err);
+      console.error("Failed to save question:", err);
     }
   };
 
@@ -184,11 +184,26 @@ function UpdateExam() {
 
     try {
       await axios.delete(`/exams/${examId}/questions/${questionId}`, config);
-  
-      const updatedQuestions = await axios.get(`/exams/${examId}/questions`, config);
-      //refetch and update questions from DB.. best practice
-      setExamQues(updatedQuestions.data);
-      console.log('question deleted');
+
+      const updatedQuestions = examQues.filter(q => q.question_id !== questionId);
+      setExamQues(updatedQuestions);
+
+      const totalPoints = updatedQuestions.reduce((sum, q) => sum + (q.points || 0), 0);
+      const newPassingScore = Math.min(passingScore, totalPoints);
+
+      setExamInfo(info => ({
+        ...info,
+        total_points: totalPoints,
+        passing_score: newPassingScore
+      }));
+      setPassingScore(newPassingScore);
+
+      await axios.patch(`/exams/${examId}/details`, {
+        total_points: totalPoints,
+        passing_score: newPassingScore
+      }, config);
+
+      console.log('Question deleted and total points updated');
     } catch (error) {
       console.error("Failed to delete question:", error);
     }
@@ -200,11 +215,12 @@ function UpdateExam() {
       <div className="ancestor">
 
         {/*<!-- 1 HEADER -->*/}
-        <div className="header">
+        <div className="header-create">
           <div className="left-group">
-            <Button className="back-button-exam" label="&lt;" onClick={() => navigate(-1)} />
+            <button className="back-button-exam" onClick={() => navigate(-1)}><i className="fa-solid fa-arrow-left"></i></button>
             <InputField 
               className="exam-title"
+              id="exam-title-input"
               name="title"
               type="text"
               value={examInfo.title}
@@ -217,36 +233,39 @@ function UpdateExam() {
             <p className="exam-code" placeholder="Exam Code">{examInfo.exam_code}</p>
             <button className="randomize-button" onClick={handleRandomizeCode}><i className="fa-solid fa-arrow-rotate-left"></i></button>
           </div>
+          
+          <div class="create-right-group">
+            <p>Total points: {examInfo.total_points}</p>
+            <p>Passing score: 
+              <input 
+                type='number'
+                value={passingScore}
+                onChange={(e) => { //this is for limiting the typing sa score
+                  const value = e.target.value;
 
-          <p>Total points: {examInfo.total_points}</p>
-          <p>Passing score: 
-            <input 
-              type='number'
-              value={passingScore}
-              onChange={(e) => { //this is for limiting the typing sa score
-                const value = e.target.value;
+                  // allow empty input
+                  if (value === '') {
+                    setPassingScore('');
+                    return;
+                  }
 
-                // allow empty input
-                if (value === '') {
-                  setPassingScore('');
-                  return;
-                }
+                  const num = Number(value);
 
-                const num = Number(value);
+                  // enforce limits manually
+                  if (num < 0) setPassingScore(0);
+                  else if (num > examInfo.total_points) setPassingScore(examInfo.total_points);
+                  else setPassingScore(num);
+                }}
+                min="0"
+                max={examInfo.total_points}
+              />
+            </p>
 
-                // enforce limits manually
-                if (num < 0) setPassingScore(0);
-                else if (num > examInfo.total_points) setPassingScore(examInfo.total_points);
-                else setPassingScore(num);
-              }}
-              min="0"
-              max={examInfo.total_points}
-            />
-          </p>
-
-        
-          <p>Status: {examInfo.status}</p>
-          <Button className="publish-button" disabled={examInfo.status === 'published'} label="Publish" onClick={handlePublish} />
+          
+            <p>Status: {examInfo.status}</p>
+            <Button className="publish-button" disabled={examInfo.status === 'published'} label="Publish" onClick={handlePublish} />
+          </div>
+          
         </div>
         
 
@@ -254,35 +273,36 @@ function UpdateExam() {
         <div className="main-content">
           {/*<!-- Div 2.1 -->*/} {/*<!-- questions -->*/}
           <div className="question-container">
+            <div className="create-labels">Questions</div>
+            
             <div className="question-box">
-              {/* <label className="question-label">Question</label> */}
               {examQues.map((q) => (
-                <EditableQuestionForm
-                  key={q.question_id}
-                  data={q}
-                  onSave={handleSaveQuestion}
-                  onDelete={handleDeleteQuestion}
-                />
+                <div className="question-card" key={q.question_id}>
+                  <EditableQuestionForm
+                    data={q}
+                    onSave={handleSaveQuestion}
+                    onDelete={handleDeleteQuestion}
+                  />
+                </div>
               ))}
               {/* Adding of question FORM */}
               {questionForms.map((form) => (
-                <AddQuestionForm
-                  key={form.id}
-                  formId={form.id}
-                  exam={examQues}
-                  setExam={setExamQues}
-                  onSave={handleSaveQuestion}
-                />
+                <div className="question-card" key={form.id}>
+                  <AddQuestionForm
+                    formId={form.id}
+                    exam={examQues}
+                    setExam={setExamQues}
+                    onSave={handleSaveQuestion}
+                  />
+                </div>
               ))}
             </div>
             <QuestionAdd onClick={handleQuestionAdd} />
           </div>
 
-          
-
           {/*<!-- 2.2 tools -->*/}
           <div className="tools-container">
-            <label className="tool-label">Tools</label>
+            <label className="create-labels-tools">Tools</label>
             {/*<!-- 1 -->*/}
             <div className="select-container">
               <SelectedSection />

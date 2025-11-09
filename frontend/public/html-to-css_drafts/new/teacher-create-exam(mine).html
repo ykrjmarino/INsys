@@ -13,61 +13,60 @@
 <div class="ancestor">
     <!-- HEADER -->
     <div class="header">
-        <div class="left-group">
-            <button class="back-button-exam"><i class="fa-solid fa-arrow-left"></i></button>
-            <input type="text" class="exam-title" placeholder="Enter Title Exam">
-            <button class="header-save-button">Save</button>
-            <input type="text" class="exam-code" placeholder="Exam Code">
-            <button class="randomize-button">Randomize</button>
-        </div>
-        <div class="create-right-group">
-            <p>Status: ulol draft to
-            </p> <!-- p or anything basta may class name -->
-            <button class="publish-button">Publish</button>
-        </div>
+      <div class="left-group">
+        <button class="back-button-exam"><</button>
+        <input type="text" class="exam-title" placeholder="Enter Title Exam">
+        <button class="header-save-button">Save</button>
+        <input type="text" class="exam-code" placeholder="Exam Code">
+        <button class="randomize-button">Randomize</button>
+      </div>
+      <p>Status: draft to
+
+      </p> <!-- p or anything basta may class name -->
+      <button class="publish-button">Publish</button>
     </div>
 
-    <!-- start -->
+
+
+<!-- start -->
     <!-- Div 1 -->
     <div class="main-content"> <!-- UpdateExam -->
         <!-- Div 2.1 -->
         <!-- kabuuan ng question -->
         <div class="question-container"> <!-- start: question-container --> <!-- UpdateExam -->
             <div class="question-box">
-                <div class="create-labels">Questions</div>
                 <div class="question-header">
-                    <div class="question-labels-dropdwon">
-                        <label class="question-type-label">Question Type:</label>
-                        <select class="question-type-dropdown">
-                            <option value="multiple-choice">Multiple Choice</option>
-                            <option value="true-false">True or False</option>
-                            <option value="identification">Identification</option>
-                        </select>
-                    </div>
-                    <div class="button-group">
-                        <button class="delete-button"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-
+                <div class="question-labels-dropdwon">
+                <label class="question-type-label">Question Type:</label>
+                <select class="question-type-dropdown">
+                <option value="multiple-choice">Multiple Choice</option>
+                <option value="true-false">True or False</option>
+                <option value="identification">Identification</option>
+                </select>
                 </div>
+                <div class="button-group">
+                    <button class="delete-button"><i class="fa-solid fa-trash"></i></button>
+                </div>
+
+            </div>
            
 
             
                 
-                <!-- end -->
+    <!-- end -->
 
 
-                <!-- start: etong mga divs na to hiwalay -->
-                    <!-- start -->
+    <!-- start: etong mga divs na to hiwalay -->
+        <!-- start -->
                 <!-- multiple choice -->
                 <div class="nested-container"> <!-- MultipleC -->
                     <div class = "points-save">          <!-- Bagong div to, para magtabi yung points at save -->
-                      <div  class ="exam-point-input">
+                     <div  class ="exam-point-input">
                           <label>points</label>
-                          <input class="points" type="number"/>
-                      </div>
+                      <input class="points" type="number"/>
+                    </div>
                         <button class="save-button"><i class="fa-solid fa-floppy-disk"></i></button> 
                     </div>
-
                     <textarea class="exambox" placeholder="Enter Question"></textarea>
 
                     <label class="choices-label">Choices:</label>
@@ -82,14 +81,14 @@
                 </div>
 
                  <!-- start -->
-                <!-- true or false -->
-                <div class="tf-container">
+            <!-- true or false -->
+            <div class="tf-container">
                     <div class = "points-save"> <!-- Bagong div to, para magtabi yung points at save -->
-                      <div  class ="exam-point-input">
-                        <label>points</label>
-                        <input class="points" type="number"/>
-                      </div>
-                      <button class="save-button"><i class="fa-solid fa-floppy-disk"></i></button> 
+                     <div  class ="exam-point-input">
+                          <label>points</label>
+                      <input class="points" type="number"/>
+                    </div>
+                        <button class="save-button"><i class="fa-solid fa-floppy-disk"></i></button> 
                     </div>
     
                 <textarea class="exambox" placeholder="Enter Question"></textarea>
@@ -100,30 +99,30 @@
                     <option value="false">False</option>
                 </select>
             </div>
-            <!-- end -->
+    <!-- end -->
 
 
-                        
-            <!-- start -->
+                
+    <!-- start -->
             <!-- identification -->
             <div class="identification-container">
-              <div class = "points-save"> <!-- Bagong div to, para magtabi yung points at save -->
-                <div  class ="exam-point-input">
-                  <label>points</label>
-                  <input class="points" type="number"/>
-                </div>
-                <button class="save-button"><i class="fa-solid fa-floppy-disk"></i></button> 
-              </div>
+                    <div class = "points-save"> <!-- Bagong div to, para magtabi yung points at save -->
+                     <div  class ="exam-point-input">
+                          <label>points</label>
+                      <input class="points" type="number"/>
+                    </div>
+                        <button class="save-button"><i class="fa-solid fa-floppy-disk"></i></button> 
+                    </div>
 
-              <textarea class="exambox" placeholder="Enter Question"></textarea>
+                <textarea class="exambox" placeholder="Enter Question"></textarea>
 
-              <label class="choices-label">Identification:</label> 
-              <input type="text" class="identification-input" placeholder="Enter Answer">
+                <label class="choices-label">Identification:</label> 
+                <input type="text" class="identification-input" placeholder="Enter Answer">
             </div>
-            <!-- end -->
-            
+    <!-- end -->
+    
 
-            <!-- start -->
+    <!-- start -->
             <!-- essay -->
             <div class="essay-container">
                     <div class = "points-save"> <!-- Bagong div to, para magtabi yung points at save -->
@@ -135,16 +134,16 @@
                     </div>
                 <textarea class="exambox" placeholder="Enter Question"></textarea>
             </div>
-            <!-- end -->
+    <!-- end -->
 
-                        
+                
 
                 
 
 
 
 
-            <!-- end -->
+        <!-- end -->
             </div> <!-- end: question-box -->
         
             <button class="add-question-button"><i class="fa-solid fa-plus"></i> Add Question</button>
@@ -158,7 +157,7 @@
 
     <!-- Div 2 -->
         <div class="tools-container">
-            <div class="create-labels-tools">Tools</div>
+            <label class="tool-label">Tools</label>
             <div class="select-container">
                 <label class="select-label">Select</label>
                 <div class="dropdown-group">
@@ -267,29 +266,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-<div class="question-box">
-  <div className="question-header">
-    select
-    delete
-  </div>  
-  <div className="truefalse-container">
-    points
-    edit/save
-  </div>
-</div>
-
-
-<div class="question-box">
-  <div className="question-header">
-    select
-    delete
-  </div>  
-  <div className="multiplechoice-container">
-    points
-    edit/save
-  </div>
-</div>

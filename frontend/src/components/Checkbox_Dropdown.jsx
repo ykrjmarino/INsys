@@ -67,7 +67,8 @@ export default function CheckboxDropdown({
                 alignItems: "center",
                 padding: "4px 8px",
                 cursor: "pointer",
-                color: "#000"
+                color: "#000",
+                gap: "4px"
               }}
             >
               <input
@@ -75,9 +76,11 @@ export default function CheckboxDropdown({
                 checked={selected.some(s => s.id === opt.value)}
                 onChange={() => toggleOption(opt)}
                 style={{
-                  width: "14px",
-                  height: "14px",
-                  transform: "scale(0.9)",
+                  width: "18px",
+                  height: "18px",
+                  minWidth: "18px",
+                  minHeight: "18px",
+                  flexShrink: 0, // prevent it from shrinking in grid
                 }}
               />
               <span style={{ marginLeft: "5px" }}>{opt.label}</span>

@@ -32,15 +32,28 @@ function Essay({ questionId, questionText, points, onSave, defaultEditing = true
   return (
     <>
     <div className="essay-container">
-      <Button className="save-button" label={isEditing ? "Save" : "Edit"} onClick={handleClick} /> <br />
-      <InputField className="points" 
-        type="number"
-        name="points"
-        value={editPoints}
-        min={1}
-        onChange={(e) => setEditPoints(Math.max(1, parseInt(e.target.value) || 1))}
-        disabled={!isEditing}
-      />
+      <div class = "points-save">
+        <div  class ="exam-point-input">
+          <label>points</label>
+          <InputField className="points" 
+            type="number"
+            name="points"
+            value={editPoints}
+            min={1}
+            onChange={(e) => setEditPoints(Math.max(1, parseInt(e.target.value) || 1))}
+            disabled={!isEditing}
+          />
+        </div>
+        <button
+          onClick={handleClick}
+          className="save-button" 
+          title={isEditing ? "Save" : "Edit"}
+        >
+          <i className={isEditing ? "fa-solid fa-floppy-disk" : "fa-solid fa-pen-to-square"}></i>
+        </button>
+        {/* <Button className="save-button" label={isEditing ? "Save" : "Edit"} onClick={handleClick} /> <br /> */}
+      </div>
+      
       <textarea className="exambox"
         name="question"
         value={editQuestion}

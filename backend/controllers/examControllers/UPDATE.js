@@ -77,7 +77,7 @@ export const updateExamTimer = async(req, res) => {
 export const updateExamDetails = async(req, res) => {
   const { examId } = req.params;
   const userId = req.user.userId;
-  const { title, schedule, exam_duration, status, passing_score } = req.body;
+  const { title, schedule, exam_duration, status, passing_score, total_points } = req.body;
 
   try {
     const fields = [];
@@ -103,6 +103,10 @@ export const updateExamDetails = async(req, res) => {
     if (passing_score !== undefined) {
       fields.push(`passing_score = $${count++}`);
       values.push(passing_score);
+    }
+    if (total_points !== undefined) {
+      fields.push(`total_points = $${count++}`);
+      values.push(total_points);
     }
     
     if (fields.length === 0) {

@@ -33,14 +33,6 @@
   gap: 10px;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-}
-
-
 .analytics-whole {
     width: 100%;
     min-height: 100vh;

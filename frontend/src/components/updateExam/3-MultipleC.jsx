@@ -41,15 +41,29 @@ function MultipleChoice({ questionId, questionText, options, correctAnswer, poin
   return (
     <>
     <div className="nested-container">
-      <Button className="save-button" label={isEditing ? "Save" : "Edit"} onClick={handleClick} />
-      <InputField className="points" 
-        type="number"
-        name="points"
-        value={editPoints}
-        min={1}
-        onChange={(e) => setEditPoints(Math.max(1, parseInt(e.target.value) || 1))}
-        disabled={!isEditing}
-      />
+      <div class = "points-save">
+        <div  class ="exam-point-input">
+          <label>points</label>
+          <InputField className="points" 
+            type="number"
+            name="points"
+            value={editPoints}
+            min={1}
+            onChange={(e) => setEditPoints(Math.max(1, parseInt(e.target.value) || 1))}
+            disabled={!isEditing}
+          />
+        </div>
+        <button
+          onClick={handleClick}
+          className="save-button" 
+          title={isEditing ? "Save" : "Edit"}
+        >
+          <i className={isEditing ? "fa-solid fa-floppy-disk" : "fa-solid fa-pen-to-square"}></i>
+        </button>
+        {/* <Button className="save-button" label={isEditing ? "Save" : "Edit"} onClick={handleClick} /> */}
+      </div>
+      
+      
       <textarea className="exambox"
         name="questionText"
         value={editQuestion}
@@ -57,6 +71,7 @@ function MultipleChoice({ questionId, questionText, options, correctAnswer, poin
         placeholder="Type the question here"
         disabled={!isEditing}
       />
+      
       {/* INPUTING WRONG CHOICES/OPTIONS*/}
       <label className="choices-label">Choices:</label>
       <div className="option-inputs"> {/* only options here */}

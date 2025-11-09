@@ -60,18 +60,23 @@ export const EditableQuestionForm = ({ data, onSave, onDelete, defaultEditing = 
 
   return (
     <>
-      <label className="question-type-label">Question Type:</label>
-      <SelectField
-        className="question-type-dropdown"
-        name="questionType"
-        value={type}
-        onChange={handleTypeChange}
-        options={questionTypes}
-      />
-      <div className="button-group">
-        <button className="delete-button" onClick={() => onDelete(data.question_id)}>Delete</button>
+    <div className="question-header">
+      <div className="question-labels-dropdwon">
+        <label className="question-type-label">Question Type:</label>
+        <SelectField
+          className="question-type-dropdown"
+          name="questionType"
+          value={type}
+          onChange={handleTypeChange}
+          options={questionTypes}
+        />
       </div>
       
+      <div className="button-group">
+        <button className="delete-button" onClick={() => onDelete(data.question_id)}><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>  
+
       {type === "identification" && (
         <>
           <Identification {...commonProps} />
@@ -167,19 +172,24 @@ function AddQuestionForm({ exam, onSave, formId, defaultEditing = false  }) { //
 
   return (
     <>
-      <label className="question-type-label">Question Type:</label>
-      <SelectField
-        className="question-type-dropdown"
-        name="questionType"
-        value={selectedType}
-        onChange={handleQuesTypeChange}
-        options={[
-          { label: "Identification", value: "identification" },
-          { label: "Multiple Choice", value: "multiplechoice" },
-          { label: "True or False", value: "truefalse" },
-          { label: "Essay", value: "essay" }
-        ]}
-      />
+    <div className="question-header">
+      <div className="question-labels-dropdwon">
+        <label className="question-type-label">Question Type:</label>
+        <SelectField
+          className="question-type-dropdown"
+          name="questionType"
+          value={selectedType}
+          onChange={handleQuesTypeChange}
+          options={[
+            { label: "Identification", value: "identification" },
+            { label: "Multiple Choice", value: "multiplechoice" },
+            { label: "True or False", value: "truefalse" },
+            { label: "Essay", value: "essay" }
+          ]}
+        />
+      </div>
+    </div>
+      
 
       {selectedType === "identification" && (
         <>
