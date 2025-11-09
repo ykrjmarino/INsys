@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import SelectField from "../components/SelectFields.jsx";
-import Button from "../components/Buttons.jsx"
+import ReactDOM from "react-dom";
 import { AnalyticsHeaderBar } from "../components/Header.jsx";
 
 import { toast } from 'react-toastify';
@@ -55,90 +55,84 @@ function StudentDetails({ studentsInfo, violations, refreshExamInfo }) {
     }
   };
 
-  return (
-    <tbody>
-      {studentsInfo.map((s) => {
-        const studentViolations = violations.filter(
-          (v) => v.student_school_id === s.school_id
+    return (
+    <>
+      <tbody>
+        {studentsInfo.map(s => {
+          const studentViolations = violations.filter(
+            v => v.student_school_id === s.school_id
+          );
+
+          return (
+            <tr key={s.school_id}>
+              <td style={{ padding: "8px" }}>{s.last_name}</td>
+              <td style={{ padding: "8px" }}>{s.first_name}</td>
+              <td style={{ padding: "8px" }}>{s.middle_initial}</td>
+              <td style={{ padding: "8px" }}>{s.school_id}</td>
+              <td style={{ padding: "8px" }}>{s.objective_score}</td>
+              <td style={{ padding: "8px" }}>
+                {s.essay_score ?? "Not Yet Graded"}{" "}
+                <button onClick={() => navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)}>
+                  <i className="fa-solid fa-eye"></i>
+                </button>
+              </td>
+              <td>
+                <p>-{deductions[s.school_id]}</p>
+                <span
+                  style={{ textDecoration: "underline", color: "blue", cursor: "pointer" }}
+                  onClick={() => setShowModal(s.school_id)}
+                >
+                  View Violations
+                </span>
+              </td>
+              <td style={{ padding: "8px" }}>{s.total_score} / {s.total_points}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+
+      {/* MODAL PORTAL OUTSIDE TABLE */}
+      {showModal && (() => {
+        const s = studentsInfo.find(st => st.school_id === showModal);
+        const studentViolations = violations.filter(v => v.student_school_id === s.school_id);
+
+        return ReactDOM.createPortal(
+          <div className="violation-modal" onClick={() => setShowModal(null)}>
+            <div className="violation-modal-container" onClick={e => e.stopPropagation()}>
+              <h4 className="violation-modal-title">Violation Details</h4>
+              <div className="violation-modal-content">
+                {studentViolations.length > 0 ? (
+                  studentViolations.map((v, i) => (
+                    <p key={i}>{v.details}{v.is_warning && <span className="warning-text"> (Warning)</span>}</p>
+                  ))
+                ) : (
+                  <p>No violations recorded.</p>
+                )}
+              </div>
+
+              <div className="violation-modal-deduction">
+                <div className="violation-modal-deduction-input">
+                  <label className="violation-modal-deduction-input-label">
+                    Deduct points:
+                    <input
+                      type="number"
+                      value={deductions[s.school_id]}
+                      onChange={e => handleDeductionChange(s.school_id, parseInt(e.target.value) || 0)}
+                      min={0}
+                    />
+                  </label>
+                </div>
+                <div className="violation-modal-deduction-buttons">
+                  <button className="confirm" onClick={() => handleSaveDeduction(s)}>Save</button>
+                  <button className="cancel" onClick={() => setShowModal(null)}>Close</button>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body
         );
-
-        return (
-          <tr key={s.school_id}>
-            <td style={{ padding: "8px" }}>{s.last_name}</td>
-            <td style={{ padding: "8px" }}>{s.first_name}</td>
-            <td style={{ padding: "8px" }}>{s.middle_initial}</td>
-            <td style={{ padding: "8px" }}>{s.school_id}</td>
-            <td style={{ padding: "8px" }}>{s.objective_score}</td>
-            <td style={{ padding: "8px" }}>
-              {s.essay_score === null ? "Not Yet Graded" : s.essay_score}{" "}
-              <button onClick={() =>navigate(`/exam-analytics/${s.exam_id}/student-essay/${s.school_id}`)}>
-                <i class="fa-solid fa-eye"></i>
-              </button>
-            </td>
-
-            <td>
-              <p>-{deductions[s.school_id]}</p>
-              <span
-                style={{
-                  textDecoration: "underline",
-                  color: "blue",
-                  cursor: "pointer",
-                }}
-                onClick={() => setShowModal(s.school_id)}
-              >
-                View Violations
-              </span>
-
-              {showModal === s.school_id && (
-                <>
-                  <div className="overlay" onClick={() => setShowModal(null)}></div>
-                  <div className="modal">
-                    <h3>Violation Details</h3>
-                    <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                      {studentViolations.length > 0 ? (
-                        studentViolations.map((v, index) => (
-                          <p key={index}>
-                            {v.details}
-                            {v.is_warning && (
-                              <span style={{ color: "orange" }}> (Warning)</span>
-                            )}
-                          </p>
-                        ))
-                      ) : (
-                        <p>No violations recorded.</p>
-                      )}
-                    </div>
-
-                    <div style={{ marginTop: "10px" }}>
-                      <label>
-                        Deduct points:
-                        <input
-                          type="number"
-                          value={deductions[s.school_id]}
-                          onChange={(e) =>
-                            handleDeductionChange(
-                              s.school_id,
-                              parseInt(e.target.value) || 0
-                            )
-                          }
-                          min={0}
-                        />
-                      </label>
-                      <button onClick={() => handleSaveDeduction(s)}>Save</button>
-                      <button onClick={() => setShowModal(null)}>Close</button>
-                    </div>
-                  </div>
-                </>
-              )}
-            </td>
-
-            <td style={{ padding: "8px" }}>
-              {s.total_score} / {s.total_points}
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
+      })()}
+    </>
   );
 }
 

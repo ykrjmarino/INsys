@@ -1,66 +1,155 @@
 /* FOR TEACHER EXAM DUPLICATION AND DELETION CONFIRMATION */
-.admins-exam-modal {
+.admins-exam-modal,
+.violation-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
 }
 
-.admins-exam-modal-container {
+.admins-exam-modal-container,
+.violation-modal-container {
   background: #fff;
   padding: 28px 32px;
   border-radius: 16px;
   width: 380px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  max-height: 80%;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   animation: fadeIn 0.2s ease;
 }
 
-.admins-exam-modal-title {
+.admins-exam-modal-title,
+.violation-modal-title {
   margin-bottom: 12px;
   font-size: 20px;
   font-weight: 600;
+  color: #111827;
 }
 
 .admins-exam-modal-text {
   margin-bottom: 20px;
   color: #475569;
   font-size: 15px;
+  text-align: left;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
-.admins-exam-modal-buttons {
+.violation-modal-content {
+  margin-bottom: 20px;
+  color: #475569;
+  font-size: 15px;
+  text-align: center; /* centers text */
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+
+  display: flex;              /* add flexbox */
+  flex-direction: column;     /* stack text vertically */
+  justify-content: center;    /* vertical center */
+  align-items: center;        /* horizontal center */
+}
+
+.warning-text,
+.violation-warning {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+/* STACKED DEDUCTION SECTION */
+.admins-exam-modal-deduction,
+.violation-modal-deduction {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column; /* stacked vertically */
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.admins-exam-modal-deduction-input,
+.violation-modal-deduction-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.violation-modal-deduction-input-label {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* adds horizontal space between text and input */
+  font-size: 15px;
+  color: #1e293b;
+}
+
+.admins-exam-modal-deduction input,
+.violation-modal-deduction input {
+  width: 60px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* BUTTONS (same design preserved) */
+.admins-exam-modal-buttons,
+.violation-modal-buttons,
+.violation-modal-deduction-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-.admins-exam-modal-buttons button {
+.admins-exam-modal-buttons button,
+.violation-modal-buttons button,
+.violation-modal-deduction-buttons button {
   font-weight: 600;
   padding: 10px 18px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: white;
 }
 
-.admins-exam-modal-buttons .confirm {
+.admins-exam-modal-buttons .confirm,
+.violation-modal-buttons .confirm,
+.violation-modal-deduction-buttons .confirm {
   background-color: #3b82f6;
+  color: #fff;
 }
 
-.admins-exam-modal-buttons .delete {
+.admins-exam-modal-buttons .delete,
+.violation-modal-buttons .delete,
+.violation-modal-deduction-buttons .delete {
   background-color: #ef4444;
+  color: #fff;
 }
 
-.admins-exam-modal-buttons .cancel {
+.admins-exam-modal-buttons .cancel,
+.violation-modal-buttons .cancel,
+.violation-modal-deduction-buttons .cancel {
   background-color: #e2e8f0;
   color: #1e293b;
+}
+
+.admins-exam-modal-buttons button:hover,
+.violation-modal-buttons button:hover,
+.violation-modal-deduction-buttons button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 @keyframes fadeIn {

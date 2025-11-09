@@ -301,9 +301,14 @@ export const getEssayPerStudent = async(req, res) => {
         q.question_text,
         q.points,
         e.student_answer,
-        e.essay_score
+        e.essay_score,
+        u.first_name,
+        u.last_name,
+        u.middle_initial,
+        u.school_id
       FROM questions q
       JOIN essay_answers e ON q.question_id = e.question_id 
+      JOIN users u ON e.student_school_id = u.school_id
       WHERE q.exam_id = $1 
         AND e.student_school_id = $2
         AND q.question_type = 'essay'`,
