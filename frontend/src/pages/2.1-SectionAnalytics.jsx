@@ -334,7 +334,7 @@ function SectionAnalytics () {
           <div class="analytics-s-score-btn active" onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
         </div> 
         <div class="score-main-container">
-          <div>
+          <div className="score-select-section">
             <div class="score-select-sectopn-label">Select Section</div>
             <SelectField
               className="score-select-section-inner"
@@ -343,7 +343,10 @@ function SectionAnalytics () {
               onChange={handleSectionChange} //this is section_id (optionSections value)
               options={optionSections}
             />
-            <i className="fa-solid fa-file-export" onClick={exportScoresPerSection}></i>
+            <div className="export-wrapper">
+              <i className="fa-solid fa-file-export" onClick={exportScoresPerSection}></i>
+              <span className="tooltip">Export</span>
+            </div>
           </div>
 
 

@@ -85,13 +85,6 @@ export const AdminsComponent = () => {
         .map((s) => (
           <div className="super-admin-analytics-box-info"
             key={s.user_id}
-            style={{
-              border: '2px solid black',
-              borderRadius: '8px',
-              padding: '10px',
-              marginBottom: '10px',
-              backgroundColor: '#f9f9f9'
-            }}
             onClick={() => navigate(`/exams-analytics/${s.user_id}`)}
           >
             <p><b>Name:</b> {s.last_name}, {s.first_name} {s.middle_initial}.</p>
@@ -182,17 +175,7 @@ export const HomeAdminAnalytics = () => {
 
 export const AdminExamCard = ({ exam, onClick }) => {
   return (
-    <div className="super-admin-exam-card"
-      onClick={onClick}
-      style={{
-        border: "2px solid black",
-        borderRadius: "8px",
-        padding: "10px",
-        marginBottom: "10px",
-        backgroundColor: "#f9f9f9",
-        cursor: "pointer"
-      }}
-    >
+    <div className="super-admin-exam-card" onClick={onClick}>
       <p className="super-admin-exam-card-title"><b>Title:</b> {exam.title}</p>
       <p className="super-admin-exam-card-status"><b>Status:</b> {exam.status}</p>
     </div>

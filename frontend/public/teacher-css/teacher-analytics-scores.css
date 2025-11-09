@@ -143,6 +143,48 @@
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
+.export-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: 8px; /* space from SelectField */
+}
+
+.export-wrapper .fa-file-export {
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.export-wrapper .fa-file-export:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+/* Simple tooltip */
+.export-wrapper .tooltip {
+  visibility: hidden;
+  background-color: #3a3f42;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-align: center;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.export-wrapper:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 /* Student Performance Label */
 .score-student-performance-label {
     font-size: 18px;
@@ -223,6 +265,40 @@
     color: #1e293b;
 }
 
+.analytics-table table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* lets us control widths */
+}
+
+.analytics-table th.question-text,
+.analytics-table td.question-text {
+  width: auto; /* take remaining space */
+  max-width: none; /* let it expand naturally */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.analytics-table th,
+.analytics-table td {
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.analytics-table th:not(.question-text),
+.analytics-table td:not(.question-text) {
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.analytics-table th:not(.question-text),
+.analytics-table td:not(.question-text) {
+  width: 15%; /* small columns */
+  white-space: nowrap;
+}
+
+
 /* Table */
 .table-container {
     background: #ffffff;
@@ -294,6 +370,35 @@ td span {
 td span:hover {
     color: #b91c1c;
 }
+
+
+
+.super-admin-exam-card {
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.super-admin-exam-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.super-admin-exam-card-title {
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.super-admin-exam-card-status {
+  color: #555;
+  font-size: 0.95rem;
+}
+
 
 
 @media (max-width: 992px) {

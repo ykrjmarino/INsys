@@ -79,7 +79,12 @@ export const ManageUser = () => {
       
       <div className="super-admin-manange-main-home-content">
         <div className="user-management-export" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px"}}>
-          <h2>User Management</h2> <i className="fa-solid fa-file-export" onClick={exportUserByRole}></i>
+          <h2>User Management</h2> 
+          <div className="export-wrapper">
+            <i className="fa-solid fa-file-export" onClick={exportUserByRole}></i>
+            <span className="tooltip">Export</span>
+          </div>
+          
         </div>
 
         <div className="super-admin-manage-account-components">

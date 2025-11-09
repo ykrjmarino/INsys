@@ -96,8 +96,8 @@ const QuestionGraph = () => {
         <table>
           <thead>
             <tr>
-              <th>Question</th>
-              <th>Correct</th>
+              <th className="question-text">Question</th>
+              <th>Answered Correctly</th>
               <th>Points</th>
               <th>Accuracy (%)</th>
             </tr>
@@ -105,7 +105,7 @@ const QuestionGraph = () => {
           <tbody>
             {questionStats.map(q => (
               <tr key={q.question_id}>
-                <td>{q.question_text}</td>
+                <td className="question-text">{q.question_text}</td>
                 <td>{q.correctCount}</td>
                 <td>{q.points}</td>
                 <td>{q.accuracy}</td>
