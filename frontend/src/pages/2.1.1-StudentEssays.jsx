@@ -10,15 +10,18 @@ import Button from "../components/Buttons.jsx"
 function EssayComponent({ essay, value, onChange, onSubmit, max }) {
   return(
     <>
-      <div style={{ border: '1px solid #ddd', padding: '15px', borderRadius: '6px', marginBottom: '20px' }}>
-        <p>points: {essay.points}</p>
-        <p>Question:</p>
-        <p>{essay.question_text}</p>
-        <div style={{ border: '1px solid #ccc', backgroundColor: '#ccccccff', padding: '10px', borderRadius: '6px', minHeight: '220px', marginBottom: '10px', maxHeight: '200px', overflowY: 'auto', whiteSpace: 'pre-wrap', wordWrap: 'break-word', }}>
+      <div className="essay-box">
+
+        <div className="essay-points-container">
+          <p className="essay-points">{value ?? 0} / {max}</p>
+        </div>
+        <div className="essay-question-label">Question: <br/> {essay.question_text}</div>
+        
+        <div className="essay-answer">
           {essay.student_answer}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="essay-grade">
           <input 
             type="number"
             value={value} 
@@ -27,9 +30,7 @@ function EssayComponent({ essay, value, onChange, onSubmit, max }) {
             onChange={onChange}
             placeholder="Grade" 
             style={{ width: '60px', padding: '5px' }} />
-          <button onClick={()=>onSubmit(essay.question_id)} style={{ padding: '8px 15px', border: 'none', backgroundColor: '#4CAF50', color: '#fff', borderRadius: '4px', cursor: 'pointer' }}>
-            Submit
-          </button>
+          <button className="submit-grade-button" onClick={()=>onSubmit(essay.question_id)}>Submit</button>
         </div>
       </div>
     </>
@@ -87,15 +88,15 @@ function StudentEssays() {
 
   return(
     <>
-    <div>
-      <div style={{ backgroundColor: '#e403b3ff', padding: '5px' }}>
-        <button onClick={() => navigate(-1)}>arrow back-button</button>
-        <p>student name {essay.question_id}</p>
-        <p>student id</p>
-      </div>
+    <div className="essay-page">
+      <header className="essay-header">
+        <button className="back-button" onClick={() => navigate(-1)}><i className="fa-solid fa-arrow-left"></i></button>
+        <p className="student-name">{essay[0]?.first_name} {essay[0]?.middle_initial}. {essay[0]?.last_name}</p>
+        <p className="student-id">{essay[0]?.school_id}</p>
+      </header>
 
-      <div style={{ maxWidth: '1000px', margin: '20px auto', padding: '20px', background: '#fff', borderRadius: '8px'}}>
-        <p>Essay Answers</p>
+      <main className="essay-container">
+        <h2>Essay Answers</h2>
         {essay.length === 0 ? (
           <p>No essays found for this student.</p>
         ) : (essay.map((item) => (
@@ -113,9 +114,7 @@ function StudentEssays() {
           />
           ))
         )}
-        {/* Essay Card */}
-        
-      </div>
+      </main>
     </div>
     </>
   )
