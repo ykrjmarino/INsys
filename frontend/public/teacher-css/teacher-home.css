@@ -261,15 +261,14 @@
     margin-right: 8px;
 }
 
-input[type="checkbox"]:checked ~ #sidebarMenu {
-    transform: translateX(0);
-    
+.openSidebarMenu {
+  display: none;
+  transition: all 0.3s;
+  box-sizing: border-box;
 }
 
-#sidebarToggle input[type=checkbox] {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    display: none;
+.openSidebarMenu:checked ~ #sidebarMenu {
+  transform: translateX(0);
 }
 
 .sidebarIconToggle {

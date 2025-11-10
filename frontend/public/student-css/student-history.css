@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+/* history start */
+.student-home-history {
+    width: 100%;
+    padding: 32px;
+    height: auto;
+    padding-top: 70px;
+    background-color: #ffffff;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-top: 1px solid #CCC;
+
+}
+
+.student-home-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: transparent;
+    gap: 10px;
+}
+
+.history-grids-label {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1A1A2E;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.history-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    flex: 1;
+    
+}
+
+.history-grids {
+    background-color: #eaf0f7;;
+    border-radius: 5px;
+    width: 60%;
+    min-height: 90px;
+    transition: transform 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.history-grids:hover {
+    transform: scale(0.99);
+}
+
+.student-home-scores {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+.student-home-scores p {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 400;
+    flex: 1;
+    text-align: center;
+}
+
+.student-home-history-label {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.student-home-history-label::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #3b82f6;
+    border-radius: 2px;
+    margin-top: 8px;
+}
+/* history end */
+
+
+
