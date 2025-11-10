@@ -1,6 +1,7 @@
 /* FOR TEACHER EXAM DUPLICATION AND DELETION CONFIRMATION */
 .admins-exam-modal,
-.violation-modal {
+.violation-modal,
+.entering-exam-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +16,8 @@
 }
 
 .admins-exam-modal-container,
-.violation-modal-container {
+.violation-modal-container,
+.entering-exam-modal-container {
   background: #fff;
   padding: 28px 32px;
   border-radius: 16px;
@@ -31,7 +33,8 @@
 }
 
 .admins-exam-modal-title,
-.violation-modal-title {
+.violation-modal-title,
+.entering-exam-modal-title {
   margin-bottom: 12px;
   font-size: 20px;
   font-weight: 600;
@@ -48,7 +51,8 @@
   padding-right: 4px;
 }
 
-.violation-modal-content {
+.violation-modal-content,
+.entering-exam-modal-content {
   margin-bottom: 20px;
   color: #475569;
   font-size: 15px;
@@ -107,7 +111,8 @@
 /* BUTTONS (same design preserved) */
 .admins-exam-modal-buttons,
 .violation-modal-buttons,
-.violation-modal-deduction-buttons {
+.violation-modal-deduction-buttons,
+.entering-exam-modal-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -115,7 +120,8 @@
 
 .admins-exam-modal-buttons button,
 .violation-modal-buttons button,
-.violation-modal-deduction-buttons button {
+.violation-modal-deduction-buttons button,
+.entering-exam-modal-buttons button {
   font-weight: 600;
   padding: 10px 18px;
   border: none;
@@ -126,28 +132,32 @@
 
 .admins-exam-modal-buttons .confirm,
 .violation-modal-buttons .confirm,
-.violation-modal-deduction-buttons .confirm {
+.violation-modal-deduction-buttons .confirm,
+.entering-exam-modal-buttons .confirm {
   background-color: #3b82f6;
   color: #fff;
 }
 
 .admins-exam-modal-buttons .delete,
 .violation-modal-buttons .delete,
-.violation-modal-deduction-buttons .delete {
+.violation-modal-deduction-buttons .delete,
+.entering-exam-modal-buttons .delete {
   background-color: #ef4444;
   color: #fff;
 }
 
 .admins-exam-modal-buttons .cancel,
 .violation-modal-buttons .cancel,
-.violation-modal-deduction-buttons .cancel {
+.violation-modal-deduction-buttons .cancel,
+.entering-exam-modal-buttons .cancel {
   background-color: #e2e8f0;
   color: #1e293b;
 }
 
 .admins-exam-modal-buttons button:hover,
 .violation-modal-buttons button:hover,
-.violation-modal-deduction-buttons button:hover {
+.violation-modal-deduction-buttons button:hover,
+.entering-exam-modal-buttons button:hover {
   opacity: 0.9;
   transform: translateY(-1px);
 }

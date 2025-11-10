@@ -1,3 +1,4 @@
+
 .student-exam-whole {
   position: fixed;
   top: 0;
@@ -17,9 +18,12 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 10px;
   background-color: #1a1a2e;
   margin-top: 0;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+
 }
 
 .student-exam-header button {
@@ -41,7 +45,13 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+}
+
+.student-exam-left-side i{
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .student-exam-timer-container {
@@ -65,53 +75,9 @@
 }
 
 
-.base-timer {
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
 
-.base-timer__svg {
-  transform: scaleX(-1);
-  width: 100%;
-  height: 100%;
-}
 
-.base-timer__circle {
-  fill: none;
-  stroke: none;
-}
 
-.base-timer__path-elapsed {
-  stroke-width: 5px;
-  stroke: grey;
-}
-
-.base-timer__path-remaining {
-  stroke-width: 5px;
-  stroke-linecap: round;
-  transform: rotate(90deg);
-  transform-origin: center;
-  transition: 1s linear all;
-  fill-rule: nonzero;
-  stroke: currentColor;
-}
-
-.base-timer__path-remaining.green { color: rgb(65, 184, 131); }
-.base-timer__path-remaining.orange { color: orange; }
-.base-timer__path-remaining.red { color: red; }
-
-.base-timer__label {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: #000000;
-}
 
 .student-exam-container {
   width: 100%; 
@@ -218,25 +184,337 @@
   padding-right: 5%;
 }
 
+
+
+
+
 .student-exam-button-container button {
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  background-color: #3b7ffe;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 200px;
-  height: 50px;
-  min-width: 44px;
-  min-height: 44px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(59, 130, 246, 0.15);
+    color: #1e40af;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 200px;
+    height: 50px;
+}
+
+.student-exam-button-container button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.student-exam-button-container button::before {
+    left: 100%;
 }
 
 .student-exam-button-container button:hover {
-  background: #1a1a2e;
+    background: #3b82f6;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
 }
+
+
+/* true or false start*/
+
+.student-exam-container-tf {
+  width: 100%;
+  max-width: 100%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+  padding-top: 0;
+  padding-left: 0;
+  border-bottom: 2px solid #ccc;
+}
+
+.student-exam-box-tf {
+  width: 90%;
+  height: 50%;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 15px;
+  color: #000;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.student-exam-box-tf > p {
+  font-size: 24px;
+}
+
+.student-exam-box-tf:focus {
+  outline: none;
+  border: 2px solid #1b72c4;
+}
+
+.student-exam-option-container-tf {
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  height: 40%;
+  padding: 40px 300px;
+
+}
+
+.student-exam-option-container-tf {
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  height: 40%;
+  padding: 40px 300px;
+
+}
+
+.student-exam-button.option-pair-tf {
+  display: flex;
+  flex-direction: row; 
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: transparent;
+  box-shadow: 0 4px #ccc;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 200px;
+  height: 80px;
+  gap:10%
+}
+
+.student-exam-button.option-pair-tf:hover {
+  box-shadow: 0 5px #3b7ffe, 0 0 5px rgba(34, 7, 241, 0.3);
+}
+
+.student-exam-button.option-pair-tf input[type="radio"] {
+  transform: scale(1.8);
+  margin-right: 5px;
+}
+
+.student-exam-button.option-pair-tf label {
+  font-size: 18px;
+  color: #000;
+  cursor: pointer;
+}
+
+.student-exam-button.option-pair-tf:has(input[type="radio"]:checked) {
+  background-color: #e3eef6;
+  box-shadow: 0 5px #3b7ffe;
+}
+
+.student-exam-button.option-pair-tf input[type="radio"]:checked + label {
+  border-radius: 8px;
+ 
+}
+
+/* identification */
+
+.student-exam-container-identification {
+  width: 100%;
+  max-width: 100%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+  padding-top: 0;
+  padding-left: 0;
+   border-bottom: 2px solid #ccc;
+}
+
+.student-exam-container-identification > label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #797777;
+  align-self: flex-start;
+  margin-left: 5%;
+}
+
+.student-exam-box-identification {
+  width: 90%;
+  height: 50%;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 15px;
+  color: #000;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.student-exam-box-identification > p {
+  font-size: 24px; 
+}
+
+.student-exam-box-identification:focus {
+  outline: none;
+  border: 2px solid #1b72c4;
+}
+
+.student-exam-option-container-identification {
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  height: 40%;
+  padding: 40px 300px; 
+}
+
+.student-exam-input-identification {
+  width: 100%; 
+  max-width: 700px; 
+  padding: 15px;
+  font-size: 18px; 
+  color: #000;
+  border: 1px solid #b0b0b3; 
+  border-radius: 10px;
+  background-color: transparent;
+  box-shadow: 0 6px #ccc;
+  font-family: "Poppins", sans-serif; 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.student-exam-input-identification:focus {
+  outline: none;
+  border-color: #1b72c4; 
+  box-shadow: 0 5px #3b7ffe, 0 0 5px rgba(34, 7, 241, 0.3);
+}
+
+/*essay*/
+
+
+.student-exam-container-essay {
+  width: 100%;
+  max-width: 100%;
+  background-color: #feffff;
+  border-radius: 10px;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+  padding-top: 0;
+  padding-left: 0;
+  border-bottom: 2px solid #ccc;
+}
+
+.student-exam-container-essay > label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #797777;
+  align-self: flex-start;
+  margin-left: 5%;
+}
+
+.student-exam-box-essay {
+  width: 90%;
+  height: 30%;
+  background-color: transparent;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 15px;
+  color: #000;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.student-exam-box-essay > p {
+  font-size: 24px; 
+}
+
+.student-exam-box-essay:focus {
+  outline: none;
+  border: 2px solid #1b72c4;
+}
+
+.student-exam-option-container-essay {
+  width: 90%;
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  height: 60%;
+  padding: 40px 100px; 
+  
+}
+
+.student-exam-input-essay {
+  width: 100%; 
+  max-width: 1000px; 
+  height: 100%; 
+  min-height: 150px; 
+  padding: 15px;
+  font-size: 18px; 
+  color: #000;
+  border: 1px solid #b0b0b3;
+  border-radius: 10px;
+  background-color: #ffffff;
+   box-shadow: 0 3px #ccc;
+   
+ 
+  font-family: "Poppins", sans-serif;
+  resize: vertical; 
+  overflow-y: auto; 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.student-exam-input-essay:focus {
+  outline: none;
+  border-color: #1b72c4; 
+  box-shadow: 0 5px #3b7ffe, 0 0 5px rgba(34, 7, 241, 0.3);
+ 
+}
+
+
+.student-exam-input-essay:hover {
+  background-color: #f5f7fa; 
+}
+
+
+
+
+
+
 
 
 

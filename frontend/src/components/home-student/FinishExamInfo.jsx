@@ -57,10 +57,6 @@ export const FinishExamInfo = ({ examTitle, examAutomatedScore, examTotalPoints,
               <div className="student-s-detail-label">Total Questions</div>
               <div className="student-s-detail-value">{examTotalQuestions || '1000'}</div>
             </div>
-            <div className="student-s-detail-box">
-              <div className="student-s-detail-label">Time Taken</div>
-              <div className="student-s-detail-value">--</div>
-            </div>
           </div>
 
           <div className="student-s-submission-message">

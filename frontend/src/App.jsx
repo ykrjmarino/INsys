@@ -27,6 +27,7 @@ import { ForbiddenPage, NotFoundPage, UnauthorizedPage } from './pages/ErrorPage
 import SystemSettings from './components/home-superadmin/SystemContent.jsx';
 import ScoreHistory from './components/home-student/HistoryScores.jsx';
 import UserSettingsSuperadmin, { UserSettingsStudent, UserSettingsTeacher } from './pages/UserSettings.jsx';
+import LandingPage from './pages/LandingPage.jsx';
 
 
 
@@ -154,8 +155,10 @@ useEffect(() => {
     <ToastContainer position="top-right" autoClose={2000} />
     <AuthLoader>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
+
         {/* Root redirect */}
-        <Route path="/" element={<RootRedirect />} />
+        <Route path="/redirect" element={<RootRedirect />} />
 
         <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
           <Route path='/student-entry' element={<HomeStudent />} />
