@@ -56,6 +56,7 @@ function AuthLoader({ children }) {
   useEffect(() => {
       // Public routes that shouldn't trigger /refresh
       const publicPaths = [
+        "/",
         "/login",
         "/register/student",
         "/register/teacher",
@@ -95,7 +96,7 @@ function RootRedirect() {
   const { user } = useAuth();
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (user.role === 'superadmin') {

@@ -155,12 +155,14 @@
 .sidebar-profile-name {
     font-weight: 600;
     font-size: 14.5px;
+    color: white;
 }
 
 .sidebar-profile-title {
     font-size: 12px;
     opacity: 0.8;
     font-weight: 500;
+    color: white;
 }
 
 

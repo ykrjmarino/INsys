@@ -328,11 +328,6 @@
         display: none;
     }
 
-    .user-settings-outer-container {
-        width: 100%;
-        padding: 20px;
-    }
-
     .super-admin-account-deletion-account-input {
         flex-direction: column;
 

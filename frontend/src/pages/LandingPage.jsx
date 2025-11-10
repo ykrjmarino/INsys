@@ -90,7 +90,7 @@ function LandingPage () {
 
           
             <div className="slide-content">
-                <h2><span className="insys-gradient">INSYS</span> tapos?</h2>
+                <h2 className="slide-content-h2"><span className="insys-gradient">INSYS</span> ...</h2>
                 <p>A secure and easy-to-use platform for creating, managing, <br /> monitoring online exams that ensure a honest and reliable results.</p>
                 <button onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })}>Learn more</button>
             </div>

@@ -386,19 +386,19 @@ function ExamQuestions() {
 
   return (
     <>
-    <ResizeMonitor 
+    {/* <ResizeMonitor 
       examId={examId}
     />
     <TabMonitor 
       examId={examId}
     />
 
-    {/* <MouseMonitor
+    <MouseMonitor
       examId={examId}
-    /> */}
+    /> 
 
     <CameraMonitor />
-
+*/}
 
 
     {/* <FaceMonitor 
@@ -423,12 +423,13 @@ function ExamQuestions() {
             //if no question remains (anu hah):(navigate to exam score/details page)
       <>
       <div className="student-exam-whole">
-        <div className="student-exam-back">
-          <button onClick={exitExam}>&lt;</button>
-          {/* <h2>Question {current + 1}</h2>  */}
-            <div className="exam-timer">
+        <div class="student-exam-header">
+          <div class="student-exam-left-side">
+            <button onClick={exitExam}><i class="fa-solid fa-arrow-left"></i></button> 
+            <p>
               {examQuestions[current] ? (examQuestions[current].question_type === 'essay' ? (<h2>This question has no time limit</h2>) : (<h2>Time left: {timerLeft}s</h2>)) : null}
-            </div>
+            </p>
+          </div>
         </div>
 
         {!submitted && q && (
