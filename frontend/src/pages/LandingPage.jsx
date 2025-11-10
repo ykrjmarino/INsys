@@ -1,7 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "../utils/axiosConfig.js";
+import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 function LandingPage () {
+  const { accessToken } = useAuth();
+  const [userCounts, setuserCounts] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    fetchAllUsers(); 
+  }, []);
+  
+  const fetchAllUsers = async() => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
+
+    try {
+      const res = await axios.get(`/users/counts`, config); // getAllUsers 
+
+      setuserCounts(res.data);
+    } catch (err) {
+      console.log('fetchExamInfo failed, in ExamAnalytics');
+      console.error(err.message);
+    }
+  }
 
   return(
     <>
@@ -27,8 +52,8 @@ function LandingPage () {
 
           
             <div className="header-right">
-                <button className="btn-login">Log In</button>
-                <button className="btn-register">Register</button>
+                <button onClick={() => navigate("/login")} className="btn-login">Log In</button>
+                <button onClick={() => navigate("/welcome-register")} className="btn-register">Register</button>
             </div>
 
             <div className="hamburger-menu">
@@ -44,8 +69,8 @@ function LandingPage () {
             <a onClick={() => document.getElementById('users').scrollIntoView({ behavior: 'smooth' })} className="mobile-nav-link">Users</a>
             <a onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })} className="mobile-nav-link">How it Works</a>
             <div className="mobile-buttons">
-                <button className="btn-login mobile">Log In</button>
-                <button className="btn-register mobile">Register</button>
+                <button onClick={() => navigate("/login")} className="btn-login mobile">Log In</button>
+                <button onClick={() => navigate("/welcome-register")} className="btn-register mobile">Register</button>
             </div>
         </div>
 
@@ -67,7 +92,7 @@ function LandingPage () {
             <div className="slide-content">
                 <h2><span className="insys-gradient">INSYS</span> tapos?</h2>
                 <p>A secure and easy-to-use platform for creating, managing, <br /> monitoring online exams that ensure a honest and reliable results.</p>
-                <button>Learn more</button>
+                <button onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })}>Learn more</button>
             </div>
 
         
@@ -157,17 +182,17 @@ function LandingPage () {
                 <div className="white-container">
                     <i className="fa-solid fa-user-tie"></i>
                     <label>Teachers</label>
-                    <p>0</p>
+                    <p>{userCounts.admin || 0}</p>
                 </div>
                 <div className="white-container">
                     <i className="fa-solid fa-user"></i>
                    <label>Students</label>
-                    <p>0</p>
+                    <p>{userCounts.student || 0}</p>
                 </div>
                 <div className="white-container">
                     <i className="fa-solid fa-users"></i>
                     <label>All Users</label>
-                    <p>0</p>
+                    <p>{userCounts.all || 0}</p>
                 </div>
             </div>
         </div>
