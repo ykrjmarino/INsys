@@ -220,6 +220,7 @@ export const startExam = async(req, res) => {
     });
   } catch (error) {
     console.error('Error starting exam', error);
+    console.error("Error starting exam details:", error.message);
     res.status(500).json({ error: 'Failed to start exam' });
   }
 }

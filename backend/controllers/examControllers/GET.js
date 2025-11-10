@@ -357,7 +357,11 @@ export const getExamSession = async(req, res) => { //includes: status: in-progre
         AND student_school_id = $2
     `, [examId, studentId]);
 
-    if (result.rows.length === 0) return res.status(404).json({ error: "No matching exam-session found" })
+    // if (result.rows.length === 0) return res.status(404).json({ error: "No matching exam-session found" }) //this crashes when i first enter the exam
+    if (result.rows.length === 0) {
+      // session not found yet, but don’t crash frontend
+      return res.status(200).json({ status: "not-started" }); 
+    }
 
     res.status(200).json(result.rows[0]);
   } catch (error) {

@@ -216,6 +216,7 @@ function ExamQuestions() {
   }, [examInfo, current, examQuestions]);
 
   useEffect(() => {
+    
     const fetchQuestions = async () => {
       setLoadingQuestions(true);
       const config = {
@@ -423,12 +424,10 @@ function ExamQuestions() {
             //if no question remains (anu hah):(navigate to exam score/details page)
       <>
       <div className="student-exam-whole">
-        <div class="student-exam-header">
-          <div class="student-exam-left-side">
-            <button onClick={exitExam}><i class="fa-solid fa-arrow-left"></i></button> 
-            <p>
-              {examQuestions[current] ? (examQuestions[current].question_type === 'essay' ? (<h2>This question has no time limit</h2>) : (<h2>Time left: {timerLeft}s</h2>)) : null}
-            </p>
+        <div className="student-exam-header">
+          <div className="student-exam-left-side">
+            <button onClick={exitExam}><i className="fa-solid fa-arrow-left"></i></button> 
+            {examQuestions[current] ? (examQuestions[current].question_type === 'essay' ? (<h2>This question has no time limit</h2>) : (<h2>Time left: {timerLeft}s</h2>)) : null}
           </div>
         </div>
 

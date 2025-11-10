@@ -33,18 +33,19 @@
   font-size: 45px;
 }
 
-.student-exam-left-side p {
-  margin-left: 15px;
+.student-exam-left-side h2 {
+  /* margin-left: 15px; */
   color: #ffffff;
 }
 
 .student-exam-left-side {
-  width: 50%;
+  width: 98%;
   height: 50px;
   background-color: transparent;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
 
 .student-exam-left-side i{
