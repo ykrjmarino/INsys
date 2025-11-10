@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.public-choose-role-whole {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow: hidden;
+}
+
+
+.public-choose-role-whole label {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 40px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    width: 100%;
+    max-width: 800px;
+}
+
+.public-choose-role-whole label::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #3b82f6;
+    border-radius: 2px;
+    margin: 10px 0 0 0; 
+}
+
+.role-options {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    max-width: 800px;
+}
+
+@media (min-width: 768px) {
+    .role-options {
+        flex-direction: row;
+        gap: 40px;
+    }
+}
+
+
+.public-choose-role-teacher,
+.public-choose-role-student {
+    flex: 1;
+    height: 260px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.public-choose-role-teacher::before,
+.public-choose-role-student::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
+}
+
+.public-choose-role-teacher:hover::before,
+.public-choose-role-student:hover::before {
+    left: 100%;
+}
+
+
+.public-choose-role-teacher:hover,
+.public-choose-role-student:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 16px rgba(0, 0, 0, 0.12);
+    border-color: #3b82f6;
+}
+
+.public-choose-role-teacher:hover::after,
+.public-choose-role-student:hover::after {
+    opacity: 1;
+}
+
+.role-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+}
+
+.choose-role-icon {
+    font-size: 56px;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.public-choose-role-teacher .choose-role-icon { color: #3b82f6; }
+.public-choose-role-student .choose-role-icon { color: #3b82f6; }
+
+.role-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+.role-description {
+    font-size: 15px;
+    color: #64748b;
+    line-height: 1.6;
+    max-width: 260px;
+    margin: 0 auto;
+}
+
+
+@media (max-width: 480px) {
+    .public-choose-role-whole {
+        padding: 30px 15px;
+    }
+    .public-choose-role-whole label {
+        font-size: 22px;
+    }
+    .public-choose-role-teacher,
+    .public-choose-role-student {
+        height: 220px;
+        padding: 28px;
+    }
+    .choose-role-icon {
+        font-size: 48px;
+    }
+}
+
+
+
+.public-choose-role-whole > * {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+
+.public-choose-role-whole > label { animation-delay: 0.1s; }
+.role-options > .public-choose-role-teacher { animation-delay: 0.3s; }
+.role-options > .public-choose-role-student { animation-delay: 0.45s; }
+
+
+@keyframes fadeSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

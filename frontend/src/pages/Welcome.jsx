@@ -10,30 +10,27 @@ function Welcome() {
   const navigate = useNavigate();
   return (
     <>
-    <div class="welcome-page-body">
-    < div class="welcome-page-container">
-        <h1 class="welcome-page-title">Welcome To INsys</h1>
-      
-        <div class="welcome-page-greeting">Your Web-Based Examination Platform</div>
+    <div class="public-choose-role-whole">
+      <label>Choose Your Role:</label>
 
-        <div class="welcome-page-role-section">
-          <div class="welcome-page-role-label">Select your role to continue</div>
-          <div class="welcome-page-role-buttons">
-              
-              
-            <button onClick={() =>{ navigate("/register/teacher") }} class="welcome-page-role-button">
-              <i class="fa-solid fa-graduation-cap welcome-page-role-icon"></i>
-              <div class="welcome-page-role-text">Teacher</div>
-            </button>
-            
-            
-            <button onClick={() =>{ navigate("/register/student") }} class="welcome-page-role-button">
-              <i class="fa-solid fa-book-open welcome-page-role-icon"></i>
-              <div class="welcome-page-role-text">Student</div>
-            </button>
+      <div class="role-options">
 
+        <div onClick={() =>{ navigate("/register/teacher") }} class="public-choose-role-teacher">
+          <div class="role-content">
+            <div class="choose-role-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+            <div class="role-title">Teacher</div>
+            <div class="role-description">Creates and manages exams.</div>
           </div>
         </div>
+
+        <div onClick={() =>{ navigate("/register/student") }} class="public-choose-role-student">
+          <div class="role-content">
+            <div class="choose-role-icon"><i class="fa-solid fa-user"></i></div>
+            <div class="role-title">Student</div>
+            <div class="role-description">Takes assigned exams.</div>
+          </div>
+        </div>
+        
       </div>
     </div>
     </>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your Role</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="public-choose-role.css">
+</head>
+<body>
+
+  <!-- whole start -->
+  <div class="public-choose-role-whole">
+    <label>Choose Your Role:</label>
+
+
+    <!-- role-option start -->
+    <div class="role-options">
+
+
+      <!-- teacher role start -->
+      <div onClick={() =>{ navigate("/register/teacher") }} class="public-choose-role-teacher">
+        <div class="role-content">
+          <div class="choose-role-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <div class="role-title">Teacher</div>
+          <div class="role-description">Creates and manages exams.</div>
+        </div>
+      </div>
+      <!-- teacher role end -->
+
+
+      <!-- student role start -->
+      <div onClick={() =>{ navigate("/register/student") }} class="public-choose-role-student">
+        <div class="role-content">
+          <div class="choose-role-icon"><i class="fa-solid fa-user"></i></div>
+          <div class="role-title">Student</div>
+          <div class="role-description">Takes assigned exams.</div>
+        </div>
+      </div>
+      <!-- student role end -->
+      
+    </div>
+    <!-- role-option end -->
+  </div>
+   <!-- whole end -->
+
+</body>
+</html>

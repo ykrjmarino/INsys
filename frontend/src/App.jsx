@@ -1,4 +1,4 @@
-import {Routes, Route, Link, useNavigate, Navigate, Outlet } from 'react-router-dom'
+import {Routes, Route, Link, useNavigate, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -50,29 +50,45 @@ function ProtectedRoute({ allowedRoles }) {
 function AuthLoader({ children }) {
   const { setUser, setAccessToken } = useAuth();
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
-    axios.post("/refresh")
-      .then(res => {
-        setUser(res.data.user);
-        setAccessToken(res.data.accessToken);
-        axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
-      })
-      .catch(() => {
-        setUser(null);
-        setAccessToken(null);
-      })
-      .finally(() => {
+      // Public routes that shouldn't trigger /refresh
+      const publicPaths = [
+        "/login",
+        "/register/student",
+        "/register/teacher",
+        "/welcome-register",
+        "/forgot-password"
+      ];
+
+      // If you're on a public path, don't call refresh
+      if (publicPaths.includes(location.pathname)) {
         setLoading(false);
-      });
-  }, [setUser, setAccessToken]);
+        return;
+      }
 
-  if (loading) {
-    return <div>Loading...</div>;
+      axios.post("/refresh")
+        .then(res => {
+          setUser(res.data.user);
+          setAccessToken(res.data.accessToken);
+          axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
+        })
+        .catch(() => {
+          setUser(null);
+          setAccessToken(null);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }, [location.pathname, setUser, setAccessToken]);
+
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+
+    return children;
   }
-
-  return children;
-}
 
 function RootRedirect() {
   const { user } = useAuth();
@@ -101,27 +117,33 @@ function App() {
   const navigate = useNavigate();
   const { setAccessToken, setUser, user } = useAuth();
 
-useEffect(() => {
-  const publicPaths = ["/login", "/register/student", "/register/teacher", "/welcome-register", "/forgot-password"];
-  if (publicPaths.includes(window.location.pathname)) return;
+// useEffect(() => {
+//   const publicPaths = [
+//     "/login", 
+//     "/register/student", 
+//     "/register/teacher", 
+//     "/welcome-register", 
+//     "/forgot-password"
+//   ];
+//   if (publicPaths.includes(window.location.pathname)) return;
 
-  axios.post("/refresh")
-    .then(res => {
-      const newToken = res.data.accessToken;
-      const { userId, schoolId, nameFNfirst, nameLNfirst, role, lastName, firstName } = res.data.user || {};
+//   axios.post("/refresh")
+//     .then(res => {
+//       const newToken = res.data.accessToken;
+//       const { userId, schoolId, nameFNfirst, nameLNfirst, role, lastName, firstName } = res.data.user || {};
 
-      setAccessToken(res.data.accessToken);
-      setUser({ userId, schoolId, nameFNfirst, nameLNfirst, role });
-                            console.log("User after refresh: (obj)", { userId, schoolId, nameFNfirst, nameLNfirst, role, lastName, firstName}); //obj. for debugging only
+//       setAccessToken(res.data.accessToken);
+//       setUser({ userId, schoolId, nameFNfirst, nameLNfirst, role });
+//                             console.log("User after refresh: (obj)", { userId, schoolId, nameFNfirst, nameLNfirst, role, lastName, firstName}); //obj. for debugging only
 
-      axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-      console.log("Access token set:", newToken);
-    })
-    .catch(() => {
-      setAccessToken('');
-      navigate("/login");
-    });
-}, []);
+//       axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+//       console.log("Access token set:", newToken);
+//     })
+//     .catch(() => {
+//       setAccessToken('');
+//       navigate("/login");
+//     });
+// }, []);
 
 useEffect(() => {
   console.log("User updated: (from global context)", user);  
