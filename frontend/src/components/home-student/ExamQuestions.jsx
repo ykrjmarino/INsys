@@ -12,7 +12,7 @@ import { CameraMonitor, MouseMonitor, ResizeMonitor, TabMonitor } from "../Monit
 import { useRef } from "react";
 
 
-const MultiChoiceComp = ({mcqText, mcqOptions, name, divClassName, onChange, value}) => {
+const MultiChoiceComp = ({mcqText, mcqOptions, name, onChange, value}) => {
   return (
     <>
       <div className="student-exam-container">
@@ -27,13 +27,14 @@ const MultiChoiceComp = ({mcqText, mcqOptions, name, divClassName, onChange, val
           options={mcqOptions}
           divClassName = "student-exam-option-container"
           divClassName2="option-pair"
+          autocomplete="off"
         />
       </div>
     </>
   )
 }
 
-const IdentificationComp = ({idenText, name, divClassName, placeholder, onChange, value}) => {
+const IdentificationComp = ({idenText, name, placeholder, onChange, value}) => {
   return (
     <>
       <div className="student-exam-container-identification">
@@ -48,6 +49,7 @@ const IdentificationComp = ({idenText, name, divClassName, placeholder, onChange
             value={value || ""} //must be string or number
             onChange={onChange}
             placeholder={placeholder}
+            autocomplete="off"
           />
         </div>
       </div>
@@ -55,7 +57,7 @@ const IdentificationComp = ({idenText, name, divClassName, placeholder, onChange
   )
 }
 
-const EssayComp = ({essayText, name, divClassName, placeholder, onChange, value}) => {
+const EssayComp = ({essayText, name, onChange, value}) => {
   return (
     <>
       <div className="student-exam-container-essay">
@@ -71,14 +73,16 @@ const EssayComp = ({essayText, name, divClassName, placeholder, onChange, value}
             value={value || ""} //must be string or number
             onChange={onChange}
             placeholder="Enter your essay answer" 
-            rows="10" />
+            rows="10"
+            autocomplete="off"
+          />
         </div>
       </div>
     </>
   )
 }
 
-const TrueFalseComp = ({tfText, tfOptions, name, divClassName, onChange, value}) => {
+const TrueFalseComp = ({tfText, tfOptions, name, onChange, value}) => {
   return (
     <>
       <div className="student-exam-container-tf">
@@ -453,7 +457,7 @@ function ExamQuestions() {
                       mcqOptions={optionsArrayMCQ}
                       name={`q${current}`} 
                       value={answers[current] || ""}
-  onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
+                      onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
                     />
                   )
                 case "identification":
@@ -462,7 +466,7 @@ function ExamQuestions() {
                       idenText={q.question_text}
                       name={`q${current}`} 
                       value={answers[current] || ""}
-  onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
+                      onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
                       placeholder="Enter your answer"
                     />
                   )
@@ -472,7 +476,7 @@ function ExamQuestions() {
                       essayText={q.question_text}
                       name={`q${current}`}
                       value={answers[current] || ""}
-  onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
+                      onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
                       placeholder="Enter your essay answer"
                     />
                   )
@@ -483,7 +487,7 @@ function ExamQuestions() {
                       tfOptions={optionsArrayTF}
                       name={`q${current}`} 
                       value={answers[current] || ""}
-  onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
+                      onChange={(e) => setAnswers(prev => ({ ...prev, [current]: e.target.value }))}
                     />
                   )
                 default: 

@@ -6,6 +6,7 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
+* { outline: 1px solid red; } 
 
 .log-in-whole{
     position: relative;
@@ -20,9 +21,6 @@
     overflow-x: hidden;
     overflow-y: hidden;
   }
-
-
-
 
 #login-stars, #login-stars2, #login-stars3 {
   position: absolute;
@@ -203,7 +201,6 @@
 .login-register-btn-mobile {
       display:none;
       border-radius: 5px;
-
     }
 
 
@@ -412,22 +409,61 @@
 
 
 
-
-
-@media (max-width: 1024px) {
+@media (min-width: 769px) and (max-width: 1024px) {
     .login-side-design {
         display: none;
     }
 
- 
-    .login-whole-container {
-        width: 400px;
-        padding-top: 30px;
+        .login-whole-container {
+        width: 100%;
+        max-width: 400px;
+        padding-top: 20px;
     }
+
+    .login-register-btn-mobile {
+        display: flex;
+        width: 80%;
+        height: 40px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        justify-content: center;
+        align-items: center;
+        background-color: none;
+        color: #000000;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+
+    .login-register-btn-mobile:hover {
+      background-color: #1A1A2E; 
+      color: #ffffff;
+    }
+
+
+    .login-btn {
+        width: 80%;
+        height: 40px;
+        margin-top: 155px;
+
+    }
+    .login-or-label{
+      color: #000000;
+
+    }
+
+
+
 
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 1024px){
+
+      .login-side-design {
+        display: none;
+    }
+
     .login-whole {
         flex-direction: column;
         justify-content: center;
@@ -441,14 +477,14 @@
         padding-top: 20px;
     }
 
-  
+
     .login-register-btn-mobile {
         display: flex;
         width: 80%;
         height: 40px;
         font-size: 16px;
         border-radius: 5px;
-        border: 1px solid #000000;
+        border: 1px solid #ccc;
         justify-content: center;
         align-items: center;
         background-color: none;
@@ -460,10 +496,10 @@
 
     .login-register-btn-mobile:hover {
       background-color: #1A1A2E; 
-      color: #ffffff;  
+      color: #ffffff;
     }
 
-  
+
     .login-btn {
         width: 80%;
         height: 40px;
@@ -477,7 +513,7 @@
 
  #login-container .login-forgot-password {
         font-size: 12px; 
-      
+
 }
-    
+
 }
