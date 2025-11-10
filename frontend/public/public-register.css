@@ -216,7 +216,8 @@
 
 .registration-whole-form {
   width: 40%;
-  height: 900px;
+  min-height: 900px; /* optional: minimum height */
+  height: auto; 
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -224,13 +225,11 @@
   background-color: #ffffff;
   backdrop-filter: blur(5px);
   border-radius: 10px;
-    
 }
 
 
-
 .registration-next-btn{
-    width: 80%;
+    width: 100%;
     height: 50px;
     background-color: #1A1A2E;
     color: #ffffff; 
@@ -251,7 +250,7 @@
     font-size: 20px;
     border: none;
     margin-left: 20px;
-
+    z-index: 10;
 }
 
 .registration-back-btn:hover{
@@ -367,21 +366,18 @@ height: 60px;
 /* registration form start */
 
 .registration-form {
-  width: 95%;
+  width: 100%;
   height: 630px;
   background-color: transparent;
   padding-left: 50px;
   padding-right: 50px;
-  overflow: auto;
 }
 
 #otp-container, #otp-code-container {
-     width: 90%;
-  height: 630px;
+  width: 90%;
+  height: 300px;
   background-color: transparent;
   padding: 50px;
-  overflow: auto;
-
 }
 
 

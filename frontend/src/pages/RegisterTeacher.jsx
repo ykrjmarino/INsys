@@ -27,9 +27,11 @@ function RegisterTeacher() {
   const [sentOTP, setSentOTP] = useState(false);
   const username = formRegister.username;
   const [disableButton, setDisableButton] = useState(false);
+  const [countdown, setCountdown] = useState(0);
 
   const handleSendOtp = async () => {
     setDisableButton(true);
+    setCountdown(15);
 
     try {
       const res = await axios.post("/teacher/register/email-otp", { username: username });
@@ -39,9 +41,17 @@ function RegisterTeacher() {
         setSentOTP(true);
       }
 
-      setInterval(()=> {
-        setDisableButton(false);
-      }, 15000) //15secs
+      // countdown timer
+      const interval = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            setDisableButton(false); // re-enable button
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
     } catch (err) {
       console.log(err.response?.data);
       toast.info(err.response?.data?.error);
@@ -93,7 +103,7 @@ function RegisterTeacher() {
       <div className="register-side-design">
         <img src="wait2.PNG" alt="Sidebar Logo" />
         <label>Already Have An Account</label>
-        <button className="registration-login-option">Login</button>
+        <button onClick={() =>{ navigate("/login") }} className="registration-login-option">Login</button>
       </div>
 
       <div className="registration-whole-form">
@@ -104,15 +114,6 @@ function RegisterTeacher() {
         <div className="reigistration-main-label">
             <label>Register Your Account</label>  
         </div>
-
-        <div className="registration-progress-bar">
-          <ul id="progressbar">
-            <li className="active"><strong>OTP Code</strong></li>
-            <li><strong>Verify</strong></li>
-            <li><strong>Register</strong></li>
-          </ul>
-        </div>
-
 
 
         {!isVerified ? (
@@ -150,7 +151,7 @@ function RegisterTeacher() {
             <form id="otp-code-form">
               <label className= "registration-otp-message">We sent a code to your account <span id="user-email"></span></label>
               <div className="registration-form-group">
-                <label htmlFor="otp-code">OTP Code</label>
+                <br />
                 <InputField
                   name="code" //otp
                   id="otp-code"
@@ -162,7 +163,14 @@ function RegisterTeacher() {
               </div>
               <Button className="registration-next-btn" onClick={handleVerifyOtp} label='Verify' disabled={isVerified}/>
             </form>
-            <label className="registration-resend-link"><a onClick={!disableButton ? handleSendOtp : undefined} id="resend-otp">Didn't get a code? Resend</a></label>
+            <br />
+            <label className="registration-resend-link">
+              <a 
+                onClick={!disableButton ? handleSendOtp : undefined} 
+                id="resend-otp"style={{ cursor: disableButton ? "not-allowed" : "pointer" }}
+              >{disableButton ? `Wait ${countdown}s to resend` : "Didn't get a code? Resend"}
+              </a>
+            </label>
           </div>
           </>
           )
