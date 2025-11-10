@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom'
-
 import axios from "../../utils/axiosConfig";
 import { useAuth } from "../../context/AuthContext";
+import { toast } from 'react-toastify';
 
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
@@ -179,6 +179,7 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
         questionTimer: totalQuestionSeconds,
       }, config);
       console.log("Saved schedule!");
+      toast.info("Saved schedule!");
     } catch (err) {
       console.error("Error saving schedule:", err);
     }
@@ -220,7 +221,7 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
           />
           <span>m</span>
         </div>
-        <button className="save-duration-button" onClick={handleSave}>Save S</button>
+        <button className="save-duration-button" onClick={handleSave}>Save</button>
       </div>
       {/* ======= TIME-PICKER COMPONENT ======= */}        
       <div className="time-container">
@@ -270,7 +271,7 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
           />
           <span>s</span>
         </div>
-        <button className="save-duration-button" onClick={handleSave}>Save S</button>
+        <button className="save-duration-button" onClick={handleSave}>Save</button>
       </div>
     </>
   );

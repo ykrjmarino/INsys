@@ -213,9 +213,9 @@ export const AnalyticsHeaderBar = () => {
   return(
     <>
       {/* S1*/}
-      <div class="analytics-header">
-        <button class="analytics-back-button"  onClick={() => navigate(backPath)}><i class="fa-solid fa-arrow-left"></i></button>
-        <label class ="analytics-exam-title-label">{infoExam.title}</label>
+      <div className="analytics-header">
+        <button className="analytics-back-button"  onClick={() => navigate(backPath)}><i className="fa-solid fa-arrow-left"></i></button>
+        <label className ="analytics-exam-title-label">{infoExam.title}</label>
       </div>
       {/* E1*/}
     </>

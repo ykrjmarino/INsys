@@ -142,27 +142,27 @@ function ExamGraph({ analyticsInfo }) {
 
   return (
     <>
-      <div class="score-exam-analytics-label">Exam Analytics</div>
+      <div className="score-exam-analytics-label">Exam Analytics</div>
 
-      <div class="score-exam-analytics-container">
-        <div class="score-exam-items">
-          <label class="score-exam-label">Average Score</label>
+      <div className="score-exam-analytics-container">
+        <div className="score-exam-items">
+          <label className="score-exam-label">Average Score</label>
           <p>{analyticsInfo.average_score}</p>
         </div>
-        <div class="score-exam-items">
-          <label class="score-exam-label">Total Takers</label>
+        <div className="score-exam-items">
+          <label className="score-exam-label">Total Takers</label>
           <p>{analyticsInfo.total_takers}</p>
         </div>
-        <div class="score-exam-items">
-          <label class="score-exam-label">Highest Score</label>
+        <div className="score-exam-items">
+          <label className="score-exam-label">Highest Score</label>
           <p>{analyticsInfo.highest_score}</p>
         </div>
-        <div class="score-exam-items">
-          <label class="score-exam-label">Lowest Score</label>
+        <div className="score-exam-items">
+          <label className="score-exam-label">Lowest Score</label>
           <p>{analyticsInfo.lowest_score}</p>
         </div>
-        <div class="score-exam-items">
-          <label class="score-exam-label">No. of Passers</label>
+        <div className="score-exam-items">
+          <label className="score-exam-label">No. of Passers</label>
           <p>{analyticsInfo.passed_count}</p>
         </div>
       </div>
@@ -325,17 +325,17 @@ function SectionAnalytics () {
   
   return (
     <>
-      <div class="score-whole"> {/* 3 divs */}
+      <div className="score-whole"> {/* 3 divs */}
         
         <AnalyticsHeaderBar />
 
-        <div class="analytics-score-choice"> 
-          <div class="analytic-score-btn" onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
-          <div class="analytics-s-score-btn active" onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
+        <div className="analytics-score-choice"> 
+          <div className="analytic-score-btn" onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
+          <div className="analytics-s-score-btn active" onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
         </div> 
-        <div class="score-main-container">
+        <div className="score-main-container">
           <div className="score-select-section">
-            <div class="score-select-sectopn-label">Select Section</div>
+            <div className="score-select-sectopn-label">Select Section</div>
             <SelectField
               className="score-select-section-inner"
               name="section"
@@ -350,23 +350,23 @@ function SectionAnalytics () {
           </div>
 
 
-          <div class="score-student-performance-label">Student Performance Analytics</div>
+          <div className="score-student-performance-label">Student Performance Analytics</div>
           
-          <div class="score-selected-section-container">
-            <div class="score-selected-section-inner">
+          <div className="score-selected-section-container">
+            <div className="score-selected-section-inner">
               <p> SECTION: {optionSections.find(o => o.value === selectedSection)?.label || 'None'} </p>
             </div>
           </div>
 
 
-          <div class="score-analytics-conatiner">
+          <div className="score-analytics-conatiner">
             {selectedSection &&
             <ExamGraph analyticsInfo={sectionData || { total_takers: 0 }} />
             }
           </div>
 
           
-          <div class="table-container">
+          <div className="table-container">
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
                 <tr style={{ backgroundColor: '#f2f2f2' }}>

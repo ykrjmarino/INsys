@@ -233,7 +233,7 @@ function SelectedSection() {
 
       <Button
         className="save-section-button"
-        label={isEditing ? "Save Sec" : "Edit Sec"}
+        label={isEditing ? "Save" : "Edit"}
         disabled={!selectedCourse || !selectedYear || selectedSections.length === 0}
         onClick={handleSaveSections}
       />   

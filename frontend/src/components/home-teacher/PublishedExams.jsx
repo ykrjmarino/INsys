@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Button from '../Buttons.jsx'
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +37,7 @@ export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel
       </div>
         
       <div className="exam-content">
-        <div class="teacher-home-illustation">
+        <div className="teacher-home-illustation">
           <p className="overlay-text">{title}</p>
           <img src="tryyy.jpg" alt="Exam container pic"></img>
         </div>

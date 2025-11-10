@@ -91,8 +91,8 @@ const QuestionGraph = () => {
   
   return (
     <>
-      <div class= "analytics-table">
-        <div class="analytics-exam-analytics-label">Question Stats</div>
+      <div className= "analytics-table">
+        <div className="analytics-exam-analytics-label">Question Stats</div>
         <table>
           <thead>
             <tr>
@@ -156,12 +156,12 @@ function ExamAnalytics () {
         
         <AnalyticsHeaderBar />
 
-        <div class="analytics-score-choice">
-          <div class="analytics-btn active" onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
-          <div class="score-btn" onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
+        <div className="analytics-score-choice">
+          <div className="analytics-btn active" onClick={() => navigate(`/exam-analytics/${examId}`)}>Analytics</div>
+          <div className="score-btn" onClick={() => navigate(`/exam-analytics/section/${examId}`)}>Scores</div>
         </div>
         
-        <div class="main-score-container">
+        <div className="main-score-container">
           <ExamGraph analyticsInfo={infoStats || { total_takers: 0 }}/>
           <QuestionGraph />
         </div>

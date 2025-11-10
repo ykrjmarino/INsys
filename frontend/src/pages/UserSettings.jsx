@@ -38,7 +38,7 @@ const SettingsBasicInformation = () => {
 
   return (
     <>
-    <div class="super-admin-account-seetings-info-container">
+    <div className="super-admin-account-seetings-info-container">
       <h3>Basic Information</h3>
       <p><strong>First Name:</strong> {userInfo.first_name}</p>
       <p><strong>Middle Initial:</strong> {userInfo.middle_initial}</p>
@@ -96,13 +96,13 @@ const SettingsPasswordManage = () => {
   const [showForgot, setShowForgot] = useState(false);
 
   return (
-    <div class="super-admin-account-seetings-change-password-container">
+    <div className="super-admin-account-seetings-change-password-container">
       {!showForgot ? (
         <>
         <h3>Password Management</h3>
         {message && <p>{message}</p>}
         <form onSubmit={handleChangePassword}>
-          <div class="super-admin-account-settings-change-password-form">
+          <div className="super-admin-account-settings-change-password-form">
             <label htmlFor="currentPassword">Current Password:</label><br />
             <input
               type="password"
@@ -114,7 +114,7 @@ const SettingsPasswordManage = () => {
             />
           </div>
 
-          <div class="super-admin-account-settings-change-password-input">
+          <div className="super-admin-account-settings-change-password-input">
             <label htmlFor="newPassword">New Password:</label><br />
             <input
               type="password"
@@ -126,7 +126,7 @@ const SettingsPasswordManage = () => {
             />
           </div>
 
-          <div class="super-admin-account-settings-change-password-input">
+          <div className="super-admin-account-settings-change-password-input">
             <label htmlFor="confirmNewPassword">Confirm New Password:</label><br />
             <input
               type="password"
@@ -219,10 +219,10 @@ const SettingsAccountControl = () => {
   };
 
   return (
-    <div class="super-admin-account-deletion-account-control-container">
+    <div className="super-admin-account-deletion-account-control-container">
       <h3>Account Control</h3>
 
-    <div class="super-admin-account-deletion-account-input">
+    <div className="super-admin-account-deletion-account-input">
       {!verified && (
         <>
         <input
@@ -338,7 +338,6 @@ export const UserSettingsContentSuperadmin = () => {
     <>
     <div className="user-settings-outer-container">
       <h2>Admin Analytics</h2>
-{`super-admin-manage-student-btn ${activeTab === 'student' ? 'active' : ''}`}
       <div className="user-settings-inner-container-one">
         <div className={`user-settings-account-info ${activeTab === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTab('basic-information')}>Account Information</div>
         <div className={`user-settings-account-info ${activeTab === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTab('password-manage')}>Change Password</div>

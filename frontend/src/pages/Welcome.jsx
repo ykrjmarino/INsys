@@ -10,24 +10,24 @@ function Welcome() {
   const navigate = useNavigate();
   return (
     <>
-    <div class="public-choose-role-whole">
+    <div className="public-choose-role-whole">
       <label>Choose Your Role:</label>
 
-      <div class="role-options">
+      <div className="role-options">
 
-        <div onClick={() =>{ navigate("/register/teacher") }} class="public-choose-role-teacher">
-          <div class="role-content">
-            <div class="choose-role-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-            <div class="role-title">Teacher</div>
-            <div class="role-description">Creates and manages exams.</div>
+        <div onClick={() =>{ navigate("/register/teacher") }} className="public-choose-role-teacher">
+          <div className="role-content">
+            <div className="choose-role-icon"><i className="fa-solid fa-chalkboard-user"></i></div>
+            <div className="role-title">Teacher</div>
+            <div className="role-description">Creates and manages exams.</div>
           </div>
         </div>
 
-        <div onClick={() =>{ navigate("/register/student") }} class="public-choose-role-student">
-          <div class="role-content">
-            <div class="choose-role-icon"><i class="fa-solid fa-user"></i></div>
-            <div class="role-title">Student</div>
-            <div class="role-description">Takes assigned exams.</div>
+        <div onClick={() =>{ navigate("/register/student") }} className="public-choose-role-student">
+          <div className="role-content">
+            <div className="choose-role-icon"><i className="fa-solid fa-user"></i></div>
+            <div className="role-title">Student</div>
+            <div className="role-description">Takes assigned exams.</div>
           </div>
         </div>
         

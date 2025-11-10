@@ -34,19 +34,19 @@ export const SystemMaintenance = () => {
   };
 
   return (
-    <div class="super-admin-system-settings-main-container">
+    <div className="super-admin-system-settings-main-container">
       <h2>System Settings</h2>
-      <p class="super-admin-system-settings-warning"> <i class="fa-solid fa-triangle-exclamation"></i>
+      <p className="super-admin-system-settings-warning"> <i className="fa-solid fa-triangle-exclamation"></i>
         These actions are <strong>permanent</strong> and <strong>cannot be undone</strong>. Proceed only if you fully understand the consequences.
       </p>
 
-      <div class="super-admin-system-settings-buttons-row">
-        <div class="super-admin-system-settings-button" onClick={() => handleOpenModal("old")}>
+      <div className="super-admin-system-settings-buttons-row">
+        <div className="super-admin-system-settings-button" onClick={() => handleOpenModal("old")}>
           <h1>Delete Old Data</h1>
           <p>Remove exams and logs older than 7 months</p>
         </div>
 
-        <div class="super-admin-system-settings-button" onClick={() => handleOpenModal("all")}>
+        <div className="super-admin-system-settings-button" onClick={() => handleOpenModal("all")}>
           <h1>Clear All System Data</h1>
           <p>Deletes all exams, student submissions, and logs.</p>
         </div>

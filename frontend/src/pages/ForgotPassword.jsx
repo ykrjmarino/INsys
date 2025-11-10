@@ -275,7 +275,7 @@ function ForgotPassword() { //when logged-out
             </div>
             <Button className="forget-password-btn"  label="Send OTP" onClick={handleSendOtp} />
 
-            <div class="forget-passoword-otp-code-group-p">
+            <div className="forget-passoword-otp-code-group-p">
               <br />
               <label>OTP</label>
               <InputField 

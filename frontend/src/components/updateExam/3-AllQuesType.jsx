@@ -73,7 +73,7 @@ export const EditableQuestionForm = ({ data, onSave, onDelete, defaultEditing = 
       </div>
       
       <div className="button-group">
-        <button className="delete-button" onClick={() => onDelete(data.question_id)}><i class="fa-solid fa-trash"></i></button>
+        <button className="delete-button" onClick={() => onDelete(data.question_id)}><i className="fa-solid fa-trash"></i></button>
       </div>
     </div>  
 

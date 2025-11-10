@@ -234,7 +234,7 @@ function UpdateExam() {
             <button className="randomize-button" onClick={handleRandomizeCode}><i className="fa-solid fa-arrow-rotate-left"></i></button>
           </div>
           
-          <div class="create-right-group">
+          <div className="create-right-group">
             <p>Total points: {examInfo.total_points}</p>
             <p>Passing score: 
               <input 
