@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import Button from "../components/Buttons.jsx";
 import InputField from "../components/InputFields.jsx";
 import { useAuth } from "../context/AuthContext";
-import { SidebarTeacher } from "../components/SidebarTS.jsx";
+
 
 
 
@@ -146,7 +146,7 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
       ) : ( 
         <>
         <label htmlFor="newPassword">New Password:</label>
-        <div class="super-admin-account-settings-change-password-input">
+        <div className="super-admin-account-settings-change-password-input">
           <InputField 
             name="password"
             id="newPassword"
@@ -157,7 +157,7 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
         </div>
 
         <label htmlFor="confirmPassword">Confirm New Password:</label>
-        <div class="super-admin-account-settings-change-password-input">
+        <div className="super-admin-account-settings-change-password-input">
           <InputField 
             id="confirmPassword"
             name="retypePassword"
@@ -191,6 +191,7 @@ function ForgotPassword() { //when logged-out
   const handleSendOtp = async () => {
     try {
       const res = await axios.post('/forgot-password/request-otp', { email: form.email });
+      toast.info(res.data.message);
       setMessage(res.data.message);
       setError("");
     } catch (err) {
@@ -250,46 +251,74 @@ function ForgotPassword() { //when logged-out
 
   return (
     <>
-      {/*{!isVerified ? ( */}
-        <>
-        <p> Forgot Password </p>
-        <label>Email</label>
-        <InputField 
-          name="email"
-          value={form.email} 
-          onChange={handleChange}
-          placeholder="Enter Email"
-        />
-        <Button label="Send OTP" onClick={handleSendOtp} />
-        <label>OTP</label>
-        <InputField 
-          name="code"
-          value={code} 
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="Enter OTP"
-        />
-        <Button label="Verify" onClick={handleVerifyOtp} />
-        </>
-      {/* ) : ( */}
-        <>
-        <label>password</label>
-        <InputField 
-          name="password"
-          value={form.password} 
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-          placeholder="Password"
-        />
-        <label>re-type password</label>
-        <InputField 
-          name="retypePassword"
-          value={form.retypePassword} 
-          onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
-          placeholder="Confirm Password"
-        />
-        <Button label="Reset Password" onClick={handleSubmit} />
-        </>
-      {/* )} */}
+    <div className="forget-pass-whole">
+      <div id="forget-password-stars"></div>
+      <div id="forget-password-stars2"></div>
+      <div id="Forget-password-stars3"></div>
+
+      <div className="forget-pass-whole-container">
+        <button onClick={() =>{ navigate(-1) }} className="forget-password-back-btn"><i className="fa fa-arrow-left"></i></button>
+        <label className="forget-password-label">Forgot Password</label>
       
+      {!isVerified ? (
+        <>
+        <div id="forget-password-container-p">
+          <div className="forget-passoword-group-p">
+            <div className="forget-passoword-otp-code-group">
+              <label>Email</label>
+              <InputField 
+                name="email"
+                value={form.email} 
+                onChange={handleChange}
+                placeholder="Enter your email"
+              />
+            </div>
+            <Button className="forget-password-btn"  label="Send OTP" onClick={handleSendOtp} />
+
+            <div class="forget-passoword-otp-code-group-p">
+              <br />
+              <label>OTP</label>
+              <InputField 
+                name="code"
+                value={code} 
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Enter code"
+              />
+            </div>
+            <Button className="forget-otp-code-btn" label="Verify" onClick={handleVerifyOtp} />     
+          </div> 
+        </div>
+        </>
+      ) : ( 
+        <>
+        <div id="forget-password-change-password-container">
+          <div className="forget-passoword-change-password-group">
+            <label>New Password</label>
+            <InputField 
+              type="password"
+              name="password"
+              value={form.password} 
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="Password"
+            />
+             <br /><br />
+           
+            <label>Confirm New Password</label>
+            <InputField 
+              type="password"
+              name="retypePassword"
+              value={form.retypePassword} 
+              onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
+              placeholder="Confirm Password"
+            />
+          </div>
+        </div>
+        
+        <Button className="forget-change-password-btn" label="Reset Password" onClick={handleSubmit} />
+        </>
+      )}
+      </div>
+    </div>  
     </>
   )
 }
