@@ -271,6 +271,7 @@ function ForgotPassword() { //when logged-out
                 value={form.email} 
                 onChange={handleChange}
                 placeholder="Enter your email"
+                autocomplete="off"
               />
             </div>
             <Button className="forget-password-btn"  label="Send OTP" onClick={handleSendOtp} />
@@ -283,6 +284,7 @@ function ForgotPassword() { //when logged-out
                 value={code} 
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Enter code"
+                autocomplete="off"
               />
             </div>
             <Button className="forget-otp-code-btn" label="Verify" onClick={handleVerifyOtp} />     

@@ -167,7 +167,7 @@
 .super-admin-manange-main-home-content {
     flex: 1;
     padding: 32px;
-    overflow-y: auto;
+    overflow-y: block;
     background: transparent;
     display: flex;
     flex-direction: column;

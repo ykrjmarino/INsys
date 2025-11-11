@@ -31,5 +31,6 @@ export default InputField;
     onChange={(e) => setCode(e.target.value)}
     placeholder="Enter student id"
     disabled={isVerified}
+    autocomplete="off"
   />
 */

@@ -132,6 +132,7 @@ function RegisterStudent() {
                   placeholder="Enter your School Id" 
                   disabled={isVerified}
                   required
+                  autocomplete="off"
                 />
               </div>
 
@@ -167,6 +168,7 @@ function RegisterStudent() {
                   onChange={(e) => setCode(e.target.value)}
                   placeholder="Enter OTP"
                   disabled={isVerified}
+                  autocomplete="off"
                 />
               </div>
               <Button className="registration-next-btn" onClick={handleVerifyOtp} label='Verify' disabled={isVerified}/>
@@ -195,6 +197,7 @@ function RegisterStudent() {
                 value={`${formRegister.username}@pampangastateu.edu.ph`}
                 placeholder="Enter Student ID"
                 disabled={true}
+                autocomplete="off"
               /> 
             </div>
 
@@ -234,6 +237,7 @@ function RegisterStudent() {
                   value={formRegister.firstName}
                   onChange={handleChange}
                   placeholder="Enter your first name"
+                  autocomplete="off"
                   require
                 /> 
               </div>
@@ -245,6 +249,7 @@ function RegisterStudent() {
                   value={formRegister.lastName}
                   onChange={handleChange}
                   placeholder="Enter your last name"
+                  autocomplete="off"
                   require
                 />
               </div>
@@ -257,6 +262,7 @@ function RegisterStudent() {
                   onChange={handleChange}
                   placeholder="Enter your middle initial, e.g., R"
                   maxLength={1}
+                  autocomplete="off"
                   require
                 />
               </div>

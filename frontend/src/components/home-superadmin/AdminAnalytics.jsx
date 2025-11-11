@@ -31,7 +31,7 @@ export const AdminsComponent = () => {
   const [examInfo, setExamInfo] = useState([]); //per admin
   const [searchTerm, setSearchTerm] = useState("");
 
-  const pageSize = 2; // or whatever you want per page
+  const pageSize = 10; // or whatever you want per page
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 

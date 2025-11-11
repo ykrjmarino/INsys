@@ -21,7 +21,7 @@ export const ManageUsersTable = ({selectedRole}) => {
 
   const [superadminCount, setSuperadminCount] = useState(0);
 
-  const pageSize = 2; 
+  const pageSize = 10; 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // will update after fetching
 

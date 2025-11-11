@@ -117,6 +117,7 @@ function EnterExam() {
               value={inputExamCode} 
               onChange={(e) => setInputExamCode(e.target.value)}
               placeholder="Enter your exam code"
+              autocomplete="off"
             />
           </div>
           <Button className="student-home-exam-button" label="Take Exam" onClick={handleEnterCode} />

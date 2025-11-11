@@ -70,6 +70,7 @@ function Identification({ questionId, questionText, correctAnswer, points, onSav
         onChange={(e) => setEditAnswer(e.target.value)}
         placeholder="Enter Answer"
         disabled={!isEditing}
+        autocomplete="off"
       />
     </div>
     </>
