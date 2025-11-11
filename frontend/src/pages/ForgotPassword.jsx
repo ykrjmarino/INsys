@@ -27,7 +27,6 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
   const [code, setCode] = useState(""); //otp
   const [message, setMessage] = useState(""); //success message
   const [error, setError] = useState(""); //error message
-  const [isOtpSent, setIsOtpSent] = useState(false); //for toast error
   const [userEmail, setUserEmail] = useState("");
 
 
@@ -98,7 +97,7 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
 
       setMessage(res.data.message);
       toast.success(res.data.message);
-      setTimeout(() => navigate("/"), 2000);//2 sec
+      setTimeout(() => navigate("/redirect"), 2000);//2 sec
     } catch (err) {
       setError(err.response?.data?.message);
       toast.error(err.response?.data?.message);
@@ -138,6 +137,7 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
             value={code} 
             onChange={(e) => setCode(e.target.value)}
             placeholder="Enter OTP"
+            autoComplete="off"
           />
           <Button label="Verify" onClick={handleVerifyOtp} />
         </div>
@@ -271,7 +271,7 @@ function ForgotPassword() { //when logged-out
                 value={form.email} 
                 onChange={handleChange}
                 placeholder="Enter your email"
-                autocomplete="off"
+                autoComplete="off"
               />
             </div>
             <Button className="forget-password-btn"  label="Send OTP" onClick={handleSendOtp} />
@@ -284,7 +284,7 @@ function ForgotPassword() { //when logged-out
                 value={code} 
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Enter code"
-                autocomplete="off"
+                autoComplete="off"
               />
             </div>
             <Button className="forget-otp-code-btn" label="Verify" onClick={handleVerifyOtp} />     

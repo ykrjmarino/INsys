@@ -490,11 +490,11 @@ export const FaceMonitor = ({ examId }) => {
   }, [examId]);
 
   return (
-    <div
+    <div className="drag-video-container"
       style={{
         position: "fixed",
-        top: "10%",        // distance from top
-        left: "90%",        // center horizontally use 50%
+        top: window.innerWidth < 768 ? "8%" : "10%",   // closer to top on mobile
+        left: window.innerWidth < 768 ? "80%" : "92%", // adjust horizontal on mobile
         transform: "translateX(-50%)",
         zIndex: 1000,
       }}
@@ -508,7 +508,7 @@ export const FaceMonitor = ({ examId }) => {
         setPos({ top: e.clientY - offset.current.y, left: e.clientX - offset.current.x });
       }}
     >
-      <video ref={videoRef} autoPlay muted width={250} height={180} style={{ zIndex: 10 }} />
+      <video ref={videoRef} autoPlay muted className="drag-video" />
       <canvas
         ref={canvasRef}
         style={{

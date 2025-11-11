@@ -1330,6 +1330,7 @@ footer::before {
         padding-right: 0;
         padding-bottom: var(--spacing-xlarge);
         padding-left: 0;
+        padding-top: 0;
     }
 
     .how-it-works-landing-page-steps-wrapper {

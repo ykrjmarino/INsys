@@ -77,7 +77,8 @@
 }
 
 
-.student-exam-container, .student-exam-container-essay {
+
+.student-exam-container, .student-exam-container-essay, .student-exam-container-identification {
   width: 100%; 
   background-color: #ffffff;
   border-bottom: 2px solid #ccc;
@@ -252,11 +253,12 @@
 
 
 .student-exam-option-container-tf {
-  width: 100%;
+  width: 90%;
   background-color: #ffffff;
   border-radius: 10px;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 40px;
   height: 40%;
   padding: 40px 300px;
@@ -308,22 +310,6 @@
 
 /* identification */
 
-.student-exam-container-identification {
-  width: 100%;
-  max-width: 100%;
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 35px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  height: 100%;
-  padding-top: 0;
-  padding-left: 0;
-   border-bottom: 2px solid #ccc;
-}
-
 .student-exam-container-identification > label {
   font-size: 18px;
   font-weight: bold;
@@ -340,7 +326,7 @@
   justify-content: center; 
   align-items: center; 
   height: 40%;
-  padding: 40px 300px; 
+  padding: 40px 20px; 
 }
 
 .student-exam-input-identification {
@@ -385,7 +371,6 @@
   align-items: center;
   height: 60%;
   padding: 40px 100px; 
-  
 }
 
 .student-exam-input-essay {
@@ -426,7 +411,23 @@
 
 
 
+.drag-video {
+  width: 250px;
+  height: 180px;
+}
 
+@media (max-width: 768px) {
+  .drag-video {
+    width: 150px;
+    height: 100px;
+    margin: 0;        /* optional, usually remove margin for fixed */
+  }
+
+  .drag-video-container {
+    top: 5%;          /* closer to top on mobile */
+    left: 90%;         /* or adjust as needed */
+  }
+}
 
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -483,8 +484,22 @@
     gap: 10px;
   }
 
+  .student-exam-option-container-essay {
+    width: 90%;
+    background-color: transparent;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 60%;
+    padding: 40px 10px; 
+  }
+
   .student-exam-header {
     padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .student-exam-header button {
@@ -493,10 +508,30 @@
 
   .student-exam-left-side {
     width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .student-exam-left-side label {
     font-size: 14px;
+  }
+
+  .student-exam-left-side h2 {
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .student-exam-left-side button {
+    position: fixed;
+    left: 20px;
+  }
+
+  .student-exam-box > p,
+  .student-exam-box-tf > p,
+  .student-exam-box-identification > p,
+  .student-exam-box-essay > p  {
+    font-size: 16px;
   }
 
   .student-exam-container {

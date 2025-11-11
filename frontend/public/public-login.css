@@ -278,11 +278,9 @@
 }
 
 .login-whole-container label{
-    font-size: 30px;
+    font-size: 26px;
     color: #000000;
     margin-bottom: 30px;
-
-
 }
 
 .login-label{
@@ -291,7 +289,7 @@
 }
 
 .login-group label{
-    font-size: 16px;
+    font-size: 13px;
     color: #000000;
 
 }
@@ -459,8 +457,8 @@
 
 @media screen and (max-width: 1024px){
 
-      .login-side-design {
-        display: none;
+    .login-side-design {
+      display: none;
     }
 
     .login-whole {
@@ -471,9 +469,10 @@
     }
 
     .login-whole-container {
-        width: 100%;
-        max-width: 350px;
+        max-width: 250px;
+        max-height: 500px;
         padding-top: 20px;
+        width: 100%;
     }
 
 
@@ -502,7 +501,7 @@
     .login-btn {
         width: 80%;
         height: 40px;
-        margin-top: 155px;
+        margin-top: 30px;
 
     }
     .login-or-label{

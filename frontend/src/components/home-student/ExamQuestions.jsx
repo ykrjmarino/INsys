@@ -27,7 +27,7 @@ const MultiChoiceComp = ({mcqText, mcqOptions, name, onChange, value}) => {
           options={mcqOptions}
           divClassName = "student-exam-option-container"
           divClassName2="option-pair"
-          autocomplete="off"
+          autoComplete="off"
         />
       </div>
     </>
@@ -55,7 +55,7 @@ const IdentificationComp = ({idenText, name, placeholder, onChange, value}) => {
             value={value || ""} //must be string or number
             onChange={onChange}
             placeholder={placeholder}
-            autocomplete="off"
+            autoComplete="off"
           />
         </div>
       </div>
@@ -80,7 +80,7 @@ const EssayComp = ({essayText, name, onChange, value}) => {
             onChange={onChange}
             placeholder="Enter your essay answer" 
             rows="10"
-            autocomplete="off"
+            autoComplete="off"
           />
         </div>
       </div>
@@ -95,7 +95,7 @@ const TrueFalseComp = ({tfText, tfOptions, name, onChange, value}) => {
         <div className="student-exam-box-tf">
           <p>{tfText}</p>
         </div>
-        <div>
+        <div className="student-exam-option-container-tf">
           <RadioButtonOptions
             name={name}
             value={value}
@@ -393,7 +393,7 @@ function ExamQuestions() {
 
   return (
     <>
-    <ResizeMonitor 
+    {/* <ResizeMonitor 
       examId={examId}
     />
     <TabMonitor 
@@ -402,7 +402,7 @@ function ExamQuestions() {
 
     <MouseMonitor
       examId={examId}
-    /> 
+    />  */}
 {/* 
     <CameraMonitor /> */}
 

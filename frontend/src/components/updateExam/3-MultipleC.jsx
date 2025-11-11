@@ -88,7 +88,7 @@ function MultipleChoice({ questionId, questionText, options, correctAnswer, poin
             }}
             placeholder={`Option ${index + 1}`}
             disabled={!isEditing}
-            autocomplete="off"
+            autoComplete="off"
           />
         ))}
       </div>
@@ -100,7 +100,7 @@ function MultipleChoice({ questionId, questionText, options, correctAnswer, poin
         onChange={(e) => setEditAnswer(e.target.value)}
         placeholder="Set Correct Answer"
         disabled={!isEditing}
-        autocomplete="off"
+        autoComplete="off"
       />
     </div>
     </>
