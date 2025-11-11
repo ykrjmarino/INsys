@@ -20,7 +20,7 @@ export const HomeSuperadmin = () => {
       {/* start sidebar */}
       <div className="super-admin-sidebar">
         <div className="sidebar-image">
-          <img src="/images/insys3.webp" alt="Sidebar Image"/>
+          <img src="/images/sample03.PNG" alt="Sidebar Image"/>
         </div>
 {/* className= 'active' */}
         <div className="sidebar-buttons">
