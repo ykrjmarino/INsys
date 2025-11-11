@@ -206,6 +206,12 @@ function SectionAnalytics () {
     if (saved) setSelectedSection(Number(saved));
   }, [allSections]);
 
+  useEffect(() => { //unmount
+    return () => {
+      localStorage.removeItem('selectedSection');
+    };
+  }, []);
+
   const fetchExamInfo = async() => {
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
