@@ -393,7 +393,7 @@ function ExamQuestions() {
 
   return (
     <>
-    {/* <ResizeMonitor 
+    <ResizeMonitor 
       examId={examId}
     />
     <TabMonitor 
@@ -403,10 +403,8 @@ function ExamQuestions() {
     <MouseMonitor
       examId={examId}
     /> 
-
-    <CameraMonitor />
-*/}
-
+{/* 
+    <CameraMonitor /> */}
 
     <FaceMonitor 
       examId={examId} 

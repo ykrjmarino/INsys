@@ -424,6 +424,31 @@ export const FaceMonitor = ({ examId }) => {
             lastViolationTime.current = now;
             violationType.current = detections.length === 0 ? "no_face" : "multiple_faces";
             maxDetectedFaces.current = detections.length; // initialize
+
+            // show overlay
+            if (!document.getElementById("face-warning-overlay")) {
+              const warningOverlay = document.createElement("div");
+              warningOverlay.id = "face-warning-overlay";
+              warningOverlay.style.position = "fixed";
+              warningOverlay.style.top = 0;
+              warningOverlay.style.left = 0;
+              warningOverlay.style.width = "100vw";
+              warningOverlay.style.height = "100vh";
+              warningOverlay.style.backgroundColor = "rgba(0,0,0,0.7)";
+              warningOverlay.style.backdropFilter = "blur(8px)";
+              warningOverlay.style.display = "flex";
+              warningOverlay.style.alignItems = "center";
+              warningOverlay.style.justifyContent = "center";
+              warningOverlay.style.zIndex = 9999;
+              warningOverlay.style.color = "white";
+              warningOverlay.style.fontSize = "2rem";
+              warningOverlay.style.fontWeight = "bold";
+              warningOverlay.innerText =
+                violationType.current === "no_face"
+                  ? "No face detected — Please look at the camera!"
+                  : `Detected ${maxDetectedFaces.current} faces — Only you should be in front of the camera`;
+              document.body.appendChild(warningOverlay);
+            }
           } else if (violation && violationOngoing.current) {
             // update max faces during ongoing violation
             if (detections.length > maxDetectedFaces.current) {
@@ -431,6 +456,9 @@ export const FaceMonitor = ({ examId }) => {
             }
           } else if (!violation && violationOngoing.current) {
             // violation ended → check duration
+            const overlay = document.getElementById("face-warning-overlay");
+            if (overlay) overlay.remove();
+
             const elapsed = (now - lastViolationTime.current) / 1000;
 
             if (elapsed >= 3) {

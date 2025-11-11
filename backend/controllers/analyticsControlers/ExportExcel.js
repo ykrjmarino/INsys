@@ -80,6 +80,8 @@ export const exportExamScores = async(req, res) => { //per section
       `attachment; filename=${fileName}.xlsx`
     );
 
+    console.log("Filename sent to client:", fileName);
+
     // 6️⃣ Write workbook to response
     await workbook.xlsx.write(res);
     res.end();

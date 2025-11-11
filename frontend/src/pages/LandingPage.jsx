@@ -114,27 +114,27 @@ function LandingPage () {
                         <p>User friendly design</p>
                     </div>
                     <div className="landing-page-features-definition">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis </p>
+                        <p>Offers an intuitive interface that makes navigation simple and efficient for all users.</p>
                     </div>
                 </div>
 
                 <div className="landing-page-features-item">
                     <div className="landing-page-icon"><i className="fa-regular fa-clock"></i></div>
                     <div className="landing-page-bold-title">
-                        <p>User friendly design</p>
+                        <p>Tab Switching Detection </p>
                     </div>
                     <div className="landing-page-features-definition">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis </p>
+                        <p>Monitor and detect  when a user switches tab to ensure exam integrity.</p>
                     </div>
                 </div>
 
                 <div className="landing-page-features-item">
                     <div className="landing-page-icon"><i className="fa-solid fa-triangle-exclamation"></i></div>
                     <div className="landing-page-bold-title">
-                        <p>User friendly design</p>
+                        <p>Smart Timer </p>
                     </div>
                     <div className="landing-page-features-definition">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis </p>
+                        <p>Automatically track and manage exam duration for each student's exam.</p>
                     </div>
                 </div>
             </div>
@@ -144,30 +144,30 @@ function LandingPage () {
                 <div className="landing-page-features-item">
                     <div className="landing-page-icon"><i className="fa-solid fa-shuffle"></i></div>
                     <div className="landing-page-bold-title">
-                        <p>User friendly design</p>
+                        <p>Automated Grading</p>
                     </div>
                     <div className="landing-page-features-definition">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis </p>
+                        <p>Automatically check and grade submitted exam answers to provide instant results.</p>
                     </div>
                 </div>
 
                 <div className="landing-page-features-item">
-                    <div className="landing-page-icon"><i className="fa-solid fa-user-lock"></i></div>
+                    <div className="landing-page-icon"><i className="fa-solid fa-shuffle"></i></div>
                     <div className="landing-page-bold-title">
-                        <p>User friendly design</p>
+                        <p>Question Randomization </p>
                     </div>
                     <div className="landing-page-features-definition">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis </p>
+                        <p>Randomly arrange questions to provide each student with a unique set or sequence of questions.</p>
                     </div>
                 </div>
                 
                 <div className="landing-page-features-item">
                     <div className="landing-page-icon"><i className="fa-solid fa-user-lock"></i></div>
                     <div className="landing-page-bold-title">
-                        <p>User friendly design</p>
+                        <p>Exam Creation</p>
                     </div>
                     <div id="users" className="landing-page-features-definition">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis </p>
+                        <p>Teachers can easily create, edit, customize question types and manage the exam</p>
                     </div>
                 </div>
             </div>

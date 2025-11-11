@@ -8,6 +8,8 @@ import InputField from '../InputFields.jsx';
 import { LogoutSpan } from '../Logout.jsx';
 import { SidebarStudent } from '../SidebarTS.jsx';
 
+import { toast } from 'react-toastify';
+
 function EnterExam() {
   const { accessToken } = useAuth();
   const navigate = useNavigate();
@@ -53,7 +55,7 @@ function EnterExam() {
       const res = await axios.post(`/student/exams/${examId}/start`, {inputCode: inputExamCode, inputSection: inputExamSection}, config);   
       navigate(`/exam/start/${examId}`);
     } catch (error) {
-      alert(error.response?.data?.error || "Something went wrong");
+      toast.info(error.response?.data?.error || "Something went wrong");
     }
   }
   
