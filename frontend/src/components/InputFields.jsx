@@ -1,6 +1,6 @@
 import React from "react";
 
-function InputField ({ label, type="text", name, value, onChange, placeholder, id, className, disabled=false, maxLength, autocomplete }) {
+function InputField ({ label, type="text", name, value, onChange, placeholder, id, className, disabled=false, maxLength, autocomplete, ref }) {
   return (
     <>   
       {/* <label>{label}</label> */}
@@ -16,6 +16,7 @@ function InputField ({ label, type="text", name, value, onChange, placeholder, i
         disabled={disabled}
         maxLength={maxLength}
         autocomplete={autocomplete}
+        ref={ref} 
       />
     </>
   );

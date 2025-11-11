@@ -8,7 +8,7 @@ import InputField from "../InputFields"
 import SelectField from "../SelectFields";
 import Button from "../Buttons"
 import { FinishExamInfo } from "./FinishExamInfo";
-import { CameraMonitor, MouseMonitor, ResizeMonitor, TabMonitor } from "../Monitoring";
+import { CameraMonitor, FaceMonitor, MouseMonitor, ResizeMonitor, TabMonitor } from "../Monitoring";
 import { useRef } from "react";
 
 
@@ -35,6 +35,11 @@ const MultiChoiceComp = ({mcqText, mcqOptions, name, onChange, value}) => {
 }
 
 const IdentificationComp = ({idenText, name, placeholder, onChange, value}) => {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, []);
   return (
     <>
       <div className="student-exam-container-identification">
@@ -44,6 +49,7 @@ const IdentificationComp = ({idenText, name, placeholder, onChange, value}) => {
 
         <div className="student-exam-option-container-identification">
           <InputField 
+            ref={inputRef}
             className="student-exam-input-identification" 
             name={name}
             value={value || ""} //must be string or number
@@ -402,9 +408,10 @@ function ExamQuestions() {
 */}
 
 
-    {/* <FaceMonitor 
+    <FaceMonitor 
       examId={examId} 
-    /> */}
+      style={{ marginTop: "80px" }}
+    />
 
 
     {submitted ? (

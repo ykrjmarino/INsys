@@ -7,8 +7,8 @@ import { toast } from 'react-toastify';
 // import * as tf from "@tensorflow/tfjs";
 // import * as faceapi from "face-api.js";
 
-// import { useRef } from "react";
-
+import * as faceapi from 'face-api.js';
+import * as tf from '@tensorflow/tfjs';
 
 export const TabMonitor = ({ examId }) => {
   let awayStart = null;
@@ -348,6 +348,158 @@ export const CameraMonitor = () => {
 };
 
 
+
+export const FaceMonitor = ({ examId }) => {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [pos, setPos] = useState({ top: 100, left: 100 });
+  const dragging = useRef(false);
+  const offset = useRef({ x: 0, y: 0 });
+  const intervalId = useRef(null);
+
+  const lastViolationTime = useRef(null);
+  const violationOngoing = useRef(false);
+  const violationType = useRef(null);
+  const maxDetectedFaces = useRef(0);
+
+  useEffect(() => {
+    const run = async () => {
+      await tf.setBackend("webgl");
+      await tf.ready();
+
+      // load models from public/models/
+      await Promise.all([
+        faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
+        faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+        faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+        faceapi.nets.ageGenderNet.loadFromUri("/models"),
+        faceapi.nets.faceExpressionNet.loadFromUri("/models"),
+      ]).catch((err) => console.error("Error loading models:", err));
+
+      // get video stream
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      if (videoRef.current) videoRef.current.srcObject = stream;
+
+      videoRef.current.addEventListener("play", () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const displaySize = {
+          width: videoRef.current.videoWidth,
+          height: videoRef.current.videoHeight,
+        };
+        faceapi.matchDimensions(canvas, displaySize);
+        canvas.width = displaySize.width;
+        canvas.height = displaySize.height;
+
+        intervalId.current = setInterval(async () => {
+          const detections = await faceapi
+            .detectAllFaces(videoRef.current)
+            .withFaceLandmarks()
+
+            /*
+              we dont need these, too heavy for devices:
+
+             .withFaceDescriptors() //used for face recognition/matching
+             .withFaceExpressions() //detects facial expressions
+             .withAgeAndGender() //detecting age lol
+
+            */
+
+          const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+          // draw as before
+          const ctx = canvas.getContext("2d", { willReadFrequently: true });
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          faceapi.draw.drawDetections(canvas, resizedDetections);
+          faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+          // faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+
+          const violation = detections.length === 0 || detections.length > 1;
+          const now = Date.now();
+
+          if (violation && !violationOngoing.current) {
+            // violation started
+            violationOngoing.current = true;
+            lastViolationTime.current = now;
+            violationType.current = detections.length === 0 ? "no_face" : "multiple_faces";
+            maxDetectedFaces.current = detections.length; // initialize
+          } else if (violation && violationOngoing.current) {
+            // update max faces during ongoing violation
+            if (detections.length > maxDetectedFaces.current) {
+              maxDetectedFaces.current = detections.length;
+            }
+          } else if (!violation && violationOngoing.current) {
+            // violation ended → check duration
+            const elapsed = (now - lastViolationTime.current) / 1000;
+
+            if (elapsed >= 3) {
+              let details = "";
+              if (violationType.current === "no_face") {
+                details = `No face detected for ${elapsed.toFixed(2)}s`;
+              } else if (violationType.current === "multiple_faces") {
+                details = `Detected ${maxDetectedFaces.current} faces for ${elapsed.toFixed(2)}s`;
+              }
+
+              axios.post(`/exam/${examId}/violations/student`, {
+                event_type: "face_violation",
+                is_warning: elapsed >= 5,
+                details,
+              }).catch((err) => console.error(err.message));
+            }
+
+            violationOngoing.current = false;
+            violationType.current = null;
+            maxDetectedFaces.current = 0; // reset
+          }
+        }, 1000);
+      });
+    };
+
+    run();
+
+    return () => clearInterval(intervalId.current);
+  }, [examId]);
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: "10%",        // distance from top
+        left: "90%",        // center horizontally use 50%
+        transform: "translateX(-50%)",
+        zIndex: 1000,
+      }}
+      onMouseDown={(e) => {
+        dragging.current = true;
+        offset.current = { x: e.clientX - pos.left, y: e.clientY - pos.top };
+      }}
+      onMouseUp={() => (dragging.current = false)}
+      onMouseMove={(e) => {
+        if (!dragging.current) return;
+        setPos({ top: e.clientY - offset.current.y, left: e.clientX - offset.current.x });
+      }}
+    >
+      <video ref={videoRef} autoPlay muted width={250} height={180} style={{ zIndex: 10 }} />
+      <canvas
+        ref={canvasRef}
+        style={{
+          display: "none", pointerEvents: "none",
+          // position: "absolute",
+          // top: 0,
+          // left: 0,
+          // zIndex: 10,
+          // pointerEvents: "none",
+          // background: "transparent",
+        }}
+      />
+    </div>
+  );
+};
+
+
+
+
 // export const FaceMonitor = ({ examId }) => {
 //   const videoRef = useRef(null);
 //   const canvasRef = useRef(null);
@@ -383,6 +535,9 @@ export const CameraMonitor = () => {
 //           height: videoRef.current.videoHeight,
 //         };
 //         faceapi.matchDimensions(canvas, displaySize);
+        
+//         canvas.width = displaySize.width;   // ← add this
+//         canvas.height = displaySize.height;
 
 //         intervalId = setInterval(async () => {
 //           const detections = await faceapi
@@ -424,8 +579,8 @@ export const CameraMonitor = () => {
 
 //   return (
 //     <div style={{ position: "relative", display: "inline-block" }}>
-//       <video ref={videoRef} autoPlay muted width={350} height={280} />
-//       <canvas ref={canvasRef} style={{ position: "absolute", top: 0, left: 0, zIndex: 10 }} />
+//       <video ref={videoRef} autoPlay muted width={350} height={280} style={{ position: "relative", zIndex: 1 }}/>
+//       <canvas ref={canvasRef} style={{ position: "absolute", top: 0, left: 0, zIndex: 10, pointerEvents: "none", background: "transparent"}} />
 //     </div>
 //   );
 // };
