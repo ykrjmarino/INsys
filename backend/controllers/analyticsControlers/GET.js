@@ -258,7 +258,8 @@ export const getSectionAnalytics = async(req, res) => {
         total_takers: 0,
         average_score: 0,
         highest_score: 0,
-        lowest_score: 0
+        lowest_score: 0,
+        passed_count: 0
       });
     }
 

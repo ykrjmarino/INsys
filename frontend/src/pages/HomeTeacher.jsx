@@ -42,6 +42,12 @@ export const HomeExamsTeacher = () => {
     localStorage.setItem('examStatus', value);
   };
 
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem('examStatus');
+    };
+  }, []);
+
   const optionsArray = [
     { value: "draft", label: "Draft" },
     { value: "published", label: "Published" },
