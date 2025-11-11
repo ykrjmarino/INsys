@@ -78,7 +78,7 @@ function Login() {
         <div id="login-stars3"></div>
 
         <div className="login-side-design">
-            <img src="wait2.PNG" alt="Sidebar Logo" />
+            <img src="/images/sample03.PNG" alt="Sidebar Logo" />
             <label>Don't Have An Account Yet</label>
             <Button className="login-register-btn" label="Sign Up" onClick={() => navigate('/welcome-register')} />
         </div>

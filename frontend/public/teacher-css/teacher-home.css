@@ -416,7 +416,7 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
 .teacher-home-main-content {
     margin-top:100px;
     width: 80%;
-    height: 80%;
+    height: 100%;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -498,20 +498,8 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
 }
 
 
-.grid-item:hover {
-    border: 1px solid #cbd5e1;
-    box-shadow: 
-        /* Subtle left shadow */
-        -6px 0 12px -4px rgba(0, 0, 0, 0.06),
-        
-        /* Subtle right shadow */
-        6px 0 12px -4px rgba(0, 0, 0, 0.06),
-        
-        /* Main bottom shadow (stronger) */
-        0 12px 20px -6px rgba(0, 0, 0, 0.12),
-        
-        /* Extra softness */
-        0 4px 8px -4px rgba(0, 0, 0, 0.08);
+.grid-item:hover .overlay-text {
+    transform: scale(1.03);
 }
 
 /* Optional scrollbar styling */
@@ -536,6 +524,7 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     gap: 0.3rem; 
     align-items: flex end;
     justify-content: flex-end;
+    z-index: 10;
 }
 
 .teacher-home-delete-button,
@@ -557,20 +546,17 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
 
 .teacher-home-delete-button i{
     font-size: 16px; 
-    color: #ccc;
+    color: #ffffff;
 }
 
 .teacher-home-duplicate-button i
 {
     font-size: 16px; 
-    color: #ccc;
+    color: #ffffff;
 }
-
-
 .teacher-home-delete-button i:hover, .teacher-home-duplicate-button i:hover{
-    color: #16213E;
+    color: #e6e6e6;
 }
-
 
 
 .tooltip {
@@ -606,32 +592,22 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     align-items: center;
 }
 
-
-
-.teacher-home-illustation {
-    position: relative; /* Enables absolute positioning of children */
-    overflow: hidden;
-    border-radius: 10px;
-    background: #2851d8;
-    box-shadow: inset 0 6px 12px rgba(255, 255, 255, 0.2),
-                inset 0 -6px 12px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    height: 0;
-    padding-top: 56.25%; /* 16:9 ratio */
-}
-
-.teacher-home-illustation img {
+.diagonal-cross-grid {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+    z-index: 0;
+    background: #020617;
+    background-image:
+        linear-gradient(to right, rgba(71, 85, 105, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(71, 85, 105, 0.3) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    background-size: 32px 32px, 32px 32px, 100% 100%;
 }
+
 
 .overlay-text {
     position: absolute;
-    top: 12px;
+    top: 20px;
     left: 12px;
     margin: 0;
     padding: 6px 12px;
@@ -641,26 +617,15 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     font-size: 18px;
     border-radius: 6px;
     z-index: 2;
-    max-width: calc(100% - 50px); /* Prevent overflow */
+    max-width: calc(100% - 50px); 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-
-    
+    text-transform: uppercase;
+    font-weight: 300;
+    transition: font-weight 0.25s ease, transform 0.25s ease;
 }
-
-
-.exam-content img {
-    width: 400px;
-    height: 150px;
-    border-radius: 10px;
-    object-fit: cover;
-    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
-    background-color: #f0f0f0; /* makes inset visible */
-}
-
-
 
 .grid-container::-webkit-scrollbar {
     width: 9px;

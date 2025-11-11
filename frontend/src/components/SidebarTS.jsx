@@ -44,7 +44,7 @@ export const SidebarTeacher = () => {
       
       <div id="sidebarMenu">
         <div className="sidebar-logo">
-          <img src="insys3.PNG" alt="Sidebar Logo" />
+          <img src="/images/sample03.PNG" alt="Sidebar Logo" />
         </div>
 
 
@@ -171,7 +171,7 @@ export const SidebarStudent = () => {
       
       <div id="student-home-sidebar-menu">
         <div className="sidebar-logo">
-          <img src="insys3.PNG" alt="Sidebar Logo" />
+          <img src="/images/sample03.PNG" alt="Sidebar Logo" />
         </div>
 
         <div className="student-home-sidebar-buttons">

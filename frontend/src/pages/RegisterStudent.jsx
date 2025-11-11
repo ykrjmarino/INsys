@@ -102,7 +102,7 @@ function RegisterStudent() {
       <div id="stars3"></div>
 
       <div className="register-side-design">
-        <img src="wait2.PNG" alt="Sidebar Logo" />
+        <img src="/images/sample03.PNG" alt="Sidebar Logo" />
         <label>Already Have An Account</label>
         <button onClick={() =>{ navigate("/login") }} className="registration-login-option">Login</button>
       </div>

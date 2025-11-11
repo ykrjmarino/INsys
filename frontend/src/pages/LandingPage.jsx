@@ -119,7 +119,7 @@ function LandingPage () {
                 </div>
 
                 <div className="landing-page-features-item">
-                    <div className="landing-page-icon"><i className="fa-regular fa-clock"></i></div>
+                    <div className="landing-page-icon"><i className="fa-solid fa-triangle-exclamation"></i></div>
                     <div className="landing-page-bold-title">
                         <p>Tab Switching Detection </p>
                     </div>
@@ -129,7 +129,7 @@ function LandingPage () {
                 </div>
 
                 <div className="landing-page-features-item">
-                    <div className="landing-page-icon"><i className="fa-solid fa-triangle-exclamation"></i></div>
+                    <div className="landing-page-icon"><i className="fa-solid fa-clock"></i></div>
                     <div className="landing-page-bold-title">
                         <p>Smart Timer </p>
                     </div>
@@ -142,7 +142,7 @@ function LandingPage () {
             <div className="landing-page-features-row">
 
                 <div className="landing-page-features-item">
-                    <div className="landing-page-icon"><i className="fa-solid fa-shuffle"></i></div>
+                    <div className="landing-page-icon"><i className="fa-solid fa-gears"></i></div>
                     <div className="landing-page-bold-title">
                         <p>Automated Grading</p>
                     </div>
@@ -162,7 +162,7 @@ function LandingPage () {
                 </div>
                 
                 <div className="landing-page-features-item">
-                    <div className="landing-page-icon"><i className="fa-solid fa-user-lock"></i></div>
+                    <div className="landing-page-icon"><i className="fa-solid fa-pen-to-square"></i></div>
                     <div className="landing-page-bold-title">
                         <p>Exam Creation</p>
                     </div>
@@ -248,14 +248,14 @@ function LandingPage () {
         <footer id="footer">
             <div className="landing-page-footer">
                 <div className="landing-page-insys-logo">
-                    <img src="insys-example.PNG" alt="logo" />
+                    <img src="/images/sample03.PNG" alt="logo" />
                     <p>Exclusive for</p>
                     <div className="landing-page-school-logos">
                         <div className="landing-page-psu-logo">
-                            <img src="psu.PNG" alt="logo" />
+                            <img src="/images/psu.PNG" alt="logo" />
                         </div>
                         <div className="landing-page-psu-logo">
-                            <img src="ccs.PNG" alt="logo" />
+                            <img src="/images/ccs.PNG" alt="logo" />
                         </div>
                     </div>
                 </div>

@@ -52,7 +52,7 @@ function EnterExam() {
       withCredentials: true
     };
     try {
-      const res = await axios.post(`/student/exams/${examId}/start`, {inputCode: inputExamCode, inputSection: inputExamSection}, config);   
+      const res = await axios.post(`/student/exams/${examId}/start`, {inputCode: inputExamCode, inputSection: inputExamSection}, config);   //startExam
       navigate(`/exam/start/${examId}`);
     } catch (error) {
       toast.info(error.response?.data?.error || "Something went wrong");
@@ -99,7 +99,7 @@ function EnterExam() {
 
         <div className="student-home-code-container">
           <div className="student-home-container-logo">
-            <img src="/images/insys-logo.webp" alt="logo" />
+            <img src="/images/sample03.PNG" alt="logo" />
           </div>
           <div className="student-home-input">
             <label htmlFor="section">Section</label>

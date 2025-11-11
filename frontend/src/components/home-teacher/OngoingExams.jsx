@@ -33,9 +33,9 @@ export const HomeCard = ({ data, title, examCode, status, onClickDel, onClickDup
       </div>
         
       <div className="exam-content">
+        <div className="diagonal-cross-grid"></div>
         <div className="teacher-home-illustation">
           <p className="overlay-text">{title}</p>
-          <img src="tryyy.jpg" alt="Exam container pic"></img>
         </div>
       </div>
 
