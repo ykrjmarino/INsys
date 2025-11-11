@@ -441,6 +441,12 @@ td span:hover {
     .table-container {
         overflow-x: auto;
     }
+
+    .table-container th td {
+        overflow-x: auto;
+        font-size: 5.5px;
+    }
+
     table {
         min-width: 800px;
     }

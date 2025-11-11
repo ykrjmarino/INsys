@@ -694,6 +694,7 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
         grid-template-columns: 1fr;          /* ONE card per row */
         padding: 15px;
         gap: 15px;
+        margin-top: 55px;
     }
 
     /* Optional: make cards a bit shorter on mobile */

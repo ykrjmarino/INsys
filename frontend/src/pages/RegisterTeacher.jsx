@@ -129,7 +129,7 @@ function RegisterTeacher() {
                   id="username"
                   value={formRegister.username} 
                   onChange={handleChange}
-                  placeholder="Enter your School Id" 
+                  placeholder="Enter your Username" 
                   disabled={isVerified}
                   autoComplete="off"
                   required

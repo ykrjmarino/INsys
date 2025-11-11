@@ -531,10 +531,13 @@ height: 60px;
   .registration-whole-form {
     width: 60%; 
     height: auto; 
+    max-height: 80vh;
     max-width: 500px; 
     padding: 20px;
     border-radius: 8px;
+    overflow-y: auto;
   }
+
 
   .registration-progress-bar {
     width: 100%;
@@ -629,12 +632,16 @@ height: 60px;
   }
 
   .registration-whole-form {
-    width: 100%; 
+    width: 100%;
+    min-height: 850px; /* optional: minimum height */
     height: auto; 
-    max-width: 400px; 
-    margin: 0 auto;
-    padding: 20px;
-    border-radius: 8px; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    background-color: #ffffff;
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
   }
 
   .registration-progress-bar {
@@ -694,7 +701,7 @@ height: 60px;
   }
 
   .registration-name-group {
-    flex-direction: column; 
+    flex-direction: row; 
     gap: 0.5rem;
   }
 
