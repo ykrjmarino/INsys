@@ -246,8 +246,8 @@ app.delete("/api/maintenance/all", superadminOnly, deleteAllData); //all rows in
 app.post("/api/exam/:examId/violations/student", studentOnly, postViolation);
 
 //export to excel
-app.get("/api/export/:examId/:sectionId", exportExamScores); //per section
 app.get("/api/export/users/:role", superadminOnly, exportUsers); //per role: student, admin, superadmin
+app.get("/api/export/:examId/:sectionId", exportExamScores); //per section
 
 // ======================
 // 🔟 START SERVER

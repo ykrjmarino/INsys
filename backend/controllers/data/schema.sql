@@ -79,7 +79,7 @@ VALUES
 -- 3.1 EXAMINATIONS TABLE
 CREATE TABLE examinations (
   exam_id SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(user_id),
+  user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   schedule DATE,
   status TEXT DEFAULT 'draft',
@@ -106,7 +106,7 @@ CREATE TABLE section_takers (
 CREATE TABLE exam_sessions (
   session_id SERIAL PRIMARY KEY,
   exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
-  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE,
+  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   status TEXT CHECK (status IN ('in-progress', 'submitted')) DEFAULT 'in-progress',
   started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   finished_at TIMESTAMP,
@@ -123,7 +123,7 @@ CREATE TABLE exam_sessions (
 CREATE TABLE questions (
   question_id SERIAL PRIMARY KEY,
   exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
-  user_id INT REFERENCES users(user_id),
+  user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
   question_type TEXT CHECK (question_type IN ('multiplechoice', 'truefalse', 'identification', 'essay')) NOT NULL,
   question_text TEXT NOT NULL,
   option_a TEXT,
@@ -141,7 +141,7 @@ CREATE TABLE student_answers (
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
   exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
   question_id INT REFERENCES questions(question_id) ON DELETE CASCADE,
-  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE,
+  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   student_answer TEXT,
   is_correct BOOLEAN
 );
@@ -151,7 +151,7 @@ CREATE TABLE essay_answers (
   answer_id SERIAL PRIMARY KEY,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
   question_id INT REFERENCES questions(question_id) ON DELETE CASCADE,
-  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE,
+  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   student_answer TEXT,
   essay_score INT DEFAULT 0
 );
@@ -161,7 +161,7 @@ CREATE TABLE student_scores (
   score_id SERIAL PRIMARY KEY,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
   exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
-  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE,
+  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   total_score INT DEFAULT 0,
   objective_score INT DEFAULT 0,
   essay_score INT DEFAULT 0,
@@ -176,12 +176,12 @@ CREATE TABLE student_scores (
 -- 5. MONITORING & WARNINGS
 -- ============================================
 
--- 5.1 EXAM_MONITORING_LOGS
+-- 5.1 EXAM_MONITORING_TABLE
 CREATE TABLE exam_monitoring (
   monitor_id SERIAL PRIMARY KEY,
   exam_id INT REFERENCES examinations(exam_id) ON DELETE CASCADE,
   session_id INT REFERENCES exam_sessions(session_id) ON DELETE CASCADE,
-  student_school_id BIGINT REFERENCES users(school_id),
+  student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE ON UPDATE CASCADE,
 
   event_type VARCHAR(50) NOT NULL,      -- 'tab_switch', 'resize', 'face_away'
   is_warning BOOLEAN DEFAULT FALSE,     -- TRUE if this event triggered an official warning
@@ -203,57 +203,3 @@ CREATE TABLE system_logs (
   target_id INT,                                                     -- optional: affected exam/user/etc.
   created_at TIMESTAMP DEFAULT NOW()                                 -- timestamp of the action
 );
-
-
-
--- ============================================
--- ALTERS LOL
--- ============================================
-
--- exam_monitoring
-ALTER TABLE exam_monitoring
-DROP CONSTRAINT exam_monitoring_student_school_id_fkey,
-ADD CONSTRAINT exam_monitoring_student_school_id_fkey
-FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
-
--- student_answers
-ALTER TABLE student_answers
-DROP CONSTRAINT student_answers_student_school_id_fkey,
-ADD CONSTRAINT student_answers_student_school_id_fkey
-FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
-
--- essay_answers
-ALTER TABLE essay_answers
-DROP CONSTRAINT essay_answers_student_school_id_fkey,
-ADD CONSTRAINT essay_answers_student_school_id_fkey
-FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
-
--- student_scores
-ALTER TABLE student_scores
-DROP CONSTRAINT student_scores_student_school_id_fkey,
-ADD CONSTRAINT student_scores_student_school_id_fkey
-FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
-
--- exam_sessions
-ALTER TABLE exam_sessions
-DROP CONSTRAINT exam_sessions_student_school_id_fkey,
-ADD CONSTRAINT exam_sessions_student_school_id_fkey
-FOREIGN KEY (student_school_id) REFERENCES users(school_id) ON DELETE CASCADE;
-
--- examinations
-ALTER TABLE examinations
-DROP CONSTRAINT examinations_user_id_fkey;
-
-ALTER TABLE examinations
-ADD CONSTRAINT examinations_user_id_fkey
-FOREIGN KEY (user_id)
-REFERENCES users(user_id)
-ON DELETE CASCADE;
-
--- questions
-ALTER TABLE questions
-DROP CONSTRAINT questions_user_id_fkey,
-ADD CONSTRAINT questions_user_id_fkey
-FOREIGN KEY (user_id)
-REFERENCES users(user_id)
-ON DELETE CASCADE;

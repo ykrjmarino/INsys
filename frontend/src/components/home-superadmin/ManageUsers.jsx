@@ -51,6 +51,7 @@ export const ManageUser = () => {
     };
 
     try {
+      console.log("active tab: ", activeTab);
       const response = await axios.get(`/export/users/${activeTab}`, { 
         ...config,
         responseType: "blob"

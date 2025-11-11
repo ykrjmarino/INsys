@@ -29,11 +29,23 @@ export const exportExamScores = async(req, res) => { //per section
       ORDER BY u.last_name ASC, u.first_name ASC
     `, [examId, sectionId]);
 
-    const fileName = `${studentInfo.rows[0]?.exam_title || "exam"}_scores.xlsx`;
+    // 2️⃣ Determine exam title
+    let examTitle = "Exam";
+    if (studentInfo.rows.length > 0) {
+      examTitle = studentInfo.rows[0].exam_title;
+    } else {
+      const examRes = await db.query(
+        "SELECT title FROM examinations WHERE exam_id = $1",
+        [examId]
+      );
+      if (examRes.rows[0]) examTitle = examRes.rows[0].title;
+    }
+
+    const fileName = `${examTitle}_scores.xlsx`;
 
     // 2️⃣ Create workbook and worksheet
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet(studentInfo.rows[0]?.exam_title || "Student Scores");
+    const worksheet = workbook.addWorksheet(examTitle);
 
     // 3️⃣ Define columns
     worksheet.columns = [
@@ -94,6 +106,7 @@ export const exportExamScores = async(req, res) => { //per section
 
 export const exportUsers = async (req, res) => {
   const { role } = req.params; //orrr req.query
+  console.log("Exporting users with role:", role);
 
   try {
     // 1️⃣ Fetch all users with that role

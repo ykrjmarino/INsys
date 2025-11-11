@@ -122,6 +122,7 @@ export const ManageUsersTable = ({selectedRole}) => {
 
       setEditUser(null);
       console.log("User updated:", res.data);
+      toast.success("User updated");
     } catch (err) {
       console.error("Failed to update user:", err);
       alert(err.response?.data?.error || "Something went wrong.");console.log(err)
@@ -389,6 +390,7 @@ const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) =
           value={formData.first_name}
           onChange={handleChange}
           style={{ width: "100%", marginBottom: "8px" }}
+          autoComplete="off"
         />
         <p>Last Name</p>
         <input
@@ -396,6 +398,7 @@ const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) =
           value={formData.last_name}
           onChange={handleChange}
           style={{ width: "100%", marginBottom: "8px" }}
+          autoComplete="off"
         />
         <p>School ID</p>
         <input
@@ -403,6 +406,7 @@ const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) =
           value={formData.school_id}
           onChange={handleChange}
           style={{ width: "100%", marginBottom: "8px" }}
+          autoComplete="off"
         />
         <p>Email</p>
         <input
@@ -410,6 +414,7 @@ const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) =
           value={formData.email}
           onChange={handleChange}
           style={{ width: "100%", marginBottom: "15px" }}
+          autoComplete="off"
         />
         <p>Password</p>
         <input
@@ -418,6 +423,7 @@ const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) =
           placeholder="Leave blank to keep current password"
           value={formData.password || ""}
           onChange={handleChange}
+          autoComplete="off"
         />
         <p>Role</p>
         <SelectField
