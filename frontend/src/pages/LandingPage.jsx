@@ -8,6 +8,28 @@ function LandingPage () {
   const [userCounts, setuserCounts] = useState({});
   const navigate = useNavigate();
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const slides = document.querySelectorAll(".slide");
+    const lines = document.querySelectorAll(".line-segment");
+
+    const interval = setInterval(() => {
+      // remove active from all
+      slides.forEach((s) => s.classList.remove("active"));
+      lines.forEach((l) => l.classList.remove("active"));
+
+      // set active to current
+      slides[currentSlide].classList.add("active");
+      lines[currentSlide].classList.add("active");
+
+      // update index
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 3000); // 3s per slide
+
+    return () => clearInterval(interval);
+  }, [currentSlide]);
+
   useEffect(()=>{
     fetchAllUsers(); 
   }, []);
@@ -36,7 +58,7 @@ function LandingPage () {
             
             <div className="header-left">
                 <div className="logo">
-                    <img src="IMG_0493.PNG" alt="INsys Logo" /> 
+                    <img src="/images/sample03.PNG" alt="INsys Logo" /> 
                 </div>
             </div>
 
@@ -78,19 +100,22 @@ function LandingPage () {
         <div id="home" className="landing-page-slide-image">
             <div className="slides">
                 <div className="slide active">
-                    <img src="aryann.jpg" alt="Slide 1" />
+                    <img src="/images/slide1.1.webp" alt="Slide 1" />
                 </div>
                 <div className="slide">
-                    <img src="IMG_9960.PNG" alt="Slide 2" />
+                    <img src="/images/slide2.webp" alt="Slide 2" />
                 </div>
                 <div className="slide">
-                    <img src="slide3.jpg" alt="Slide 3" />
+                    <img src="/images/slide0.png" alt="Slide 3" />
                 </div>
             </div>
 
           
             <div className="slide-content">
-                <h2 className="slide-content-h2"><span className="insys-gradient">INSYS</span> ...</h2>
+                <h2 className="slide-content-h2">
+                  <span className="insys-gradient" style={{ fontSize: "4.7rem" }}>INSYS</span>   
+                  <span style={{ fontSize: "2.2rem", color: "#ffffff86", marginLeft: "20px", opacity: 0.9 }}>The future of online examinations</span>
+                </h2>
                 <p>A secure and easy-to-use platform for creating, managing, <br /> monitoring online exams that ensure a honest and reliable results.</p>
                 <button onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })}>Learn more</button>
             </div>
