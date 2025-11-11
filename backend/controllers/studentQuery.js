@@ -134,7 +134,7 @@ export const verifyExamAccess = async(req, res) => {
     res.status(500).json({ error: error.message  || 'Failed to enter exam' });
   }
 }
-
+/*
 export const startExam = async(req, res) => {
   const { examId } = req.params; 
   const { inputCode, inputSection } = req.body; 
@@ -224,7 +224,138 @@ export const startExam = async(req, res) => {
     res.status(500).json({ error: error.message });
   }
 }
+*/
+export const startExam = async (req, res) => {
+  const { examId } = req.params; 
+  const { inputCode, inputSection } = req.body; 
+  const studentSchoolId = req.user.schoolId;
 
+  try {
+    const currentTimeUTC = new Date(new Date().toISOString());
+
+    // 1) Load the exam by examId (authoritative)
+    const examQ = await db.query(
+      `SELECT e.*,
+              e.start_datetime AS start_utc,
+              e.end_datetime   AS end_utc
+       FROM examinations e
+       WHERE e.exam_id = $1`,
+      [examId]
+    );
+
+    if (examQ.rows.length === 0) {
+      return res.status(404).json({ error: 'Exam not found' });
+    }
+    const exam = examQ.rows[0];
+
+    // 2) Confirm the code matches (client-supplied) - fail fast if mismatch
+    if (exam.exam_code !== inputCode) {
+      return res.status(400).json({ error: 'Invalid exam code for this exam.' });
+    }
+
+    // 3) Confirm the section exists for this exam
+    const sectionQ = await db.query(
+      `SELECT * FROM section_takers
+       WHERE exam_id = $1 AND section_name = $2`,
+      [examId, inputSection]
+    );
+
+    if (sectionQ.rows.length === 0) {
+      return res.status(400).json({ error: 'Invalid section for this exam.' });
+    }
+
+    // 4) Check if already submitted (hard fail once submitted)
+    const isSubmitted = await db.query(
+      `SELECT 1 FROM student_scores
+       WHERE student_school_id = $1
+         AND exam_id = $2
+         AND is_submitted = true
+       LIMIT 1`,
+      [studentSchoolId, examId]
+    );
+    if (isSubmitted.rows.length > 0) {
+      return res.status(400).json({ error: 'Exam submitted. Can only take once.' });
+    }
+
+    // 5) Check if in-progress (not submitted) for same section
+    const isStarted = await db.query(
+      `SELECT 1 FROM student_scores
+       WHERE student_school_id = $1
+         AND section_name = $2
+         AND exam_id = $3
+         AND is_submitted = false
+       LIMIT 1`,
+      [studentSchoolId, inputSection, examId]
+    );
+
+    if (isStarted.rows.length === 1) {
+      // Already allowed to proceed
+      // But still check for an existing exam session if you want to return session data
+      const existingSession = await db.query(
+        `SELECT * FROM exam_sessions
+         WHERE exam_id = $1 AND student_school_id = $2
+           AND status = 'in-progress'
+         LIMIT 1`,
+        [examId, studentSchoolId]
+      );
+
+      return res.status(200).json({
+        message: 'Already allowed. Proceed to exam',
+        exam: {
+          exam_id: exam.exam_id,
+          timer_question: exam.timer_question,
+          exam_duration: exam.exam_duration,
+          start_utc: exam.start_utc,
+          end_utc: exam.end_utc
+        },
+        session: existingSession.rows[0] ?? null
+      });
+    }
+
+    // 6) Insert student_scores for first-time start (idempotent with ON CONFLICT DO NOTHING)
+    await db.query(
+      `INSERT INTO student_scores (student_school_id, exam_id, section_name) 
+       VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`, 
+      [studentSchoolId, examId, inputSection]
+    );
+
+    // 7) Check if an in-progress exam_session already exists (race-safe)
+    const existingSession = await db.query(
+      `SELECT * FROM exam_sessions
+       WHERE exam_id = $1 AND student_school_id = $2
+         AND status = 'in-progress'
+       LIMIT 1`,
+      [examId, studentSchoolId]
+    );
+
+    if (existingSession.rows.length > 0) {
+      return res.status(200).json({
+        message: 'Exam already in progress',
+        session: existingSession.rows[0],
+        timer_question: exam.timer_question,
+        exam_duration: exam.exam_duration
+      });
+    }
+
+    // 8) Create a new exam_session
+    const newSession = await db.query(
+      `INSERT INTO exam_sessions (exam_id, student_school_id, status, started_at)
+       VALUES ($1, $2, $3, $4)
+       RETURNING *`,
+      [examId, studentSchoolId, 'in-progress', currentTimeUTC]
+    );
+
+    return res.status(201).json({
+      message: 'Exam session started',
+      session: newSession.rows[0],
+      timer_question: exam.timer_question,
+      exam_duration: exam.exam_duration
+    });
+  } catch (error) {
+    console.error('Error starting exam', error);
+    return res.status(500).json({ error: error.message });
+  }
+};
 
 //ALL QUESTION TYPE
 export const answerSubmission = async(req, res) => {
