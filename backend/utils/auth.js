@@ -44,8 +44,16 @@ authRoutes.post('/login', async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'This email is not associated with an account. Please register to continue.' });
     }
-
+    
     const user = result.rows[0]; //mostly used, dont delete
+
+    if (user.is_archived) {
+      return res.status(404).json({ error: 'Your account has been archived. Please contact the administrator.' });
+    }
+
+    
+
+    
     const passwordMatch = await bcrypt.compare(password, user.password ) //true or false
 
     if (!passwordMatch) { //if false (password did not match)
@@ -61,7 +69,8 @@ authRoutes.post('/login', async (req, res) => {
       nameFNfirst: `${user.first_name} ${user.middle_initial}. ${user.last_name}`,
       lastName: user.last_name,
       firstName: user.first_name,
-      middleInitial: user.middle_initial
+      middleInitial: user.middle_initial,
+      isArchived: false,
     };
 
     const accessToken = generateAccessToken(userPayload);
@@ -84,7 +93,7 @@ authRoutes.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Error Logging In', error);
-    res.status(500).json({ error: 'Failed to Log in' });
+    res.status(500).json({ error: 'An unexpected error occurred during login. Please try again.' });
   }
   
 });

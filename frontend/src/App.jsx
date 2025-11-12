@@ -41,6 +41,10 @@ function ProtectedRoute({ allowedRoles }) {
     return <Navigate to="/login" replace />;
   }
 
+  if (user.isArchived) {
+    return <Navigate to="/forbidden" replace />;
+  }
+
   if (!allowedRoles.includes(user.role)) {
     return <Navigate to="/unauthorized" replace />;
   }
@@ -119,33 +123,6 @@ function App() {
   const navigate = useNavigate();
   const { setAccessToken, setUser, user } = useAuth();
 
-// useEffect(() => {
-//   const publicPaths = [
-//     "/login", 
-//     "/register/student", 
-//     "/register/teacher", 
-//     "/welcome-register", 
-//     "/forgot-password"
-//   ];
-//   if (publicPaths.includes(window.location.pathname)) return;
-
-//   axios.post("/refresh")
-//     .then(res => {
-//       const newToken = res.data.accessToken;
-//       const { userId, schoolId, nameFNfirst, nameLNfirst, role, lastName, firstName } = res.data.user || {};
-
-//       setAccessToken(res.data.accessToken);
-//       setUser({ userId, schoolId, nameFNfirst, nameLNfirst, role });
-//                             console.log("User after refresh: (obj)", { userId, schoolId, nameFNfirst, nameLNfirst, role, lastName, firstName}); //obj. for debugging only
-
-//       axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-//       console.log("Access token set:", newToken);
-//     })
-//     .catch(() => {
-//       setAccessToken('');
-//       navigate("/login");
-//     });
-// }, []);
 
 useEffect(() => {
   console.log("User updated: (from global context)", user);  

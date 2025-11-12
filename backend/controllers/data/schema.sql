@@ -18,6 +18,7 @@ CREATE TABLE users (
   college VARCHAR(50),
   school_id BIGINT UNIQUE,
   role TEXT CHECK (role IN ('student', 'admin', 'superadmin')) NOT NULL DEFAULT 'student',
+  is_archived BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -90,6 +91,7 @@ CREATE TABLE examinations (
   exam_duration INT,
   passing_score INT DEFAULT 0,
   total_points INT DEFAULT 0,
+  is_archived BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

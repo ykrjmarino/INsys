@@ -35,14 +35,13 @@ function Login() {
 
     axios.post("/login", formLogin, { withCredentials: true })
       .then(res => {
-        const { accessToken, user, message} = res.data; //response from backend login (auth.js)
+        const { accessToken, user, message } = res.data; //response from backend login (auth.js)
 
         setAccessToken(accessToken); //store access token in global context (AuthContext.js)
         axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-
         setUser(user); //from backend login (auth.js).. but came from userPayload
 
-        toast.info(message);
+        toast.success(message);
 
         if (user.role === "admin") {
           navigate("/admin-dashboard");
@@ -51,10 +50,14 @@ function Login() {
         } else if (user.role === "superadmin") {
           navigate("/dashboard");
         }
+
+
+        
       })
       .catch(err => {
+        debugger; // pauses execution here
         console.log(err.response?.data);
-        toast.info(err.response?.data.error ||"for testing: check console for error");
+        toast.error(err.response?.data?.error || "Something went wrong");
       })
 
       // 🚀 redirect after login

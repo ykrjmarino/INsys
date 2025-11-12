@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     role: "",
     lastName: "", 
     firstName: "",
+    isArchived: false,
   });
   const [accessToken, setAccessToken] = useState('');
 
