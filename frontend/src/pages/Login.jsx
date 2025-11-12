@@ -84,7 +84,7 @@ function Login() {
         </div>
         
         <div className="login-whole-container">
-            <button className="login-back-btn"><i className="fa fa-arrow-left"></i></button>
+            <button onClick={()=>navigate('/')} className="login-back-btn"><i className="fa fa-arrow-left"></i></button>
 
             <label className="login-label">Login</label>
             
