@@ -81,7 +81,7 @@ function HomeCard ({ data, title, examCode, status, onClickNav, onClickDel, onCl
       {showArchive && (
         <div className="admins-exam-modal" onClick={() => setShowArchive(false)}>
           <div className="admins-exam-modal-container" onClick={(e) => e.stopPropagation()}>
-            <h4 className="admins-exam-modal-title">Confirm Delete</h4>
+            <h4 className="admins-exam-modal-title">Confirm Archive</h4>
             <p className="admins-exam-modal-text">
               Do you want to archive this exam?
             </p>

@@ -5,8 +5,11 @@ export const getAllExams = async(req, res) =>{
   try {
     const result = await db.query(`
       SELECT * FROM examinations 
-      WHERE user_id = $1 
-      ORDER BY exam_id DESC`, [userId])
+      WHERE is_archived = false
+        AND user_id = $1 
+      ORDER BY exam_id DESC`, [userId]
+    );
+
     res.status(200).json(result.rows)
   } catch (error) {
     console.error('Error cant GET exams', error)

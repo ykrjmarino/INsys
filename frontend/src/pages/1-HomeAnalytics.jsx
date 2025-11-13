@@ -50,7 +50,7 @@ function HomeAnalytics() {
   const { accessToken } = useAuth();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { exams, deleteExam, duplicateExam, fetchAllExams } = useExams();
+  const { exams, deleteExam, duplicateExam, archiveExam, fetchAllExams } = useExams();
   
   return (
     <>
@@ -60,6 +60,7 @@ function HomeAnalytics() {
         exams={exams.filter(e => e.status === 'completed')} 
         onClickDel={deleteExam} 
         onClickDupe={duplicateExam} 
+        onClickArch={archiveExam} 
       />
     </div>
     </>
