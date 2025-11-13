@@ -84,7 +84,7 @@ export const HomeExamsTeacher = () => {
           {status === 'ongoing' && 
           <OngoingExams 
             exams={exams.filter(e => e.status === 'ongoing')} 
-            onClickDel={deleteExam} 
+            // onClickDel={deleteExam} 
             onClickDupe={duplicateExam} 
             onClickArch={archiveExam}
           />}

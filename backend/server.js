@@ -59,6 +59,7 @@ import {
   getExamSession,
   getStudentCurrentSession,
   getAllExamsByTeacher,
+  getAllArchivedExams,
 } from "./controllers/examControllers/GET.js";
 
 import { createExam, duplicateExam } from "./controllers/examControllers/POST.js";
@@ -172,7 +173,8 @@ app.delete("/api/user/delete", usersOnly, deleteOwnAccount);
 
 // EXAM ROUTES
 app.get("/api/exams/:userId", adminsOnly, getAllExams);
-app.get("/api/exams/teacher/:teacherId", adminsOnly, getAllExamsByTeacher);
+app.get("/api/exams/archived/:userId", adminsOnly, getAllArchivedExams);
+app.get("/api/exams/teacher/:teacherId", superadminOnly, getAllExamsByTeacher);
 app.get("/api/exams/search", adminsOnly, getExamsByTitle);
 app.get("/api/exams/status", adminsOnly, getExamsByStatus);
 app.get("/api/exams/exam/:examId", adminsOnly, getExamById);

@@ -2,12 +2,10 @@ import { useState } from "react";
 
 function HomeCard ({ data, title, examCode, status, onClickNav, onClickDel, onClickDupe, onClickArch }) {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
   const [showArchive, setShowArchive] = useState(false);
 
   return (
     <>
-    
     <div className="grid-item"
       onClick={onClickNav}> {/* goes to the specific exam when div is clicked */}
 

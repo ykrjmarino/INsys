@@ -1,6 +1,6 @@
 import {db} from '../../db.js';
 
-export const getAllExams = async(req, res) =>{
+export const getAllExams = async(req, res) =>{ //idk not used yet.. i used getAllExamsByTeacher
   const userId = req.user.userId;
   try {
     const result = await db.query(`
@@ -16,7 +16,23 @@ export const getAllExams = async(req, res) =>{
   }
 } 
 
-export const getAllExamsByTeacher = async(req, res) =>{
+export const getAllArchivedExams = async(req, res) =>{ //only archived exams
+  const userId = req.user.userId;
+  try {
+    const result = await db.query(`
+      SELECT * FROM examinations 
+      WHERE is_archived = true
+        AND user_id = $1 
+      ORDER BY exam_id DESC`, [userId]
+    );
+
+    res.status(200).json(result.rows)
+  } catch (error) {
+    console.error('Error cant GET archived exams', error)
+  }
+} 
+
+export const getAllExamsByTeacher = async(req, res) =>{ //for superadmins viewing of eams per teacher
   const { teacherId } = req.params;
   const { filter } = req.query;
   try {

@@ -28,6 +28,7 @@ import SystemSettings from './components/home-superadmin/SystemContent.jsx';
 import ScoreHistory from './components/home-student/HistoryScores.jsx';
 import UserSettingsSuperadmin, { UserSettingsStudent, UserSettingsTeacher } from './pages/UserSettings.jsx';
 import LandingPage from './pages/LandingPage.jsx';
+import ArchivedExams from './pages/ArchivedExams.jsx';
 
 
 
@@ -155,6 +156,7 @@ useEffect(() => {
           <Route path='/admin-dashboard' element={<HomeTeacher />} />
           <Route path='/update-exam/:examId' element={<UpdateExam />} />
           <Route path='/exams-analytics' element={<HomeAnalytics />} />
+          <Route path='/exams-archived' element={<ArchivedExams />} />
           <Route path='/admin/account-settings' element={<UserSettingsTeacher />} />
         </Route>
 

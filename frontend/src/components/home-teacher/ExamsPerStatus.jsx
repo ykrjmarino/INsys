@@ -53,7 +53,7 @@ export const PublishedExams = ({ exams, onClickDel, onClickDupe, className, onCl
 }
 
 
-export const OngoingExams = ({ exams, onClickDel, onClickDupe, className, onClickArch  }) => {
+export const OngoingExams = ({ exams, onClickDupe, className, onClickArch  }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -67,7 +67,7 @@ export const OngoingExams = ({ exams, onClickDel, onClickDupe, className, onClic
           status={e.status}
           sections={e.sections}
           data={e}
-          onClickDel={onClickDel} //send to: const handleDeleteExam = (examId)=>{}
+          // onClickDel={onClickDel}
           onClickDupe={onClickDupe}
           onClickNav={(e) => e.stopPropagation()}
           onClickArch={onClickArch}
