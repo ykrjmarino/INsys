@@ -63,7 +63,7 @@ function ScoreHistory() {
 
 
       <div className="student-home-history">
-        <div className="student-home-history-label">History <i className="fa-solid fa-clock-rotate-left"></i></div>
+        <div className="student-home-history-label">History</div> 
         <div className="student-home-grid">
           <div className="history-grids-label">
             <span className="history-label">Title</span>

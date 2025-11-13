@@ -17,16 +17,16 @@ export const archiveUser = async (req, res) => {
     
     await logAction(req.user.userId, `Archived User: ${userId}`, userId);
 
-    const examResult = await db.query(`
-      UPDATE examinations
-        SET is_archived = true
-      WHERE user_id = $1 RETURNING *` 
-      ,[userId]
-    );
+    // const examResult = await db.query(`
+    //   UPDATE examinations
+    //     SET is_archived = true
+    //   WHERE user_id = $1 RETURNING *` 
+    //   ,[userId]
+    // );
 
-    if (examResult.rows.length > 0) {
-      await logAction(req.user.userId, `Archived Exams of User: ${userId}`, userId);
-    }
+    // if (examResult.rows.length > 0) {
+    //   await logAction(req.user.userId, `Archived Exams of User: ${userId}`, userId);
+    // }
 
     res.status(200).json({ message: "User archived successfully" });
   } catch (err) {

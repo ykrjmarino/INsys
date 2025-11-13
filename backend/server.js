@@ -69,6 +69,7 @@ import {
   updateExamTimer,
   updateSectionTakers,
   finalizeExamSchedule,
+  archiveExam,
 } from "./controllers/examControllers/UPDATE.js";
 import { deleteExam } from "./controllers/examControllers/DELETE.js";
 
@@ -191,7 +192,7 @@ app.patch("/api/exams/:examId/code", adminOnly, updateExamCode);
 
 app.get("/api/exams/:examId/schedule", adminsOnly, getExamSchedule);
 app.put("/api/exams/:examId/schedule", adminOnly, finalizeExamSchedule);
-
+app.patch("/api/exams/:examId", adminOnly, archiveExam);
 app.delete("/api/exams/:examId", adminOnly, deleteExam);
 
 // QUESTION ROUTES

@@ -8,19 +8,13 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { useExams } from '../hooks/useExams.js';
 
 //components
-import Button from '../components/Buttons.jsx';
-import LogoutButton, { LogoutSpan } from '../components/Logout.jsx'
 import SelectField from '../components/SelectFields.jsx';
-import DraftExams from '../components/home-teacher/DraftExams.jsx';
-import PublishedExams from '../components/home-teacher/PublishedExams.jsx';
-import OngoingExams from '../components/home-teacher/OngoingExams.jsx';
-import CompletedExams from '../components/home-teacher/CompletedExams.jsx';
-import HeaderTeacher, { SideBar } from '../components/Header.jsx';
 import { SidebarTeacher } from '../components/SidebarTS.jsx';
+import DraftExams, { CompletedExams, OngoingExams, PublishedExams } from '../components/home-teacher/ExamsPerStatus.jsx';
 
 export const HomeExamsTeacher = () => {
   //========= home filter status =========//
-  const { exams, deleteExam, duplicateExam, fetchAllExams } = useExams();
+  const { exams, archiveExam, deleteExam, duplicateExam, fetchAllExams } = useExams();
 
   const [status, setStatus] = useState(
     localStorage.getItem('examStatus') || 'draft'
@@ -78,18 +72,21 @@ export const HomeExamsTeacher = () => {
             exams={exams.filter(e => e.status === 'draft')} 
             onClickDel={deleteExam} 
             onClickDupe={duplicateExam}
+            onClickArch={archiveExam}
           />}
           {status === 'published' && 
-          <PublishedExams 
+          <PublishedExams
             exams={exams.filter(e => e.status === 'published')} 
             onClickDel={deleteExam} 
             onClickDupe={duplicateExam} 
+            onClickArch={archiveExam}
           />}
           {status === 'ongoing' && 
           <OngoingExams 
             exams={exams.filter(e => e.status === 'ongoing')} 
             onClickDel={deleteExam} 
             onClickDupe={duplicateExam} 
+            onClickArch={archiveExam}
           />}
 
           {status === 'completed' && 
@@ -97,6 +94,7 @@ export const HomeExamsTeacher = () => {
             exams={exams.filter(e => e.status === 'completed')} 
             onClickDel={deleteExam} 
             onClickDupe={duplicateExam} 
+            onClickArch={archiveExam}
           />}
 
       {/* <!--  grid container -->

@@ -45,10 +45,9 @@
   margin-bottom: 20px;
   color: #475569;
   font-size: 15px;
-  text-align: left;
+  text-align: center;
   max-height: 250px;
   overflow-y: auto;
-  padding-right: 4px;
 }
 
 .violation-modal-content,
@@ -142,7 +141,15 @@
 .violation-modal-buttons .delete,
 .violation-modal-deduction-buttons .delete,
 .entering-exam-modal-buttons .delete {
-  background-color: #ef4444;
+  background-color: #ff0000;
+  color: #fff;
+}
+
+.admins-exam-modal-buttons .archive,
+.violation-modal-buttons .archive,
+.violation-modal-deduction-buttons .archive,
+.entering-exam-modal-buttons .archive {
+  background-color: #ff0000;
   color: #fff;
 }
 

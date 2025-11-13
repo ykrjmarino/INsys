@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
+import { toast } from 'react-toastify';
 
 import axios from "../utils/axiosConfig.js";
 
 export function useExams() {
-  const navigate = useNavigate();
   const [exams, setExams] = useState([]);
   const { user, accessToken } = useAuth();
   
@@ -27,6 +27,7 @@ export function useExams() {
     try {
       await axios.post(`/exams/${examId}/duplicate`, {}, config);
       console.log("Exam duplicated");
+      toast.success("Exam duplicated!");
 
       // Refetch updated list for this user
       const updatedExams = await axios.get(`/exams/${user.userId}`, config);
@@ -36,6 +37,26 @@ export function useExams() {
     }
   };
 
+  //========= archive exam =========//
+  const archiveExam = async(examId) => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true
+    };
+
+    try {
+      await axios.patch(`/exams/${examId}`, config); //archiveExam
+  
+      const updatedExams = await axios.get(`/exams/${user.userId}`, config);
+      //refetch and update exams from DB.. 
+      setExams(updatedExams.data);
+      console.log('exam archived');
+      toast.success("Exam archived!");
+    } catch (error) {
+      console.error("Failed to archive exam:", error);
+    }
+  }
+
   //========= delete exam =========//
   const deleteExam = async(examId) => {
     const config = {
@@ -44,12 +65,13 @@ export function useExams() {
     };
 
     try {
-      await axios.delete(`/exams/${examId}`, config);
+      await axios.delete(`/exams/${examId}`, config); //deleteExam
   
       const updatedExams = await axios.get(`/exams/${user.userId}`, config);
       //refetch and update exams from DB.. 
       setExams(updatedExams.data);
       console.log('exam deleted');
+      toast.success("Exam deleted!");
     } catch (error) {
       console.error("Failed to delete exam:", error);
     }
@@ -89,5 +111,5 @@ export function useExams() {
     }
   };
 
-  return { exams, duplicateExam, deleteExam, fetchExamsByStatus, fetchExamsByTeacher };
+  return { exams, duplicateExam, archiveExam, deleteExam, fetchExamsByStatus, fetchExamsByTeacher };
 }

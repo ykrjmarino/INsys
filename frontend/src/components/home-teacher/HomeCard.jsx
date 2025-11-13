@@ -1,16 +1,15 @@
-import { useState } from 'react';
-import Button from '../Buttons.jsx'
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel, onClickDupe }) => {
+function HomeCard ({ data, title, examCode, status, onClickNav, onClickDel, onClickDupe, onClickArch }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showArchive, setShowArchive] = useState(false);
 
   return (
     <>
+    
     <div className="grid-item"
-    onClick={() => onClickNav(data.exam_id)} 
-    > {/*goes to the specific exam when div is clicked */}
+      onClick={onClickNav}> {/* goes to the specific exam when div is clicked */}
 
       <div className="teacher-home-grid-item-buttons" >
         <button 
@@ -27,12 +26,13 @@ export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel
           className="teacher-home-delete-button"
           onClick={(e) => { 
             e.stopPropagation(); 
-            setShowDelete(true);
+            setShowArchive(true)
+            // setShowDelete(true);
             // onClickDel(data.exam_id); 
           }} 
         >
           <i className="fas fa-trash"></i>
-          <span className="tooltip">Delete</span>
+          <span className="tooltip">Archive</span>
         </button>
       </div>
         
@@ -47,10 +47,10 @@ export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel
         <div className="taskbar-left">Code: <span className="done-text">{examCode}</span></div> 
         <div className="taskbar-right">Status: <span className="done-text">{status}</span></div>
       </div>
-      
+
     </div>
 
-    {showConfirm && (
+      {showConfirm && (
         <div className="admins-exam-modal" onClick={() => setShowConfirm(false)}>
           <div className="admins-exam-modal-container" onClick={(e) => e.stopPropagation()}>
             <h4 className="admins-exam-modal-title">Duplicate Exam</h4>
@@ -78,26 +78,28 @@ export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel
         </div>
       )}
 
-      {showDelete && (
-        <div className="admins-exam-modal" onClick={() => setShowDelete(false)}>
+      {showArchive && (
+        <div className="admins-exam-modal" onClick={() => setShowArchive(false)}>
           <div className="admins-exam-modal-container" onClick={(e) => e.stopPropagation()}>
             <h4 className="admins-exam-modal-title">Confirm Delete</h4>
             <p className="admins-exam-modal-text">
-              Do you want to delete this exam? This action cannot be undone.
+              Do you want to archive this exam?
             </p>
             <div className="admins-exam-modal-buttons">
               <button
-                className="delete"
+                className="archive"
                 onClick={() => {
-                  onClickDel(data.exam_id);
-                  setShowDelete(false);
+                  onClickArch(data.exam_id)
+                  setShowArchive(false);
+                  // onClickDel(data.exam_id);
+                  // setShowDelete(false);
                 }}
               >
-                Delete
+                Archive
               </button>
               <button
                 className="cancel"
-                onClick={() => setShowDelete(false)}
+                onClick={() => setShowArchive(false)}
               >
                 Cancel
               </button>
@@ -109,27 +111,4 @@ export const HomeCard = ({ data, title, examCode, status, onClickNav, onClickDel
   );
 };
 
-function PublishedExams({ exams, onClickDel, onClickDupe, className }) {
-  const navigate = useNavigate();
-  return (
-    <>
-      {exams.map((e) => (
-        <HomeCard //these from the database so use snake_case
-          className={className}
-          key={e.exam_id}
-          title={e.title}
-          examCode={e.exam_code}
-          schedule={e.schedule}
-          status={e.status}
-          sections={e.sections}
-          data={e}
-          onClickDel={onClickDel} //send to: const handleDeleteExam = (examId)=>{}
-          onClickDupe={onClickDupe}
-          onClickNav={() => navigate(`/update-exam/${e.exam_id}`)}
-        />
-      ))}
-    </>
-  )
-}
-
-export default PublishedExams;
+export default HomeCard;

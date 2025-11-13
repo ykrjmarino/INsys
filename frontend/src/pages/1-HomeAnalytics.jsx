@@ -1,6 +1,4 @@
 import axios from "../utils/axiosConfig.js";
-import React from "react";
-import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 //context
@@ -9,11 +7,11 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { useExams } from '../hooks/useExams.js';
 
 //components
-import { HomeCard } from "../components/home-teacher/CompletedExams.jsx";
 import { SidebarTeacher } from "../components/SidebarTS.jsx";
+import HomeCard from "../components/home-teacher/HomeCard.jsx"
 
 
-function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className }) {
+function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className, onClickArch }) {
   const navigate = useNavigate();
 
   return (
@@ -37,6 +35,7 @@ function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className }) {
             onClickDel={onClickDel} //send to: const handleDeleteExam = (examId)=>{}
             onClickDupe={onClickDupe}
             onClickNav={() => navigate(`/exam-analytics/${e.exam_id}`)}
+            onClickArch={onClickArch}
           />
         ))}
       </div>
