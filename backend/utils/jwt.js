@@ -10,7 +10,8 @@ export const generateAccessToken = (userPayload) => {
       nameFNfirst: userPayload.nameFNfirst,
       nameLNfirst: userPayload.nameLNfirst,
       firstName: userPayload.firstName,
-      lastName: userPayload.lastName
+      lastName: userPayload.lastName,
+      is_archived: userPayload.isArchived
     }, 
     process.env.JWT_ACCESS_SECRET,
     { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN || "15m" }
@@ -26,7 +27,8 @@ export const generateRefreshToken = (userPayload) => {
       nameFNfirst: userPayload.nameFNfirst,
       nameLNfirst: userPayload.nameLNfirst,
       firstName: userPayload.firstName,
-      lastName: userPayload.lastName
+      lastName: userPayload.lastName,
+      is_archived: userPayload.isArchived
     },
     process.env.JWT_REFRESH_SECRET, 
     { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || "7d" });
@@ -87,6 +89,17 @@ export const refreshAccessToken = async(req, res) => {
       AND end_datetime > NOW()`)
 
     const decoded = verifyToken(token, process.env.JWT_REFRESH_SECRET);
+
+    // check if user is archived
+    const userCheck = await db.query(
+      "SELECT is_archived FROM users WHERE user_id = $1",
+      [decoded.userId]
+    );
+
+    if (userCheck.rows.length === 0)
+      return res.status(403).json({ error: "User not found" });
+    if (userCheck.rows[0].is_archived)
+      return res.status(403).json({ error: "Archived user cannot refresh token" });
 
     const newAccessToken = generateAccessToken(decoded);
 

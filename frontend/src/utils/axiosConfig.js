@@ -17,7 +17,11 @@ axios.interceptors.response.use(
   err => {
     const status = err.response?.status;
     const currentPath = window.location.pathname;
-    if (status === 403) {
+
+    // if refresh failed, go to login
+    if (status === 403 && err.config.url.includes("/refresh")) {
+      window.location.href = "/login";
+    } else if (status === 403) {
       window.location.href = "/forbidden";
     } else if (status === 401 && currentPath !== "/login") {
       window.location.href = "/login";

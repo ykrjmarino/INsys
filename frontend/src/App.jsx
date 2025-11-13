@@ -42,7 +42,7 @@ function ProtectedRoute({ allowedRoles }) {
   }
 
   if (user.isArchived) {
-    return <Navigate to="/forbidden" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (!allowedRoles.includes(user.role)) {
@@ -56,45 +56,51 @@ function AuthLoader({ children }) {
   const { setUser, setAccessToken } = useAuth();
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-      // Public routes that shouldn't trigger /refresh
-      const publicPaths = [
-        "/",
-        "/login",
-        "/register/student",
-        "/register/teacher",
-        "/welcome-register",
-        "/forgot-password"
-      ];
+    // Public routes that shouldn't trigger /refresh
+    const publicPaths = [
+      "/",
+      "/login",
+      "/register/student",
+      "/register/teacher",
+      "/welcome-register",
+      "/forgot-password"
+    ];
 
-      // If you're on a public path, don't call refresh
-      if (publicPaths.includes(location.pathname)) {
-        setLoading(false);
-        return;
-      }
-
-      axios.post("/refresh")
-        .then(res => {
-          setUser(res.data.user);
-          setAccessToken(res.data.accessToken);
-          axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
-        })
-        .catch(() => {
-          setUser(null);
-          setAccessToken(null);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }, [location.pathname, setUser, setAccessToken]);
-
-    if (loading) {
-      return <div>Loading...</div>;
+    // If you're on a public path, don't call refresh
+    if (publicPaths.includes(location.pathname)) {
+      setLoading(false);
+      return;
     }
 
-    return children;
+    axios.post("/refresh")
+      .then(res => {
+        setUser(res.data.user);
+        setAccessToken(res.data.accessToken);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
+      })
+      .catch(() => {
+        setAccessToken(null); //clear token
+        setUser(null); //clear user
+
+        setUser(null);
+        setAccessToken(null);
+
+        navigate("/", { replace: true });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [location.pathname, setUser, setAccessToken]);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
+
+  return children;
+}
 
 function RootRedirect() {
   const { user } = useAuth();

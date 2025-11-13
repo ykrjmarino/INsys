@@ -50,12 +50,9 @@ function Login() {
         } else if (user.role === "superadmin") {
           navigate("/dashboard");
         }
-
-
         
       })
       .catch(err => {
-        debugger; // pauses execution here
         console.log(err.response?.data);
         toast.error(err.response?.data?.error || "Something went wrong");
       })
