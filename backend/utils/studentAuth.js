@@ -7,6 +7,7 @@ import redisClient from "./redisClient.js";
 
 import passport from "passport";
 import { Strategy } from "passport-local";
+import { logAction } from "./logAction.js";
 
 const studentAuthRoutes = express.Router();
 const saltRounds = 5;
@@ -108,6 +109,8 @@ studentAuthRoutes.post ('/register/user-info', async(req, res) => { //complete i
       INSERT INTO users (email, password, first_name, last_name, school_id, gender, college, role, middle_initial ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6 ,$7, $8, $9) RETURNING *
     `, [email, hash, firstName, lastName, schoolId, userGender, college, 'student', middleInitial]); //changed password to hash (hashed password)
 
+    await logAction(schoolId, `Registered new student: ${firstName} ${middleInitial}. ${lastName}`, schoolId);
+    
     await redisClient.del(`verifiedEmail:${email}`);//delete temporary user info
     return res.status(200).json({ message: 'User registered successfully' });
   } catch (error) {

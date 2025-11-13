@@ -91,7 +91,7 @@ import {
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
 import { getAdminExamAnalytics, getAllAnalytics, getExamAnalytics, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs, getUser } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
-import { deleteUser } from "./controllers/analyticsControlers/DELETE.js";
+import { archiveUser, deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateDeduction, updateUser } from "./controllers/analyticsControlers/UPDATE.js";
 import { deleteOwnAccount } from "./controllers/userControllers/DELETE.js";
 import { deleteAllData, deleteOldData } from "./controllers/systemSystemControllers/superadminSettings.js";
@@ -236,7 +236,8 @@ app.get("/api/system/manage-users", superadminOnly, getUser);
 
 //user management
 app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
-app.delete("/api/system/manage-users/:userId", superadminOnly, deleteUser);
+app.patch("/api/system/manage-users/:userId/archive", superadminOnly, archiveUser);
+app.delete("/api/system/manage-users/:userId/delete", superadminOnly, deleteUser);
 
 //system maintenance
 app.delete("/api/maintenance/old", superadminOnly, deleteOldData); //7months old data in examinations and logs

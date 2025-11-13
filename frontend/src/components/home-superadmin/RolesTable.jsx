@@ -27,6 +27,7 @@ export const ManageUsersTable = ({selectedRole}) => {
 
   const [showModal, setShowModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [userToArchive, setUserToArchive,] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -73,7 +74,7 @@ export const ManageUsersTable = ({selectedRole}) => {
     }; 
 
     try {
-      await axios.delete(`/system/manage-users/${userId}`, config);
+      await axios.delete(`/system/manage-users/${userId}/delete`, config);
       setUsers((prev) => prev.filter((s) => s.user_id !== userId));
 
       if (selectedRole === "superadmin") {
@@ -87,6 +88,29 @@ export const ManageUsersTable = ({selectedRole}) => {
     } finally {
       setShowModal(false);
       setUserToDelete(null);
+    }
+  };
+
+  const handleArchive = async (userId) => {
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      withCredentials: true,
+    }; 
+
+    try {
+      await axios.patch(`/system/manage-users/${userId}/archive`, config);
+      setUsers((prev) => prev.filter((s) => s.user_id !== userId));
+
+      if (selectedRole === "superadmin") {
+        setSuperadminCount((prev) => prev - 1);
+      }
+
+      toast.success("User archived successfully");
+    } catch (error) {
+      console.error("Failed to archive user:", error.message);
+    } finally {
+      setShowModal(false);
+      setUserToArchive(null);
     }
   };
 
@@ -216,12 +240,12 @@ export const ManageUsersTable = ({selectedRole}) => {
               boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
             }}
           >
-            <h3>Confirm Deletion</h3>
-            <p>Are you sure you want to delete this user?</p>
+            <h3>Confirm Archive</h3>
+            <p>Are you sure you want to archive this user?</p>
 
             <div className="">
               <button className=""
-                onClick={() => handleDelete(userToDelete)}
+                onClick={() => handleArchive(userToArchive)}
                 style={{
                   padding: "10px 20px",
                   backgroundColor: "#d9534f",
@@ -284,6 +308,7 @@ export const ManageUsersTable = ({selectedRole}) => {
                     className="super-admin-manage-account-delete-btn"
                     onClick={() => {
                       setUserToDelete(s.user_id);
+                      setUserToArchive(s.user_id);
                       setShowModal(true);
                     }}
                     style={{
@@ -298,7 +323,7 @@ export const ManageUsersTable = ({selectedRole}) => {
                     }}
                     disabled={selectedRole === "superadmin" && superadminCount === 1}
                   >
-                    Delete
+                    Archive
                   </button>
                 </td>
               </tr>
