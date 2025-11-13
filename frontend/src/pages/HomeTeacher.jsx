@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from '../utils/axiosConfig.js';
+import ReactDOM from "react-dom";
 
 //context
 import { useAuth } from '../context/AuthContext.jsx';
@@ -96,15 +97,164 @@ export const HomeExamsTeacher = () => {
             onClickDupe={duplicateExam} 
             onClickArch={archiveExam}
           />}
-
-      {/* <!--  grid container -->
-          <!-- end grid container --> */}
           </div>
-
-
-    {/* <!-- main home content -->
-        <!-- end --> */}
         </div>
+    </>
+  );
+}
+
+export const HomeCount = () => {
+  const navigate = useNavigate();
+  const { accessToken } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [examCounts, setExamCounts] = useState({
+    total_exams: 0,
+    published_exams: 0,
+    ongoing_exams: 0,
+    completed_exams: 0,
+    archived_exams: 0
+  });
+
+  useEffect(()=>{
+    const fetchSystemAnalytics = async() => {
+      const config = {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        withCredentials: true
+      };
+
+      try {
+        const res = await axios.get(`/exam/count`, config);
+        console.log(res.data);
+
+        setExamCounts(res.data || {});
+        console.log('fetchSystemAnalytics wrking');
+      } catch (error) {
+        console.log('fetchSystemAnalytics failed, in ExamAnalytics');
+        console.error(error.message);
+      }
+    }
+    fetchSystemAnalytics(); 
+  }, [accessToken]);
+
+
+  const handleCreate = async () => {
+    try {
+      const res = await axios.post('/exams/create-exam', {
+        title,
+        schedule: null,
+        status: "draft"
+      });
+      navigate(`/update-exam/${res.data.exam_id}`)
+    } catch (err) {
+      console.error("Error creating exam", err);
+    }
+  };
+
+  return (
+    <>
+    <div class = "teacher-home-added-main-container">
+      <label class="teacher-home-main-label">Exams</label>
+
+
+      <div class="teacher-home-added-grid">
+        <div class="teacher-home-added-item">
+          <label class="teacher-home-added-label">No. of exams</label>
+          <p>{examCounts.total_exams}</p>
+        </div>
+
+        <div class="teacher-home-added-item">
+          <label class="teacher-home-added-label">Published Exams</label>
+          <p>{examCounts.published_exams}</p>
+        </div>
+
+        <div class="teacher-home-added-item">
+          <label class="teacher-home-added-label">Ongoing Exams</label>
+          <p>{examCounts.ongoing_exams}</p>
+        </div>
+
+        <div class="teacher-home-added-item">
+          <label class="teacher-home-added-label">Completed Exams</label>
+          <p>{examCounts.completed_exams}</p>
+        </div>
+
+        <div class="teacher-home-added-item" onClick={() => setShowModal(true)}>
+          <label class="teacher-home-added-label">Create Exam</label>
+          {showModal &&
+            ReactDOM.createPortal(
+              <div
+                onClick={() => setShowModal(false)}
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  background: "rgba(0,0,0,0.5)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  zIndex: 9999,
+                }}
+              >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  background: "white",
+                  padding: "25px",
+                  borderRadius: "12px",
+                  textAlign: "center",
+                  width: "90%",
+                  maxWidth: "400px",
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+                }}
+              >
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleCreate();
+                  }}
+                >
+                  <h3>Create Exam</h3>
+                  <input
+                    type="text"
+                    placeholder="Enter exam title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                    style={{
+                      width: "100%",
+                      padding: "10px",
+                      marginTop: "15px",
+                      border: "1px solid #ccc",
+                      borderRadius: "6px",
+                    }}
+                  />
+                  <div style={{ marginTop: "20px" }}>
+                    <button
+                      type="submit"
+                      style={{
+                        padding: "10px 20px",
+                        backgroundColor: "#007bff",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                        width: "100px",
+                      }}
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>,
+            document.body
+          )}
+          <p><i class="fa-solid fa-plus"></i></p>
+        </div>
+      </div>
+     </div> 
     </>
   );
 }
@@ -133,6 +283,7 @@ function HomeTeacher() {
     <>
     <div className="teacher-home-whole">
       <SidebarTeacher />
+      <HomeCount />
       <HomeExamsTeacher />
     </div>
     </>

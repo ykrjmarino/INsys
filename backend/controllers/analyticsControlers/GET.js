@@ -289,6 +289,25 @@ export const getAllAnalytics = async(req, res) => { //used by superadmin
   }
 };
 
+export const getExamsCount = async(req, res) => { // by admin
+  const userId = req.user.userId;
+
+  try {
+    const result = await db.query(`
+      SELECT
+        (SELECT COUNT(*) FROM examinations WHERE user_id = $1 AND is_archived = false) AS total_exams,
+        (SELECT COUNT(*) FROM examinations WHERE user_id = $1 AND status = 'published' AND is_archived = false) AS published_exams,
+        (SELECT COUNT(*) FROM examinations WHERE user_id = $1 AND status = 'ongoing' AND is_archived = false ) AS ongoing_exams,
+        (SELECT COUNT(*) FROM examinations WHERE user_id = $1 AND status = 'completed' AND is_archived = false) AS completed_exams`
+    , [userId]);
+
+    return res.status(200).json(result.rows[0]);
+  } catch (err) {
+    console.error("getExamsCount failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
   const role = 'admin'
 

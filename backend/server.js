@@ -91,7 +91,7 @@ import {
 
 // ANALYTICS
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
-import { getAdminExamAnalytics, getAllAnalytics, getExamAnalytics, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs, getUser } from "./controllers/analyticsControlers/GET.js";
+import { getAdminExamAnalytics, getAllAnalytics, getExamAnalytics, getExamsCount, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs, getUser } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { archiveUser, deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateDeduction, updateUser } from "./controllers/analyticsControlers/UPDATE.js";
@@ -230,6 +230,7 @@ app.get("/api/exam/analytics/:examId/questions", adminsOnly, getQuestionAnalytic
 //per sections
 app.get("/api/exams/student/:studentId/analytics/:examId", adminsOnly, getStudentAnalytics);
 app.get("/api/exam/analytics/:examId/section-filter", adminsOnly, getSectionAnalytics);
+app.get("/api/exam/count", adminOnly, getExamsCount);
 
 
 app.get("/api/all/analytics", superadminOnly, getAllAnalytics);

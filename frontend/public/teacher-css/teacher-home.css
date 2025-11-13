@@ -1,14 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
 /* Whole Page */
 .teacher-home-whole {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+  
 }
 
 .header {
@@ -404,17 +413,9 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     font-size: 20px;
 }
 
-.main-container-title{
-        width: 100%;
-    height: 20px;
-    background-color: transparent;
-    color: #000000;
-    font-weight: 500;
-    font-size: 20px;
-}
+
 /* Main content area (fixed beside sidebar) */
 .teacher-home-main-content {
-    margin-top:100px;
     width: 80%;
     height: 100%;
     background-color: #ffffff;
@@ -435,25 +436,26 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
 
 }
 
+.main-container-title{
+    width: 100%;
+    height: 20px;
+    background-color: transparent;
+    color: #000000;
+    font-weight: 500;
+    font-size: 20px;
+}
+
 .main-container-title {
-    font-size: 26px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 500;
     color: #1e293b;
     margin-bottom: 4px;
 }
 
-.main-container-title::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 4px;
-    background: #3b82f6;
-    border-radius: 2px;
-    margin-top: 8px;
-}
+
 
 .dropdown-main{
-    padding: 10px;
+    padding: 5px;
     background-color: #ffffff;
     border: 0.5px solid #ccc;
     border-radius: 10px;
@@ -481,12 +483,13 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
     background-color: transparent;
+   padding-bottom: 70px;
+       border-bottom: 1px solid #e2e8f0;
 }
 /* Grid items */
 .grid-item {
     background-color: #ffffff;
     border-radius: 10px;
-    
     height: 200px; /* slightly taller for demo */
     display: flex;
     flex-direction: column;
@@ -494,8 +497,11 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     overflow: hidden;
     transition: transform 0.2s ease;
     border: 1px solid #b4b4b4;
+    background-color: #ffffff;
     
 }
+
+
 
 
 .grid-item:hover .overlay-text {
@@ -514,17 +520,14 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     background: rgba(67, 93, 210, 0.4);
 }
 
-
-
-
 .teacher-home-grid-item-buttons {
-    top: 8px; 
-    right: 8px;
     display: flex;
-    gap: 0.3rem; 
+    gap: 3px; 
     align-items: flex end;
     justify-content: flex-end;
     z-index: 10;
+    padding-right: 10px;
+    padding-top: 5px;
 }
 
 .teacher-home-delete-button,
@@ -545,13 +548,13 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
 }
 
 .teacher-home-delete-button i{
-    font-size: 16px; 
+    font-size: 14px; 
     color: #ffffff;
 }
 
 .teacher-home-duplicate-button i
 {
-    font-size: 16px; 
+    font-size: 14px; 
     color: #ffffff;
 }
 .teacher-home-delete-button i:hover, .teacher-home-duplicate-button i:hover{
@@ -602,13 +605,25 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
         linear-gradient(to bottom, rgba(71, 85, 105, 0.3) 1px, transparent 1px),
         radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
     background-size: 32px 32px, 32px 32px, 100% 100%;
+     transition: background-image 2s cubic-bezier(0.4, 0, 0.2, 1);
+     height: 80px;
 }
+
+
+
+.diagonal-cross-grid:hover {
+    background-image:
+        linear-gradient(to right, rgba(100, 149, 237, 0.26) 1px, transparent 0.5px),   /* soft dark-blue */
+        linear-gradient(to bottom, rgba(100, 149, 237, 0.26) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(100, 149, 237, 0.17) 0%, transparent 70%);
+}
+
 
 
 .overlay-text {
     position: absolute;
-    top: 20px;
-    left: 12px;
+    top: 40px;
+    left: 10px;
     margin: 0;
     padding: 6px 12px;
     background-color: transparent;
@@ -617,15 +632,18 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     font-size: 18px;
     border-radius: 6px;
     z-index: 2;
-    max-width: calc(100% - 50px); 
+    max-width: calc(100% - 25px); 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
     text-transform: uppercase;
-    font-weight: 300;
+    font-weight: 400;
     transition: font-weight 0.25s ease, transform 0.25s ease;
+    text-align: center;
 }
+
+
 
 .grid-container::-webkit-scrollbar {
     width: 9px;
@@ -657,6 +675,18 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     color: #000000;
 }
 
+/* Kapag hover sa .grid-item → diagonal effect lang ang mag-cha-change */
+.grid-item:hover .diagonal-cross-grid {
+    background-image:
+        linear-gradient(to right,  rgba(100, 149, 237, 0.26) 1px, transparent 0.5px),
+        linear-gradient(to bottom, rgba(100, 149, 237, 0.26) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(100, 149, 237, 0.17) 0%, transparent 70%);
+}
+
+/* Text scale kapag hover sa grid-item */
+.grid-item:hover .overlay-text {
+    transform: scale(1.03);
+}
  
 .taskbar {
     position: absolute;
@@ -665,25 +695,34 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     padding: 0.5rem;
-    background-color: #ffffff;
+    background-color: #EBEFFA;
     border-bottom-right-radius: 7px;
     border-bottom-left-radius: 7px;
+     border-top: 1px solid #ccc
 }
 
 .taskbar-left {
-    font-size: 0.8rem;
-    color: #000000;
+    font-size: 12.5px;
+    font-weight: bold;
+    color: #1A1A2E;
+    
 }
 
 .taskbar-right {
-    font-size: 0.8rem;
-    color: #000000;
+    font-size: 12.5px;
+    color: #64748b;
+    font-weight: 500;
+    text-transform: uppercase;
+ 
 }
 
 .done-text {
-    font-weight: bold;
+    font-weight: 600;
+        text-transform: uppercase;
+        color: #1A1A2E;
+
 }
 
 /* task bar end*/
@@ -709,4 +748,95 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
         padding: 10px;
         gap: 12px;
     }
+}
+
+
+
+/*added start*/
+
+
+.teacher-home-added-main-container {
+    width: 80%;
+    margin: 100px auto 40px auto;   /* pushes it below header, centers it */
+    display: block;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 50px;
+}
+
+
+
+
+.teacher-home-main-label {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.teacher-home-main-label::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #3b82f6;
+    border-radius: 2px;
+    margin-top: 8px;
+}
+
+
+.analytics-exam-analytics-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.analytics-exam-analytics-label::before {
+    content: '';
+    width: 5px;
+    height: 20px;
+    background: #3b82f6;
+    border-radius: 3px;
+}
+
+.teacher-home-added-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.teacher-home-added-item {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.teacher-home-added-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-home-added-label {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.teacher-home-added-item p {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
 }

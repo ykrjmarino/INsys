@@ -32,7 +32,7 @@ export const getAllArchivedExams = async(req, res) =>{ //only archived exams
   }
 } 
 
-export const getAllExamsByTeacher = async(req, res) =>{ //for superadmins viewing of eams per teacher
+export const getAllExamsByTeacher = async(req, res) =>{ 
   const { teacherId } = req.params;
   const { filter } = req.query;
   try {
