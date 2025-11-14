@@ -100,13 +100,13 @@ function LandingPage () {
         <div id="home" className="landing-page-slide-image">
             <div className="slides">
                 <div className="slide active">
-                    <img src="/images/slide1.1.webp" alt="Slide 1" />
+                    <img src="/images/slide0.png" alt="Slide 1" />
                 </div>
                 <div className="slide">
-                    <img src="/images/slide2.webp" alt="Slide 2" />
+                    <img src="/images/22.webp" alt="Slide 2" />
                 </div>
                 <div className="slide">
-                    <img src="/images/slide0.png" alt="Slide 3" />
+                    <img src="/images/11.webp" alt="Slide 3" />
                 </div>
             </div>
 
