@@ -153,6 +153,11 @@
   color: #fff;
 }
 
+.admins-exam-modal-buttons .restore {
+  background-color: #000dffd9;
+  color: #fff;
+}
+
 .admins-exam-modal-buttons .cancel,
 .violation-modal-buttons .cancel,
 .violation-modal-deduction-buttons .cancel,

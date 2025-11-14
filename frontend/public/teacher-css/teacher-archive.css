@@ -1,0 +1,413 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+.overlay-container{
+    background-color: transparent;
+    width: 400px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.icon-wrapper {
+    position: relative;
+    display: inline-block;
+
+}
+
+/* UPDATED FIX — tooltip now visible */
+.tooltip-restore {
+    visibility: hidden;
+    background-color: #1A1A2E;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.icon-wrapper:hover .tooltip-restore {
+    visibility: visible;
+    opacity: 1;
+}
+
+.overlay-text-archive {
+    position: relative;
+}
+
+.overlay-text-archive[title] {
+    cursor: pointer;
+}
+
+/* Logos */
+.student-home-header-logo img {
+    width: 90px;
+    height: 60px;
+    object-fit: cover;
+    background-color: transparent;
+}
+
+.student-home-container-logo img {
+    height: 500px;
+    background-color: transparent;
+}
+
+/* Sidebar (fixed left) */
+.teacher-side-sidebar {
+    width: 80%;
+    background-color: #ffffff;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 30px;
+    gap: 20px;
+    margin-top: 50px;
+    flex-direction: column;
+}
+
+.teacher-side-create-button, .teacher-side-analytics-button {
+    width: 200px;
+    height: 50px;
+    background-color: #1A1A2E;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    transition: transform 0.2s ease;
+    gap: 10px;
+}
+
+.teacher-side-create-button:hover, .teacher-side-analytics-button:hover {
+    transform: scale(1.05);
+}
+
+.teacher-sidebar-buttons {
+    width: 100%;
+    height: 100px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.teacher-tools-label {
+    width: 100%;
+    height: 20px;
+    background-color: transparent;
+    color: #000000;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+/* Main content area (fixed beside sidebar) */
+.teacher-archive-main-content {
+    width: 80%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-top: 100px;
+}
+
+.teacher-archive-labels-dropdown-container {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 50px;
+    background-color: transparent;
+}
+
+.teacher-archive-main-container-title {
+    width: 100%;
+    height: 20px;
+    background-color: transparent;
+    color: #000000;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.teacher-archive-main-container-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.dropdown-main {
+    padding: 5px;
+    background-color: #ffffff;
+    border: 0.5px solid #ccc;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #000000;
+}
+
+.dropdown-main:hover {
+    background-color: #eaf0f7;
+}
+
+.dropdown-main:focus {
+    outline: none;
+    border-color: #2851d8;
+    box-shadow: 0 0 4px rgba(36, 117, 204, 0.7);
+}
+
+/* Scrollable grid container */
+.teacher-archive-grid-container {
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 30px;
+    background-color: transparent;
+    padding-bottom: 70px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Grid items */
+.teacher-archive-grid-item {
+    background-color: #ffffff;
+    border-radius: 10px;
+    height: 100px; 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    border: 1px solid #b4b4b4;
+}
+
+/* Scrollbar */
+.teacher-archive-grid-container::-webkit-scrollbar {
+    width: 9px;
+}
+.teacher-archive-grid-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+.teacher-archive-grid-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(67, 93, 210, 0.4);
+}
+
+.teacher-archive-delete-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 0.25rem; 
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px; 
+    height: 25px; 
+    position: relative;
+    padding: 15px;
+}
+
+.teacher-archive-delete-button i {
+    font-size: 14px; 
+    color: #1A1A2E;
+}
+
+.tooltip-unarchive {
+    visibility: hidden;
+    background-color: #3a3f42; 
+    color: #ffffff;
+    font-size: 0.7rem; 
+    font-weight: 400;
+    text-align: center;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    position: absolute;
+    z-index: 10;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap; 
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.teacher-home-delete-button:hover .tooltip-unarchive {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* UPDATED FIX — allow tooltip to escape */
+.teacher-archive-exam-content {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    padding: 15px;
+
+    /* FIX HERE */
+    overflow: visible !important;
+    position: relative;
+    z-index: 5;
+}
+
+.teacher-archive-exam-content i {
+    font-size: 25px;
+    background-color: #EBEFFA;
+    border-radius: 50px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-text-archive {
+    padding-top: 5px;
+    background-color: transparent;
+    color: #1A1A2E;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 6px;
+    z-index: 2;
+    max-width: calc(100% - 50px); 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: font-weight 0.25s ease, transform 0.25s ease;
+    text-align: center;
+}
+
+.teacher-archive-taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0.5rem;
+    background-color: #EBEFFA;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-top: 1px solid #ccc;
+}
+
+.teacher-archive-taskbar-left {
+    font-size: 12.5px;
+    font-weight: bold;
+    color: #1A1A2E;
+}
+
+.teacher-archive-taskbar-right {
+    font-size: 12.5px;
+    color: #64748b;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.done-text {
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #1A1A2E;
+}
+
+/* Added sections */
+.teacher-home-added-main-container {
+    width: 80%;
+    margin: 100px auto 40px auto;
+    display: block;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 50px;
+}
+
+.teacher-archive-main-container-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.teacher-archive-main-container-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #3b82f6;
+    border-radius: 2px;
+    margin-top: 8px;
+}
+
+.analytics-exam-analytics-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.analytics-exam-analytics-label::before {
+    content: '';
+    width: 5px;
+    height: 20px;
+    background: #3b82f6;
+    border-radius: 3px;
+}
+
+.teacher-home-added-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.teacher-home-added-item {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.teacher-home-added-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-home-added-label {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.teacher-home-added-item p {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+}

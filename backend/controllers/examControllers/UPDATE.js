@@ -245,3 +245,29 @@ export const archiveExam = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+export const unarchiveExam = async (req, res) => { 
+  const { examId } = req.params;
+  const userId = req.user.userId;
+
+  try {
+    const result = await db.query(`
+      UPDATE examinations
+      SET is_archived = false
+      WHERE exam_id = $1
+        AND user_id = $2 RETURNING *` , [examId, userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Exam not found" });
+    }
+
+    await logAction(userId, `Unarchived their exam: ${examId}`, userId);
+
+    res.status(200).json({ message: "Exam unarchived successfully" }); 
+  } catch (err) {
+    console.error("unarchiveExam failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

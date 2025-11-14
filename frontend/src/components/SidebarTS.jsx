@@ -124,7 +124,7 @@ export const SidebarTeacher = () => {
             )}
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/admin-dashboard')}><i className="fas fa-chart-bar"></i> Dashboard</button>
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/exams-analytics')}><i className="fa-solid fa-clock-rotate-left"></i>Exam Analytics</button>
-          <button className="student-home-sidebar-btn" onClick={()=> navigate('/exams-archived')}><i class="fa-solid fa-box-archive"></i>Exam Archived</button>
+          <button className="student-home-sidebar-btn" onClick={()=> navigate('/exams-archived')}><i className="fa-solid fa-box-archive"></i>Exam Archived</button>
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/admin/account-settings')}><i className="fa-solid fa-gear"></i>Account Settings</button>
           <LogoutSpan className="student-home-sidebar-btn"/>
         </div>

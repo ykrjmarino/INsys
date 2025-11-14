@@ -88,6 +88,7 @@ function RegisterTeacher() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
     setFormRegister((prev) => ({
       ...prev,
       [name]: value,

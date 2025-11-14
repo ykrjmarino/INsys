@@ -409,13 +409,17 @@ export const getUser = async (req, res) => { //used by superadmin
 
     // Fetch users for the current page
     const result = await db.query(`
-       SELECT 
+      SELECT 
         u.user_id,
         u.first_name,
         u.last_name,
         u.middle_initial,
         u.school_id,
         u.role,
+        CASE 
+          WHEN u.is_archived = true THEN 'inactive'
+          ELSE 'active'
+        END AS user_status,
         u.email
       FROM users u
       WHERE u.role = $1
@@ -428,6 +432,66 @@ export const getUser = async (req, res) => { //used by superadmin
       ORDER BY u.last_name ASC
       LIMIT $3 OFFSET $4
     `, [role, searchPattern, limitNum, offset]);
+
+    res.status(200).json({ users: result.rows, totalPages });
+  } catch (err) {
+    console.error("getStudents failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+export const getArchivedUser = async (req, res) => { //used by superadmin ;; showing archived users only
+  const { page = 1, limit = 10, search = "" } = req.query;
+  // Convert query params to numbers
+  const pageNum = parseInt(page, 10) || 1;
+  const limitNum = parseInt(limit, 10) || 10;
+  const offset = (pageNum - 1) * limitNum;
+
+  try {
+    const searchPattern = `%${search}%`;
+
+    // Total users with that role
+    const countRes = await db.query(`
+      SELECT COUNT(*) 
+      FROM users 
+      WHERE is_archived = true
+      AND (
+        first_name ILIKE $2 OR 
+        last_name ILIKE $2 OR 
+        email ILIKE $2 OR 
+        CAST(school_id AS TEXT) ILIKE $2
+      )
+    `, [searchPattern]);
+
+    const totalCount = parseInt(countRes.rows[0].count, 10);
+    const totalPages = Math.ceil(totalCount / limitNum);
+
+    // Fetch users for the current page
+    const result = await db.query(`
+      SELECT 
+        u.user_id,
+        u.first_name,
+        u.last_name,
+        u.middle_initial,
+        u.school_id,
+        u.role,
+        CASE 
+          WHEN u.is_archived = true THEN 'inactive'
+          ELSE 'active'
+        END AS user_status,
+        u.email
+      FROM users u
+      WHERE is_archived = true
+      AND (
+        u.first_name ILIKE $2 OR 
+        u.last_name ILIKE $2 OR 
+        u.email ILIKE $2 OR 
+        CAST(u.school_id AS TEXT) ILIKE $2
+      )
+      ORDER BY u.last_name ASC
+      LIMIT $3 OFFSET $4
+    `, [searchPattern, limitNum, offset]);
 
     res.status(200).json({ users: result.rows, totalPages });
   } catch (err) {

@@ -71,6 +71,7 @@ import {
   updateSectionTakers,
   finalizeExamSchedule,
   archiveExam,
+  unarchiveExam,
 } from "./controllers/examControllers/UPDATE.js";
 import { deleteExam } from "./controllers/examControllers/DELETE.js";
 
@@ -91,7 +92,7 @@ import {
 
 // ANALYTICS
 import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/questionControllers/GET.js";
-import { getAdminExamAnalytics, getAllAnalytics, getExamAnalytics, getExamsCount, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs, getUser } from "./controllers/analyticsControlers/GET.js";
+import { getAdminExamAnalytics, getAllAnalytics, getArchivedUser, getExamAnalytics, getExamsCount, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs, getUser } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { archiveUser, deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { updateDeduction, updateUser } from "./controllers/analyticsControlers/UPDATE.js";
@@ -195,6 +196,7 @@ app.patch("/api/exams/:examId/code", adminOnly, updateExamCode);
 app.get("/api/exams/:examId/schedule", adminsOnly, getExamSchedule);
 app.put("/api/exams/:examId/schedule", adminOnly, finalizeExamSchedule);
 app.patch("/api/exams/:examId", adminOnly, archiveExam);
+app.patch("/api/exams/:examId/unarchive", adminOnly, unarchiveExam);
 app.delete("/api/exams/:examId", adminOnly, deleteExam);
 
 // QUESTION ROUTES
@@ -236,9 +238,10 @@ app.get("/api/exam/count", adminOnly, getExamsCount);
 app.get("/api/all/analytics", superadminOnly, getAllAnalytics);
 app.get("/api/admin/analytics", superadminOnly, getAdminExamAnalytics);
 app.get("/api/system/logs", superadminOnly, getSystemLogs);
-app.get("/api/system/manage-users", superadminOnly, getUser);
 
 //user management
+app.get("/api/system/manage-users", superadminOnly, getUser);
+app.get("/api/system/manage-users/archived", superadminOnly, getArchivedUser);
 app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
 app.patch("/api/system/manage-users/:userId/archive", superadminOnly, archiveUser);
 app.delete("/api/system/manage-users/:userId/delete", superadminOnly, deleteUser);

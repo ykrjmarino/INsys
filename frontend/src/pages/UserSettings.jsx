@@ -70,6 +70,7 @@ const SettingsPasswordManage = () => {
     // Check if new passwords match first
     if (newPassword !== confirmNewPassword) {
       setMessage("New passwords do not match.");
+      toast.error("New passwords do not match.");
       return; // stop submission
     }
 
@@ -89,6 +90,7 @@ const SettingsPasswordManage = () => {
       setNewPassword("");
       setConfirmNewPassword("");
     } catch (err) {
+      toast.info(err.response?.data?.error);
       setMessage(err.response?.data?.error || "Failed to change password");
     }
   };

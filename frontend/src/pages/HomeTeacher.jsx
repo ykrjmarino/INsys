@@ -154,33 +154,35 @@ export const HomeCount = () => {
   return (
     <>
     <div class = "teacher-home-added-main-container">
-      <label class="teacher-home-main-label">Exams</label>
+      <label className="teacher-home-main-label">Exams</label>
 
 
-      <div class="teacher-home-added-grid">
-        <div class="teacher-home-added-item">
-          <label class="teacher-home-added-label">No. of exams</label>
+      <div className="teacher-home-added-grid">
+        <div className="teacher-home-added-item">
+          <label className="teacher-home-added-label">No. of exams</label>
           <p>{examCounts.total_exams}</p>
         </div>
 
-        <div class="teacher-home-added-item">
-          <label class="teacher-home-added-label">Published Exams</label>
+        <div className="teacher-home-added-item">
+          <label className="teacher-home-added-label">Published Exams</label>
           <p>{examCounts.published_exams}</p>
         </div>
 
-        <div class="teacher-home-added-item">
-          <label class="teacher-home-added-label">Ongoing Exams</label>
+        <div className="teacher-home-added-item">
+          <label className="teacher-home-added-label">Ongoing Exams</label>
           <p>{examCounts.ongoing_exams}</p>
         </div>
 
-        <div class="teacher-home-added-item">
-          <label class="teacher-home-added-label">Completed Exams</label>
+        <div className="teacher-home-added-item">
+          <label className="teacher-home-added-label">Completed Exams</label>
           <p>{examCounts.completed_exams}</p>
         </div>
 
-        <div class="teacher-home-added-item" onClick={() => setShowModal(true)}>
-          <label class="teacher-home-added-label">Create Exam</label>
-          {showModal &&
+        <div className="teacher-home-added-item" onClick={() => setShowModal(true)}>
+          <label className="teacher-home-added-label">Create Exam</label>
+          <p><i className="fa-solid fa-plus"></i></p>
+        </div>
+        {showModal &&
             ReactDOM.createPortal(
               <div
                 onClick={() => setShowModal(false)}
@@ -251,8 +253,6 @@ export const HomeCount = () => {
             </div>,
             document.body
           )}
-          <p><i class="fa-solid fa-plus"></i></p>
-        </div>
       </div>
      </div> 
     </>

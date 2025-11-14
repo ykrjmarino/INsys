@@ -42,8 +42,6 @@ export const ManageUser = () => {
      
 
       setInfoLogs(res.data || []);
-      console.log(res.data);
-
       console.log('fetchLogs wrking');
     } catch (error) {
       console.log('fetchLogs failed, in ExamAnalytics');
@@ -100,12 +98,14 @@ export const ManageUser = () => {
             <div className={`super-admin-manage-student-btn ${activeTab === 'student' ? 'active' : ''}`} onClick={() => setActiveTab('student')}>Students</div>
             <div className={`super-admin-manage-student-btn ${activeTab === 'admin' ? 'active' : ''}`}onClick={() => setActiveTab('admin')}>Admins</div>
             <div className={`super-admin-manage-student-btn ${activeTab === 'superadmin' ? 'active' : ''}`}onClick={() => setActiveTab('superadmin')}>Superadmins</div>
+            <div className={`super-admin-manage-student-btn ${activeTab === 'archived' ? 'active' : ''}`}onClick={() => setActiveTab('archived')}>Archived</div>
           </div>
         </div>
 
         {activeTab === 'student' && <ManageUsersTable selectedRole="student" />}
         {activeTab === 'admin' && <ManageUsersTable selectedRole="admin" />}
         {activeTab === 'superadmin' && <ManageUsersTable selectedRole="superadmin" />}
+        {activeTab === 'archived' && <ManageUsersTable selectedRole="archived" />}
       </div>
     </div>
     </>

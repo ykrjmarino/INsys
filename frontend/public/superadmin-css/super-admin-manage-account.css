@@ -399,12 +399,12 @@ tbody tr:hover {
 }
 
 .super-admin-manage-account-delete-btn {
-    background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
+    background: rgba(255, 0, 0, 0.103);
+    color: #be0000c7;
 }
 
 .super-admin-manage-account-delete-btn:hover {
-    background: #dc2626;
+    background: rgba(184, 0, 0, 0.815);
     color: white;
 }
 
