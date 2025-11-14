@@ -23,6 +23,13 @@ export const ManageUser = () => {
     localStorage.setItem('activeTab', activeTab);
   }, [activeTab]);
 
+  
+  useEffect(() => { //unmount
+    return () => {
+      localStorage.removeItem('activeTab');
+    };
+  }, []);
+
 
   const fetchLogs = async() => {
     const config = {

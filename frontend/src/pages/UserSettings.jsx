@@ -328,25 +328,31 @@ const SettingsAccountControl = () => {
 }
 
 export const UserSettingsContentSuperadmin = () => {
-  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'basic-information');
+  const [activeTabSettings, setActiveTabSettings] = useState(localStorage.getItem('activeTabSettings') || 'basic-information');
 
   useEffect(() => {
-    localStorage.setItem('activeTab', activeTab);
-  }, [activeTab]);
+    localStorage.setItem('activeTabSettings', activeTabSettings);
+  }, [activeTabSettings]);
+
+  useEffect(() => { //unmount
+    return () => {
+      localStorage.removeItem('activeTabSettings');
+    };
+  }, []);
 
   return (
     <>
     <div className="user-settings-outer-container">
       <h2>Admin Analytics</h2>
       <div className="user-settings-inner-container-one">
-        <div className={`user-settings-account-info ${activeTab === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTab('basic-information')}>Account Information</div>
-        <div className={`user-settings-account-info ${activeTab === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTab('password-manage')}>Change Password</div>
-        <div className={`user-settings-account-info ${activeTab === 'account-control' ? 'active' : ''}`} onClick={() => setActiveTab('account-control')}>Account Deletion</div>
+        <div className={`user-settings-account-info ${activeTabSettings === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTabSettings('basic-information')}>Account Information</div>
+        <div className={`user-settings-account-info ${activeTabSettings === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTabSettings('password-manage')}>Change Password</div>
+        <div className={`user-settings-account-info ${activeTabSettings === 'account-control' ? 'active' : ''}`} onClick={() => setActiveTabSettings('account-control')}>Account Deletion</div>
       </div>
       <div className="user-settings-inner-container-two">
-        {activeTab === "basic-information" && <SettingsBasicInformation />}
-        {activeTab === "password-manage" && <SettingsPasswordManage />}
-        {activeTab === "account-control" && <SettingsAccountControl />}
+        {activeTabSettings === "basic-information" && <SettingsBasicInformation />}
+        {activeTabSettings === "password-manage" && <SettingsPasswordManage />}
+        {activeTabSettings === "account-control" && <SettingsAccountControl />}
       </div>
 
     </div>
@@ -355,25 +361,31 @@ export const UserSettingsContentSuperadmin = () => {
 }
 
 export const UserSettingsContentTS = () => {
-  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'basic-information');
+  const [activeTabSettings, setActiveTabSettings] = useState(localStorage.getItem('activeTabSettings') || 'basic-information');
 
   useEffect(() => {
-    localStorage.setItem('activeTab', activeTab);
-  }, [activeTab]);
+    localStorage.setItem('activeTabSettings', activeTabSettings);
+  }, [activeTabSettings]);
+
+  useEffect(() => { //unmount
+    return () => {
+      localStorage.removeItem('activeTabSettings');
+    };
+  }, []);
 
   return (
     <>
     <div className="user-settings-outer-container-ts">
 
       <div className="user-settings-inner-container-one">
-        <div className={`user-settings-account-info ${activeTab === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTab('basic-information')}>Account Information</div>
-        <div className={`user-settings-account-info ${activeTab === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTab('password-manage')}>Change Password</div>
-        <div className={`user-settings-account-info ${activeTab === 'account-control' ? 'active' : ''}`} onClick={() => setActiveTab('account-control')}>Account Deletion</div>
+        <div className={`user-settings-account-info ${activeTabSettings === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTabSettings('basic-information')}>Account Information</div>
+        <div className={`user-settings-account-info ${activeTabSettings === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTabSettings('password-manage')}>Change Password</div>
+        <div className={`user-settings-account-info ${activeTabSettings === 'account-control' ? 'active' : ''}`} onClick={() => setActiveTabSettings('account-control')}>Account Deletion</div>
       </div>
       <div className="user-settings-inner-container-two">
-        {activeTab === "basic-information" && <SettingsBasicInformation />}
-        {activeTab === "password-manage" && <SettingsPasswordManage />}
-        {activeTab === "account-control" && <SettingsAccountControl />}
+        {activeTabSettings === "basic-information" && <SettingsBasicInformation />}
+        {activeTabSettings === "password-manage" && <SettingsPasswordManage />}
+        {activeTabSettings === "account-control" && <SettingsAccountControl />}
       </div>
 
     </div>
