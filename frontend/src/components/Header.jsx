@@ -208,7 +208,7 @@ export const AnalyticsHeaderBar = () => {
     }
   }
 
-  const backPath = user?.role === 'superadmin' ? '/admin-analytics' : '/exams-analytics';
+  const backPath = user?.role === 'superadmin' ? `/exams-analytics/${infoExam.user_id}` : '/exams-analytics';
 
   return(
     <>

@@ -26,7 +26,8 @@ export const getExamAnalytics = async(req, res) =>{
         total_points,
         passing_score,
         start_datetime,
-        end_datetime
+        end_datetime,
+        user_id
       FROM examinations
       WHERE exam_id = $1
     `, [examId]);

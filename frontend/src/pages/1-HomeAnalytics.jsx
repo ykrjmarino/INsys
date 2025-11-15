@@ -40,7 +40,6 @@ function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className, onClic
         ))}
       </div>
     </div>
-      
     </>
   )
 }
