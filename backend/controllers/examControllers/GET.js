@@ -37,9 +37,16 @@ export const getAllExamsByTeacher = async(req, res) =>{
   const { filter } = req.query;
   try {
     const result = await db.query(`
-      SELECT * FROM examinations 
+      SELECT 
+        *,
+       CASE 
+          WHEN is_archived = true THEN 'archived'
+          ELSE 'active'
+        END AS is_archived
+      FROM examinations 
       WHERE user_id = $1
-        AND status ILIKE $2`, [teacherId, filter]
+        AND status ILIKE $2
+      ORDER BY exam_id DESC;`, [teacherId, filter]
     );
     
     if (result.rows.length === 0) {

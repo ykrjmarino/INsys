@@ -4,8 +4,9 @@ import { useAuth } from "../../context/AuthContext";
 import Button from "../Buttons";
 
 import { toast } from 'react-toastify';
+import { AddingUserComponent, EditUserComponent } from "./RolesTable";
 
-export const ManageUsersTable = ({selectedRole}) => {
+export const ManageArchivedUsersTable = ({selectedTabToShow}) => {
   const { accessToken } = useAuth();
   const [users, setUsers] = useState([]);
   
@@ -21,16 +22,16 @@ export const ManageUsersTable = ({selectedRole}) => {
   const [totalPages, setTotalPages] = useState(1); // will update after fetching
 
   const [showModal, setShowModal] = useState(false);
-  const [userToDelete, setUserToDelete] = useState(null);
-  const [userToArchive, setUserToArchive,] = useState(null);
+  // const [userToDelete, setUserToDelete] = useState(null);
+  const [userToUnarchive, setUserToUnarchive,] = useState(null);
 
   useEffect(() => {
     fetchUsers();
-  }, [accessToken, currentPage, selectedRole, searchTerm]);
+  }, [accessToken, currentPage, selectedTabToShow, searchTerm]);
 
   useEffect(() => {
-    if (selectedRole === "superadmin") checkSuperadminCount();
-  }, [accessToken, currentPage, selectedRole]);
+    if (selectedTabToShow === "superadmin") checkSuperadminCount();
+  }, [accessToken, currentPage, selectedTabToShow]);
 
   const fetchUsers = async () => {
     const config = {
@@ -39,7 +40,7 @@ export const ManageUsersTable = ({selectedRole}) => {
     };
 
     try {
-      const res = await axios.get(`/system/manage-users/archived&page=${currentPage}&limit=${pageSize}&search=${searchTerm}`, config);
+      const res = await axios.get(`/system/manage-users/archived?page=${currentPage}&limit=${pageSize}&search=${searchTerm}`, config);
 
       setUsers(res.data.users);
       setTotalPages(res.data.totalPages);
@@ -73,7 +74,7 @@ export const ManageUsersTable = ({selectedRole}) => {
       await axios.delete(`/system/manage-users/${userId}/delete`, config);
       setUsers((prev) => prev.filter((s) => s.user_id !== userId));
 
-      if (selectedRole === "superadmin") {
+      if (selectedTabToShow === "superadmin") {
         setSuperadminCount((prev) => prev - 1);
       }
 
@@ -83,21 +84,21 @@ export const ManageUsersTable = ({selectedRole}) => {
       console.error("Failed to delete user:", error.message);
     } finally {
       setShowModal(false);
-      setUserToDelete(null);
+      // setUserToDelete(null);
     }
   };
 
-  const handleArchive = async (userId) => {
+  const handleUnarchive = async (userId) => {
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
       withCredentials: true,
     }; 
 
     try {
-      await axios.patch(`/system/manage-users/${userId}/archive`, config);
+      await axios.patch(`/system/manage-users/${userId}/unarchive`, config);
       setUsers((prev) => prev.filter((s) => s.user_id !== userId));
 
-      if (selectedRole === "superadmin") {
+      if (selectedTabToShow === "superadmin") {
         setSuperadminCount((prev) => prev - 1);
       }
 
@@ -106,7 +107,7 @@ export const ManageUsersTable = ({selectedRole}) => {
       console.error("Failed to archive user:", error.message);
     } finally {
       setShowModal(false);
-      setUserToArchive(null);
+      setUserToUnarchive(null);
     }
   };
 
@@ -166,7 +167,7 @@ export const ManageUsersTable = ({selectedRole}) => {
       );
       setEditCreate(null);
 
-      if (selectedRole === "superadmin") {
+      if (selectedTabToShow === "superadmin") {
         setSuperadminCount((prev) => prev + 1);
         setTimeout(() => window.location.reload(), 1000); //let the toast show before reloading page
       }
@@ -236,12 +237,12 @@ export const ManageUsersTable = ({selectedRole}) => {
               boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
             }}
           >
-            <h3>Confirm Archive</h3>
-            <p>Are you sure you want to archive this user?</p>
+            <h3>Confirm Restore</h3>
+            <p>Are you sure you want to restore this user?</p>
 
             <div className="">
               <button className=""
-                onClick={() => handleArchive(userToArchive)}
+                onClick={() => handleUnarchive(userToUnarchive)}
                 style={{
                   padding: "10px 20px",
                   backgroundColor: "#d9534f",
@@ -291,7 +292,6 @@ export const ManageUsersTable = ({selectedRole}) => {
           </thead>
           <tbody>
             {users
-              .filter(user => user.user_status === "active")
               .map((s) => (
               <tr key={s.user_id}>
                 <td>{s.last_name}</td>
@@ -299,31 +299,31 @@ export const ManageUsersTable = ({selectedRole}) => {
                 <td>{s.middle_initial}.</td>
                 <td>{s.school_id}</td>
                 <td>{s.role}</td>
-                <td style={{ fontWeight: "500", color: s.user_status === "active" ? "green" : "red" }}>{s.user_status}</td>
+                <td style={{ fontWeight: "500", color: s.user_status === "active" ? "green" : "crimson" }}>{s.user_status}</td>
                 <td className="email">{s.email}</td>
                 <td>
                   <button className="super-admin-manage-account-edit-btn" onClick={() => handleEditButton(s)}>Edit</button>
                   <button
                     className="super-admin-manage-account-delete-btn"
                     onClick={() => {
-                      setUserToDelete(s.user_id);
-                      setUserToArchive(s.user_id);
+                      // setUserToDelete(s.user_id);
+                      setUserToUnarchive(s.user_id);
                       setShowModal(true);
                     }}
                     style={{
                       backgroundColor:
-                        selectedRole === "superadmin" && superadminCount === 1 ? "gray" : "",
+                        selectedTabToShow === "superadmin" && superadminCount === 1 ? "gray" : "",
                       color: 
-                        selectedRole === "superadmin" && "white",
+                        selectedTabToShow === "superadmin" && "white",
                       marginLeft: "5px",
                       cursor:
-                        selectedRole === "superadmin" && superadminCount === 1
+                        selectedTabToShow === "superadmin" && superadminCount === 1
                           ? "not-allowed"
                           : "pointer",
                     }}
-                    disabled={selectedRole === "superadmin" && superadminCount === 1}
+                    disabled={selectedTabToShow === "superadmin" && superadminCount === 1}
                   >
-                    Archive
+                    Restore
                   </button>
                 </td>
               </tr>
@@ -349,7 +349,7 @@ export const ManageUsersTable = ({selectedRole}) => {
           });
           setEditCreate(true);
         }}/>
-        {selectedRole === "superadmin" && superadminCount === 1 && (
+        {selectedTabToShow === "superadmin" && superadminCount === 1 && (
         <p className="super-admin--manage-account-message" style={{ color: "red", marginTop: "10px" }}>⚠️ At least one Super Admin must remain in the system.</p>
         )}
       </div>

@@ -95,7 +95,7 @@ import { getQuestionsForStudent, getUnansweredQuestions } from "./controllers/qu
 import { getAdminExamAnalytics, getAllAnalytics, getArchivedUser, getExamAnalytics, getExamsCount, getQuestionAnalytics, getSectionAnalytics, getStudentAnalytics, getSystemLogs, getUser } from "./controllers/analyticsControlers/GET.js";
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { archiveUser, deleteUser } from "./controllers/analyticsControlers/DELETE.js";
-import { updateDeduction, updateUser } from "./controllers/analyticsControlers/UPDATE.js";
+import { unarchiveUser, updateDeduction, updateUser } from "./controllers/analyticsControlers/UPDATE.js";
 import { deleteOwnAccount } from "./controllers/userControllers/DELETE.js";
 import { deleteAllData, deleteOldData } from "./controllers/systemSystemControllers/superadminSettings.js";
 import { exportExamScores, exportUsers } from "./controllers/analyticsControlers/ExportExcel.js";
@@ -244,6 +244,7 @@ app.get("/api/system/manage-users", superadminOnly, getUser);
 app.get("/api/system/manage-users/archived", superadminOnly, getArchivedUser);
 app.patch("/api/system/manage-users/:userId", superadminOnly, updateUser);
 app.patch("/api/system/manage-users/:userId/archive", superadminOnly, archiveUser);
+app.patch("/api/system/manage-users/:userId/unarchive", superadminOnly, unarchiveUser);
 app.delete("/api/system/manage-users/:userId/delete", superadminOnly, deleteUser);
 
 //system maintenance

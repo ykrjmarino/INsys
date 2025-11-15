@@ -458,10 +458,10 @@ export const getArchivedUser = async (req, res) => { //used by superadmin ;; sho
       FROM users 
       WHERE is_archived = true
       AND (
-        first_name ILIKE $2 OR 
-        last_name ILIKE $2 OR 
-        email ILIKE $2 OR 
-        CAST(school_id AS TEXT) ILIKE $2
+        first_name ILIKE $1 OR 
+        last_name ILIKE $1 OR 
+        email ILIKE $1 OR 
+        CAST(school_id AS TEXT) ILIKE $1
       )
     `, [searchPattern]);
 
@@ -485,13 +485,13 @@ export const getArchivedUser = async (req, res) => { //used by superadmin ;; sho
       FROM users u
       WHERE is_archived = true
       AND (
-        u.first_name ILIKE $2 OR 
-        u.last_name ILIKE $2 OR 
-        u.email ILIKE $2 OR 
-        CAST(u.school_id AS TEXT) ILIKE $2
+        u.first_name ILIKE $1 OR 
+        u.last_name ILIKE $1 OR 
+        u.email ILIKE $1 OR 
+        CAST(u.school_id AS TEXT) ILIKE $1
       )
       ORDER BY u.last_name ASC
-      LIMIT $3 OFFSET $4
+      LIMIT $2 OFFSET $3
     `, [searchPattern, limitNum, offset]);
 
     res.status(200).json({ users: result.rows, totalPages });

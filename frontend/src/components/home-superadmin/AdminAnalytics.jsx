@@ -139,9 +139,13 @@ export const HomeAdminAnalytics = () => {
   return (
     <div className="super-admin-analytics-whole">
       <HomeSuperadmin />
-      <div className="main-home-content">     
-        <h2>Admin Analytics</h2>
-        <div className="super-admin-analytics-components">
+      <div className="main-home-content">
+        <div style={{ display: "flex", justifyContent: "left", gap: "30px" }}>
+          <button className="analytics-back-button" onClick={() => navigate('/admin-analytics')}><i className="fa-solid fa-arrow-left"></i></button>     
+          <h2>Admin Analytics</h2>
+        </div>
+        
+        <div style={{display: "flex", alignItems: "center", marginTop: "1%"}} className="super-admin-analytics-components">
           {completedExams.length === 0 ? (
             <div style={{
               width: '100%',
@@ -175,9 +179,16 @@ export const HomeAdminAnalytics = () => {
 
 export const AdminExamCard = ({ exam, onClick }) => {
   return (
-    <div className="super-admin-exam-card" onClick={onClick}>
+    <div 
+      className="super-admin-exam-card" 
+      onClick={onClick} 
+      style={{ 
+        width: "90%",
+        backgroundColor: exam.is_archived === "archived" ? "#ffd8a84a" : "#d4edda88", 
+        border: exam.is_archived === "archived" ? "2px solid orange" : "2px solid green" }}
+    >
       <p className="super-admin-exam-card-title"><b>Title:</b> {exam.title}</p>
-      <p className="super-admin-exam-card-status"><b>Status:</b> {exam.status}</p>
+      <p className="super-admin-exam-card-status"><b>Status:</b> {exam.status} ({exam.is_archived}) </p>
     </div>
   );
 };

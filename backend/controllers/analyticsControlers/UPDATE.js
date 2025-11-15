@@ -74,3 +74,27 @@ export const updateDeduction = async (req, res) => {
     res.status(500).json({ error: "Failed to update deduction" });
   }
 };
+
+
+export const unarchiveUser = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userResult = await db.query(`
+      UPDATE users
+      SET is_archived = false
+      WHERE user_id = $1 RETURNING *` , [userId]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    await logAction(req.user.userId, `Restored User: ${userId}`, userId);
+
+    res.status(200).json({ message: "User restored successfully" });
+  } catch (err) {
+    console.error("unarchiveUser failed:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

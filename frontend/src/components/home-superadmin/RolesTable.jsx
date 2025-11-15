@@ -304,7 +304,7 @@ export const ManageUsersTable = ({selectedRole}) => {
                 <td>{s.middle_initial}.</td>
                 <td>{s.school_id}</td>
                 <td>{s.role}</td>
-                <td style={{ fontWeight: "500", color: s.user_status === "active" ? "green" : "red" }}>{s.user_status}</td>
+                <td style={{ fontWeight: "500", color: s.user_status === "active" ? "green" : "crimson" }}>{s.user_status}</td>
                 <td className="email">{s.email}</td>
                 <td>
                   <button className="super-admin-manage-account-edit-btn" onClick={() => handleEditButton(s)}>Edit</button>
@@ -389,7 +389,7 @@ export const ManageUsersTable = ({selectedRole}) => {
   );
 };
 
-const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) => {
+export const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) => {
   return (
     <div
       style={{
@@ -479,7 +479,7 @@ const EditUserComponent = ({handleChange, handleSave, handleCancel, formData}) =
   )
 }
 
-const AddingUserComponent = ({handleChange, handleAddUser, handleCancel, formData}) => {
+export const AddingUserComponent = ({handleChange, handleAddUser, handleCancel, formData}) => {
   return (
     <div
       style={{

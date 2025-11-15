@@ -1,10 +1,10 @@
 import axios from "../../utils/axiosConfig";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext";
-import HeaderTeacher from "../Header";
 import { HomeSuperadmin } from "../../pages/HomeSuperadmin";
 import { ManageUsersTable } from "./RolesTable";
+import { ManageArchivedUsersTable } from "./ArchivedTable";
 
 export const ManageUser = () => {
   const { accessToken } = useAuth();
@@ -105,7 +105,7 @@ export const ManageUser = () => {
         {activeTab === 'student' && <ManageUsersTable selectedRole="student" />}
         {activeTab === 'admin' && <ManageUsersTable selectedRole="admin" />}
         {activeTab === 'superadmin' && <ManageUsersTable selectedRole="superadmin" />}
-        {activeTab === 'archived' && <ManageUsersTable selectedRole="archived" />}
+        {activeTab === 'archived' && <ManageArchivedUsersTable selectedTabToShow="archived" />}
       </div>
     </div>
     </>
