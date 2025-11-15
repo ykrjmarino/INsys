@@ -2,6 +2,7 @@ import axios from '../utils/axiosConfig.js';
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext.jsx';
+import { toast } from 'react-toastify';
 
 import SelectField from '../components/SelectFields.jsx';
 import Button from '../components/Buttons.jsx';
@@ -23,7 +24,7 @@ function UpdateExam() {
   const [startDateTime, setStartDateTime] = useState(null);
   const [endDateTime, setEndDateTime] = useState(null);
 
-  const [examInfo, setExamInfo] = useState(null); //title, code, stats, sched, sect
+  const [examInfo, setExamInfo] = useState(null); //title, code, stats, sect
   const [examQues, setExamQues] = useState(null); //questions
   const [passingScore, setPassingScore] = useState('');
 
@@ -76,9 +77,11 @@ function UpdateExam() {
       await axios.patch(`/exams/${examId}/details`, updatedExamInfo, config);
       console.log("Exam info updated");
       console.log("PATCH payload:", updatedExamInfo);
+      toast.success("Exam Updated")
       fetchData();
     } catch (err) {
-      console.error("Failed to update exam info:", err);
+      toast.error("Failed to update exam: ", err)
+      console.error("Failed to update exam info: ", err);
     }
   };
 
@@ -218,6 +221,7 @@ function UpdateExam() {
         <div className="header-create">
           <div className="left-group">
             <button className="back-button-exam" onClick={() => navigate(-1)}><i className="fa-solid fa-arrow-left"></i></button>
+            <label>Title:</label>
             <InputField 
               className="exam-title"
               id="exam-title-input"
@@ -229,9 +233,19 @@ function UpdateExam() {
               }}
               placeholder="Enter Title Exam"
             />
-            <Button className="header-save-button" label="Save" onClick={handleSaveExamInfo} />
+            <div className="export-wrapper">
+              <Button className="header-save-button" label="Save" onClick={handleSaveExamInfo} />
+              <span className="tooltip">Save Title</span>
+            </div>
+            
+            <label>Code:</label>
             <p className="exam-code" placeholder="Exam Code">{examInfo.exam_code}</p>
-            <button className="randomize-button" onClick={handleRandomizeCode}><i className="fa-solid fa-arrow-rotate-left"></i></button>
+            <div className="export-wrapper">
+              <button className="randomize-button" onClick={handleRandomizeCode}><i className="fa-solid fa-arrow-rotate-left"></i></button>
+              <span className="tooltip">Randomize</span>
+            </div>
+
+            
           </div>
           
           <div className="create-right-group">

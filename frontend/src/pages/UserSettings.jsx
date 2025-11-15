@@ -102,7 +102,7 @@ const SettingsPasswordManage = () => {
       {!showForgot ? (
         <>
         <h3>Password Management</h3>
-        {message && <p>{message}</p>}
+        {message && <p style={{ color: "red", marginBottom: "10px", fontStyle: "italic" }}>{message}</p>}
         <form onSubmit={handleChangePassword}>
           <div className="super-admin-account-settings-change-password-form">
             <label htmlFor="currentPassword">Current Password:</label><br />

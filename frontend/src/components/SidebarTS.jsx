@@ -21,7 +21,6 @@ export const SidebarTeacher = () => {
     try {
       const res = await axios.post('/exams/create-exam', {
         title,
-        schedule: null,
         status: "draft"
       });
       navigate(`/update-exam/${res.data.exam_id}`)

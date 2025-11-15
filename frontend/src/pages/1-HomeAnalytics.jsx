@@ -28,7 +28,6 @@ function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className, onClic
             key={e.exam_id}
             title={e.title}
             examCode={e.exam_code}
-            schedule={e.schedule}
             status={e.status}
             sections={e.sections}
             data={e}

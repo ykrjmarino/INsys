@@ -13,7 +13,6 @@ CREATE TABLE users (
   middle_initial CHAR(1) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
-  contact_number VARCHAR(15),
   gender VARCHAR(20) DEFAULT 'N/A',
   college VARCHAR(50),
   school_id BIGINT UNIQUE,
@@ -82,7 +81,6 @@ CREATE TABLE examinations (
   exam_id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
   title TEXT NOT NULL,
-  schedule DATE,
   status TEXT DEFAULT 'draft',
   exam_code TEXT,
   start_datetime TIMESTAMPTZ,
@@ -111,7 +109,6 @@ CREATE TABLE exam_sessions (
   student_school_id BIGINT REFERENCES users(school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   status TEXT CHECK (status IN ('in-progress', 'submitted')) DEFAULT 'in-progress',
   started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  finished_at TIMESTAMP,
   question_order JSONB,
   current_index INT DEFAULT 0,
   time_remaining INT

@@ -77,7 +77,7 @@ export const updateExamTimer = async(req, res) => {
 export const updateExamDetails = async(req, res) => {
   const { examId } = req.params;
   const userId = req.user.userId;
-  const { title, schedule, exam_duration, status, passing_score, total_points } = req.body;
+  const { title, exam_duration, status, passing_score, total_points } = req.body;
 
   try {
     const fields = [];
@@ -88,10 +88,10 @@ export const updateExamDetails = async(req, res) => {
       fields.push(`title = $${count++}`); //count = 1, then → increment count = 2
       values.push(title);
     }
-    if (schedule) {
-      fields.push(`schedule = $${count++}`); //count = 2, then count = 3
-      values.push(schedule);
-    }
+    // if (schedule) {
+    //   fields.push(`schedule = $${count++}`); //count = 2, then count = 3
+    //   values.push(schedule);
+    // }
     if (status) {
       fields.push(`status = $${count++}`); //count = 3, then count = 4
       values.push(status);
@@ -121,7 +121,7 @@ export const updateExamDetails = async(req, res) => {
     values.push(userId);
       
       
-      //fields = ["title = $1", "schedule = $2", "exam_duration = $3"]
+    //fields = ["title = $1", "exam_duration = $2"]
       
     const query = 
     `UPDATE examinations 
@@ -130,10 +130,10 @@ export const updateExamDetails = async(req, res) => {
       AND user_id = $${userIdCount} RETURNING *`;
 
       //query = $1 $2 $3 $4 
-            //fields have $1,$2,$3
-            //exam_id have $4
-            //user_id have $5
-      //values = [title, schedule, exam_duration, examId]
+            //fields have $1 and $2
+            //exam_id have $3
+            //user_id have $4
+      //values = [title, exam_duration, examId]
 
     const result = await db.query(query, values);
     res.status(200).json(result.rows[0]);

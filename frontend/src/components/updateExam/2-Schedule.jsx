@@ -179,8 +179,9 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
         questionTimer: totalQuestionSeconds,
       }, config);
       console.log("Saved schedule!");
-      toast.info("Saved schedule!");
+      toast.success("Saved schedule!");
     } catch (err) {
+      toast.error("Failed to save schedule: ", err)
       console.error("Error saving schedule:", err);
     }
   };
@@ -221,7 +222,6 @@ function ScheduledTakers({ setStartDateTime, setEndDateTime }) { //nasa UpdateEx
           />
           <span>m</span>
         </div>
-        <button className="save-duration-button" onClick={handleSave}>Save</button>
       </div>
       {/* ======= TIME-PICKER COMPONENT ======= */}        
       <div className="time-container">

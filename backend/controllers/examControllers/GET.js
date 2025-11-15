@@ -377,7 +377,7 @@ export const getExamSession = async(req, res) => { //includes: status: in-progre
 
   try {
     const result = await db.query(`
-      SELECT status, started_at, finished_at, current_index, time_remaining
+      SELECT status, started_at, current_index, time_remaining
         FROM exam_sessions
       WHERE exam_id = $1
         AND student_school_id = $2

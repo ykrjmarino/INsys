@@ -279,3 +279,14 @@ ADD COLUMN is_archived BOOLEAN DEFAULT FALSE;
 
 ALTER TABLE examinations
 ADD COLUMN is_archived BOOLEAN DEFAULT FALSE;
+
+-- FOR CLEANING UP UN-USED COLUMNS
+
+ALTER TABLE users
+DROP COLUMN contact_number;
+
+ALTER TABLE exam_sessions
+DROP COLUMN finished_at;
+
+ALTER TABLE examinations
+DROP COLUMN schedule;
