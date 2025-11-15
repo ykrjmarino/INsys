@@ -250,7 +250,7 @@ function UpdateExam() {
           
           <div className="create-right-group">
             <p>Total points: {examInfo.total_points}</p>
-            <p>Passing score: 
+            {/* <p>Passing score: 
               <input 
                 type='number'
                 value={passingScore}
@@ -273,7 +273,7 @@ function UpdateExam() {
                 min="0"
                 max={examInfo.total_points}
               />
-            </p>
+            </p> */}
 
           
             <p>Status: {examInfo.status}</p>
