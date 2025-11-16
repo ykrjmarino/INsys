@@ -29,6 +29,7 @@ import ScoreHistory from './components/home-student/HistoryScores.jsx';
 import UserSettingsSuperadmin, { UserSettingsStudent, UserSettingsTeacher } from './pages/UserSettings.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import ArchivedExams from './pages/ArchivedExams.jsx';
+import AboutUsPage, { MissionPage, TermsConditionsPage } from './pages/About.jsx';
 
 
 
@@ -67,7 +68,10 @@ function AuthLoader({ children }) {
       "/register/student",
       "/register/teacher",
       "/welcome-register",
-      "/forgot-password"
+      "/forgot-password",
+      "/welcome-aboutUs",
+      "/welcome-mission",
+      "/welcome-terms"
     ];
 
     // If you're on a public path, don't call refresh
@@ -177,7 +181,10 @@ useEffect(() => {
 
         <Route path='/login' element={<Login />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/welcome-register' element={<Welcome />} /> 
+        <Route path='/welcome-register' element={<Welcome />} />
+        <Route path='/welcome-aboutUs' element={<AboutUsPage />} />
+        <Route path='/welcome-mission' element={<MissionPage />} /> 
+        <Route path='/welcome-terms' element={<TermsConditionsPage />} /> 
         <Route path='/register/student' element={<RegisterStudent />} />
         <Route path='/register/teacher' element={<RegisterTeacher />} />
 

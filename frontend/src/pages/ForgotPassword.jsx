@@ -126,7 +126,7 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
             placeholder="Enter Email"
             disabled
           />
-          <Button label="Send OTP" onClick={handleSendOtp} />
+          <Button label="Send" onClick={handleSendOtp} />
         </div>
 
         <label htmlFor="code">OTP</label>

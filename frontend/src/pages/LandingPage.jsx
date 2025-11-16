@@ -285,9 +285,9 @@ function LandingPage () {
                 <div className="landing-page-details">
                     <h1>About</h1>
                     <ul className="landing-page-list">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Mission</a></li>
-                        <li><a href="#">Terms and Condition</a></li>
+                        <li><a href="/welcome-aboutUs">About Us</a></li>
+                        <li><a href="/welcome-mission">Mission</a></li>
+                        <li><a href="/welcome-terms">Terms and Condition</a></li>
                     </ul>
                 </div>
 
