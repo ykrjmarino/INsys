@@ -49,7 +49,7 @@ export const SidebarTeacher = () => {
 
         <div className="teacher-home-sidebar-buttons">
           <h1 className="teacher-home-sidebar-title">Tools</h1>
-          <button className="student-home-sidebar-btn" onClick={() => setShowModal(true)}><i className="fas fa-plus"></i>Create Exam</button>
+          {/* <button className="student-home-sidebar-btn" onClick={() => setShowModal(true)}><i className="fas fa-plus"></i>Create Exam</button>
           {showModal &&
             ReactDOM.createPortal(
               <div
@@ -120,7 +120,7 @@ export const SidebarTeacher = () => {
                 </div>
               </div>,
               document.body
-            )}
+            )} */}
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/admin-dashboard')}><i className="fas fa-chart-bar"></i> Dashboard</button>
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/exams-analytics')}><i className="fa-solid fa-clock-rotate-left"></i>Exam Analytics</button>
           <button className="student-home-sidebar-btn" onClick={()=> navigate('/exams-archived')}><i className="fa-solid fa-box-archive"></i>Exam Archived</button>

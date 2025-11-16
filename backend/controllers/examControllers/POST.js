@@ -7,7 +7,7 @@ export const createExam = async(req, res) => {
   const randomExamCode = Math.random().toString(36).substring(2, 8).toUpperCase();
 
   try {
-    const result = await db.query('INSERT INTO examinations (title, status, exam_code, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *', [title, status, randomExamCode, userId]
+    const result = await db.query('INSERT INTO examinations (title, status, exam_code, user_id) VALUES($1, $2, $3, $4) RETURNING *', [title, status, randomExamCode, userId]
     );
 
     const examId = result.rows[0].exam_id;
