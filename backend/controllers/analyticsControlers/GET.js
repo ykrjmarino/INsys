@@ -371,10 +371,11 @@ export const getSystemLogs = async (req, res) => { //used by superadmin
   try {
     const result = await db.query(`
       SELECT sl.id, u.first_name, u.last_name, u.middle_initial, sl.action, sl.target_id, sl.created_at
-      FROM system_logs sl
+        FROM system_logs sl
       JOIN users u ON sl.user_id = u.user_id
+      WHERE sl.is_archived = false
       ORDER BY sl.created_at DESC
-      LIMIT 50
+      LIMIT 100
     `);
 
     res.status(200).json(result.rows);
