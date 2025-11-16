@@ -89,7 +89,7 @@ function ArchivedExams() {
               className="restore"
               onClick={() => handleUnarchive(examToRestore.exam_id)}
             >
-              Archive
+              Restore
             </button>
             <button
               className="cancel"
