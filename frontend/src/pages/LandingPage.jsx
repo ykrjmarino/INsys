@@ -66,9 +66,9 @@ function LandingPage () {
             <div className="header-center">
                 <nav className="nav-links">
                     <a onClick={() => document.getElementById('home').scrollIntoView({ behavior: 'smooth' })} className="nav-link">Home</a>
-                    <a onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })} className="nav-link">Features</a>
-                    <a onClick={() => document.getElementById('users').scrollIntoView({ behavior: 'smooth' })} className="nav-link">Users</a>
                     <a onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })} className="nav-link">How it Works</a>
+                    <a onClick={() => document.getElementById('users').scrollIntoView({ behavior: 'smooth' })} className="nav-link">Users</a>
+                    <a onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })} className="nav-link">Features</a>
                 </nav>
             </div>
 
@@ -125,6 +125,75 @@ function LandingPage () {
                 <div className="line-segment active"></div>
                 <div className="line-segment"></div>
                 <div className="line-segment"></div>
+            </div>
+        </div>
+
+                <div id="how-it-works" className="landing-page-features-objective">
+
+         <div className="how-it-works-landing-page-container">
+            <h2 className="how-it-works-landing-page-section-title">How It Works</h2>
+            <p className="how-it-works-landing-page-section-subtitle">Conduct secure online exams in three simple steps</p>
+            <div className="how-it-works-landing-page-steps-wrapper">
+                <div className="how-it-works-landing-page-step-card">
+                    <div className="how-it-works-landing-page-step-number">01</div>
+                    <div className="how-it-works-landing-page-step-icon-wrapper">
+                        <div className="how-it-works-landing-page-step-icon">📋</div>
+                    </div>
+                    <h3 className="how-it-works-landing-page-step-title">Create Exam</h3>
+                    <p className="how-it-works-landing-page-step-description">Set up your exam questions, configure security settings, and schedule the test date and time.</p>
+                </div>
+                <div className="how-it-works-landing-page-step-connector">
+                    <div className="how-it-works-landing-page-step-line"></div>
+                    <div className="how-it-works-landing-page-step-arrow">→</div>
+                </div>
+                <div className="how-it-works-landing-page-step-card">
+                    <div className="how-it-works-landing-page-step-number">02</div>
+                    <div className="how-it-works-landing-page-step-icon-wrapper">
+                        <div className="how-it-works-landing-page-step-icon">👥</div>
+                    </div>
+                    <h3 className="how-it-works-landing-page-step-title">Invite Students</h3>
+                    <p className="how-it-works-landing-page-step-description">Send secure exam links to students with and access codes.</p>
+                </div>
+                <div className="how-it-works-landing-page-step-connector">
+                    <div className="how-it-works-landing-page-step-line"></div>
+                    <div className="how-it-works-landing-page-step-arrow">→</div>
+                </div>
+                <div className="how-it-works-landing-page-step-card">
+                    <div className="how-it-works-landing-page-step-number">03</div>
+                    <div className="how-it-works-landing-page-step-icon-wrapper">
+                        <div className="how-it-works-landing-page-step-icon">🔍</div>
+                    </div>
+                    <h3 className="how-it-works-landing-page-step-title">Monitor & Review</h3>
+                    <p  id="users"  className="how-it-works-landing-page-step-description">Watch exams in real-time, receive alerts for suspicious activity, and review detailed reports.</p>
+                </div>
+            </div>
+            </div>
+        
+        </div>
+
+
+    
+        {/* id="users" .... but i put it on  className="how-it-works-landing-page-step-description" kase masyado mataas yung pagscroll*/}
+        <div className="landing-page-animation-slide">
+            <div className="bg2"></div> 
+            <div className="bg3"></div> 
+            
+            <div className="landing-page-users-container"> 
+                <div className="white-container">
+                    <i className="fa-solid fa-user-tie"></i>
+                    <label>Teachers</label>
+                    <p>{userCounts.admin || 0}</p>
+                </div>
+                <div className="white-container">
+                    <i className="fa-solid fa-user"></i>
+                   <label>Students</label>
+                    <p>{userCounts.student || 0}</p>
+                </div>
+                <div className="white-container">
+                    <i className="fa-solid fa-users"></i>
+                    <label>All Users</label>
+                    <p>{userCounts.all || 0}</p>
+                </div>
             </div>
         </div>
 
@@ -191,80 +260,11 @@ function LandingPage () {
                     <div className="landing-page-bold-title">
                         <p>Exam Creation</p>
                     </div>
-                    <div id="users" className="landing-page-features-definition">
+                    <div className="landing-page-features-definition">
                         <p>Teachers can easily create, edit, customize question types and manage the exam</p>
                     </div>
                 </div>
             </div>
-        </div>
-
-        {/* id="users" .... but i put it on  className="landing-page-features-definition" kase masyado mataas yung pagscroll*/}
-        <div className="landing-page-animation-slide">
-            <div className="bg2"></div> 
-            <div className="bg3"></div> 
-            
-            <div className="landing-page-users-container"> 
-                <div className="white-container">
-                    <i className="fa-solid fa-user-tie"></i>
-                    <label>Teachers</label>
-                    <p>{userCounts.admin || 0}</p>
-                </div>
-                <div className="white-container">
-                    <i className="fa-solid fa-user"></i>
-                   <label>Students</label>
-                    <p>{userCounts.student || 0}</p>
-                </div>
-                <div className="white-container">
-                    <i className="fa-solid fa-users"></i>
-                    <label>All Users</label>
-                    <p>{userCounts.all || 0}</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="how-it-works" className="landing-page-features-objective">
-
-         <div className="how-it-works-landing-page-container">
-            <h2 className="how-it-works-landing-page-section-title">How It Works</h2>
-            <p className="how-it-works-landing-page-section-subtitle">Conduct secure online exams in three simple steps</p>
-            <div className="how-it-works-landing-page-steps-wrapper">
-                <div className="how-it-works-landing-page-step-card">
-                    <div className="how-it-works-landing-page-step-number">01</div>
-                    <div className="how-it-works-landing-page-step-icon-wrapper">
-                        <div className="how-it-works-landing-page-step-icon">📋</div>
-                    </div>
-                    <h3 className="how-it-works-landing-page-step-title">Create Exam</h3>
-                    <p className="how-it-works-landing-page-step-description">Set up your exam questions, configure security settings, and schedule the test date and time.</p>
-                </div>
-                <div className="how-it-works-landing-page-step-connector">
-                    <div className="how-it-works-landing-page-step-line"></div>
-                    <div className="how-it-works-landing-page-step-arrow">→</div>
-                </div>
-                <div className="how-it-works-landing-page-step-card">
-                    <div className="how-it-works-landing-page-step-number">02</div>
-                    <div className="how-it-works-landing-page-step-icon-wrapper">
-                        <div className="how-it-works-landing-page-step-icon">👥</div>
-                    </div>
-                    <h3 className="how-it-works-landing-page-step-title">Invite Students</h3>
-                    <p className="how-it-works-landing-page-step-description">Send secure exam links to students with and access codes.</p>
-                </div>
-                <div className="how-it-works-landing-page-step-connector">
-                    <div className="how-it-works-landing-page-step-line"></div>
-                    <div className="how-it-works-landing-page-step-arrow">→</div>
-                </div>
-                <div className="how-it-works-landing-page-step-card">
-                    <div className="how-it-works-landing-page-step-number">03</div>
-                    <div className="how-it-works-landing-page-step-icon-wrapper">
-                        <div className="how-it-works-landing-page-step-icon">🔍</div>
-                    </div>
-                    <h3 className="how-it-works-landing-page-step-title">Monitor & Review</h3>
-                    <p className="how-it-works-landing-page-step-description">Watch exams in real-time, receive alerts for suspicious activity, and review detailed reports.</p>
-                </div>
-            </div>
-        </div>
-        
-
-
         </div>
          
 

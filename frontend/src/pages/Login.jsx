@@ -12,6 +12,8 @@ function Login() {
   const navigate = useNavigate();
   const { accessToken, setAccessToken, setUser } = useAuth();
 
+  const [showPass, setShowPass] = useState(false);
+
   const [formLogin, setFormLogin] = useState({
     email: "",
     password: ""
@@ -89,33 +91,38 @@ function Login() {
             <label className="login-label">Login</label>
             
             <div id="login-container">
-                <div className="login-group">
-                    <label htmlFor="email">Email</label>
-                    <InputField 
-                      name="email"
-                      id="email"
-                      type="email"
-                      value={formLogin.email}
-                      onChange={handleChange}
-                      placeholder="Enter your email"
-                      required
-                    />
+              <div className="login-group">
+                <label htmlFor="email">Email</label>
+                <InputField 
+                  name="email"
+                  id="email"
+                  type="email"
+                  value={formLogin.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div className="login-group">
+                <label htmlFor="password">Password</label>
+                <div className="password-input-wrapper">
+                  <InputField 
+                    name="password"
+                    id="password"
+                    type={showPass ? "text" : "password"}
+                    value={formLogin.password}
+                    onChange={handleChange}
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <span className="toggle-password">
+                    <i className={showPass ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowPass(!showPass)}></i>
+                  </span>
                 </div>
-                <div className="login-group">
-                    <label htmlFor="password">Password</label>
-                    <InputField 
-                      name="password"
-                      id="password"
-                      type="password"
-                      value={formLogin.password}
-                      onChange={handleChange}
-                      placeholder="Enter your password"
-                      required
-                    />
-                </div>
-                <div className="login-forgot-password">
-                    <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
-                </div>
+              </div>
+              <div className="login-forgot-password">
+                <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
+              </div>
             </div>
             
             <Button className="login-btn" label="Login" onClick={handleLogin}/>

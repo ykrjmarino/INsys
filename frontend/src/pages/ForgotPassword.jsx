@@ -188,6 +188,9 @@ function ForgotPassword() { //when logged-out
   const [message, setMessage] = useState(""); // ✅ success message
   const [error, setError] = useState(""); // ✅ error message
 
+  const [showPassNew, setShowPassNew] = useState(false); //toggle to show password (eye)
+  const [showPassConfirm, setShowPassConfirm] = useState(false);
+
   const handleSendOtp = async () => {
     try {
       const res = await axios.post('/forgot-password/request-otp', { email: form.email });
@@ -195,7 +198,8 @@ function ForgotPassword() { //when logged-out
       setMessage(res.data.message);
       setError("");
     } catch (err) {
-      console.error(err.message);
+      console.error(err.response?.data?.error);
+      toast.error(err.response?.data?.error);
       setError("Network or server error");
       setMessage("");
     }
@@ -223,7 +227,18 @@ function ForgotPassword() { //when logged-out
     setError("");
 
     if (!isVerified) return toast.error("Verify your email first");
-    if (form.password !== form.retypePassword) return setError("Passwords do not match");
+
+    if (!form.password || !form.retypePassword) {
+      toast.error("Please fill in both fields");
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (form.password !== form.retypePassword) {
+      toast.error("Passwords do not match");
+      setError("Passwords do not match");
+      return ;
+    }
 
     try {
       const res = await axios.post('/forgot-password/reset', { 
@@ -235,9 +250,10 @@ function ForgotPassword() { //when logged-out
       toast.success(res.data.message);
       setTimeout(() => navigate("/login"), 2000);//2 sec
     } catch (err) {
-      console.log(err.response?.data);
+       console.log("huh");
+      console.log(err.response?.data?.error);
+      toast.error(err.response?.data?.error || err.response?.data?.message);
       setError(err.response?.data?.message);
-      toast.error(error);
     }
   }
 
@@ -296,23 +312,33 @@ function ForgotPassword() { //when logged-out
         <div id="forget-password-change-password-container">
           <div className="forget-passoword-change-password-group">
             <label>New Password</label>
-            <InputField 
-              type="password"
-              name="password"
-              value={form.password} 
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              placeholder="Password"
-            />
-             <br /><br />
+            <div className="password-input-wrapper">
+              <InputField 
+                type={showPassNew ? "text" : "password"}
+                name="password"
+                value={form.password} 
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                placeholder="Password"
+              />
+              <span className="toggle-password">
+                <i className={showPassNew ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowPassNew(!showPassNew)}></i>
+              </span>
+            </div>
+            <br /><br />
            
             <label>Confirm New Password</label>
-            <InputField 
-              type="password"
-              name="retypePassword"
-              value={form.retypePassword} 
-              onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
-              placeholder="Confirm Password"
-            />
+            <div className="password-input-wrapper">
+              <InputField 
+                type={showPassConfirm ? "text" : "password"}
+                name="retypePassword"
+                value={form.retypePassword} 
+                onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
+                placeholder="Confirm Password"
+              />
+              <span className="toggle-password">
+                <i className={showPassConfirm ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowPassConfirm(!showPassConfirm)}></i>
+              </span>
+            </div>
           </div>
         </div>
         

@@ -7,6 +7,7 @@
     font-family: "Poppins", sans-serif;
 }
 
+
 .log-in-whole{
     position: relative;
     width: 100%;
@@ -19,7 +20,11 @@
     background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
     overflow-x: hidden;
     overflow-y: hidden;
+    gap: 100px;
   }
+
+
+
 
 #login-stars, #login-stars2, #login-stars3 {
   position: absolute;
@@ -184,13 +189,15 @@
 
 /*login container start*/
 .login-side-design {
-    width: 50%;
-    background-color: transparent;
+    width: 35%;
     display: flex; 
     flex-direction: column; 
     justify-content: center;
     align-items: center; 
-    padding: 20px; 
+    margin-left:-100px ;
+
+
+ 
 }
 
 .login-side-design{
@@ -200,20 +207,37 @@
 .login-register-btn-mobile {
       display:none;
       border-radius: 5px;
+
     }
 
 
 .login-register-btn{
-     width: 90px;
-    height: 50px;
-    font-size: 18px;
+
     color: #ffffff;
-    background-color: #2851d8;
-    border-radius: 5px;
-    border: none;
+   background-color: transparent;
     transition: 0.3s ease;
     margin-top: 10px;
+    border: 1.7px solid #FFF;
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: ease;
 }
+
+.login-register-btn:hover {
+    background-color: #3C546C
+
+; 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 81, 216, 0.4);
+
+}
+
+
 
 
 
@@ -223,16 +247,11 @@
   
 }
 
-.login-register-btn:hover {
-      background-color: #1d3cad; 
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(40, 81, 216, 0.4);
 
-}
 
 .login-side-design img {
-  width: 600px;
-  height: 500px;
+  width: 650px;
+  height: 550px;
   margin-top: -100px;
 }
 
@@ -272,15 +291,14 @@
     z-index: 10;        
 }
 
-.login-back-btn:hover {
- background-color: #24254A;
 
-}
 
 .login-whole-container label{
-    font-size: 26px;
+    font-size: 30px;
     color: #000000;
     margin-bottom: 30px;
+
+
 }
 
 .login-label{
@@ -289,7 +307,7 @@
 }
 
 .login-group label{
-    font-size: 13px;
+    font-size: 16px;
     color: #000000;
 
 }
@@ -344,7 +362,7 @@
 }
 
 #login-container .login-forgot-password{
-    margin-left: 60%;
+    margin-left: 62%;
     color: #ffffff;
     font-size: 16px;
     text-decoration: underline;
@@ -377,19 +395,7 @@
   color: #ffffff;
 }
 
-.login-register-btn{
-    width: 200px;
-    height: 50px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-    transform: ease;
 
-}
 
 .login-or-label{
   height: 40px;
@@ -397,6 +403,8 @@
   display: flex;
   align-items: center;
 }
+
+
 
 
 
@@ -435,10 +443,10 @@
 
     .login-register-btn-mobile:hover {
       background-color: #1A1A2E; 
-      color: #ffffff;
+      color: #ffffff;  
     }
 
-
+  
     .login-btn {
         width: 80%;
         height: 40px;
@@ -455,10 +463,10 @@
 
 }
 
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 767px){
 
-    .login-side-design {
-      display: none;
+      .login-side-design {
+        display: none;
     }
 
     .login-whole {
@@ -469,13 +477,12 @@
     }
 
     .login-whole-container {
-        max-width: 250px;
-        max-height: 500px;
-        padding-top: 20px;
         width: 100%;
+        max-width: 350px;
+        padding-top: 20px;
     }
 
-
+  
     .login-register-btn-mobile {
         display: flex;
         width: 80%;
@@ -494,14 +501,14 @@
 
     .login-register-btn-mobile:hover {
       background-color: #1A1A2E; 
-      color: #ffffff;
+      color: #ffffff;  
     }
 
-
+  
     .login-btn {
         width: 80%;
         height: 40px;
-        margin-top: 30px;
+        margin-top: 155px;
 
     }
     .login-or-label{
@@ -511,7 +518,158 @@
 
  #login-container .login-forgot-password {
         font-size: 12px; 
-
+      
+}
+    
 }
 
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-input-wrapper input {
+    width: 100%;
+    height: 50px;
+    padding: 0.6rem 50px 0.6rem 0.6rem; /* ← 50px right = icon + safe space */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    background-color: #ffffff;
+    color: #000000;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.password-input-wrapper input:focus {
+    outline: none;
+    border-color: #2851d8;
+    box-shadow: 0 0 0 2px rgba(40, 81, 216, 0.3);
+}
+
+.password-input-wrapper input::placeholder {
+    color: #817979;
+}
+
+
+.toggle-password {
+    position: absolute;
+    right: 16px;           
+    top: 55%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s ease;
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password:hover {
+    color: #1A1A2E
+
+;
+}
+
+@media screen and (max-width: 768px) {
+
+
+    .login-whole-container {
+        max-width: 350px;
+        padding: 15px 18px 15pxx;
+        border-radius: 10px;
+        height: 480px;
+    }
+
+  
+    .login-label {
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 14px;
+        text-align: center;
+    }
+
+ 
+    .login-group label {
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .login-group input,
+    .password-input-wrapper input {
+        height: 40px;
+        font-size: 14px;
+        padding: 0 10px;
+        border-radius: 5px;
+    }
+
+
+    .toggle-password {
+        right: 12px;
+        font-size: 14px;
+    }
+
+
+    .login-forgot-password {
+        font-size: 12px;
+        margin-top: -6px;
+        text-align: right;
+    }
+
+  
+    .login-btn {
+        height: 40px;
+        font-size: 15px;
+        margin-top: 16px;
+        border-radius: 5px;
+    }
+
+   
+    .login-or-label {
+        font-size: 16px;
+        margin-top:5px ;
+    
+        color: #000;
+    }
+
+   
+    .login-register-btn-mobile {
+        display: flex;
+        height: 40px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        background: transparent;
+        color: #000;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+    }
+
+    .login-register-btn-mobile:hover {
+        background: #1A1A2E;
+        color: #fff;
+        border-color: #1A1A2E;
+    }
+
+    /* Back Button */
+    .login-back-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 17px;
+        top: 10px;
+        left: 10px;
+    }
+
+    /* Hide desktop side panel */
+    .login-side-design {
+        display: none;
+    }
 }

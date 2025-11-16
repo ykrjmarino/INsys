@@ -178,7 +178,7 @@ authRoutes.post('/forgot-password/request-otp', async (req, res) => {
     return res.status(200).json({ message: 'OTP sent! Verify to reset password.' });
   } catch (error) {
     console.error('Error Reset Password', error);
-    res.status(500).json({ error: 'Failed to reset password' });
+    res.status(500).json({ error: 'Failed to reset password', message: 'Failed to reset password' });
   }
 
 })
@@ -238,7 +238,7 @@ authRoutes.post('/forgot-password/reset', async (req, res) => {
       RETURNING *`, 
       [hash, email]); //changed password to hash (hashed password)
     
-    await logAction(null, `Password reset for ${email}`);
+    // await logAction(null, `Password reset for ${email}`);
       
     await redisClient.del(`verifiedEmail:${email}`);
 
