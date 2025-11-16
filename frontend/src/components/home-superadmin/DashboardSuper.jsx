@@ -110,13 +110,19 @@ export const DashboardSuper = () => {
         <section className="super-dashboard-logs-section">
           <h3>Recent System Logs</h3>
           <div className="super-dashboard-logs-container">
-            {infoLogs.map((log) => (
-              <div key={log.id} className="super-dashboard-log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
-                <p><strong>{log.first_name} {log.middle_initial}. {log.last_name}</strong></p>
-                <p>{log.action}</p>
-                <p style={{ fontSize: '0.85em', color: '#555' }}>{new Date(log.created_at).toLocaleString()}</p>
-              </div>
-            ))}
+            {infoLogs.map((log) => {
+              const actorName = log.first_name
+                ? `${log.first_name} ${log.middle_initial}. ${log.last_name}`
+                : "New User";
+
+              return (
+                <div key={log.id} className="super-dashboard-log-item" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
+                  <p><strong>{actorName}</strong></p>
+                  <p>{log.action}</p>
+                  <p style={{ fontSize: '0.85em', color: '#555' }}>{new Date(log.created_at).toLocaleString()}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
       </div>

@@ -4,6 +4,7 @@ import {db} from '../db.js';
 import { generateOTP, verifyOTP } from "./otp.js";
 import { sendUserEmail } from "./nodemailer.js";
 import redisClient from "./redisClient.js";
+import { logAction } from "./logAction.js"
 
 const teacherAuthRoutes = express.Router();
 const saltRounds = 5;
@@ -14,7 +15,7 @@ teacherAuthRoutes.post ('/register/email-otp', async(req, res) => { //email inpu
 
   if (!username) return res.status(400).json({ error: 'Missing username' });
 
-  if (/^\d+$/.test(username)) return res.status(400).json({ error: "Students cannot use this route." }); //if username have number in it, not allowed to register here
+  if (/\d/.test(username)) return res.status(400).json({ error: "Students cannot use this route." }); //if username have number in it, not allowed to register here
 
   try {
     //check email if used or not
@@ -105,7 +106,7 @@ teacherAuthRoutes.post ('/register/user-info', async(req, res) => { //complete i
       INSERT INTO users (email, password, first_name, last_name, school_id, gender, college, role, middle_initial ) VALUES ($1, $2, $3 ,$4 ,$5 ,$6 ,$7, $8, $9) RETURNING *
     `, [email, hash, firstName, lastName, schoolId, userGender, college, 'admin', middleInitial]); //changed password to hash (hashed password)
 
-    await logAction(schoolId, `Registered new teacher: ${firstName} ${middleInitial}. ${lastName}`, schoolId);
+    await logAction(null, `Teacher registered: ${firstName} ${middleInitial}. ${lastName}`, schoolId);
 
     await redisClient.del(`verifiedEmail:${email}`);//delete temporary user info
     return res.status(201).json({ message: 'User registered successfully' });

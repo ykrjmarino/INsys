@@ -369,10 +369,18 @@ export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
 
 export const getSystemLogs = async (req, res) => { //used by superadmin
   try {
+    // const result = await db.query(`
+    //   SELECT sl.id, u.first_name, u.last_name, u.middle_initial, sl.action, sl.target_id, sl.created_at
+    //     FROM system_logs sl
+    //   JOIN users u ON sl.user_id = u.user_id
+    //   WHERE sl.is_archived = false
+    //   ORDER BY sl.created_at DESC
+    //   LIMIT 100
+    // `);
     const result = await db.query(`
       SELECT sl.id, u.first_name, u.last_name, u.middle_initial, sl.action, sl.target_id, sl.created_at
-        FROM system_logs sl
-      JOIN users u ON sl.user_id = u.user_id
+      FROM system_logs sl
+      LEFT JOIN users u ON sl.user_id = u.user_id
       WHERE sl.is_archived = false
       ORDER BY sl.created_at DESC
       LIMIT 100

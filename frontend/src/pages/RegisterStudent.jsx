@@ -211,6 +211,7 @@ function RegisterStudent() {
                   value={formRegister.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
+                  autoComplete="off"
                 /> 
             </div>
 
@@ -224,6 +225,7 @@ function RegisterStudent() {
                 value={formRegister.retypePassword}
                 onChange={handleChange}
                 placeholder="Re-type your password"
+                autoComplete="off"
               /> 
             </div>
 

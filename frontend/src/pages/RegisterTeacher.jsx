@@ -204,6 +204,7 @@ function RegisterTeacher() {
                   value={formRegister.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
+                  autoComplete="off"
                 /> 
             </div>
 
@@ -217,6 +218,7 @@ function RegisterTeacher() {
                 value={formRegister.retypePassword}
                 onChange={handleChange}
                 placeholder="Re-type your password"
+                autoComplete="off"
               /> 
             </div>
 
@@ -264,10 +266,12 @@ function RegisterTeacher() {
             <div className="registration-form-group">
               <label>School ID</label>
               <InputField 
+                type="number"
                 name="schoolId"
                 value={formRegister.schoolId}
                 onChange={handleChange}
                 placeholder="Enter your school ID"
+                autoComplete="off"
               />
             </div>
 
