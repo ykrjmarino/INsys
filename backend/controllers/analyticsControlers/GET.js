@@ -325,6 +325,7 @@ export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
       SELECT COUNT(*) 
       FROM users 
       WHERE role = $1
+        AND is_archived = false
         AND (
           first_name ILIKE $2 
           OR last_name ILIKE $2 
@@ -348,6 +349,7 @@ export const getAdminExamAnalytics = async(req, res) => { //used by superadmin
       FROM users u
       LEFT JOIN examinations e ON e.user_id = u.user_id
       WHERE u.role = $1
+        AND u.is_archived = false
         AND (
           u.first_name ILIKE $2 
           OR u.last_name ILIKE $2 
