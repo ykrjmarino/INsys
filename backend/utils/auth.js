@@ -48,7 +48,7 @@ authRoutes.post('/login', async (req, res) => {
     const user = result.rows[0]; //mostly used, dont delete
 
     if (user.is_archived) {
-      return res.status(404).json({ error: 'Your account has been archived. Please contact the administrator.' });
+      return res.status(404).json({ error: 'Your account has been disabled. Please contact the administrator.' });
     }
 
     

@@ -96,7 +96,7 @@ import { getAdminExamAnalytics, getAllAnalytics, getArchivedUser, getExamAnalyti
 import { postViolation } from "./controllers/monitoringControllers/POST.js";
 import { archiveUser, deleteUser } from "./controllers/analyticsControlers/DELETE.js";
 import { unarchiveUser, updateDeduction, updateUser } from "./controllers/analyticsControlers/UPDATE.js";
-import { deleteOwnAccount } from "./controllers/userControllers/DELETE.js";
+import { archiveOwnAccount, deleteOwnAccount } from "./controllers/userControllers/DELETE.js";
 import { deleteAllData, deleteOldData } from "./controllers/systemSystemControllers/superadminSettings.js";
 import { exportExamScores, exportUsers } from "./controllers/analyticsControlers/ExportExcel.js";
 
@@ -170,7 +170,8 @@ app.delete("/api/sections/:sectionId", adminOnly, deleteSection);
 app.get("/api/users/counts", getAllUsers);
 app.get("/api/users/:userId", usersOnly, getUserById);
 app.post("/api/users", adminsOnly, createUser);
-app.delete("/api/user/delete", usersOnly, deleteOwnAccount);
+app.delete("/api/user/delete", usersOnly, deleteOwnAccount); //will not be used,,, we will archive instead
+app.patch ("/api/user/archive", usersOnly, archiveOwnAccount);
 
 // EXAM ROUTES
 app.get("/api/exams/:userId", adminsOnly, getAllExams);
@@ -263,5 +264,5 @@ app.get("/api/export/:examId/:sectionId", exportExamScores); //per section
 // ======================
 app.listen(port, () => {
   db.connect();
-  console.log(`✅ Backend running at http://localhost:${port} idk tinatamad ako magchange ng text`);
+  console.log(`✅ Backend running at http://localhost:${port} (ykrjm2025)`);
 });

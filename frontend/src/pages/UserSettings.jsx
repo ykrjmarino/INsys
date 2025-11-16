@@ -210,12 +210,14 @@ const SettingsAccountControl = () => {
         withCredentials: true,
       };
 
-      await axios.delete("/user/delete", config);
+      //ARCHIVE ACCOUNT
+      await axios.patch("/user/archive", config);
 
       setShowModal(false);
-      alert("Your account has been deleted.");
+      toast.info("Your account has been disabled.");
       navigate("/login"); // or logout
     } catch (err) {
+      toast.error(err.response?.data?.error || "Failed to delete account.");
       setMessage(err.response?.data?.error || "Failed to delete account.");
     }
   };
