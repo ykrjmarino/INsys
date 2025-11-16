@@ -188,14 +188,14 @@
     gap: 32px;
 }
 
-.user-settings-outer-container h2 {
+.user-settings-outer-container h2, .user-settings-outer-container-ts h2 {
     font-size: 26px;
     font-weight: 700;
     color: #1e293b;
     margin-bottom: 4px;
 }
 
-.user-settings-outer-container > h2::after {
+.user-settings-outer-container > h2::after, .user-settings-outer-container-ts > h2::after {
     content: '';
     display: block;
     width: 60px;

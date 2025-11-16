@@ -60,6 +60,10 @@ const SettingsPasswordManage = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
   
   const [message, setMessage] = useState("");
 
@@ -106,38 +110,56 @@ const SettingsPasswordManage = () => {
         <form onSubmit={handleChangePassword}>
           <div className="super-admin-account-settings-change-password-form">
             <label htmlFor="currentPassword">Current Password:</label><br />
-            <input
-              type="password"
-              id="currentPassword"
-              name="currentPassword"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              required
-            />
+            <div class="super-admin-password-input-wrapper">
+              <input
+                type={showCurrentPass ? "text" : "password"}
+                id="currentPassword"
+                name="currentPassword"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                required
+              />
+              <span class="super-admin-toggle-password">
+                <i className={showCurrentPass ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowCurrentPass(!showCurrentPass)}></i>
+              </span>
+            </div>
+            
           </div>
 
           <div className="super-admin-account-settings-change-password-input">
             <label htmlFor="newPassword">New Password:</label><br />
-            <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-            />
+            <div class="super-admin-password-input-wrapper">
+              <input
+                type={showNewPass ? "text" : "password"}
+                id="newPassword"
+                name="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+              <span class="super-admin-toggle-password">
+                <i className={showNewPass ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowNewPass(!showNewPass)}></i>
+              </span>
+            </div>
+            
           </div>
 
           <div className="super-admin-account-settings-change-password-input">
             <label htmlFor="confirmNewPassword">Confirm New Password:</label><br />
-            <input
-              type="password"
-              id="confirmNewPassword"
-              name="confirmNewPassword"
-              value={confirmNewPassword}
-              onChange={(e) => setConfirmNewPassword(e.target.value)}
-              required
-            />
+            <div class="super-admin-password-input-wrapper">
+              <input
+                type={showConfirmPass ? "text" : "password"}
+                id="confirmNewPassword"
+                name="confirmNewPassword"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                required
+              />
+              <span class="super-admin-toggle-password">
+                <i className={showConfirmPass ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowConfirmPass(!showConfirmPass)}></i>
+              </span>
+            </div>
+            
           </div>
           <a className="forgot-password" onClick={() => setShowForgot(true)}>Forgot Password?</a>
           <br></br>
@@ -347,7 +369,7 @@ export const UserSettingsContentSuperadmin = () => {
   return (
     <>
     <div className="user-settings-outer-container">
-      <h2>Admin Analytics</h2>
+      <h2>Account Settings</h2>
       <div className="user-settings-inner-container-one">
         <div className={`user-settings-account-info ${activeTabSettings === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTabSettings('basic-information')}>Account Information</div>
         <div className={`user-settings-account-info ${activeTabSettings === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTabSettings('password-manage')}>Change Password</div>
@@ -380,7 +402,7 @@ export const UserSettingsContentTS = () => {
   return (
     <>
     <div className="user-settings-outer-container-ts">
-
+      <h2>Account Settings</h2>
       <div className="user-settings-inner-container-one">
         <div className={`user-settings-account-info ${activeTabSettings === 'basic-information' ? 'active' : ''}`} onClick={() => setActiveTabSettings('basic-information')}>Account Information</div>
         <div className={`user-settings-account-info ${activeTabSettings === 'password-manage' ? 'active' : ''}`} onClick={() => setActiveTabSettings('password-manage')}>Change Password</div>

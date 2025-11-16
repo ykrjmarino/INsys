@@ -112,10 +112,7 @@ function LandingPage () {
 
           
             <div className="slide-content">
-                <h2 className="slide-content-h2">
-                  <span className="insys-gradient" style={{ fontSize: "4.7rem" }}>INSYS</span>   
-                  <span style={{ fontSize: "2.2rem", color: "#ffffff86", marginLeft: "20px", opacity: 0.9 }}>The future of online examinations</span>
-                </h2>
+                <h2 className="insys-gradient"> INSYS: The future of online examinations</h2>
                 <p>A secure and easy-to-use platform for creating, managing, <br /> monitoring online exams that ensure a honest and reliable results.</p>
                 <button onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })}>Learn more</button>
             </div>
@@ -198,7 +195,7 @@ function LandingPage () {
         </div>
 
         <div id="features" className="landing-page-features-container">
-            <h1>Key Features</h1>
+            <h1 className="lading-page-features-label">Key Features</h1>
           
             <div className="landing-page-features-row">
 
