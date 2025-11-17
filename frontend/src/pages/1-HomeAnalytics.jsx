@@ -16,9 +16,9 @@ function AnalyticsHomeExams ({ exams, onClickDel, onClickDupe, className, onClic
 
   return (
     <>
-    <div className="teacher-home-main-content">
-      <div className="teacher-home-labels-dropdown-container">
-       <label className="main-container-title">Exams Analytics</label>
+    <div className="teacher-archive-main-content">
+      <div className="teacher-archive-labels-dropdown-container">
+       <label className="teacher-archive-main-container-title">Exams Analytics</label>
       </div>
       
       <div className="grid-container">

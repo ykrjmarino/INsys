@@ -106,7 +106,7 @@ function LandingPage () {
                     <img src="/images/22.webp" alt="Slide 2" />
                 </div>
                 <div className="slide">
-                    <img src="/images/11.webp" alt="Slide 3" />
+                    <img src="/images/slide2.webp" alt="Slide 3" />
                 </div>
             </div>
 

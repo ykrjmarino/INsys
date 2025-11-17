@@ -450,6 +450,7 @@ export const EditUserComponent = ({handleChange, handleSave, handleCancel, formD
           style={{ width: "100%", marginBottom: "15px" }}
           autoComplete="off"
         />
+        {/* 
         <p>Password</p>
         <input
           type="password"
@@ -459,6 +460,8 @@ export const EditUserComponent = ({handleChange, handleSave, handleCancel, formD
           onChange={handleChange}
           autoComplete="off"
         />
+        */}
+        
         <p>Role</p>
         <SelectField
           name="role"

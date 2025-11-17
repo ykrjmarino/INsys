@@ -139,7 +139,7 @@ function EnterExam() {
             • Ensure a stable internet connection throughout the exam.<br/>
             • Switching tabs, opening new tabs, or accessing external resources is strictly prohibited.<br/>
             • Your activity is monitored. Any violation will be recorded.<br/>
-            • Three warnings will result in a red flag being issued for your exam.<br/>
+            • These warnings will result in a red flag being issued for your exam.<br/>
             • Read each question carefully before answering.<br/>
             • Contact the proctor if you encounter technical issues.
           </p>
