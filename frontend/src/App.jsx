@@ -29,7 +29,7 @@ import ScoreHistory from './components/home-student/HistoryScores.jsx';
 import UserSettingsSuperadmin, { UserSettingsStudent, UserSettingsTeacher } from './pages/UserSettings.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import ArchivedExams from './pages/ArchivedExams.jsx';
-import AboutUsPage, { MissionPage, TermsConditionsPage } from './pages/About.jsx';
+import AboutUsPage, { TermsConditionsPage } from './pages/About.jsx';
 
 
 
@@ -183,7 +183,6 @@ useEffect(() => {
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/welcome-register' element={<Welcome />} />
         <Route path='/welcome-aboutUs' element={<AboutUsPage />} />
-        <Route path='/welcome-mission' element={<MissionPage />} /> 
         <Route path='/welcome-terms' element={<TermsConditionsPage />} /> 
         <Route path='/register/student' element={<RegisterStudent />} />
         <Route path='/register/teacher' element={<RegisterTeacher />} />

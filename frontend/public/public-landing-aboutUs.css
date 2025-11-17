@@ -1,0 +1,121 @@
+
+/* Containers */
+.terms-container,
+.about-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Sticky header (same for both pages) */
+.terms-and-condition-header{
+    position: sticky;
+    top: 0;
+    backdrop-filter: saturate(180%) blur(10px);
+    background: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+}
+.terms-and-condition-header {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.terms-brand {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Cards (shared style) */
+.terms-card,
+.about-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+
+
+
+/* Unique heading classes (as you requested) */
+.terms-and-condition-text-one,
+.about-us-text-one { 
+    font-size: clamp(28px, 3.5vw, 42px); 
+    color: #0c4a6e; 
+    font-weight: 800; 
+    margin: 0 0 16px; 
+}
+
+.terms-and-condition-text-two,
+.about-us-text-two { 
+    font-size: clamp(20px, 2.2vw, 28px); 
+    font-weight: 700; 
+    margin: 24px 0 12px; 
+    color: #0f172a; 
+}
+
+.terms-and-condition-text-four { /* h3 style */
+    font-size: 1.25rem; 
+    font-weight: 600; 
+    margin: 20px 0 8px; 
+    color: #0c4a6e;
+}
+
+/* Unique paragraph classes */
+.terms-and-condition-p-one,
+.terms-and-condition-p-two,
+.terms-and-condition-p-three,
+.terms-and-condition-p-four,
+.terms-and-condition-p-five,
+.about-us-p-one,
+.about-us-p-two { 
+    margin: 0 0 16px; 
+    color: #334155; 
+    text-align: justify;
+}
+
+/* Buttons */
+.about-button-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    color: white;
+    background: linear-gradient(180deg, var(--accent-strong), #0284c7);
+    text-decoration: none;
+    box-shadow: 0 8px 18px rgba(2,132,199,0.25);
+    transition: all 160ms ease;
+    font-weight: 600;
+}
+.about-button-link:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.about-button-link:active { transform: translateY(0); }
+
+/* Grid system (About page) */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+}
+.about-span-8 { grid-column: span 8; }
+.about-span-4 { grid-column: span 4; }
+
+/* Spacing helpers */
+.about-section,
+.terms-section-16 { margin-top: 16px; }
+.terms-section-12 { margin-top: 12px; }
+
+
+/* Footer */
+.terms-and-condition-footer{
+    margin-top: 48px;
+    padding: 24px 0 48px;
+    color: #64748b;
+    border-top: 1px dashed var(--border);
+    text-align: center;
+}
+.terms-small,
+.about-small { font-size: 12px; color: #64748b; }
