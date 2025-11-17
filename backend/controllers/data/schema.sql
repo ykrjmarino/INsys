@@ -200,6 +200,6 @@ CREATE TABLE system_logs (
   user_id INT REFERENCES users(user_id) ON DELETE CASCADE,  -- link to users.user_id
   action TEXT NOT NULL,                                              -- description of the action
   target_id INT,                                                     -- optional: affected exam/user/etc.
-  created_at TIMESTAMP DEFAULT NOW()                                 -- timestamp of the action
-  is_archived BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT NOW(),                                 -- timestamp of the action
+  is_archived BOOLEAN DEFAULT FALSE
 );

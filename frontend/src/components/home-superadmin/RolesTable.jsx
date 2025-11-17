@@ -194,7 +194,11 @@ export const ManageUsersTable = ({selectedRole}) => {
 
     try {
       const res = await axios.get(`/system/manage-users?role=superadmin`, config);
-      setSuperadminCount(res.data.users?.length || 0);
+
+      //count only active users
+      const activeSuperadmins = res.data.users?.filter(user => user.user_status === "active").length || 0;
+      
+      setSuperadminCount(activeSuperadmins);
     } catch (error) {
       console.error("Failed to check superadmin count:", error.message);
     }
@@ -319,7 +323,7 @@ export const ManageUsersTable = ({selectedRole}) => {
                       backgroundColor:
                         selectedRole === "superadmin" && superadminCount === 1 ? "gray" : "",
                       color: 
-                        selectedRole === "superadmin" && "white",
+                        selectedRole === "superadmin" && superadminCount === 1 ? "white" : "",
                       marginLeft: "5px",
                       cursor:
                         selectedRole === "superadmin" && superadminCount === 1
