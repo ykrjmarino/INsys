@@ -78,23 +78,7 @@ function LandingPage () {
                 <button onClick={() => navigate("/welcome-register")} className="btn-register">Register</button>
             </div>
 
-            <div className="hamburger-menu">
-                <button className="hamburger-btn">
-                    <i className="fas fa-bars"></i>
-                </button>
-            </div>
         </header>
-
-        <div className="mobile-menu">
-            <a onClick={() => document.getElementById('home').scrollIntoView({ behavior: 'smooth' })} className="mobile-nav-link">Home</a>
-            <a onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })} className="mobile-nav-link">Features</a>
-            <a onClick={() => document.getElementById('users').scrollIntoView({ behavior: 'smooth' })} className="mobile-nav-link">Users</a>
-            <a onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })} className="mobile-nav-link">How it Works</a>
-            <div className="mobile-buttons">
-                <button onClick={() => navigate("/login")} className="btn-login mobile">Log In</button>
-                <button onClick={() => navigate("/welcome-register")} className="btn-register mobile">Register</button>
-            </div>
-        </div>
 
 
         <div id="home" className="landing-page-slide-image">

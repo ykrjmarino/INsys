@@ -202,8 +202,7 @@
 
 /* RESPONSIVE */
 @media screen and (max-width: 767px) {
-    .header-center,
-    .header-right {
+    .header-center {
         display: none;
     }
     .hamburger-menu {
@@ -211,6 +210,14 @@
     }
     .main-header {
         padding: 0 20px;
+    }
+
+    .btn-login, .btn-register{
+        height:40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
     }
 }
 
