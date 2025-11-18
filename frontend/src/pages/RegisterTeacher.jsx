@@ -124,17 +124,20 @@ function RegisterTeacher() {
             <form id="otp-form">
   
               <div className="registration-form-group">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">School Email</label>
                 <InputField 
                   name="username"
                   id="username"
                   value={formRegister.username} 
                   onChange={handleChange}
-                  placeholder="Enter your Username" 
+                  placeholder="e.g. yrmarino" 
                   disabled={isVerified}
                   autoComplete="off"
                   required
                 />
+                <small style={{fontSize: "12px", color: "#6b7280", marginTop: "4px", display: "block"}}>
+                  Enter only your username part of your official PSU email. The system will automatically append <strong>@pampangastateu.edu.ph</strong> to complete your email address.
+                </small>
               </div>
 
               <Button
