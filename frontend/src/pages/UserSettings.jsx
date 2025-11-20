@@ -66,6 +66,13 @@ const SettingsPasswordManage = () => {
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   
   const [message, setMessage] = useState("");
+  const [pwChecks, setPwChecks] = useState({
+    length: false,
+    lower: false,
+    upper: false,
+    number: false,
+    special: false,
+  });
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -89,10 +96,10 @@ const SettingsPasswordManage = () => {
         config
       );
 
-      toast.info(res.data.message);
       setCurrentPassword("");
       setNewPassword("");
       setConfirmNewPassword("");
+      toast.success("Password changed successfully!");
     } catch (err) {
       toast.info(err.response?.data?.error);
       setMessage(err.response?.data?.error || "Failed to change password");
@@ -109,7 +116,7 @@ const SettingsPasswordManage = () => {
         {message && <p style={{ color: "red", marginBottom: "10px", fontStyle: "italic" }}>{message}</p>}
         <form onSubmit={handleChangePassword}>
           <div className="super-admin-account-settings-change-password-form">
-            <label htmlFor="currentPassword">Current Password:</label><br />
+            <label htmlFor="currentPassword">Current Password:</label>
             <div class="super-admin-password-input-wrapper">
               <input
                 type={showCurrentPass ? "text" : "password"}
@@ -127,38 +134,65 @@ const SettingsPasswordManage = () => {
           </div>
 
           <div className="super-admin-account-settings-change-password-input">
-            <label htmlFor="newPassword">New Password:</label><br />
+            <label htmlFor="newPassword">New Password:</label>
             <div class="super-admin-password-input-wrapper">
               <input
                 type={showNewPass ? "text" : "password"}
                 id="newPassword"
                 name="newPassword"
                 value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                onChange={(e) => {
+                  const v = e.target.value;
+
+                  if (/[^a-zA-Z0-9!@#$%^&*_\-+=?]/.test(v)) return;
+
+                  setNewPassword(v);
+                  
+                  setPwChecks({
+                    length: v.length >= 8,
+                    lower: /[a-z]/.test(v),
+                    upper: /[A-Z]/.test(v),
+                    number: /\d/.test(v),
+                    special: /[!@#$%^&*_\-+=?]/.test(v),
+                  });
+                }}
                 required
               />
               <span class="super-admin-toggle-password">
                 <i className={showNewPass ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowNewPass(!showNewPass)}></i>
               </span>
             </div>
-            
+            <small style={{fontSize: "12px", color: "#6b7280", marginTop: "4px", display: "block"}}>
+              {pwChecks.length ? "☑" : "☐"} Must have at least 8 characters<br/>
+              {pwChecks.lower ? "☑" : "☐"} Must contain a Lowercase letter<br/>
+              {pwChecks.upper ? "☑" : "☐"} Must contain an Uppercase letter<br/>
+              {pwChecks.number ? "☑" : "☐"} Must contain a Number<br/>
+              {pwChecks.special ? "☑" : "☐"} Must contain a Special character (except: {"< > \" ' ` \\ / { } [ ]"})<br/>
+            </small>
           </div>
 
           <div className="super-admin-account-settings-change-password-input">
-            <label htmlFor="confirmNewPassword">Confirm New Password:</label><br />
+            <label htmlFor="confirmNewPassword">Confirm New Password:</label>
             <div class="super-admin-password-input-wrapper">
               <input
                 type={showConfirmPass ? "text" : "password"}
                 id="confirmNewPassword"
                 name="confirmNewPassword"
                 value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                onChange={(e) => {
+                  const v = e.target.value;
+
+                  if (/[^a-zA-Z0-9!@#$%^&*_\-+=?]/.test(v)) return;
+
+                  setConfirmNewPassword(v);
+                }}
                 required
               />
               <span class="super-admin-toggle-password">
                 <i className={showConfirmPass ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowConfirmPass(!showConfirmPass)}></i>
               </span>
             </div>
+            
             
           </div>
           <a className="forgot-password" onClick={() => setShowForgot(true)}>Forgot Password?</a>

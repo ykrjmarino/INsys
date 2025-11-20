@@ -282,7 +282,7 @@ function ForgotPassword() { //when logged-out
         <button onClick={() =>{ navigate(-1) }} className="forget-password-back-btn"><i className="fa fa-arrow-left"></i></button>
         <label className="forget-password-label">Forgot Password</label>
       
-      {isVerified ? ( //!!!!!!!!!!!!!!!!!!!!!!!!!
+      {!isVerified ? ( 
         <>
         <div id="forget-password-container-p">
           <div className="forget-passoword-group-p">
@@ -346,11 +346,11 @@ function ForgotPassword() { //when logged-out
               </span>
             </div>
             <small style={{fontSize: "12px", color: "#6b7280", marginTop: "4px", display: "block"}}>
-              {pwChecks.length ? "☑" : "☐"} At least 8 characters<br/>
-              {pwChecks.lower ? "☑" : "☐"} Lowercase letter<br/>
-              {pwChecks.upper ? "☑" : "☐"} Uppercase letter<br/>
-              {pwChecks.number ? "☑" : "☐"} Number<br/>
-              {pwChecks.special ? "☑" : "☐"} Special character (except: {"< > \" ' ` \\ / { } [ ]"})<br/>
+              {pwChecks.length ? "☑" : "☐"} Must have at least 8 characters<br/>
+              {pwChecks.lower ? "☑" : "☐"} Must contain a Lowercase letter<br/>
+              {pwChecks.upper ? "☑" : "☐"}  Must contain an Uppercase letter<br/>
+              {pwChecks.number ? "☑" : "☐"} Must contain a Number<br/>
+              {pwChecks.special ? "☑" : "☐"} Must contain a Special character (except: {"< > \" ' ` \\ / { } [ ]"})<br/>
             </small>
             <br />
            
