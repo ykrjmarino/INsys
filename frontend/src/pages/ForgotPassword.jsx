@@ -141,7 +141,6 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
           />
           <Button label="Verify" onClick={handleVerifyOtp} />
         </div>
-        
       </>
       ) : ( 
         <>
@@ -187,6 +186,13 @@ function ForgotPassword() { //when logged-out
   const [code, setCode] = useState(""); //otp
   const [message, setMessage] = useState(""); // ✅ success message
   const [error, setError] = useState(""); // ✅ error message
+  const [pwChecks, setPwChecks] = useState({
+    length: false,
+    lower: false,
+    upper: false,
+    number: false,
+    special: false,
+  });
 
   const [showPassNew, setShowPassNew] = useState(false); //toggle to show password (eye)
   const [showPassConfirm, setShowPassConfirm] = useState(false);
@@ -276,7 +282,7 @@ function ForgotPassword() { //when logged-out
         <button onClick={() =>{ navigate(-1) }} className="forget-password-back-btn"><i className="fa fa-arrow-left"></i></button>
         <label className="forget-password-label">Forgot Password</label>
       
-      {!isVerified ? (
+      {isVerified ? ( //!!!!!!!!!!!!!!!!!!!!!!!!!
         <>
         <div id="forget-password-container-p">
           <div className="forget-passoword-group-p">
@@ -317,14 +323,36 @@ function ForgotPassword() { //when logged-out
                 type={showPassNew ? "text" : "password"}
                 name="password"
                 value={form.password} 
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                onChange={(e) => {
+                  const v = e.target.value;
+
+                  // block forbidden characters
+                  if (/[^a-zA-Z0-9!@#$%^&*_\-+=?]/.test(v)) return;
+
+                  setForm({ ...form, password: v });
+
+                  setPwChecks({
+                    length: v.length >= 8,
+                    lower: /[a-z]/.test(v),
+                    upper: /[A-Z]/.test(v),
+                    number: /\d/.test(v),
+                    special: /[!@#$%^&*_\-+=?]/.test(v),
+                  });
+                }}
                 placeholder="Password"
               />
               <span className="toggle-password">
                 <i className={showPassNew ? "fa fa-eye-slash" : "fa fa-eye"} onClick={() => setShowPassNew(!showPassNew)}></i>
               </span>
             </div>
-            <br /><br />
+            <small style={{fontSize: "12px", color: "#6b7280", marginTop: "4px", display: "block"}}>
+              {pwChecks.length ? "☑" : "☐"} At least 8 characters<br/>
+              {pwChecks.lower ? "☑" : "☐"} Lowercase letter<br/>
+              {pwChecks.upper ? "☑" : "☐"} Uppercase letter<br/>
+              {pwChecks.number ? "☑" : "☐"} Number<br/>
+              {pwChecks.special ? "☑" : "☐"} Special character (except: {"< > \" ' ` \\ / { } [ ]"})<br/>
+            </small>
+            <br />
            
             <label>Confirm New Password</label>
             <div className="password-input-wrapper">
@@ -332,7 +360,14 @@ function ForgotPassword() { //when logged-out
                 type={showPassConfirm ? "text" : "password"}
                 name="retypePassword"
                 value={form.retypePassword} 
-                onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
+                onChange={(e) => {
+                  const v = e.target.value;
+
+                  // block forbidden characters
+                  if (/[^a-zA-Z0-9!@#$%^&*_\-+=?]/.test(v)) return;
+
+                  setForm({ ...form, retypePassword: v })
+                }}
                 placeholder="Confirm Password"
               />
               <span className="toggle-password">
