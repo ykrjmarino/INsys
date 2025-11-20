@@ -28,6 +28,14 @@ function RegisterStudent() {
   const [disableButton, setDisableButton] = useState(false);
   const [countdown, setCountdown] = useState(0);
 
+  const [pwChecks, setPwChecks] = useState({
+    length: false,
+    lower: false,
+    upper: false,
+    number: false,
+    special: false,
+  });
+
   const handleSendOtp = async () => {
     setDisableButton(true);
     setCountdown(15);
@@ -89,6 +97,24 @@ function RegisterStudent() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "password") {
+
+      if (/[^a-zA-Z0-9!@#$%^&*_\-+=?]/.test(value)) return;
+
+      setPwChecks({
+        length: value.length >= 8,
+        lower: /[a-z]/.test(value),
+        upper: /[A-Z]/.test(value),
+        number: /\d/.test(value),
+        special: /[!@#$%^&*_\-+=?]/.test(value),
+      });
+    }
+
+    if (name === "retypePassword") {
+      if (/[^a-zA-Z0-9!@#$%^&*_\-+=?]/.test(value)) return;
+    }
+  
     setFormRegister((prev) => ({
       ...prev,
       [name]: value,
@@ -217,7 +243,14 @@ function RegisterStudent() {
                   autoComplete="off"
                 /> 
             </div>
-
+            <small style={{fontSize: "12px", color: "#6b7280", display: "block"}}>
+              {pwChecks.length ? "☑" : "☐"} Must have at least 8 characters<br/>
+              {pwChecks.lower ? "☑" : "☐"} Must contain a Lowercase letter<br/>
+              {pwChecks.upper ? "☑" : "☐"}  Must contain an Uppercase letter<br/>
+              {pwChecks.number ? "☑" : "☐"} Must contain a Number<br/>
+              {pwChecks.special ? "☑" : "☐"} Must contain a Special character (except: {"< > \" ' ` \\ / { } [ ]"})<br/>
+            </small>
+            <br />
 
             <div className="registration-form-group">
               <label htmlFor="retype-password">Retype Password</label>
