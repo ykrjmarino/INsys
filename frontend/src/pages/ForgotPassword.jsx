@@ -29,6 +29,14 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
   const [error, setError] = useState(""); //error message
   const [userEmail, setUserEmail] = useState("");
 
+  const [pwChecks, setPwChecks] = useState({
+    length: false,
+    lower: false,
+    upper: false,
+    number: false,
+    special: false,
+  });
+
 
   useEffect(() => {
     if(userId) fetchUserEmail();
@@ -150,10 +158,32 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
             name="password"
             id="newPassword"
             value={form.password} 
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (/[^a-zA-Z0-9!@#$%^&*_\-+=?]/.test(v)) return;
+
+              setForm({ ...form, password: v });
+
+              setPwChecks({
+                length: v.length >= 8,
+                lower: /[a-z]/.test(v),
+                upper: /[A-Z]/.test(v),
+                number: /\d/.test(v),
+                special: /[!@#$%^&*_\-+=?]/.test(v),
+              });
+
+            }}
             placeholder="New Password"
           />
         </div>
+        <small style={{fontSize: "12px", color: "#6b7280", marginTop: "4px", display: "block"}}>
+          {pwChecks.length ? "☑" : "☐"} Must have at least 8 characters<br/>
+          {pwChecks.lower ? "☑" : "☐"} Must contain a Lowercase letter<br/>
+          {pwChecks.upper ? "☑" : "☐"}  Must contain an Uppercase letter<br/>
+          {pwChecks.number ? "☑" : "☐"} Must contain a Number<br/>
+          {pwChecks.special ? "☑" : "☐"} Must contain a Special character (except: {"< > \" ' ` \\ / { } [ ]"})<br/>
+        </small>
+        <br />
 
         <label htmlFor="confirmPassword">Confirm New Password:</label>
         <div className="super-admin-account-settings-change-password-input">
@@ -161,7 +191,12 @@ export const ForgotPasswordLoggedInComponent = () => { //when logged-in
             id="confirmPassword"
             name="retypePassword"
             value={form.retypePassword} 
-            onChange={(e) => setForm({ ...form, retypePassword: e.target.value })}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (/[^a-zA-Z0-9!@#$%^&*_\-+=?]/.test(v)) return;
+
+              setForm({ ...form, retypePassword: v });
+            }}
             placeholder="Confirm Password"
           />
         </div>
