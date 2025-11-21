@@ -141,7 +141,7 @@ useEffect(() => {
 
   return(
     <>
-    <ToastContainer position="top-right" autoClose={2000} />
+    <ToastContainer position="top-right" autoClose={2000} style={{ zIndex: 9999 }} />
     <AuthLoader>
       <Routes>
         <Route path="/" element={<LandingPage />} />

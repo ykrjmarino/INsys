@@ -42,7 +42,7 @@ import {
 } from "./controllers/studentQuery.js";
 
 // USER CONTROLLERS
-import { getAllUsers, getUserById } from "./controllers/userControllers/GET.js";
+import { getAllActiveUsers, getAllUsers, getUserById } from "./controllers/userControllers/GET.js";
 import { createUser } from "./controllers/analyticsControlers/POST.js";
 
 // EXAM CONTROLLERS
@@ -167,7 +167,8 @@ app.post("/api/sections", adminOnly, addSection);
 app.delete("/api/sections/:sectionId", adminOnly, deleteSection);
 
 // USER ROUTES
-app.get("/api/users/counts", getAllUsers);
+app.get("/api/users/counts", getAllUsers); //all including active and inactive
+app.get("/api/active-users/counts", usersOnly, getAllActiveUsers); //only active accounts ---usersOnly kase for settings to
 app.get("/api/users/:userId", usersOnly, getUserById);
 app.post("/api/users", adminsOnly, createUser);
 app.delete("/api/user/delete", usersOnly, deleteOwnAccount); //will not be used,,, we will archive instead

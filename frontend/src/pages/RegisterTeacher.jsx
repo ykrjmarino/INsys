@@ -142,8 +142,8 @@ function RegisterTeacher() {
         </div>
 
 
-        {isVerified ? (
-          sentOTP ? (
+        {!isVerified ? (
+          !sentOTP ? (
           <>
           <div className="registration-container" id="otp-container">
             <form id="otp-form">

@@ -211,7 +211,7 @@ const SettingsPasswordManage = () => {
 }
 
 const SettingsAccountControl = () => {
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const navigate = useNavigate();
 
   const [currentPassword, setCurrentPassword] = useState("");
@@ -260,11 +260,21 @@ const SettingsAccountControl = () => {
 
   const handleDeleteAccount = async () => {
     if (!confirmEnabled) return;
+    
     try {
       const config = {
         headers: { Authorization: `Bearer ${accessToken}` },
         withCredentials: true,
       };
+
+      //count superadmin
+      const countsRes = await axios.get("/active-users/counts", config);
+      const { superadmin } = countsRes.data;
+
+      if (user.role === "superadmin" && superadmin === 1) {
+        toast.error("You are the only active superadmin. You cannot disable your account.");
+        return;
+      }
 
       //ARCHIVE ACCOUNT
       await axios.patch("/user/archive", config);
@@ -315,7 +325,7 @@ const SettingsAccountControl = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex: 9999,
+            zIndex: 9998,
           }}
         >
           <div
