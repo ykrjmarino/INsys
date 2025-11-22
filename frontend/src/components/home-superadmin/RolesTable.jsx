@@ -291,7 +291,7 @@ export const ManageUsersTable = ({selectedRole}) => {
               <th>Last Name</th>
               <th>First Name</th>
               <th>Middle Initial</th>
-              <th>School ID</th>
+              <th>School Number</th>
               <th>Role</th>
               <th>Status</th>
               <th>Email</th>
@@ -434,7 +434,7 @@ export const EditUserComponent = ({handleChange, handleSave, handleCancel, formD
           style={{ width: "100%", marginBottom: "8px" }}
           autoComplete="off"
         />
-        <p>School ID</p>
+        <p>Employee/Student Number</p>
         <input
           name="school_id"
           value={formData.school_id}
@@ -533,7 +533,7 @@ export const AddingUserComponent = ({handleChange, handleAddUser, handleCancel, 
           style={{ width: "100%", marginBottom: "8px" }}
           maxLength={1}
         />
-        <p>School ID</p>
+        <p>Employee/Student Number</p>
         <input
           name="school_id"
           value={formData.school_id}

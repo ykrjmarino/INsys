@@ -283,7 +283,7 @@ export const ManageArchivedUsersTable = ({selectedTabToShow}) => {
               <th>Last Name</th>
               <th>First Name</th>
               <th>Middle Initial</th>
-              <th>School ID</th>
+              <th>School Number</th>
               <th>Role</th>
               <th>Status</th>
               <th>Email</th>

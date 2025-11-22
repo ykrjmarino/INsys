@@ -44,7 +44,7 @@ const SettingsBasicInformation = () => {
       <p><strong>Middle Initial:</strong> {userInfo.middle_initial}</p>
       <p><strong>Last Name:</strong> {userInfo.last_name}</p>
       <p><strong>Email:</strong> {userInfo.email}</p>
-      <p><strong>School ID:</strong> {userInfo.school_id}</p>
+      <p><strong>School Number:</strong> {userInfo.school_id}</p>
       <p>
         <strong>Account Created:</strong>{" "} {userInfo.created_at ? new Date(userInfo.created_at).toLocaleString() : ""}
       </p>

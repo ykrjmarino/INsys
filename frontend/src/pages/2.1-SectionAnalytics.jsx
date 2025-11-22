@@ -379,7 +379,7 @@ function SectionAnalytics () {
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Last Name</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>First Name</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Middle Initial</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>School ID</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Student Number</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Objective Score</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Essay Score</th>
                   <th style={{ border: '1px solid #ddd', padding: '8px' }}>Violations</th>

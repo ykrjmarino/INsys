@@ -300,13 +300,13 @@ function RegisterTeacher() {
             </div>
 
             <div className="registration-form-group">
-              <label>School ID</label>
+              <label>Employee Number</label>
               <InputField 
                 type="number"
                 name="schoolId"
                 value={formRegister.schoolId}
                 onChange={handleChange}
-                placeholder="Enter your school ID"
+                placeholder="Enter your employee ID"
                 autoComplete="off"
               />
             </div>
