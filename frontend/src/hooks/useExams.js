@@ -15,7 +15,7 @@ export function useExams() {
   }, [accessToken, user.userId]);
 
   console.log("User:", user);
-  console.log("Access Token:", accessToken);
+  // console.log("Access Token:", accessToken);
 
   //========= duplicate exam =========//
   const duplicateExam = async (examId) => {
